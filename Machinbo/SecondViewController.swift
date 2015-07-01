@@ -12,7 +12,15 @@ class SecondViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // TODO:test alert.
+        var alert = UIAlertView()
+        alert.title = "title"
+        alert.message = "message"
+        alert.addButtonWithTitle("OK")
+        alert.show()
         // Do any additional setup after loading the view, typically from a nib.
+        
     }
 
     override func didReceiveMemoryWarning() {

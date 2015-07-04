@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>5B19FA33-72CF-483B-8939-FB6AD5C9CDE8</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Machinbo</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>4722ADC41B0326CBDDE7CF2C3FA6F6164944CF69</key>
+		<string>https://github.com/Zombieges/Machinbo.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Machinbo.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>4722ADC41B0326CBDDE7CF2C3FA6F6164944CF69</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/Zombieges/Machinbo.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>4722ADC41B0326CBDDE7CF2C3FA6F6164944CF69</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>4722ADC41B0326CBDDE7CF2C3FA6F6164944CF69</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Machinbo</string>
+		</dict>
+	</array>
+</dict>
+</plist>

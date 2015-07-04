@@ -1,5 +1,5 @@
 //
-//  FirstViewController.swift
+//  MapViewController.swift
 //  Machinbo
 //
 //  Created by Zombieges on 2015/06/14.
@@ -13,37 +13,33 @@ import CoreLocation
 class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManagerDelegate {
 
     var gmaps : GMSMapView!
-    var lm: CLLocationManager! = nil
+    
+    //現在地の位置情報取得
+    var lm: CLLocationManager!
+    // 取得した緯度を保持
     var longitude: CLLocationDegrees!
+    // 取得した軽度を保持
     var latitude: CLLocationDegrees!
     
-    // storyboardで関連づけるLabel
-    //@IBOutlet var lonLabel: UILabel
-    //@IBOutlet var latLabel: UILabel
-    
     @IBOutlet var mapview : GMSMapView!
-    //@IBOutlet var gadbnrview : GADBannerView
     
     // CLLocationManagerDelegateを継承すると、init()が必要になる
     required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        
         lm = CLLocationManager()
         longitude = CLLocationDegrees()
         latitude = CLLocationDegrees()
-        super.init(coder: aDecoder)
     }
     
     //画面表示後の処理
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //現在位置の取得
-        lm = CLLocationManager()
         lm.delegate = self
         
         // セキュリティ認証のステータスを取得
         let status = CLLocationManager.authorizationStatus()
-        
-        // まだ認証が得られていない場合は、認証ダイアログを表示
         if status == CLAuthorizationStatus.NotDetermined {
             println("didChangeAuthorizationStatus:\(status)");
             // まだ承認が得られていない場合は、認証ダイアログを表示
@@ -56,10 +52,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         lm.distanceFilter = 100
         // 現在位置の取得
         lm.startUpdatingLocation()
-        
-        // Google Map の表示
-        mapview = GMSMapView(frame: CGRectMake(
-            0, 0, self.view.bounds.width, self.view.bounds.height))
         
     }
     
@@ -83,16 +75,9 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         }
         println(" CLAuthorizationStatus: \(statusStr)")
     }
-
-    // ボタンイベントのセット.
-    func onClickMyButton(sender: UIButton){
-        // 現在位置の取得を開始.
-        lm.startUpdatingLocation()
-    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     /** 位置情報取得成功時 */
@@ -100,32 +85,41 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         
         println("位置情報取得成功！")
         
-        //現在位置を取得した後にGoogleMapに位置表示処理
-        var coordinate: CLLocationCoordinate2D = CLLocationCoordinate2D(
-            latitude:newLocation.coordinate.latitude,longitude:newLocation.coordinate.longitude)
-   
-        longitude = newLocation.coordinate.longitude
+        // 取得した緯度がnewLocation.coordinate.longitudeに格納されている
         latitude = newLocation.coordinate.latitude
+        // 取得した経度がnewLocation.coordinate.longitudeに格納されている
+        longitude = newLocation.coordinate.longitude
         
-        var now: GMSCameraPosition = GMSCameraPosition.cameraWithLatitude(
-            latitude,longitude:longitude,zoom:17)
+        //現在位置を取得した後にGoogleMapに位置表示処理
+        var coordinate: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude:latitude,longitude:longitude)
         
-        println(now)
+        var now = GMSCameraPosition.cameraWithLatitude(latitude,longitude:longitude,zoom:17)
+        //var now = GMSCameraPosition.cameraWithLatitude(-33.868,longitude:151.2086, zoom:6)
         
-        // MapViewを生成.
-        mapview.camera = now
+        // 取得した緯度・経度をLogに表示
+        NSLog("latiitude: \(latitude) , longitude: \(longitude)")
         
+        
+        // Google Map の表示
+        mapview = GMSMapView.mapWithFrame(CGRectZero, camera:now)
         
         mapview.myLocationEnabled = true
         mapview.delegate = self
+        mapview.camera = now
         
-        //self.lonLabel.text = String(longitude)
-        //self.latLabel.text = String(latitude)
+        mapview = GMSMapView.mapWithFrame(CGRectZero, camera:now)
+        
+        var marker = GMSMarker()
+        marker.position = now.target
+        marker.snippet = "Hello World"
+        marker.appearAnimation = kGMSMarkerAnimationPop
+        marker.map = mapview
+        
     }
     
     /** 位置情報取得失敗時 */
     func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
-        println("Error")
+        NSLog("位置情報取得失敗")
     }
 
 }

@@ -13,7 +13,7 @@
 		9409F7931B2D994D0069DAE8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9409F7921B2D994D0069DAE8 /* Images.xcassets */; };
 		9409F7961B2D994D0069DAE8 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9409F7941B2D994D0069DAE8 /* LaunchScreen.xib */; };
 		9409F7A21B2D994D0069DAE8 /* MachinboTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9409F7A11B2D994D0069DAE8 /* MachinboTests.swift */; };
-		94B90CDA1B4957D80097F55E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B90CD91B4957D80097F55E /* AppDelegate.swift */; };
+		948F0AF01B5662FB00612692 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948F0AEF1B5662FB00612692 /* AppDelegate.swift */; };
 		94B90CDC1B495A610097F55E /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B90CDB1B495A610097F55E /* ProfileViewController.swift */; };
 		BBA5C4941B3542F3005D062B /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBA5C4931B3542F3005D062B /* GoogleMaps.framework */; };
 		BBA5C4961B3545D4005D062B /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BBA5C4951B3545D4005D062B /* GoogleMaps.bundle */; };
@@ -54,7 +54,7 @@
 		9409F79B1B2D994D0069DAE8 /* MachinboTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MachinboTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9409F7A01B2D994D0069DAE8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9409F7A11B2D994D0069DAE8 /* MachinboTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MachinboTests.swift; sourceTree = "<group>"; };
-		94B90CD91B4957D80097F55E /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ../../Downloads/AppDelegate.swift; sourceTree = "<group>"; };
+		948F0AEF1B5662FB00612692 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ../../Downloads/AppDelegate.swift; sourceTree = "<group>"; };
 		94B90CDB1B495A610097F55E /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		BBA5C4931B3542F3005D062B /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMaps.framework; path = Pods/GoogleMaps/Frameworks/GoogleMaps.framework; sourceTree = "<group>"; };
 		BBA5C4951B3545D4005D062B /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = Pods/GoogleMaps/Frameworks/GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle; sourceTree = "<group>"; };
@@ -147,7 +147,7 @@
 		9409F7861B2D994D0069DAE8 /* Machinbo */ = {
 			isa = PBXGroup;
 			children = (
-				94B90CD91B4957D80097F55E /* AppDelegate.swift */,
+				948F0AEF1B5662FB00612692 /* AppDelegate.swift */,
 				9409F78B1B2D994D0069DAE8 /* MapViewController.swift */,
 				9409F78D1B2D994D0069DAE8 /* SecondViewController.swift */,
 				94B90CDB1B495A610097F55E /* ProfileViewController.swift */,
@@ -329,7 +329,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				94B90CDA1B4957D80097F55E /* AppDelegate.swift in Sources */,
+				948F0AF01B5662FB00612692 /* AppDelegate.swift in Sources */,
 				9409F78E1B2D994D0069DAE8 /* SecondViewController.swift in Sources */,
 				94B90CDC1B495A610097F55E /* ProfileViewController.swift in Sources */,
 				9409F78C1B2D994D0069DAE8 /* MapViewController.swift in Sources */,

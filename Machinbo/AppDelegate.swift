@@ -16,8 +16,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
+        var aDict: NSDictionary?
+        if let path = NSBundle.mainBundle().pathForResource("Info", ofType: "plist") {
+            aDict = NSDictionary(contentsOfFile: path)
+        }
         
-        // Override point for customization after application launch.
+        if let dict = aDict {
+            println("google maps api key = " + (dict.objectForKey("GOOGLE_MAPS_API_KEY") as! String))
+            GMSServices.provideAPIKey(dict.objectForKey("GOOGLE_MAPS_API_KEY") as! String )
+        }
+        
         return true
     }
 

@@ -27,7 +27,8 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     
     @IBOutlet weak var mapViewContainer: UIView!
     
-    @IBOutlet weak var GPSEntryContainer: UIButton!
+    @IBOutlet weak var GPSUpdateContainer: UIButton!
+
     // CLLocationManagerDelegateを継承すると、init()が必要になる
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -183,5 +184,8 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         NSLog("位置情報取得失敗")
     }
 
+
+    @IBAction func updateGPS(sender: AnyObject) {
+    }
 }
 

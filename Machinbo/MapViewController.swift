@@ -9,6 +9,7 @@
 import UIKit
 import GoogleMaps
 import CoreLocation
+import Parse
 
 
 let NavigationBarHeight=44, StatusBarHeight=20, SearchBarHeight=44
@@ -140,7 +141,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         mapViewContainer.camera = camera
         */
         
-        var current_location: CLLocation?=locations[0] as? CLLocation
+        var current_location: CLLocation? = locations[0] as? CLLocation
         if let current_cordinate = (current_location!.coordinate) as CLLocationCoordinate2D?{
             self.updateGoogleMapView(current_cordinate)
         }
@@ -159,10 +160,11 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
                 marker.snippet = "Hello World"
                 
                 marker.appearAnimation=kGMSMarkerAnimationPop
-                marker.map=self.gmaps
+                marker.map = self.gmaps
             }
             
             return true
+            
         }else{
             return false
         }

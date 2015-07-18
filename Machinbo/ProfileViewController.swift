@@ -130,7 +130,7 @@ class ProfileViewController: UIViewController,UITableViewDelegate, UITableViewDa
         list.enumerateObjectsUsingBlock { (album, index, isStop) -> Void in
             
             // アルバムのタイトル名をコレクションする.
-            //self.myAlbum.addObject(album.localizedTitle)
+            self.myAlbum.addObject(album.localizedTitle)
             
             
             

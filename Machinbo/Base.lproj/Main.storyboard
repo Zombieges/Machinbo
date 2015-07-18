@@ -35,13 +35,16 @@
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C0s-8V-wZy">
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
-                                <state key="normal" title="GPSEntry">
+                                <state key="normal" title="GPS更新">
                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <variation key="widthClass=compact" fixedFrame="YES">
                                     <rect key="frame" x="16" y="431" width="67" height="30"/>
                                 </variation>
+                                <connections>
+                                    <action selector="updateGPS:" destination="9pv-A4-QxB" eventType="touchUpInside" id="lT4-2e-voK"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -64,7 +67,7 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="First" image="first" id="acW-dT-cKf"/>
                     <connections>
-                        <outlet property="GPSEntryContainer" destination="C0s-8V-wZy" id="PVg-5o-k58"/>
+                        <outlet property="GPSUpdateContainer" destination="C0s-8V-wZy" id="J8z-fX-iT8"/>
                         <outlet property="mapViewContainer" destination="d9E-sk-cLo" id="c2q-vf-LdK"/>
                     </connections>
                 </viewController>

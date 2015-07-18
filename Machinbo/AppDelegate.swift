@@ -8,6 +8,8 @@
 
 import UIKit
 import GoogleMaps
+import Parse
+import Bolts
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,6 +18,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
+        // [Optional] Power your app with Local Datastore. For more info, go to
+        // https://parse.com/docs/ios_guide#localdatastore/iOS
+        Parse.enableLocalDatastore()
+        
+        let googleMapsKey = ConfigHelper.getPlistKey("GOOGLE_MAPS_API_KEY") as String
+        let parseAppIdKey = ConfigHelper.getPlistKey("PARSE_APP_ID_KEY") as String
+        let parseClientKey = ConfigHelper.getPlistKey("PARSE_CLIENT_KEY") as String
+        
+        println("★google maps api key = " + googleMapsKey)
+        println("★PASER APP KEY = " + parseAppIdKey)
+        println("★PASER CLIENT KEY = " + parseClientKey)
+        
+        //GoogleMaps
+        GMSServices.provideAPIKey(googleMapsKey)
+        
+        //Parse
+        Parse.setApplicationId(parseAppIdKey, clientKey:parseClientKey)
+        PFAnalytics.trackAppOpenedWithLaunchOptions(launchOptions)
+        
+        /*
         var aDict: NSDictionary?
         if let path = NSBundle.mainBundle().pathForResource("Info", ofType: "plist") {
             aDict = NSDictionary(contentsOfFile: path)
@@ -23,8 +45,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if let dict = aDict {
             println("google maps api key = " + (dict.objectForKey("GOOGLE_MAPS_API_KEY") as! String))
+            println("★PASER APP KEY = " + (dict.objectForKey("PARSE_APP_ID_KEY") as! String))
+            println("★PASER CLIENT KEY = " + (dict.objectForKey("PARSE_CLIENT_KEY") as! String))
+            
+            
             GMSServices.provideAPIKey(dict.objectForKey("GOOGLE_MAPS_API_KEY") as! String )
+            // Initialize Parse.
+            //Parse.setApplicationId(dict.objectForKey("PARSE_APP_ID_KEY") as! String,
+            //    clientKey: dict.objectForKey("PARSE_CLIENT_KEY") as! String)
+            
+            
+            // [Optional] Track statistics around application opens.
+            //PFAnalytics.trackAppOpenedWithLaunchOptions(launchOptions)
         }
+        */
+        
         
         return true
     }

@@ -119,10 +119,9 @@ class ProfileViewController: UIViewController,UITableViewDelegate, UITableViewDa
         list = PHAssetCollection.fetchAssetCollectionsWithType(PHAssetCollectionType.Album, subtype: PHAssetCollectionSubtype.Any, options: nil)
         */
         
+        
         var list = PHFetchResult()
         list = PHAsset.fetchAssetsWithMediaType(PHAssetMediaType.Image, options: nil)
-        println(list.debugDescription);
-        
         
         println(list.debugDescription);
         
@@ -132,6 +131,8 @@ class ProfileViewController: UIViewController,UITableViewDelegate, UITableViewDa
             
             // アルバムのタイトル名をコレクションする.
             //self.myAlbum.addObject(album.localizedTitle)
+            
+            
             
         }
         

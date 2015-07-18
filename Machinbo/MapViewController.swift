@@ -27,6 +27,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     
     @IBOutlet weak var mapViewContainer: UIView!
     
+    @IBOutlet weak var GPSEntryContainer: UIButton!
     // CLLocationManagerDelegateを継承すると、init()が必要になる
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)

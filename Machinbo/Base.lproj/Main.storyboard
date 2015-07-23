@@ -7,7 +7,7 @@
         <!--First-->
         <scene sceneID="hNz-n2-bh7">
             <objects>
-                <viewController id="9pv-A4-QxB" customClass="MapViewController" customModule="Machinbo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="map" id="9pv-A4-QxB" customClass="MapViewController" customModule="Machinbo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Ia1-K6-d13"/>
                         <viewControllerLayoutGuide type="bottom" id="4ug-Mw-9AY"/>
@@ -73,7 +73,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="750" y="-572"/>
+            <point key="canvasLocation" x="757.5" y="-562"/>
         </scene>
         <!--Second-->
         <scene sceneID="wg7-f3-ORb">
@@ -118,7 +118,7 @@
         <!--Item-->
         <scene sceneID="z9v-h4-asw">
             <objects>
-                <viewController id="eWK-e7-jlI" customClass="ProfileViewController" customModule="Machinbo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="profile" id="eWK-e7-jlI" customClass="ProfileViewController" customModule="Machinbo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="urG-iZ-z6z"/>
                         <viewControllerLayoutGuide type="bottom" id="d1Z-Bd-Syv"/>

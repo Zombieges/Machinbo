@@ -31,6 +31,7 @@ class PhotoDisaplyViewController: UIViewController, UINavigationControllerDelega
         
         // 画像取得後の編集を不可に
         myImagePicker.allowsEditing = false
+        
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -63,6 +64,6 @@ class PhotoDisaplyViewController: UIViewController, UINavigationControllerDelega
         
         // モーダルビューを閉じる
         self.dismissViewControllerAnimated(true, completion: nil)
+        
     }
-    
 }

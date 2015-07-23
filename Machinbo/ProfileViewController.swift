@@ -39,18 +39,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         profile.enabled = false
         editButon.hidden = false
         cancelButton.hidden = true
-        
-        //UINavigationControllerのインスタンス化とrootViewControllerの指定
-        var myNavigationController = UINavigationController(rootViewController: self)
-        
-        //UIWindowのインスタンス化
-        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        
-        //UIWindowのrootViewControllerにnavigationControllerを指定
-        self.window?.rootViewController = myNavigationController
-        
-        //UIWindowの表示
-        self.window?.makeKeyAndVisible()
+        impPhotoButton.hidden = true
         
     }
     
@@ -68,6 +57,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         profile.enabled = true
         editButon.hidden = true
         cancelButton.hidden = false
+        impPhotoButton.hidden = false
     }
     
     @IBAction func cancelDepression(sender: AnyObject) {
@@ -79,6 +69,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         profile.enabled = false
         editButon.hidden = false
         cancelButton.hidden = true
+        impPhotoButton.hidden = true
     }
     
     @IBAction func importPhoto(sender: AnyObject) {
@@ -98,6 +89,5 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         
         //UIWindowの表示
         self.window?.makeKeyAndVisible()
-
     }
 }

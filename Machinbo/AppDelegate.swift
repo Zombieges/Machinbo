@@ -50,13 +50,13 @@
             
             if error == nil {
                 let currentController = storyboard.instantiateViewControllerWithIdentifier("profile") as? ProfileViewController
-                self.window?.rootViewController = currentController
+                //self.window?.rootViewController = currentController
                 
                 return
                 
             } else {
                 let currentController = storyboard.instantiateViewControllerWithIdentifier("map") as? MapViewController
-                self.window?.rootViewController = currentController
+                //self.window?.rootViewController = currentController
             }
         }
         

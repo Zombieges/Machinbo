@@ -11,14 +11,14 @@ import UIKit
 class PhotoDisaplyViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
     var myImagePicker: UIImagePickerController!
-    var myImageView: UIImageView!
+    //var myImageView: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.title = "Select a Image"
         
-        myImageView = UIImageView(frame: self.view.bounds)
+        //myImageView = UIImageView(frame: self.view.bounds)
         
         // インスタンス生成
         myImagePicker = UIImagePickerController()
@@ -32,12 +32,15 @@ class PhotoDisaplyViewController: UIViewController, UINavigationControllerDelega
         // 画像取得後の編集を不可に
         myImagePicker.allowsEditing = false
         
-    }
-    
-    override func viewDidAppear(animated: Bool) {
         self.presentViewController(myImagePicker, animated: true, completion: nil)
         
     }
+    
+    /*override func viewDidAppear(animated: Bool) {
+        NSLog("aoaiao")
+        self.presentViewController(myImagePicker, animated: true, completion: nil)
+        
+    }*/
     
     /**
     画像が選択された時に呼ばれる.

@@ -1,18 +1,18 @@
  //
-//  AppDelegate.swift
-//  Machinbo
-//
-//  Created by Zombieges on 2015/06/14.
-//  Copyright (c) 2015年 Zombieges. All rights reserved.
-//
-
-import UIKit
-import GoogleMaps
-import Parse
-import Bolts
-
-@UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+ //  AppDelegate.swift
+ //  Machinbo
+ //
+ //  Created by Zombieges on 2015/06/14.
+ //  Copyright (c) 2015年 Zombieges. All rights reserved.
+ //
+ 
+ import UIKit
+ import GoogleMaps
+ import Parse
+ import Bolts
+ 
+ @UIApplicationMain
+ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
     
@@ -87,5 +87,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     
-}
-
+ }
+ 

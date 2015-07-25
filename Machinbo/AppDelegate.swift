@@ -1,4 +1,4 @@
-//
+ //
 //  AppDelegate.swift
 //  Machinbo
 //
@@ -24,9 +24,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let parseAppIdKey = ConfigHelper.getPlistKey("PARSE_APP_ID_KEY") as String
         let parseClientKey = ConfigHelper.getPlistKey("PARSE_CLIENT_KEY") as String
         
-        println("★google maps api key = " + googleMapsKey)
-        println("★PASER APP KEY = " + parseAppIdKey)
-        println("★PASER CLIENT KEY = " + parseClientKey)
+        NSLog("★google maps api key = " + googleMapsKey)
+        NSLog("★PASER APP KEY = " + parseAppIdKey)
+        NSLog("★PASER CLIENT KEY = " + parseClientKey)
+        NSLog("★UUID = " + NSUUID().UUIDString)
         
         //GoogleMaps
         GMSServices.provideAPIKey(googleMapsKey)
@@ -36,8 +37,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         PFAnalytics.trackAppOpenedWithLaunchOptions(launchOptions)
         
         
+        // first time to launch this app
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.registerDefaults(["firstLaunch": true])
+        
+        
         var query: PFQuery = PFQuery(className: "UserInfo")
-        query.whereKey("UserID", containsString: "UUID")
+        query.whereKey("UserID", containsString: NSUUID().UUIDString)
         query.findObjectsInBackgroundWithBlock { (objects, error) in
             
             let storyboard = UIStoryboard(name: "Main", bundle: nil)

@@ -21,6 +21,7 @@
 		BB4B3E701B5A009500183F62 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BBC3A3FD1B3E7C2B002CBBE9 /* libz.dylib */; };
 		BB4B3E721B5A009F00183F62 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB4B3E711B5A009F00183F62 /* Accounts.framework */; };
 		BB4B3E741B5A00A600183F62 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB4B3E731B5A00A600183F62 /* Social.framework */; };
+		BBA37A9B1B632961004B7484 /* LoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBA37A9A1B632961004B7484 /* LoginManager.swift */; };
 		BBA5C4941B3542F3005D062B /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBA5C4931B3542F3005D062B /* GoogleMaps.framework */; };
 		BBA5C4961B3545D4005D062B /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BBA5C4951B3545D4005D062B /* GoogleMaps.bundle */; };
 		BBC3A3EE1B3E7BB6002CBBE9 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBC3A3ED1B3E7BB6002CBBE9 /* AVFoundation.framework */; };
@@ -74,6 +75,7 @@
 		BB4B3E6E1B5A001200183F62 /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
 		BB4B3E711B5A009F00183F62 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		BB4B3E731B5A00A600183F62 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		BBA37A9A1B632961004B7484 /* LoginManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginManager.swift; sourceTree = "<group>"; };
 		BBA5C4931B3542F3005D062B /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMaps.framework; path = Pods/GoogleMaps/Frameworks/GoogleMaps.framework; sourceTree = "<group>"; };
 		BBA5C4951B3545D4005D062B /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = Pods/GoogleMaps/Frameworks/GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle; sourceTree = "<group>"; };
 		BBC3A3ED1B3E7BB6002CBBE9 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -196,6 +198,7 @@
 		9409F7861B2D994D0069DAE8 /* Machinbo */ = {
 			isa = PBXGroup;
 			children = (
+				BBA37A991B632944004B7484 /* Utilities */,
 				BBEFA8B61B59ED52002EFC7A /* Helpers */,
 				BBEFA89A1B57BE99002EFC7A /* AppDelegate.swift */,
 				9409F78B1B2D994D0069DAE8 /* MapViewController.swift */,
@@ -234,6 +237,14 @@
 				9409F7A01B2D994D0069DAE8 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		BBA37A991B632944004B7484 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				BBA37A9A1B632961004B7484 /* LoginManager.swift */,
+			);
+			name = Utilities;
 			sourceTree = "<group>";
 		};
 		BBEFA8B61B59ED52002EFC7A /* Helpers */ = {
@@ -395,6 +406,7 @@
 				94B90CDC1B495A610097F55E /* ProfileViewController.swift in Sources */,
 				94755D631B5CC70F004FDEBC /* PhotoDisaplyViewController.swift in Sources */,
 				BBEFA89B1B57BE99002EFC7A /* AppDelegate.swift in Sources */,
+				BBA37A9B1B632961004B7484 /* LoginManager.swift in Sources */,
 				9409F78C1B2D994D0069DAE8 /* MapViewController.swift in Sources */,
 				94755D031B5CB83E004FDEBC /* PhotoSelectViewController.swift in Sources */,
 			);

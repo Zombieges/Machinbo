@@ -11,14 +11,14 @@ import UIKit
 class PhotoDisaplyViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
     var myImagePicker: UIImagePickerController!
-    //var myImageView: UIImageView!
+    var myImageView: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.title = "Select a Image"
         
-        //myImageView = UIImageView(frame: self.view.bounds)
+        myImageView = UIImageView(frame: self.view.bounds)
         
         // インスタンス生成
         myImagePicker = UIImagePickerController()

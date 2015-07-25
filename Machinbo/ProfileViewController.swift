@@ -23,6 +23,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     
     @IBOutlet weak var cancelButton: UIButton!
     
+    var picker: UIImagePickerController?
     var window: UIWindow?
     var myImagePicker: UIImagePickerController!
     var myImageView: UIImageView!
@@ -75,19 +76,24 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     @IBAction func importPhoto(sender: AnyObject) {
         
         
-        //ViewControllerのインスタンス化
-        myViewController = PhotoDisaplyViewController()
+        super.viewDidLoad()
         
-        //UINavigationControllerのインスタンス化とrootViewControllerの指定
-        var myNavigationController = UINavigationController(rootViewController: myViewController!)
+        picker = UIImagePickerController()
+        picker?.delegate = self
+        picker?.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+        picker?.allowsEditing = false
         
-        //UIWindowのインスタンス化
-        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        self.presentViewController(picker!, animated: true, completion: nil)
         
-        //UIWindowのrootViewControllerにnavigationControllerを指定
-        self.window?.rootViewController = myNavigationController
+    }
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+        self.dismissViewControllerAnimated(true, completion: nil)
         
-        //UIWindowの表示
-        self.window?.makeKeyAndVisible()
+        let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+    }
+    
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
 }

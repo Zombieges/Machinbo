@@ -29,6 +29,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     @IBOutlet weak var GPSUpdateContainer: UIButton!
     
     var geoPoint = PFGeoPoint()
+    var feedItems: [PFObject] = []
     
     // CLLocationManagerDelegateを継承すると、init()が必要になる
     required init(coder aDecoder: NSCoder) {
@@ -46,24 +47,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        /*
-        var target: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 51.6, longitude: 17.2)
-        var camera: GMSCameraPosition = GMSCameraPosition(target: target, zoom: 6, bearing: 0, viewingAngle: 0)
-        var container:CGRect?=CGRectMake(0, CGFloat(NavigationBarHeight+SearchBarHeight), self.view.bounds.width, self.view.bounds.height-super.tabBarController!.tabBar.bounds.height-CGFloat(NavigationBarHeight+SearchBarHeight))
-        
-        container = self.mapViewContainer.bounds
-        
-        gmaps = GMSMapView.mapWithFrame(container!, camera: camera)
-        
-        if let map = gmaps {
-        map.myLocationEnabled = true
-        map.camera = camera
-        map.delegate = self
-        
-        self.mapViewContainer.addSubview(map)
-        self.mapViewContainer.hidden=false
-        }
-        */
+
         /*
         // セキュリティ認証のステータスを取得
         let status = CLLocationManager.authorizationStatus()
@@ -106,6 +90,10 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
             statusStr = "AuthorizedWhenInUse"
         }
         NSLog(" CLAuthorizationStatus: \(statusStr)")
+        
+        if status == .AuthorizedWhenInUse {
+            manager.startUpdatingLocation()
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -113,56 +101,58 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     }
     
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-        
-        NSLog("位置情報取得成功！")
-        
-        // 取得した緯度がnewLocation.coordinate.longitudeに格納されている
-        latitude = locations[0].coordinate.latitude
-        // 取得した経度がnewLocation.coordinate.longitudeに格納されている
-        longitude = locations[0].coordinate.longitude
+        latitude = locations.first!.coordinate.latitude
+        longitude = locations.first!.coordinate.longitude
         
         // 取得した緯度・経度をLogに表示
         NSLog("位置情報取得成功！-> latiitude: \(latitude) , longitude: \(longitude)")
         
+        var target = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         
-        var target = CLLocationCoordinate2D(
-            latitude: latitude,
-            longitude: longitude
-        )
         var camera = GMSCameraPosition(
             target: target,
-            zoom: 13,
+            zoom: 15,
             bearing: 0,
             viewingAngle: 0
         )
         
-        var container:CGRect?=CGRectMake(
-            0,
-            CGFloat(NavigationBarHeight+SearchBarHeight),
-            self.view.bounds.width,
-            self.view.bounds.height
-            //self.view.bounds.height-super.tabBarController!.tabBar.bounds.height-CGFloat(NavigationBarHeight+SearchBarHeight)
-        )
         
-        container = self.mapViewContainer.bounds
+        var query: PFQuery = PFQuery(className: "UserInfo")
+        query.findObjectsInBackgroundWithBlock { (objects, error) in
+            
+            if error != nil {
+                self.feedItems = objects as! [PFObject]
+                
+            } else {
+                NSLog("======>UserInfo no data")
+            }
+        }
         
-        gmaps = GMSMapView.mapWithFrame(container!, camera: camera)
-        
+        gmaps = GMSMapView()
         if let map = gmaps {
+            map.frame = CGRectMake(0, 20, self.view.frame.width, self.view.frame.height/2)
             map.myLocationEnabled = true
+            map.settings.myLocationButton = true
             map.camera = camera
             map.delegate = self
             
-            var marker1 = GMSMarker()
-            marker1.position = target
-            marker1.snippet = "Test Marker"
-            marker1.appearAnimation = kGMSMarkerAnimationPop
-            marker1.map = map
-            
             self.mapViewContainer.addSubview(map)
-            self.mapViewContainer.hidden=false
+            self.mapViewContainer.hidden = false
+            
+            //ここで画像と名前、簡易自己紹介、何分前にイマココを押下したかをGPSMarkerで表示
+            var myMarker = GMSMarker()
+            myMarker.position = target
+            myMarker.appearAnimation = kGMSMarkerAnimationPop
+            myMarker.map = map
+            
+            for item in feedItems {
+                var marker = GMSMarker()
+                marker.position = item["GPS"] as PFGeoPoint
+                marker.appearAnimation = kGMSMarkerAnimationPop
+                marker.map = map
+            }
         }
-        
+
         
         //消しちゃダメ！
         /*
@@ -172,12 +162,32 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         }
         */
         
-        locationManager.stopUpdatingLocation()
+        manager.stopUpdatingLocation()
         
     }
     
-    func updateGoogleMapView(target: CLLocationCoordinate2D!)->Bool{
-        if let camera: GMSCameraPosition = GMSCameraPosition(target: target, zoom: 13, bearing: 0, viewingAngle: 0) as GMSCameraPosition?{
+    /*
+    func mapView(mapView: GMSMapView!, markerInfoWindow marker: GMSMarker!) -> UIView! {
+        var infoWindow = NSBundle.mainBundle().loadNibNamed("CustomInfoWindow", owner: self, options: nil).first! as! CustomInfoWindow
+        infoWindow.label.text = "\(marker.position.latitude) \(marker.position.longitude)"
+        return infoWindow
+    }
+*/
+    
+    func mapView(mapView: GMSMapView!, markerInfoWindow marker: GMSMarker!) -> UIView! {
+        //MarkDownWindow生成
+        var markWindow = NSBundle.mainBundle().loadNibNamed("MarkWindow", owner: self, options: nil).first! as! MarkWindow
+        markWindow.Name.text = "aaa"
+        markWindow.Detail.text = "bbb";
+        //markWindow.ProfileImage =
+        markWindow.ProfileImage.transform = CGAffineTransformMakeRotation(-08);
+        //infoWindow.label.text = "\(marker.position.latitude) \(marker.position.longitude)"
+        return markWindow
+    }
+    
+    /*
+    func updateGoogleMapView(target: CLLocationCoordinate2D!) -> Bool{
+        if let camera = GMSCameraPosition(target: target, zoom: 15, bearing: 0, viewingAngle: 0) as GMSCameraPosition?{
             self.gmaps?.clear()
             self.gmaps?.moveCamera(GMSCameraUpdate.setCamera(camera))
             if let marker = GMSMarker() as GMSMarker?{
@@ -195,22 +205,19 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         }else{
             return false
         }
-        
-        
-    }
+        return true
+    }*/
     
     func mapView(mapView: GMSMapView!, didTapMarker marker: GMSMarker!) -> Bool {
-        self.performSegueWithIdentifier("ToMarkerDetailSegue", sender: marker)
-        return true
+        return false
     }
     
     func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
+        manager.stopUpdatingLocation()
         NSLog("位置情報取得失敗")
     }
     
     @IBAction func updateGPS(sender: AnyObject) {
-        
-        // GeoPointの生成
         var geoPoint = PFGeoPoint(latitude: longitude, longitude: latitude);
         
         let gpsMark = PFObject(className: "UserInfo")

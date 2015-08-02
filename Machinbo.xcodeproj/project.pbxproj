@@ -32,6 +32,8 @@
 		BBC3A4001B3E7C37002CBBE9 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBC3A3FF1B3E7C37002CBBE9 /* OpenGLES.framework */; };
 		BBC3A4021B3E7C40002CBBE9 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBC3A4011B3E7C40002CBBE9 /* QuartzCore.framework */; };
 		BBC3A4041B3E7C49002CBBE9 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBC3A4031B3E7C49002CBBE9 /* SystemConfiguration.framework */; };
+		BBC90A2E1B6C93C300A74ED4 /* MarkWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBC90A2D1B6C93C300A74ED4 /* MarkWindow.xib */; };
+		BBC90A301B6C979100A74ED4 /* MarkWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC90A2F1B6C979100A74ED4 /* MarkWindow.swift */; };
 		BBEFA89B1B57BE99002EFC7A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEFA89A1B57BE99002EFC7A /* AppDelegate.swift */; };
 		BBEFA8A91B59E603002EFC7A /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBEFA8A81B59E603002EFC7A /* AudioToolbox.framework */; };
 		BBEFA8AB1B59E60C002EFC7A /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBEFA8AA1B59E60C002EFC7A /* CFNetwork.framework */; };
@@ -86,6 +88,8 @@
 		BBC3A3FF1B3E7C37002CBBE9 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BBC3A4011B3E7C40002CBBE9 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		BBC3A4031B3E7C49002CBBE9 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		BBC90A2D1B6C93C300A74ED4 /* MarkWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MarkWindow.xib; sourceTree = "<group>"; };
+		BBC90A2F1B6C979100A74ED4 /* MarkWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkWindow.swift; sourceTree = "<group>"; };
 		BBEFA89A1B57BE99002EFC7A /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BBEFA8A81B59E603002EFC7A /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		BBEFA8AA1B59E60C002EFC7A /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -194,6 +198,7 @@
 		9409F7861B2D994D0069DAE8 /* Machinbo */ = {
 			isa = PBXGroup;
 			children = (
+				BBC90A2C1B6C93A900A74ED4 /* View */,
 				BBA37A991B632944004B7484 /* Utilities */,
 				BBEFA8B61B59ED52002EFC7A /* Helpers */,
 				BBEFA89A1B57BE99002EFC7A /* AppDelegate.swift */,
@@ -239,6 +244,15 @@
 				BBA37A9A1B632961004B7484 /* LoginManager.swift */,
 			);
 			name = Utilities;
+			sourceTree = "<group>";
+		};
+		BBC90A2C1B6C93A900A74ED4 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				BBC90A2D1B6C93C300A74ED4 /* MarkWindow.xib */,
+				BBC90A2F1B6C979100A74ED4 /* MarkWindow.swift */,
+			);
+			name = View;
 			sourceTree = "<group>";
 		};
 		BBEFA8B61B59ED52002EFC7A /* Helpers */ = {
@@ -340,6 +354,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BBC90A2E1B6C93C300A74ED4 /* MarkWindow.xib in Resources */,
 				9409F7911B2D994D0069DAE8 /* Main.storyboard in Resources */,
 				9409F7961B2D994D0069DAE8 /* LaunchScreen.xib in Resources */,
 				94755CFB1B5A1084004FDEBC /* Info.plist in Resources */,
@@ -401,6 +416,7 @@
 				BBEFA89B1B57BE99002EFC7A /* AppDelegate.swift in Sources */,
 				BBA37A9B1B632961004B7484 /* LoginManager.swift in Sources */,
 				9409F78C1B2D994D0069DAE8 /* MapViewController.swift in Sources */,
+				BBC90A301B6C979100A74ED4 /* MarkWindow.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -568,6 +584,7 @@
 					"\"Security\"",
 					"-framework",
 					"\"SystemConfiguration\"",
+					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -617,6 +634,7 @@
 					"\"Security\"",
 					"-framework",
 					"\"SystemConfiguration\"",
+					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

@@ -36,7 +36,7 @@
                 <outlet property="Name" destination="Uny-ld-Fsz" id="Kff-e8-JCS"/>
                 <outlet property="ProfileImage" destination="xEb-ui-iey" id="taK-Ow-OQ5"/>
             </connections>
-            <point key="canvasLocation" x="153" y="285"/>
+            <point key="canvasLocation" x="-5" y="-74"/>
         </view>
     </objects>
 </document>

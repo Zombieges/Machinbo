@@ -16,6 +16,7 @@ let NavigationBarHeight = 44, StatusBarHeight = 20, SearchBarHeight = 44
 class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManagerDelegate {
     
     var gmaps: GMSMapView?
+    var markers : [GMSMarker] = []
     
     //現在地の位置情報取得
     let locationManager = CLLocationManager()
@@ -116,18 +117,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
             viewingAngle: 0
         )
         
-        
-        var query: PFQuery = PFQuery(className: "UserInfo")
-        query.findObjectsInBackgroundWithBlock { (objects, error) in
-            
-            if error != nil {
-                self.feedItems = objects as! [PFObject]
-                
-            } else {
-                NSLog("======>UserInfo no data")
-            }
-        }
-        
         gmaps = GMSMapView()
         if let map = gmaps {
             map.frame = CGRectMake(0, 20, self.view.frame.width, self.view.frame.height/2)
@@ -139,18 +128,19 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
             self.mapViewContainer.addSubview(map)
             self.mapViewContainer.hidden = false
             
+            
             //ここで画像と名前、簡易自己紹介、何分前にイマココを押下したかをGPSMarkerで表示
-            var myMarker = GMSMarker()
+            /*var myMarker = GMSMarker()
             myMarker.position = target
             myMarker.appearAnimation = kGMSMarkerAnimationPop
-            myMarker.map = map
+            myMarker.map = map*/
+            //自分のマーカーは非表示でよしとする
+            //self.markers = []
+            //self.markers.append(myMarker)
             
-            for item in feedItems {
-                var marker = GMSMarker()
-                marker.position = item["GPS"] as PFGeoPoint
-                marker.appearAnimation = kGMSMarkerAnimationPop
-                marker.map = map
-            }
+            //
+            var userinfo = ParseHelper.getUserInfo()
+            GoogleMapsHelper.setUserMarker(map, userObjects: userinfo)
         }
 
         
@@ -166,47 +156,36 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         
     }
     
-    /*
-    func mapView(mapView: GMSMapView!, markerInfoWindow marker: GMSMarker!) -> UIView! {
-        var infoWindow = NSBundle.mainBundle().loadNibNamed("CustomInfoWindow", owner: self, options: nil).first! as! CustomInfoWindow
-        infoWindow.label.text = "\(marker.position.latitude) \(marker.position.longitude)"
-        return infoWindow
-    }
-*/
-    
     func mapView(mapView: GMSMapView!, markerInfoWindow marker: GMSMarker!) -> UIView! {
         //MarkDownWindow生成
         var markWindow = NSBundle.mainBundle().loadNibNamed("MarkWindow", owner: self, options: nil).first! as! MarkWindow
-        markWindow.Name.text = "aaa"
-        markWindow.Detail.text = "bbb";
+        markWindow.Name.text = marker.userData.objectForKey("Name") as? String
+        markWindow.Detail.text = marker.userData.objectForKey("Comment") as? String
         //markWindow.ProfileImage =
         markWindow.ProfileImage.transform = CGAffineTransformMakeRotation(-08);
         //infoWindow.label.text = "\(marker.position.latitude) \(marker.position.longitude)"
         return markWindow
     }
     
-    /*
-    func updateGoogleMapView(target: CLLocationCoordinate2D!) -> Bool{
-        if let camera = GMSCameraPosition(target: target, zoom: 15, bearing: 0, viewingAngle: 0) as GMSCameraPosition?{
-            self.gmaps?.clear()
-            self.gmaps?.moveCamera(GMSCameraUpdate.setCamera(camera))
-            if let marker = GMSMarker() as GMSMarker?{
-                marker.position=target
+    private func reloadMarkers(){
+        
+        //DBから再度マーカーを取得する
+        
+        //地図が表示外になった場合、マーカーを非表示にする
+        for marker in self.markers {
+            if self.gmaps!.projection.containsCoordinate(marker.position) == false {
+                marker.map = nil
+                NSLog("マーカー非表示")
                 
-                marker.title = "test marker"
-                marker.snippet = "Hello World"
-                
-                marker.appearAnimation=kGMSMarkerAnimationPop
+            } else {
                 marker.map = self.gmaps
+                NSLog("マーカー表示")
+                
             }
-            
-            return true
-            
-        }else{
-            return false
         }
-        return true
-    }*/
+        
+        markers = []
+    }
     
     func mapView(mapView: GMSMapView!, didTapMarker marker: GMSMarker!) -> Bool {
         return false
@@ -217,8 +196,12 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         NSLog("位置情報取得失敗")
     }
     
+    func mapView(mapView: GMSMapView!, idleAtCameraPosition position: GMSCameraPosition!) {
+        self.reloadMarkers()
+    }
+    
     @IBAction func updateGPS(sender: AnyObject) {
-        var geoPoint = PFGeoPoint(latitude: longitude, longitude: latitude);
+        var geoPoint = PFGeoPoint(latitude: latitude, longitude: longitude);
         
         let gpsMark = PFObject(className: "UserInfo")
         gpsMark["GPS"] = geoPoint

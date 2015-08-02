@@ -34,6 +34,9 @@
 		BBC3A4041B3E7C49002CBBE9 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBC3A4031B3E7C49002CBBE9 /* SystemConfiguration.framework */; };
 		BBC90A2E1B6C93C300A74ED4 /* MarkWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBC90A2D1B6C93C300A74ED4 /* MarkWindow.xib */; };
 		BBC90A301B6C979100A74ED4 /* MarkWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC90A2F1B6C979100A74ED4 /* MarkWindow.swift */; };
+		BBC90A341B6DC40B00A74ED4 /* ParseQueries.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC90A331B6DC40B00A74ED4 /* ParseQueries.swift */; };
+		BBC90A361B6DC9EC00A74ED4 /* ParseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC90A351B6DC9EC00A74ED4 /* ParseHelper.swift */; };
+		BBC90A381B6DDCD400A74ED4 /* GoogleMapsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC90A371B6DDCD400A74ED4 /* GoogleMapsHelper.swift */; };
 		BBEFA89B1B57BE99002EFC7A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEFA89A1B57BE99002EFC7A /* AppDelegate.swift */; };
 		BBEFA8A91B59E603002EFC7A /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBEFA8A81B59E603002EFC7A /* AudioToolbox.framework */; };
 		BBEFA8AB1B59E60C002EFC7A /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBEFA8AA1B59E60C002EFC7A /* CFNetwork.framework */; };
@@ -90,6 +93,9 @@
 		BBC3A4031B3E7C49002CBBE9 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		BBC90A2D1B6C93C300A74ED4 /* MarkWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MarkWindow.xib; sourceTree = "<group>"; };
 		BBC90A2F1B6C979100A74ED4 /* MarkWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkWindow.swift; sourceTree = "<group>"; };
+		BBC90A331B6DC40B00A74ED4 /* ParseQueries.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseQueries.swift; sourceTree = "<group>"; };
+		BBC90A351B6DC9EC00A74ED4 /* ParseHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseHelper.swift; sourceTree = "<group>"; };
+		BBC90A371B6DDCD400A74ED4 /* GoogleMapsHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleMapsHelper.swift; sourceTree = "<group>"; };
 		BBEFA89A1B57BE99002EFC7A /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BBEFA8A81B59E603002EFC7A /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		BBEFA8AA1B59E60C002EFC7A /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -209,6 +215,7 @@
 				9409F7921B2D994D0069DAE8 /* Images.xcassets */,
 				9409F7941B2D994D0069DAE8 /* LaunchScreen.xib */,
 				9409F7871B2D994D0069DAE8 /* Supporting Files */,
+				BBC90A331B6DC40B00A74ED4 /* ParseQueries.swift */,
 			);
 			path = Machinbo;
 			sourceTree = "<group>";
@@ -259,6 +266,8 @@
 			isa = PBXGroup;
 			children = (
 				BBEFA8B41B59EBDD002EFC7A /* ConfigHelper.swift */,
+				BBC90A351B6DC9EC00A74ED4 /* ParseHelper.swift */,
+				BBC90A371B6DDCD400A74ED4 /* GoogleMapsHelper.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -415,8 +424,11 @@
 				94B90CDC1B495A610097F55E /* ProfileViewController.swift in Sources */,
 				BBEFA89B1B57BE99002EFC7A /* AppDelegate.swift in Sources */,
 				BBA37A9B1B632961004B7484 /* LoginManager.swift in Sources */,
+				BBC90A361B6DC9EC00A74ED4 /* ParseHelper.swift in Sources */,
 				9409F78C1B2D994D0069DAE8 /* MapViewController.swift in Sources */,
+				BBC90A341B6DC40B00A74ED4 /* ParseQueries.swift in Sources */,
 				BBC90A301B6C979100A74ED4 /* MarkWindow.swift in Sources */,
+				BBC90A381B6DDCD400A74ED4 /* GoogleMapsHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -18,48 +18,19 @@
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
-        Parse.enableLocalDatastore()
+        ParseHelper.launch(launchOptions)
         
         let googleMapsKey = ConfigHelper.getPlistKey("GOOGLE_MAPS_API_KEY") as String
-        let parseAppIdKey = ConfigHelper.getPlistKey("PARSE_APP_ID_KEY") as String
-        let parseClientKey = ConfigHelper.getPlistKey("PARSE_CLIENT_KEY") as String
         
         NSLog("★google maps api key = " + googleMapsKey)
-        NSLog("★PASER APP KEY = " + parseAppIdKey)
-        NSLog("★PASER CLIENT KEY = " + parseClientKey)
         NSLog("★UUID = " + NSUUID().UUIDString)
         
         //GoogleMaps
         GMSServices.provideAPIKey(googleMapsKey)
         
-        //Parse
-        Parse.setApplicationId(parseAppIdKey, clientKey:parseClientKey)
-        PFAnalytics.trackAppOpenedWithLaunchOptions(launchOptions)
-        
-        
         // first time to launch this app
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.registerDefaults(["firstLaunch": true])
-        
-        
-        var query: PFQuery = PFQuery(className: "UserInfo")
-        query.whereKey("UserID", containsString: NSUUID().UUIDString)
-        query.findObjectsInBackgroundWithBlock { (objects, error) in
-            
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            
-            if error == nil {
-                let currentController = storyboard.instantiateViewControllerWithIdentifier("profile") as? ProfileViewController
-                //self.window?.rootViewController = currentController
-                
-                return
-                
-            } else {
-                let currentController = storyboard.instantiateViewControllerWithIdentifier("map") as? MapViewController
-                //self.window?.rootViewController = currentController
-            }
-        }
-        
         
         return true
     }

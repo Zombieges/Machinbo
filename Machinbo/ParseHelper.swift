@@ -15,6 +15,7 @@ class ParseHelper {
         
         let parseAppIdKey = ConfigHelper.getPlistKey("PARSE_APP_ID_KEY") as String
         let parseClientKey = ConfigHelper.getPlistKey("PARSE_CLIENT_KEY") as String
+        
         NSLog("★PASER APP KEY = " + parseAppIdKey)
         NSLog("★PASER CLIENT KEY = " + parseClientKey)
         
@@ -43,17 +44,27 @@ class ParseHelper {
 
     }
     
-    class func getUserInfo() -> [PFObject] {
+    /*class func getUserInfo(userID:String) -> PFObject {
         var query = PFQuery(className: "UserInfo")
+        query.whereKey("UserID", containsString: userID)
+        query.findObjectsInBackgroundWithBlock { (objects, error) in
+            if error == nil {
+                if let object = objects?.first {
+                    return object as! PFObject
+                }
+                
+            } else {
+                return PFObject()
+            }
+        }
+    }*/
+    
+    class func getNearUserInfomation(myLocation: CLLocationCoordinate2D) -> [PFObject] {
+        var myGeoPoint = PFGeoPoint(latitude: myLocation.latitude, longitude: myLocation.longitude)
+        
+        var query = PFQuery(className: "UserInfo")
+        query.whereKey("GPS", nearGeoPoint: myGeoPoint, withinKilometers: 50.0)
         query.limit = 100
         return query.findObjects() as! [PFObject]
-        /*
-        query.findObjectsInBackgroundWithBlock {
-            (objects, error) -> Void in
-        
-            return objects
-            
-        }
-*/
     }
 }

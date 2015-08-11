@@ -8,25 +8,33 @@
 
 import Foundation
 import Parse
-
 import GoogleMaps
-import Parse
 
 class GoogleMapsHelper {
 
     class func setUserMarker(map: GMSMapView, userObjects: [PFObject]) {
+        
         for user in userObjects {
             let UserID = user.objectForKey("UserID") as! String
 
             let geoPoint : PFGeoPoint
             if let tempGeopoint = (user.objectForKey("GPS") as? PFGeoPoint) {
                 geoPoint = tempGeopoint
+                
             } else {
                 geoPoint = PFGeoPoint(latitude: 0, longitude: 0)
             }
 
-            let location = CLLocationCoordinate2DMake(geoPoint.latitude, geoPoint.longitude)
-
+            var marker = GMSMarker()
+            marker.position = CLLocationCoordinate2DMake(geoPoint.latitude, geoPoint.longitude)
+            marker.appearAnimation = kGMSMarkerAnimationPop
+            marker.map = map
+            marker.userData = user
+            
+            NSLog("UserID================>" + UserID)
+            
+            //↓表示したMAP内のみでピンを立てるロジック
+            /*
             if map.projection.containsCoordinate(location) {
                 var marker = GMSMarker()
                 marker.position = CLLocationCoordinate2DMake(geoPoint.latitude, geoPoint.longitude)
@@ -41,7 +49,7 @@ class GoogleMapsHelper {
             } else {
                 NSLog("★★★" + UserID)
                 continue
-            }
+            }*/
         }
     }
 }

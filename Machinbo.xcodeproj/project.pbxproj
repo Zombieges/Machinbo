@@ -34,7 +34,6 @@
 		BBC3A4041B3E7C49002CBBE9 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBC3A4031B3E7C49002CBBE9 /* SystemConfiguration.framework */; };
 		BBC90A2E1B6C93C300A74ED4 /* MarkWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBC90A2D1B6C93C300A74ED4 /* MarkWindow.xib */; };
 		BBC90A301B6C979100A74ED4 /* MarkWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC90A2F1B6C979100A74ED4 /* MarkWindow.swift */; };
-		BBC90A341B6DC40B00A74ED4 /* ParseQueries.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC90A331B6DC40B00A74ED4 /* ParseQueries.swift */; };
 		BBC90A361B6DC9EC00A74ED4 /* ParseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC90A351B6DC9EC00A74ED4 /* ParseHelper.swift */; };
 		BBC90A381B6DDCD400A74ED4 /* GoogleMapsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC90A371B6DDCD400A74ED4 /* GoogleMapsHelper.swift */; };
 		BBEFA89B1B57BE99002EFC7A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEFA89A1B57BE99002EFC7A /* AppDelegate.swift */; };
@@ -47,6 +46,7 @@
 		BBEFA8B51B59EBDD002EFC7A /* ConfigHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEFA8B41B59EBDD002EFC7A /* ConfigHelper.swift */; };
 		BBEFA8BD1B59F3AA002EFC7A /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBEFA8BB1B59F3AA002EFC7A /* Bolts.framework */; };
 		BBEFA8BE1B59F3AA002EFC7A /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBEFA8BC1B59F3AA002EFC7A /* Parse.framework */; };
+		BBFB01181B7A114F00926D9C /* ZFRippleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBFB01171B7A114F00926D9C /* ZFRippleButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,7 +93,6 @@
 		BBC3A4031B3E7C49002CBBE9 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		BBC90A2D1B6C93C300A74ED4 /* MarkWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MarkWindow.xib; sourceTree = "<group>"; };
 		BBC90A2F1B6C979100A74ED4 /* MarkWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkWindow.swift; sourceTree = "<group>"; };
-		BBC90A331B6DC40B00A74ED4 /* ParseQueries.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseQueries.swift; sourceTree = "<group>"; };
 		BBC90A351B6DC9EC00A74ED4 /* ParseHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseHelper.swift; sourceTree = "<group>"; };
 		BBC90A371B6DDCD400A74ED4 /* GoogleMapsHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleMapsHelper.swift; sourceTree = "<group>"; };
 		BBEFA89A1B57BE99002EFC7A /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -106,6 +105,7 @@
 		BBEFA8B41B59EBDD002EFC7A /* ConfigHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigHelper.swift; sourceTree = "<group>"; };
 		BBEFA8BB1B59F3AA002EFC7A /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		BBEFA8BC1B59F3AA002EFC7A /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
+		BBFB01171B7A114F00926D9C /* ZFRippleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZFRippleButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -204,6 +204,7 @@
 		9409F7861B2D994D0069DAE8 /* Machinbo */ = {
 			isa = PBXGroup;
 			children = (
+				BBFB01161B7A114F00926D9C /* Classes */,
 				BBC90A2C1B6C93A900A74ED4 /* View */,
 				BBA37A991B632944004B7484 /* Utilities */,
 				BBEFA8B61B59ED52002EFC7A /* Helpers */,
@@ -215,7 +216,6 @@
 				9409F7921B2D994D0069DAE8 /* Images.xcassets */,
 				9409F7941B2D994D0069DAE8 /* LaunchScreen.xib */,
 				9409F7871B2D994D0069DAE8 /* Supporting Files */,
-				BBC90A331B6DC40B00A74ED4 /* ParseQueries.swift */,
 			);
 			path = Machinbo;
 			sourceTree = "<group>";
@@ -270,6 +270,15 @@
 				BBC90A371B6DDCD400A74ED4 /* GoogleMapsHelper.swift */,
 			);
 			name = Helpers;
+			sourceTree = "<group>";
+		};
+		BBFB01161B7A114F00926D9C /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				BBFB01171B7A114F00926D9C /* ZFRippleButton.swift */,
+			);
+			name = Classes;
+			path = "../../../Desktop/ZFRippleButton-master/Classes";
 			sourceTree = "<group>";
 		};
 		EC3F8760D246C1C60C9B2D71 /* Pods */ = {
@@ -422,11 +431,11 @@
 				9409F78E1B2D994D0069DAE8 /* SecondViewController.swift in Sources */,
 				BBEFA8B51B59EBDD002EFC7A /* ConfigHelper.swift in Sources */,
 				94B90CDC1B495A610097F55E /* ProfileViewController.swift in Sources */,
+				BBFB01181B7A114F00926D9C /* ZFRippleButton.swift in Sources */,
 				BBEFA89B1B57BE99002EFC7A /* AppDelegate.swift in Sources */,
 				BBA37A9B1B632961004B7484 /* LoginManager.swift in Sources */,
 				BBC90A361B6DC9EC00A74ED4 /* ParseHelper.swift in Sources */,
 				9409F78C1B2D994D0069DAE8 /* MapViewController.swift in Sources */,
-				BBC90A341B6DC40B00A74ED4 /* ParseQueries.swift in Sources */,
 				BBC90A301B6C979100A74ED4 /* MarkWindow.swift in Sources */,
 				BBC90A381B6DDCD400A74ED4 /* GoogleMapsHelper.swift in Sources */,
 			);

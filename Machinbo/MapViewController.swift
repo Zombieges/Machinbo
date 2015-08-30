@@ -135,11 +135,19 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         var markWindow = NSBundle.mainBundle().loadNibNamed("MarkWindow", owner: self, options: nil).first! as! MarkWindow
         markWindow.Name.text = marker.userData.objectForKey("Name") as? String
         markWindow.Detail.text = marker.userData.objectForKey("Comment") as? String
-        //markWindow.ProfileImage =
-        markWindow.ProfileImage.transform = CGAffineTransformMakeRotation(-08);
-        //infoWindow.label.text = "\(marker.position.latitude) \(marker.position.longitude)"
-        //markWindow.addTarget(self, action: "onClickMyButton:", forControlEvents: .TouchUpInside)
+        
+        markWindow.ProfileImage.transform = CGAffineTransformMakeRotation(-08)
+        
+        let gesture = UITapGestureRecognizer(target:markWindow, action:"didClickMarkWindow:")
+        markWindow.addGestureRecognizer(gesture)
+        
         return markWindow
+    }
+    
+    func mapView(mapView: GMSMapView!, didTapInfoWindowOfMarker marker: GMSMarker!) {
+        NSLog("~~~~~~~~~TAP!!")
+        
+        //self.presentedViewController()
     }
     
     func mapView(mapView: GMSMapView!, didTapMarker marker: GMSMarker!) -> Bool {
@@ -149,6 +157,11 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
         manager.stopUpdatingLocation()
         NSLog("位置情報取得失敗")
+    }
+    
+    
+    func didClickMarkWindow(recognizer: UIGestureRecognizer) {
+        NSLog("タップなう")
     }
     
     @IBAction func updateGPS(sender: AnyObject) {

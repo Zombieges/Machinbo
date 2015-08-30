@@ -23,15 +23,39 @@
         let googleMapsKey = ConfigHelper.getPlistKey("GOOGLE_MAPS_API_KEY") as String
         
         NSLog("★google maps api key = " + googleMapsKey)
-        NSLog("★UUID = " + NSUUID().UUIDString)
         
         //GoogleMaps
         GMSServices.provideAPIKey(googleMapsKey)
         
-        // first time to launch this app
-        let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.registerDefaults(["firstLaunch": true])
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
+        if !PersistentData.firstLaunch {
+            NSLog("初めての起動です★")
+            if PersistentData.userID == "" {
+                PersistentData.userID = NSUUID().UUIDString
+                
+                NSLog("★UserID(New) = " + PersistentData.userID)
+                
+                //Profile画面へ遷移
+                let currentController = storyboard.instantiateViewControllerWithIdentifier("profile") as? ProfileViewController
+                //self.window?.rootViewController = currentController
+                
+            }
+            
+        } else {
+            
+            //UserInfo Search
+            var query = PFQuery(className: "UserInfo")
+            query.whereKey("UserID", containsString: PersistentData.userID)
+            query.findObjectsInBackgroundWithBlock { (objects, error) in
+                if error != nil {
+                    //MAP画面へ遷移
+                    let currentController = storyboard.instantiateViewControllerWithIdentifier("map") as? MapViewController
+                    //self.window?.rootViewController = currentController
+                }
+            }
+        }
+
         return true
     }
     

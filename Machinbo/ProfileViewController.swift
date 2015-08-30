@@ -10,37 +10,70 @@ import Foundation
 import UIKit
 import Photos
 
-class ProfileViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+class ProfileViewController: UIViewController, UINavigationControllerDelegate,
+    UIImagePickerControllerDelegate,
+    UIPickerViewDelegate{
+    
+    
+    var editButon: UIBarButtonItem!
+    var cancelButton: UIBarButtonItem!
+    var saveButton: UIBarButtonItem!
+    
+    @IBOutlet weak var myNavigationBar: UINavigationBar!
+    
+    
+    @IBOutlet weak var myNavigationItem: UINavigationItem!
+    
     
     @IBOutlet weak var name: UITextField!
-    @IBOutlet weak var sex: UILabel!
-    @IBOutlet weak var age: UILabel!
+    
+    @IBOutlet weak var genderSelectButton: UIButton!
+
+    @IBOutlet weak var ageSelectButton: UIButton!
     @IBOutlet weak var profile: UITextField!
     
     @IBOutlet weak var impPhotoButton: UIButton!
     
-    @IBOutlet weak var editButon: UIButton!
-    
-    @IBOutlet weak var cancelButton: UIButton!
+    @IBOutlet weak var profilePicture: UIImageView!
     
     var picker: UIImagePickerController?
     var window: UIWindow?
-    var myImagePicker: UIImagePickerController!
-    var myImageView: UIImageView!
-    var myViewController: UIViewController?
-
+   
+    var TableView: UIViewController?
+    var myItems:[String] = []
+    
+    var gender: String = ""
+    var age: String = ""
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // control init
+        // uiNavigationBar Setting
+        /*let first: ProfileViewController = self
+        myNavigationController = UINavigationController(rootViewController: first)
+        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        self.window?.rootViewController = myNavigationController
+        self.window?.makeKeyAndVisible()
+        */
+        
+        editButon = UIBarButtonItem(title: "編集", style: .Plain, target: nil, action: "editDepression")
+        
+        /*self.navigationItem.leftBarButtonItem = editButon
+        
+        self.navigationItem.rightBarButtonItem = nil;*/
+        
+        myNavigationItem.leftBarButtonItem = editButon
+        myNavigationItem.rightBarButtonItem = nil
+        
+        // control Init
         name.enabled = false
-        sex.enabled = false
-        age.enabled = false
         profile.enabled = false
-        editButon.hidden = false
-        cancelButton.hidden = true
+        genderSelectButton.hidden = true
         impPhotoButton.hidden = true
+        profilePicture.hidden = true
+        ageSelectButton.hidden = true
+        
         
     }
     
@@ -49,28 +82,25 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func editDepression(sender: AnyObject) {
+    func editDepression() {
         
         // control init
         name.enabled = true
-        sex.enabled = true
-        age.enabled = true
+        genderSelectButton.hidden = false
         profile.enabled = true
-        editButon.hidden = true
-        cancelButton.hidden = false
         impPhotoButton.hidden = false
-    }
-    
-    @IBAction func cancelDepression(sender: AnyObject) {
+        profilePicture.hidden = false
+        ageSelectButton.hidden = false
         
-        // control init
-        name.enabled = false
-        sex.enabled = false
-        age.enabled = false
-        profile.enabled = false
-        editButon.hidden = false
-        cancelButton.hidden = true
-        impPhotoButton.hidden = true
+        cancelButton = UIBarButtonItem(title: "キャンセル", style: .Plain, target: self, action: "viewDidLoad")
+        //self.navigationItem.leftBarButtonItem = cancelButton
+        myNavigationItem.leftBarButtonItem = cancelButton
+        
+        
+        saveButton = UIBarButtonItem(title: "保存", style: .Plain, target: self, action: "viewDidLoad")
+        //self.navigationItem.rightBarButtonItem =
+        myNavigationItem.rightBarButtonItem = saveButton
+
     }
     
     @IBAction func importPhoto(sender: AnyObject) {
@@ -91,9 +121,39 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         self.dismissViewControllerAnimated(true, completion: nil)
         
         let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+        
+        profilePicture.image = image
     }
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
         self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    /*
+    * 画面遷移
+    */
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?){
+        var PickerView:PickerViewController = segue.destinationViewController as! PickerViewController
+        
+        if(segue.identifier == "goAgePicker") {
+            
+            
+            let date = NSDate()      // 現在日時
+            let calendar = NSCalendar.currentCalendar()
+            var comp : NSDateComponents = calendar.components(
+                NSCalendarUnit.CalendarUnitYear, fromDate: date)
+            
+            
+            var i:Int = 0
+            for i in 0...50 {
+                
+                self.myItems.append((String(comp.year - i)))
+                PickerView.palmItems = self.myItems
+            }
+            
+        } else if(segue.identifier == "goGenderPicker"){
+            
+            self.myItems = ["男性","女性"]
+            PickerView.palmItems = self.myItems
+        }
     }
 }

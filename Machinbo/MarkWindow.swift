@@ -11,9 +11,13 @@ import UIKit
 
 class MarkWindow: UIView {
     
+    //プロフィール写真
     @IBOutlet weak var ProfileImage: UIImageView!
+    //名前
     @IBOutlet weak var Name: UILabel!
-    
+    //詳細
     @IBOutlet weak var Detail: UILabel!
-    
+    //画面遷移View
+    @IBOutlet weak var ClickView: UIView!
+
 }

@@ -12,6 +12,7 @@
 		9409F7931B2D994D0069DAE8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9409F7921B2D994D0069DAE8 /* Images.xcassets */; };
 		9409F7961B2D994D0069DAE8 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9409F7941B2D994D0069DAE8 /* LaunchScreen.xib */; };
 		9409F7A21B2D994D0069DAE8 /* MachinboTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9409F7A11B2D994D0069DAE8 /* MachinboTests.swift */; };
+		943D67F91B6E0A7A002C2ABB /* PickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943D67F81B6E0A7A002C2ABB /* PickerViewController.swift */; };
 		94755CFB1B5A1084004FDEBC /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94755CFA1B5A1084004FDEBC /* Info.plist */; };
 		94B90CDC1B495A610097F55E /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B90CDB1B495A610097F55E /* ProfileViewController.swift */; };
 		BB3198B01B7A1DD300D16C1E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BB3198AE1B7A1DD300D16C1E /* Main.storyboard */; };
@@ -72,6 +73,7 @@
 		9409F79B1B2D994D0069DAE8 /* MachinboTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MachinboTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9409F7A01B2D994D0069DAE8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9409F7A11B2D994D0069DAE8 /* MachinboTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MachinboTests.swift; sourceTree = "<group>"; };
+		943D67F81B6E0A7A002C2ABB /* PickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerViewController.swift; sourceTree = "<group>"; };
 		94755CFA1B5A1084004FDEBC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		94B90CDB1B495A610097F55E /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		BB3198AF1B7A1DD300D16C1E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "../../Machinbo のコピー 2/Machinbo/Base.lproj/Main.storyboard"; sourceTree = "<group>"; };
@@ -219,6 +221,11 @@
 				9409F78B1B2D994D0069DAE8 /* MapViewController.swift */,
 				9409F78D1B2D994D0069DAE8 /* SecondViewController.swift */,
 				94B90CDB1B495A610097F55E /* ProfileViewController.swift */,
+<<<<<<< Updated upstream
+=======
+				943D67F81B6E0A7A002C2ABB /* PickerViewController.swift */,
+				9409F78F1B2D994D0069DAE8 /* Main.storyboard */,
+>>>>>>> Stashed changes
 				9409F7921B2D994D0069DAE8 /* Images.xcassets */,
 				9409F7941B2D994D0069DAE8 /* LaunchScreen.xib */,
 				9409F7871B2D994D0069DAE8 /* Supporting Files */,
@@ -437,6 +444,7 @@
 			files = (
 				9409F78E1B2D994D0069DAE8 /* SecondViewController.swift in Sources */,
 				BBEFA8B51B59EBDD002EFC7A /* ConfigHelper.swift in Sources */,
+				943D67F91B6E0A7A002C2ABB /* PickerViewController.swift in Sources */,
 				94B90CDC1B495A610097F55E /* ProfileViewController.swift in Sources */,
 				BBEFA89B1B57BE99002EFC7A /* AppDelegate.swift in Sources */,
 				BBA37A9B1B632961004B7484 /* LoginManager.swift in Sources */,

@@ -14,16 +14,14 @@ import Parse
 class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManagerDelegate {
     
     var gmaps: GMSMapView?
+    var markers : [GMSMarker] = []
     
     var lm : CLLocationManager!
     var longitude: CLLocationDegrees!
     var latitude: CLLocationDegrees!
     
     @IBOutlet weak var mapViewContainer: UIView!
-    @IBOutlet weak var GPSUpdateContainer: UIButton!
     
-    
-    //private var tabBarController: UITabBarController!
     private var updateGeoPoint : ZFRippleButton!
     
     // CLLocationManagerDelegateを継承すると、init()が必要になる
@@ -36,6 +34,10 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //updateGeoPoint = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 200, height: 40))
+        //self.view.addSubview(updateGeoPoint)
+        
         
         lm = CLLocationManager()
         lm.delegate = self
@@ -50,24 +52,8 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         }
         
         lm.startUpdatingLocation()
-    }
-    
-    
-    func createupdateGeoPointButton() {
-        //GeoPoint 更新ボタンの生成
-        updateGeoPoint = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 200, height: 40))
-        updateGeoPoint.trackTouchLocation = true
-        updateGeoPoint.backgroundColor = LayoutManager.getUIColorFromRGB(0x2196F3)
-        updateGeoPoint.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x2196F3)
-        updateGeoPoint.rippleColor = LayoutManager.getUIColorFromRGB(0x1565C0)
-        updateGeoPoint.setTitle("Update GPS!!", forState: .Normal)
-        updateGeoPoint.layer.cornerRadius = 5.0
-        updateGeoPoint.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height - self.view.bounds.height/8.3)
-        updateGeoPoint.addTarget(self, action: "onClickMyButton:", forControlEvents: .TouchUpInside)
         
-        self.view.addSubview(updateGeoPoint)
     }
-    
     
     func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         
@@ -119,15 +105,22 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
             self.mapViewContainer.addSubview(map)
             self.mapViewContainer.hidden = false
             
+            
+            //ここで画像と名前、簡易自己紹介、何分前にイマココを押下したかをGPSMarkerで表示
+            /*var myMarker = GMSMarker()
+            myMarker.position = target
+            myMarker.appearAnimation = kGMSMarkerAnimationPop
+            myMarker.map = map*/
+            //自分のマーカーは非表示でよしとする
+            //self.markers = []
+            //self.markers.append(myMarker)
+            
             //現在の自分の表示範囲から50kmの範囲、100件のデータを取得する
             var userinfo = ParseHelper.getNearUserInfomation(target)
             GoogleMapsHelper.setUserMarker(map, userObjects: userinfo)
         }
         
         manager.stopUpdatingLocation()
-        
-        //GeoPoint更新ボタンの生成
-        self.createupdateGeoPointButton()
     }
     
     func mapView(mapView: GMSMapView!, markerInfoWindow marker: GMSMarker!) -> UIView! {
@@ -150,29 +143,16 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         NSLog("位置情報取得失敗")
     }
     
-    @IBAction func updateGPS(sender: AnyObject) {
-        /*var geoPoint = PFGeoPoint(latitude: latitude, longitude: longitude);
-        
-        let gpsMark = PFObject(className: "UserInfo")
-        gpsMark["GPS"] = geoPoint
-        gpsMark["MarkTime"] = NSDate()
-        gpsMark.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
-            NSLog("GPS情報登録成功")
-        }
-*/
-        
-    }
-    
-    func onClickMyButton(sender: UIButton){
+    /*@IBAction func updateGPS(sender: AnyObject) {
         var geoPoint = PFGeoPoint(latitude: latitude, longitude: longitude);
         
-        //USER情報にUPDATEをかける
         let gpsMark = PFObject(className: "UserInfo")
         gpsMark["GPS"] = geoPoint
         gpsMark["MarkTime"] = NSDate()
         gpsMark.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
             NSLog("GPS情報登録成功")
         }
-    }
+        
+    }*/
 }
 

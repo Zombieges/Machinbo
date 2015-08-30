@@ -14,7 +14,6 @@
 		9409F7A21B2D994D0069DAE8 /* MachinboTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9409F7A11B2D994D0069DAE8 /* MachinboTests.swift */; };
 		94755CFB1B5A1084004FDEBC /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94755CFA1B5A1084004FDEBC /* Info.plist */; };
 		94B90CDC1B495A610097F55E /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B90CDB1B495A610097F55E /* ProfileViewController.swift */; };
-		BB3198B01B7A1DD300D16C1E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BB3198AE1B7A1DD300D16C1E /* Main.storyboard */; };
 		BB3198B21B7CB87B00D16C1E /* LayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3198B11B7CB87B00D16C1E /* LayoutManager.swift */; };
 		BB3198B41B7CBC2F00D16C1E /* PersistentData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3198B31B7CBC2F00D16C1E /* PersistentData.swift */; };
 		BB4B3E6F1B5A001200183F62 /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BB4B3E6E1B5A001200183F62 /* libstdc++.6.dylib */; };
@@ -49,6 +48,8 @@
 		BBEFA8BD1B59F3AA002EFC7A /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBEFA8BB1B59F3AA002EFC7A /* Bolts.framework */; };
 		BBEFA8BE1B59F3AA002EFC7A /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBEFA8BC1B59F3AA002EFC7A /* Parse.framework */; };
 		BBFEC6D61B92B08E0069137A /* ZFRippleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBFEC6D51B92B08E0069137A /* ZFRippleButton.swift */; };
+		BBFEC6D91B92B7D90069137A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BBFEC6D71B92B7D90069137A /* Main.storyboard */; };
+		BBFEC6DB1B92B84E0069137A /* PickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBFEC6DA1B92B84E0069137A /* PickerViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,7 +75,6 @@
 		9409F7A11B2D994D0069DAE8 /* MachinboTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MachinboTests.swift; sourceTree = "<group>"; };
 		94755CFA1B5A1084004FDEBC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		94B90CDB1B495A610097F55E /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
-		BB3198AF1B7A1DD300D16C1E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "../../Machinbo のコピー 2/Machinbo/Base.lproj/Main.storyboard"; sourceTree = "<group>"; };
 		BB3198B11B7CB87B00D16C1E /* LayoutManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayoutManager.swift; sourceTree = "<group>"; };
 		BB3198B31B7CBC2F00D16C1E /* PersistentData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentData.swift; sourceTree = "<group>"; };
 		BB4B3E6E1B5A001200183F62 /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
@@ -111,6 +111,8 @@
 		BBEFA8BB1B59F3AA002EFC7A /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		BBEFA8BC1B59F3AA002EFC7A /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		BBFEC6D51B92B08E0069137A /* ZFRippleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ZFRippleButton.swift; path = ../../../Project/Machinbo/Machinbo/ZFRippleButton.swift; sourceTree = "<group>"; };
+		BBFEC6D81B92B7D90069137A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		BBFEC6DA1B92B84E0069137A /* PickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PickerViewController.swift; path = Machinbo/PickerViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +190,7 @@
 		9409F77B1B2D994D0069DAE8 = {
 			isa = PBXGroup;
 			children = (
+				BBFEC6DA1B92B84E0069137A /* PickerViewController.swift */,
 				BB3198B31B7CBC2F00D16C1E /* PersistentData.swift */,
 				BBA5C4951B3545D4005D062B /* GoogleMaps.bundle */,
 				9409F7861B2D994D0069DAE8 /* Machinbo */,
@@ -210,7 +213,7 @@
 		9409F7861B2D994D0069DAE8 /* Machinbo */ = {
 			isa = PBXGroup;
 			children = (
-				BB3198AE1B7A1DD300D16C1E /* Main.storyboard */,
+				BBFEC6D71B92B7D90069137A /* Main.storyboard */,
 				BBFB01161B7A114F00926D9C /* Classes */,
 				BBC90A2C1B6C93A900A74ED4 /* View */,
 				BBA37A991B632944004B7484 /* Utilities */,
@@ -379,10 +382,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BBFEC6D91B92B7D90069137A /* Main.storyboard in Resources */,
 				BBC90A2E1B6C93C300A74ED4 /* MarkWindow.xib in Resources */,
 				9409F7961B2D994D0069DAE8 /* LaunchScreen.xib in Resources */,
 				94755CFB1B5A1084004FDEBC /* Info.plist in Resources */,
-				BB3198B01B7A1DD300D16C1E /* Main.storyboard in Resources */,
 				9409F7931B2D994D0069DAE8 /* Images.xcassets in Resources */,
 				BBA5C4961B3545D4005D062B /* GoogleMaps.bundle in Resources */,
 			);
@@ -438,6 +441,7 @@
 				9409F78E1B2D994D0069DAE8 /* SecondViewController.swift in Sources */,
 				BBEFA8B51B59EBDD002EFC7A /* ConfigHelper.swift in Sources */,
 				94B90CDC1B495A610097F55E /* ProfileViewController.swift in Sources */,
+				BBFEC6DB1B92B84E0069137A /* PickerViewController.swift in Sources */,
 				BBFEC6D61B92B08E0069137A /* ZFRippleButton.swift in Sources */,
 				BBEFA89B1B57BE99002EFC7A /* AppDelegate.swift in Sources */,
 				BBA37A9B1B632961004B7484 /* LoginManager.swift in Sources */,
@@ -478,10 +482,10 @@
 			name = LaunchScreen.xib;
 			sourceTree = "<group>";
 		};
-		BB3198AE1B7A1DD300D16C1E /* Main.storyboard */ = {
+		BBFEC6D71B92B7D90069137A /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				BB3198AF1B7A1DD300D16C1E /* Base */,
+				BBFEC6D81B92B7D90069137A /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";

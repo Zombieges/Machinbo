@@ -138,7 +138,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         //markWindow.ProfileImage =
         markWindow.ProfileImage.transform = CGAffineTransformMakeRotation(-08);
         //infoWindow.label.text = "\(marker.position.latitude) \(marker.position.longitude)"
-        markWindow.addTarget(self, action: "onClickMyButton:", forControlEvents: .TouchUpInside)
+        //markWindow.addTarget(self, action: "onClickMyButton:", forControlEvents: .TouchUpInside)
         return markWindow
     }
     

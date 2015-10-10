@@ -12,12 +12,16 @@
 		9409F7931B2D994D0069DAE8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9409F7921B2D994D0069DAE8 /* Images.xcassets */; };
 		9409F7961B2D994D0069DAE8 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9409F7941B2D994D0069DAE8 /* LaunchScreen.xib */; };
 		9409F7A21B2D994D0069DAE8 /* MachinboTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9409F7A11B2D994D0069DAE8 /* MachinboTests.swift */; };
+		9469C4D91BC8AFDF00A64CCB /* PersistentData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9469C4D81BC8AFDF00A64CCB /* PersistentData.swift */; };
 		94755CFB1B5A1084004FDEBC /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94755CFA1B5A1084004FDEBC /* Info.plist */; };
 		94B90CDC1B495A610097F55E /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B90CDB1B495A610097F55E /* ProfileViewController.swift */; };
+<<<<<<< HEAD
 		BB30CC881B9F05100085D163 /* TargetProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB30CC871B9F05100085D163 /* TargetProfileViewController.swift */; };
 		BB30CC8A1B9F05B60085D163 /* TargetProfileView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB30CC891B9F05B60085D163 /* TargetProfileView.xib */; };
+=======
+		94CA30DA1B92BA2100AEF397 /* ZFRippleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94CA30D91B92BA2100AEF397 /* ZFRippleButton.swift */; };
+>>>>>>> origin/master
 		BB3198B21B7CB87B00D16C1E /* LayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3198B11B7CB87B00D16C1E /* LayoutManager.swift */; };
-		BB3198B41B7CBC2F00D16C1E /* PersistentData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3198B31B7CBC2F00D16C1E /* PersistentData.swift */; };
 		BB4B3E6F1B5A001200183F62 /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BB4B3E6E1B5A001200183F62 /* libstdc++.6.dylib */; };
 		BB4B3E701B5A009500183F62 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BBC3A3FD1B3E7C2B002CBBE9 /* libz.dylib */; };
 		BB4B3E721B5A009F00183F62 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB4B3E711B5A009F00183F62 /* Accounts.framework */; };
@@ -52,7 +56,6 @@
 		BBEFA8B51B59EBDD002EFC7A /* ConfigHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEFA8B41B59EBDD002EFC7A /* ConfigHelper.swift */; };
 		BBEFA8BD1B59F3AA002EFC7A /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBEFA8BB1B59F3AA002EFC7A /* Bolts.framework */; };
 		BBEFA8BE1B59F3AA002EFC7A /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBEFA8BC1B59F3AA002EFC7A /* Parse.framework */; };
-		BBFEC6D61B92B08E0069137A /* ZFRippleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBFEC6D51B92B08E0069137A /* ZFRippleButton.swift */; };
 		BBFEC6D91B92B7D90069137A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BBFEC6D71B92B7D90069137A /* Main.storyboard */; };
 		BBFEC6DB1B92B84E0069137A /* PickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBFEC6DA1B92B84E0069137A /* PickerViewController.swift */; };
 /* End PBXBuildFile section */
@@ -78,12 +81,16 @@
 		9409F79B1B2D994D0069DAE8 /* MachinboTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MachinboTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9409F7A01B2D994D0069DAE8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9409F7A11B2D994D0069DAE8 /* MachinboTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MachinboTests.swift; sourceTree = "<group>"; };
+		9469C4D81BC8AFDF00A64CCB /* PersistentData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentData.swift; sourceTree = "<group>"; };
 		94755CFA1B5A1084004FDEBC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		94B90CDB1B495A610097F55E /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+<<<<<<< HEAD
 		BB30CC871B9F05100085D163 /* TargetProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TargetProfileViewController.swift; sourceTree = "<group>"; };
 		BB30CC891B9F05B60085D163 /* TargetProfileView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TargetProfileView.xib; sourceTree = "<group>"; };
+=======
+		94CA30D91B92BA2100AEF397 /* ZFRippleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ZFRippleButton.swift; path = Machinbo/ZFRippleButton.swift; sourceTree = SOURCE_ROOT; };
+>>>>>>> origin/master
 		BB3198B11B7CB87B00D16C1E /* LayoutManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayoutManager.swift; sourceTree = "<group>"; };
-		BB3198B31B7CBC2F00D16C1E /* PersistentData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PersistentData.swift; path = ../PersistentData.swift; sourceTree = "<group>"; };
 		BB4B3E6E1B5A001200183F62 /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
 		BB4B3E711B5A009F00183F62 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		BB4B3E731B5A00A600183F62 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
@@ -120,7 +127,6 @@
 		BBEFA8B41B59EBDD002EFC7A /* ConfigHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigHelper.swift; sourceTree = "<group>"; };
 		BBEFA8BB1B59F3AA002EFC7A /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		BBEFA8BC1B59F3AA002EFC7A /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
-		BBFEC6D51B92B08E0069137A /* ZFRippleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ZFRippleButton.swift; path = ../../../Project/Machinbo/Machinbo/ZFRippleButton.swift; sourceTree = "<group>"; };
 		BBFEC6D81B92B7D90069137A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BBFEC6DA1B92B84E0069137A /* PickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -200,6 +206,7 @@
 		9409F77B1B2D994D0069DAE8 = {
 			isa = PBXGroup;
 			children = (
+				9469C4D81BC8AFDF00A64CCB /* PersistentData.swift */,
 				BBBDA9951B92CE8100085E85 /* MarkWindowController.swift */,
 				BBA5C4951B3545D4005D062B /* GoogleMaps.bundle */,
 				9409F7861B2D994D0069DAE8 /* Machinbo */,
@@ -222,8 +229,6 @@
 		9409F7861B2D994D0069DAE8 /* Machinbo */ = {
 			isa = PBXGroup;
 			children = (
-				BBFEC6DA1B92B84E0069137A /* PickerViewController.swift */,
-				BBFEC6D71B92B7D90069137A /* Main.storyboard */,
 				BBFB01161B7A114F00926D9C /* Classes */,
 				BBC90A2C1B6C93A900A74ED4 /* View */,
 				BBA37A991B632944004B7484 /* Utilities */,
@@ -232,6 +237,8 @@
 				9409F78B1B2D994D0069DAE8 /* MapViewController.swift */,
 				9409F78D1B2D994D0069DAE8 /* SecondViewController.swift */,
 				94B90CDB1B495A610097F55E /* ProfileViewController.swift */,
+				BBFEC6DA1B92B84E0069137A /* PickerViewController.swift */,
+				BBFEC6D71B92B7D90069137A /* Main.storyboard */,
 				9409F7921B2D994D0069DAE8 /* Images.xcassets */,
 				9409F7941B2D994D0069DAE8 /* LaunchScreen.xib */,
 				9409F7871B2D994D0069DAE8 /* Supporting Files */,
@@ -288,7 +295,6 @@
 		BBEFA8B61B59ED52002EFC7A /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				BB3198B31B7CBC2F00D16C1E /* PersistentData.swift */,
 				BBEFA8B41B59EBDD002EFC7A /* ConfigHelper.swift */,
 				BBC90A351B6DC9EC00A74ED4 /* ParseHelper.swift */,
 				BBC90A371B6DDCD400A74ED4 /* GoogleMapsHelper.swift */,
@@ -300,7 +306,7 @@
 		BBFB01161B7A114F00926D9C /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				BBFEC6D51B92B08E0069137A /* ZFRippleButton.swift */,
+				94CA30D91B92BA2100AEF397 /* ZFRippleButton.swift */,
 			);
 			name = Classes;
 			path = "../../../Desktop/ZFRippleButton-master/Classes";
@@ -361,6 +367,7 @@
 		9409F77C1B2D994D0069DAE8 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = Zombieges;
 				TargetAttributes = {
@@ -458,18 +465,26 @@
 				BBEFA8B51B59EBDD002EFC7A /* ConfigHelper.swift in Sources */,
 				94B90CDC1B495A610097F55E /* ProfileViewController.swift in Sources */,
 				BBFEC6DB1B92B84E0069137A /* PickerViewController.swift in Sources */,
+<<<<<<< HEAD
 				BBD106971B95F3830075FE04 /* PushAnimator.swift in Sources */,
 				BBFEC6D61B92B08E0069137A /* ZFRippleButton.swift in Sources */,
+=======
+>>>>>>> origin/master
 				BBEFA89B1B57BE99002EFC7A /* AppDelegate.swift in Sources */,
 				BBE088C21BC3F7CA009D21C0 /* UIAlertView+Custom.swift in Sources */,
 				BBBDA9961B92CE8100085E85 /* MarkWindowController.swift in Sources */,
 				BBA37A9B1B632961004B7484 /* LoginManager.swift in Sources */,
+<<<<<<< HEAD
 				BB30CC881B9F05100085D163 /* TargetProfileViewController.swift in Sources */,
 				BB3198B41B7CBC2F00D16C1E /* PersistentData.swift in Sources */,
+=======
+>>>>>>> origin/master
 				BBC90A361B6DC9EC00A74ED4 /* ParseHelper.swift in Sources */,
 				9409F78C1B2D994D0069DAE8 /* MapViewController.swift in Sources */,
 				BBC90A301B6C979100A74ED4 /* MarkWindow.swift in Sources */,
 				BB3198B21B7CB87B00D16C1E /* LayoutManager.swift in Sources */,
+				9469C4D91BC8AFDF00A64CCB /* PersistentData.swift in Sources */,
+				94CA30DA1B92BA2100AEF397 /* ZFRippleButton.swift in Sources */,
 				BBC90A381B6DDCD400A74ED4 /* GoogleMapsHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

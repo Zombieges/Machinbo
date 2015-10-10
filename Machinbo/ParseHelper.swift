@@ -49,18 +49,21 @@ class ParseHelper {
         return query.findObjects() as! [PFObject]
     }
     
-    class func setUserInfomation(userID: String) {
+    class func setUserInfomation(userID: String,name: String,gender: Int,age: String,comment: String,photo: PFFile) {
         //新規ユーザー登録
         let info = PFObject(className: "UserInfo")
         info["UserID"] = userID
-        info["Name"] = ""
-        info["Gender"] = 0
-        info["Age"] = ""
-        info["Comment"] = ""
-        info["GPS"] = nil
-        info["MarkTime"] = nil
+        info["Name"] = name
+        info["Gender"] = gender
+        info["Age"] = age
+        info["Comment"] = comment
+        info["ProfilePicture"] = photo
+        //info["GPS"] = ""
+        //info["MarkTime"] = ""
         info.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
-            NSLog("ユーザー初期登録成功")
+            if success {
+                NSLog("ユーザー初期登録成功")
+            }
         }
     }
 }

@@ -8,50 +8,49 @@
 
 import Foundation
 import UIKit
+import SpriteKit
+
+protocol PickerViewControllerDelegate{
+    func getGender(selectedIndex: Int,selected: String)
+    func getAge(selected: String)
+}
+
 
 class PickerViewController: UIViewController,
 UINavigationBarDelegate,
 UITableViewDelegate,
-UITableViewDataSource {
+UITableViewDataSource{
+    
+    var delegate: PickerViewControllerDelegate?
     
     @IBOutlet weak var myNavigationBar: UINavigationBar!
     
     @IBOutlet weak var myNavigationItem: UINavigationItem!
+    var saveButton: UIBarButtonItem!
+    var cancelButton: UIBarButtonItem!
+    
+    var selectedAge:String = ""
+    var selectedGenderIndex: Int = 0
+    var selectedGender: String = ""
     
     // Tableで使用する配列を設定する
     private var myTableView: UITableView!
     private var myItems: NSArray = []
+    private var kind: String = ""
     var palmItems:[String] = []
-    var na: UIBarButtonItem!
+    var palKind: String = ""
     var window: UIWindow?
     
-    var myNavigationController: UINavigationController?
+    var myViewController: UIViewController?
         
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // palmater set
+        self.myItems = []
         self.myItems = palmItems
+        self.kind = palKind
         
-        /*// ViewControllerを生成する.
-        let myViewController: PickerViewController = self
-        
-        // Navication Controllerを生成する.
-        let myNavigationController: UINavigationController = UINavigationController(rootViewController: myViewController)
-        
-        // UIWindowを生成する.
-        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        
-        // rootViewControllerにNatigationControllerを設定する.
-        self.window?.rootViewController = myNavigationController
-        
-        self.window?.makeKeyAndVisible()
-
-        // UINavigationBar Setting
-        self.navigationController?.navigationBar
-        
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
-        */
         let navBarHeight = self.myNavigationBar.frame.size.height
         
         
@@ -74,6 +73,14 @@ UITableViewDataSource {
         // Viewに追加する.
         self.view.addSubview(myTableView)
         
+        cancelButton = UIBarButtonItem(title: "キャンセル", style: .Plain, target: self, action: "cancelPush")
+        myNavigationItem.leftBarButtonItem = cancelButton
+        
+        saveButton = UIBarButtonItem(title: "保存", style: .Plain, target: self, action: "savePush")
+        
+        myNavigationItem.rightBarButtonItem = saveButton
+        
+        myNavigationBar.tintColor = UIColor(red:119.0/255, green:185.0/255, blue:66.0/255, alpha:1.0)
     }
     
     override func didReceiveMemoryWarning() {
@@ -85,10 +92,27 @@ UITableViewDataSource {
     */
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        println("Num: \(indexPath.row)")
-        println("Value: \(myItems[indexPath.row])")
+        //println("Num: \(indexPath.row)")
+        //println("Value: \(myItems[indexPath.row])")
         
+        //if let myItem = myItems[indexPath.row] as? String {
         
+        if (self.kind == "age"){
+            
+            let indexPath: String? = myItems[indexPath.row] as? String
+            if indexPath != nil {
+                self.selectedAge = indexPath!.uppercaseString
+            }
+            
+        } else if (self.kind == "gender"){
+        
+            self.selectedGenderIndex = indexPath.row
+            
+            let indexPath: String? = myItems[indexPath.row] as? String
+            if indexPath != nil {
+                self.selectedGender = indexPath!.uppercaseString
+            }
+        }
     }
     
     /*
@@ -112,5 +136,28 @@ UITableViewDataSource {
         cell.textLabel!.text = "\(myItems[indexPath.row])"
         
         return cell
+    }
+    
+    /*
+    キャンセルボタン押下時
+    */
+    func cancelPush(){
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    /*
+    保存ボタン押下時
+    */
+    func savePush(){
+        
+        if (self.kind == "age"){
+            
+            self.delegate!.getAge(self.selectedAge)
+        }
+        else if (self.kind == "gender"){
+            
+            self.delegate!.getGender(self.selectedGenderIndex,selected: self.selectedGender)
+        }
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
 }

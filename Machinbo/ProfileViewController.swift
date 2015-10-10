@@ -9,32 +9,29 @@
 import Foundation
 import UIKit
 import Photos
+import Parse
+import SpriteKit
 
 class ProfileViewController: UIViewController, UINavigationControllerDelegate,
     UIImagePickerControllerDelegate,
-    UIPickerViewDelegate{
-    
+    UIPickerViewDelegate,
+    PickerViewControllerDelegate {
     
     var editButon: UIBarButtonItem!
     var cancelButton: UIBarButtonItem!
     var saveButton: UIBarButtonItem!
     
     @IBOutlet weak var myNavigationBar: UINavigationBar!
-    
-    
     @IBOutlet weak var myNavigationItem: UINavigationItem!
-    
-    
     @IBOutlet weak var name: UITextField!
-    
     @IBOutlet weak var genderSelectButton: UIButton!
-
     @IBOutlet weak var ageSelectButton: UIButton!
-    @IBOutlet weak var profile: UITextField!
-    
+    @IBOutlet weak var comment: UITextField!
     @IBOutlet weak var impPhotoButton: UIButton!
-    
     @IBOutlet weak var profilePicture: UIImageView!
+    @IBOutlet weak var startButton: UIButton!
+    @IBOutlet weak var displayGender: UILabel!
+    @IBOutlet weak var displayAge: UILabel!
     
     var picker: UIImagePickerController?
     var window: UIWindow?
@@ -42,37 +39,30 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
     var TableView: UIViewController?
     var myItems:[String] = []
     
-    var gender: String = ""
-    var age: String = ""
-    
+    var gender: Int? = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // uiNavigationBar Setting
-        /*let first: ProfileViewController = self
-        myNavigationController = UINavigationController(rootViewController: first)
-        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        self.window?.rootViewController = myNavigationController
-        self.window?.makeKeyAndVisible()
-        */
-        
+        // プロフィール編集時（登録済みユーザー）
         editButon = UIBarButtonItem(title: "編集", style: .Plain, target: nil, action: "editDepression")
         
-        /*self.navigationItem.leftBarButtonItem = editButon
-        
-        self.navigationItem.rightBarButtonItem = nil;*/
+        myNavigationBar.tintColor = UIColor(red:119.0/255, green:185.0/255, blue:66.0/255, alpha:1.0)
         
         myNavigationItem.leftBarButtonItem = editButon
         myNavigationItem.rightBarButtonItem = nil
+        myNavigationItem.leftBarButtonItem?.tintColor = UIColor.whiteColor()
         
         // control Init
         name.enabled = false
-        profile.enabled = false
+        comment.enabled = false
         genderSelectButton.hidden = true
         impPhotoButton.hidden = true
         profilePicture.hidden = true
         ageSelectButton.hidden = true
+        startButton.hidden = true
+        
+        // 初回起動時（未登録ユーザ）
         
         
     }
@@ -87,24 +77,28 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
         // control init
         name.enabled = true
         genderSelectButton.hidden = false
-        profile.enabled = true
+        comment.enabled = true
         impPhotoButton.hidden = false
         profilePicture.hidden = false
         ageSelectButton.hidden = false
+        startButton.hidden = false
+
         
         cancelButton = UIBarButtonItem(title: "キャンセル", style: .Plain, target: self, action: "viewDidLoad")
         //self.navigationItem.leftBarButtonItem = cancelButton
         myNavigationItem.leftBarButtonItem = cancelButton
+        myNavigationItem.leftBarButtonItem?.tintColor = UIColor.whiteColor()
         
         
         saveButton = UIBarButtonItem(title: "保存", style: .Plain, target: self, action: "viewDidLoad")
         //self.navigationItem.rightBarButtonItem =
         myNavigationItem.rightBarButtonItem = saveButton
+        myNavigationItem.rightBarButtonItem?.tintColor = UIColor.whiteColor()
+        
 
     }
     
     @IBAction func importPhoto(sender: AnyObject) {
-        
         
         super.viewDidLoad()
         
@@ -122,17 +116,31 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
         
         let image = info[UIImagePickerControllerOriginalImage] as! UIImage
         
-        profilePicture.image = image
+        let resizedSize = CGSize(width: 93, height: 93)
+        UIGraphicsBeginImageContext(resizedSize)
+        image.drawInRect(CGRect(x: 0, y: 0, width: resizedSize.width, height: resizedSize.height))
+        let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        profilePicture.image = resizedImage
     }
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
+
+    
     /*
     * 画面遷移
     */
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?){
         var PickerView:PickerViewController = segue.destinationViewController as! PickerViewController
+        
+        self.myItems = []
+        
+        
+        var ChildController:PickerViewController = segue.destinationViewController as! PickerViewController
+        ChildController.delegate = self
         
         if(segue.identifier == "goAgePicker") {
             
@@ -147,13 +155,35 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
             for i in 0...50 {
                 
                 self.myItems.append((String(comp.year - i)))
-                PickerView.palmItems = self.myItems
             }
+            PickerView.palmItems = self.myItems
+            PickerView.palKind = "age"
             
         } else if(segue.identifier == "goGenderPicker"){
             
             self.myItems = ["男性","女性"]
             PickerView.palmItems = self.myItems
+            PickerView.palKind = "gender"
         }
+    }
+    
+    func getGender(selectedIndex: Int,selected: String) {
+        
+        self.gender = selectedIndex
+        self.displayGender.text = selected
+    }
+    
+    func getAge(selected: String) {
+        
+        self.displayAge.text = selected
+    }
+    
+    @IBAction func pushStart(sender: AnyObject) {
+        
+        let imageData = UIImagePNGRepresentation(profilePicture.image)
+        let imageFile = PFFile(name:"image.png", data:imageData)
+        
+        ParseHelper.setUserInfomation("userid",name: name.text,gender: self.gender!,age: displayAge.text! ,comment: comment.text,photo: imageFile)
+        
     }
 }

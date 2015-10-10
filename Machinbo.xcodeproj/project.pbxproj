@@ -14,6 +14,8 @@
 		9409F7A21B2D994D0069DAE8 /* MachinboTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9409F7A11B2D994D0069DAE8 /* MachinboTests.swift */; };
 		94755CFB1B5A1084004FDEBC /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94755CFA1B5A1084004FDEBC /* Info.plist */; };
 		94B90CDC1B495A610097F55E /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B90CDB1B495A610097F55E /* ProfileViewController.swift */; };
+		BB30CC881B9F05100085D163 /* TargetProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB30CC871B9F05100085D163 /* TargetProfileViewController.swift */; };
+		BB30CC8A1B9F05B60085D163 /* TargetProfileView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB30CC891B9F05B60085D163 /* TargetProfileView.xib */; };
 		BB3198B21B7CB87B00D16C1E /* LayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3198B11B7CB87B00D16C1E /* LayoutManager.swift */; };
 		BB3198B41B7CBC2F00D16C1E /* PersistentData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3198B31B7CBC2F00D16C1E /* PersistentData.swift */; };
 		BB4B3E6F1B5A001200183F62 /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BB4B3E6E1B5A001200183F62 /* libstdc++.6.dylib */; };
@@ -38,7 +40,8 @@
 		BBC90A301B6C979100A74ED4 /* MarkWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC90A2F1B6C979100A74ED4 /* MarkWindow.swift */; };
 		BBC90A361B6DC9EC00A74ED4 /* ParseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC90A351B6DC9EC00A74ED4 /* ParseHelper.swift */; };
 		BBC90A381B6DDCD400A74ED4 /* GoogleMapsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC90A371B6DDCD400A74ED4 /* GoogleMapsHelper.swift */; };
-		BBD106931B92E83C0075FE04 /* TargetProfileView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBD106921B92E83C0075FE04 /* TargetProfileView.xib */; };
+		BBD106971B95F3830075FE04 /* PushAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD106961B95F3830075FE04 /* PushAnimator.swift */; };
+		BBE088C21BC3F7CA009D21C0 /* UIAlertView+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE088C11BC3F7CA009D21C0 /* UIAlertView+Custom.swift */; };
 		BBEFA89B1B57BE99002EFC7A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEFA89A1B57BE99002EFC7A /* AppDelegate.swift */; };
 		BBEFA8A91B59E603002EFC7A /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBEFA8A81B59E603002EFC7A /* AudioToolbox.framework */; };
 		BBEFA8AB1B59E60C002EFC7A /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBEFA8AA1B59E60C002EFC7A /* CFNetwork.framework */; };
@@ -77,6 +80,8 @@
 		9409F7A11B2D994D0069DAE8 /* MachinboTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MachinboTests.swift; sourceTree = "<group>"; };
 		94755CFA1B5A1084004FDEBC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		94B90CDB1B495A610097F55E /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		BB30CC871B9F05100085D163 /* TargetProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TargetProfileViewController.swift; sourceTree = "<group>"; };
+		BB30CC891B9F05B60085D163 /* TargetProfileView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TargetProfileView.xib; sourceTree = "<group>"; };
 		BB3198B11B7CB87B00D16C1E /* LayoutManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayoutManager.swift; sourceTree = "<group>"; };
 		BB3198B31B7CBC2F00D16C1E /* PersistentData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PersistentData.swift; path = ../PersistentData.swift; sourceTree = "<group>"; };
 		BB4B3E6E1B5A001200183F62 /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
@@ -102,8 +107,9 @@
 		BBC90A2F1B6C979100A74ED4 /* MarkWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkWindow.swift; sourceTree = "<group>"; };
 		BBC90A351B6DC9EC00A74ED4 /* ParseHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseHelper.swift; sourceTree = "<group>"; };
 		BBC90A371B6DDCD400A74ED4 /* GoogleMapsHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleMapsHelper.swift; sourceTree = "<group>"; };
-		BBD106921B92E83C0075FE04 /* TargetProfileView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TargetProfileView.xib; sourceTree = "<group>"; };
+		BBD106961B95F3830075FE04 /* PushAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushAnimator.swift; sourceTree = "<group>"; };
 		BBDB23431B929C700035EE1A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		BBE088C11BC3F7CA009D21C0 /* UIAlertView+Custom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIAlertView+Custom.swift"; sourceTree = "<group>"; };
 		BBEFA89A1B57BE99002EFC7A /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BBEFA8A81B59E603002EFC7A /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		BBEFA8AA1B59E60C002EFC7A /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -229,6 +235,7 @@
 				9409F7921B2D994D0069DAE8 /* Images.xcassets */,
 				9409F7941B2D994D0069DAE8 /* LaunchScreen.xib */,
 				9409F7871B2D994D0069DAE8 /* Supporting Files */,
+				BB30CC871B9F05100085D163 /* TargetProfileViewController.swift */,
 			);
 			path = Machinbo;
 			sourceTree = "<group>";
@@ -272,7 +279,8 @@
 			children = (
 				BBC90A2D1B6C93C300A74ED4 /* MarkWindow.xib */,
 				BBC90A2F1B6C979100A74ED4 /* MarkWindow.swift */,
-				BBD106921B92E83C0075FE04 /* TargetProfileView.xib */,
+				BBD106961B95F3830075FE04 /* PushAnimator.swift */,
+				BB30CC891B9F05B60085D163 /* TargetProfileView.xib */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -284,6 +292,7 @@
 				BBEFA8B41B59EBDD002EFC7A /* ConfigHelper.swift */,
 				BBC90A351B6DC9EC00A74ED4 /* ParseHelper.swift */,
 				BBC90A371B6DDCD400A74ED4 /* GoogleMapsHelper.swift */,
+				BBE088C11BC3F7CA009D21C0 /* UIAlertView+Custom.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -391,7 +400,7 @@
 				BBFEC6D91B92B7D90069137A /* Main.storyboard in Resources */,
 				BBC90A2E1B6C93C300A74ED4 /* MarkWindow.xib in Resources */,
 				9409F7961B2D994D0069DAE8 /* LaunchScreen.xib in Resources */,
-				BBD106931B92E83C0075FE04 /* TargetProfileView.xib in Resources */,
+				BB30CC8A1B9F05B60085D163 /* TargetProfileView.xib in Resources */,
 				94755CFB1B5A1084004FDEBC /* Info.plist in Resources */,
 				9409F7931B2D994D0069DAE8 /* Images.xcassets in Resources */,
 				BBA5C4961B3545D4005D062B /* GoogleMaps.bundle in Resources */,
@@ -449,10 +458,13 @@
 				BBEFA8B51B59EBDD002EFC7A /* ConfigHelper.swift in Sources */,
 				94B90CDC1B495A610097F55E /* ProfileViewController.swift in Sources */,
 				BBFEC6DB1B92B84E0069137A /* PickerViewController.swift in Sources */,
+				BBD106971B95F3830075FE04 /* PushAnimator.swift in Sources */,
 				BBFEC6D61B92B08E0069137A /* ZFRippleButton.swift in Sources */,
 				BBEFA89B1B57BE99002EFC7A /* AppDelegate.swift in Sources */,
+				BBE088C21BC3F7CA009D21C0 /* UIAlertView+Custom.swift in Sources */,
 				BBBDA9961B92CE8100085E85 /* MarkWindowController.swift in Sources */,
 				BBA37A9B1B632961004B7484 /* LoginManager.swift in Sources */,
+				BB30CC881B9F05100085D163 /* TargetProfileViewController.swift in Sources */,
 				BB3198B41B7CBC2F00D16C1E /* PersistentData.swift in Sources */,
 				BBC90A361B6DC9EC00A74ED4 /* ParseHelper.swift in Sources */,
 				9409F78C1B2D994D0069DAE8 /* MapViewController.swift in Sources */,

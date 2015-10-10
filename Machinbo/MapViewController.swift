@@ -12,27 +12,26 @@ import CoreLocation
 import Parse
 
 class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManagerDelegate {
+
     
+    
+    var appDelegate: AppDelegate!
+    
+    // Google MAP
     var gmaps: GMSMapView?
+    
+    let kAnimationController = PushAnimator()
     
     var lm : CLLocationManager!
     var longitude: CLLocationDegrees!
     var latitude: CLLocationDegrees!
     
+    //開いた MarkWindow
+    var markWindow : MarkWindow = MarkWindow()
+    
     @IBOutlet weak var mapViewContainer: UIView!
-    @IBOutlet weak var GPSUpdateContainer: UIButton!
     
-    
-    //private var tabBarController: UITabBarController!
     private var updateGeoPoint : ZFRippleButton!
-    
-    // CLLocationManagerDelegateを継承すると、init()が必要になる
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        
-        longitude = CLLocationDegrees()
-        latitude = CLLocationDegrees()
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,12 +51,18 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         lm.startUpdatingLocation()
     }
     
+    func createNavigationItem() {
+        let navigationController = UINavigationController(rootViewController: self)
+    }
+    
     
     func createupdateGeoPointButton() {
         //GeoPoint 更新ボタンの生成
         updateGeoPoint = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 200, height: 40))
         updateGeoPoint.trackTouchLocation = true
         updateGeoPoint.backgroundColor = LayoutManager.getUIColorFromRGB(0x2196F3)
+        //updateGeoPoint.layer.borderWidth = 1
+        //updateGeoPoint.layer.borderColor = LayoutManager.getUIColorFromRGB(0x1565C0).CGColor
         updateGeoPoint.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x2196F3)
         updateGeoPoint.rippleColor = LayoutManager.getUIColorFromRGB(0x1565C0)
         updateGeoPoint.setTitle("Update GPS!!", forState: .Normal)
@@ -87,6 +92,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         case .AuthorizedWhenInUse:
             statusStr = "AuthorizedWhenInUse"
         }
+        
         NSLog(" CLAuthorizationStatus: \(statusStr)")
         
         if status == .AuthorizedWhenInUse {
@@ -116,8 +122,9 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
             map.camera = camera
             map.delegate = self
             
-            self.mapViewContainer.addSubview(map)
-            self.mapViewContainer.hidden = false
+            self.view = map
+            //self.mapViewContainer.addSubview(map)
+            //self.mapViewContainer.hidden = false
             
             //現在の自分の表示範囲から50kmの範囲、100件のデータを取得する
             var userinfo = ParseHelper.getNearUserInfomation(target)
@@ -126,29 +133,33 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         
         manager.stopUpdatingLocation()
         
+        self.createNavigationItem()
         //GeoPoint更新ボタンの生成
         self.createupdateGeoPointButton()
     }
     
     func mapView(mapView: GMSMapView!, markerInfoWindow marker: GMSMarker!) -> UIView! {
         //MarkDownWindow生成
-        var markWindow = NSBundle.mainBundle().loadNibNamed("MarkWindow", owner: self, options: nil).first! as! MarkWindow
+        markWindow = NSBundle.mainBundle().loadNibNamed("MarkWindow", owner: self, options: nil).first! as! MarkWindow
         markWindow.Name.text = marker.userData.objectForKey("Name") as? String
         markWindow.Detail.text = marker.userData.objectForKey("Comment") as? String
-        
         markWindow.ProfileImage.transform = CGAffineTransformMakeRotation(-08)
-        
-        let gesture = UITapGestureRecognizer(target:markWindow, action:"didClickMarkWindow:")
-        markWindow.addGestureRecognizer(gesture)
         
         return markWindow
     }
     
     func mapView(mapView: GMSMapView!, didTapInfoWindowOfMarker marker: GMSMarker!) {
-        NSLog("~~~~~~~~~TAP!!")
-        
-        //self.presentedViewController()
+        self.performSegueWithIdentifier("next",sender: nil)
     }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
+        if (segue.identifier == "next") {
+            //segue（画面遷移）で値を渡せるようにバンドルする
+            var view = segue.destinationViewController as! TargetProfileViewController
+            view.lblName = markWindow.Name.text!
+        }
+    }
+    
     
     func mapView(mapView: GMSMapView!, didTapMarker marker: GMSMarker!) -> Bool {
         return false
@@ -160,21 +171,13 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     }
     
     
+    /*
     func didClickMarkWindow(recognizer: UIGestureRecognizer) {
         NSLog("タップなう")
     }
+    */
     
     @IBAction func updateGPS(sender: AnyObject) {
-        /*var geoPoint = PFGeoPoint(latitude: latitude, longitude: longitude);
-        
-        let gpsMark = PFObject(className: "UserInfo")
-        gpsMark["GPS"] = geoPoint
-        gpsMark["MarkTime"] = NSDate()
-        gpsMark.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
-            NSLog("GPS情報登録成功")
-        }
-*/
-        
     }
     
     func onClickMyButton(sender: UIButton){
@@ -187,6 +190,10 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         gpsMark.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
             NSLog("GPS情報登録成功")
         }
+    }
+    
+    func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return kAnimationController
     }
 }
 

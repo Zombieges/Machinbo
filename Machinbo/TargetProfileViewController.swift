@@ -26,6 +26,9 @@ class TargetProfileViewController: UIViewController {
             self.view = view
         }
         
+        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        self.navigationItem.title = "マップ"
+        
         //ユーザー情報取得
         self.setUserInfo()
     }

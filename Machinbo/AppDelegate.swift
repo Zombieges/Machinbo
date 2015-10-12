@@ -15,6 +15,7 @@
  class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
+    var mainNavigationCtrl: UINavigationController?
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
@@ -55,7 +56,19 @@
                 }
             }
         }
-
+        
+        /*
+        Main NavigationController
+        */
+        //基点となるViewを定義
+        let first = MapViewController()
+        mainNavigationCtrl = UINavigationController(rootViewController: first)
+        mainNavigationCtrl!.navigationBar.barTintColor = LayoutManager.getUIColorFromRGB(0x2196F3)
+        
+        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        self.window?.rootViewController = mainNavigationCtrl
+        self.window?.makeKeyAndVisible()
+        
         return true
     }
     

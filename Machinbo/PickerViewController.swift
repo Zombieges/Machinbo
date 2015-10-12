@@ -17,15 +17,10 @@ protocol PickerViewControllerDelegate{
 
 
 class PickerViewController: UIViewController,
-UINavigationBarDelegate,
-UITableViewDelegate,
-UITableViewDataSource{
+    UITableViewDelegate,
+    UITableViewDataSource{
     
     var delegate: PickerViewControllerDelegate?
-    
-    @IBOutlet weak var myNavigationBar: UINavigationBar!
-    
-    @IBOutlet weak var myNavigationItem: UINavigationItem!
     var saveButton: UIBarButtonItem!
     var cancelButton: UIBarButtonItem!
     
@@ -42,16 +37,20 @@ UITableViewDataSource{
     var window: UIWindow?
     
     var myViewController: UIViewController?
-        
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let view = UINib(nibName: "PickerView", bundle: nil).instantiateWithOwner(self, options: nil).first as? UIView {
+            self.view = view
+        }
         
         // palmater set
         self.myItems = []
         self.myItems = palmItems
         self.kind = palKind
         
-        let navBarHeight = self.myNavigationBar.frame.size.height
+        let navBarHeight = self.navigationController?.navigationBar.frame.size.height
         
         
         // Viewの高さと幅を取得する.
@@ -59,7 +58,7 @@ UITableViewDataSource{
         let displayHeight: CGFloat = self.view.frame.height
         
         // TableViewの生成する.
-        myTableView = UITableView(frame: CGRect(x: 0, y: navBarHeight, width: displayWidth, height: displayHeight - navBarHeight))
+        myTableView = UITableView(frame: CGRect(x: 0, y: navBarHeight!, width: displayWidth, height: displayHeight - navBarHeight!))
         
         // Cell名の登録をおこなう.
         myTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
@@ -73,14 +72,15 @@ UITableViewDataSource{
         // Viewに追加する.
         self.view.addSubview(myTableView)
         
+        /*
         cancelButton = UIBarButtonItem(title: "キャンセル", style: .Plain, target: self, action: "cancelPush")
-        myNavigationItem.leftBarButtonItem = cancelButton
+        self.navigationItem.leftBarButtonItem = cancelButton
         
         saveButton = UIBarButtonItem(title: "保存", style: .Plain, target: self, action: "savePush")
         
-        myNavigationItem.rightBarButtonItem = saveButton
-        
-        myNavigationBar.tintColor = UIColor(red:119.0/255, green:185.0/255, blue:66.0/255, alpha:1.0)
+        self.navigationItem.rightBarButtonItem = saveButton
+        */
+        //self.navigationItem.tintColor = UIColor(red:119.0/255, green:185.0/255, blue:66.0/255, alpha:1.0)
     }
     
     override func didReceiveMemoryWarning() {
@@ -105,7 +105,7 @@ UITableViewDataSource{
             }
             
         } else if (self.kind == "gender"){
-        
+            
             self.selectedGenderIndex = indexPath.row
             
             let indexPath: String? = myItems[indexPath.row] as? String

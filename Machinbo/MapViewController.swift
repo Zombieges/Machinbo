@@ -14,8 +14,7 @@ import Parse
 class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManagerDelegate {
 
     
-    
-    var appDelegate: AppDelegate!
+    var profileSettingButton: UIBarButtonItem!
     
     // Google MAP
     var gmaps: GMSMapView?
@@ -35,6 +34,17 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let view = UINib(nibName: "MapView", bundle: nil).instantiateWithOwner(self, options: nil).first as? UIView {
+            self.view = view
+        }
+        
+        let logoImage = UIImage(named: "profile_icon.png")
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: logoImage, style: UIBarButtonItemStyle.Plain, target: self, action: "onClickProfileSettingButton")
+        
+        //title
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
+        self.navigationItem.title = "Machinbo!!"
         
         lm = CLLocationManager()
         lm.delegate = self
@@ -133,12 +143,13 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         
         manager.stopUpdatingLocation()
         
-        self.createNavigationItem()
+        //self.createNavigationItem()
         //GeoPoint更新ボタンの生成
         self.createupdateGeoPointButton()
     }
     
     func mapView(mapView: GMSMapView!, markerInfoWindow marker: GMSMarker!) -> UIView! {
+        NSLog("window pop!!")
         //MarkDownWindow生成
         markWindow = NSBundle.mainBundle().loadNibNamed("MarkWindow", owner: self, options: nil).first! as! MarkWindow
         markWindow.Name.text = marker.userData.objectForKey("Name") as? String
@@ -149,7 +160,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     }
     
     func mapView(mapView: GMSMapView!, didTapInfoWindowOfMarker marker: GMSMarker!) {
-        self.performSegueWithIdentifier("next",sender: nil)
+        self.performSegueWithIdentifier("next", sender: self)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
@@ -168,16 +179,8 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
         manager.stopUpdatingLocation()
         NSLog("位置情報取得失敗")
-    }
-    
-    
-    /*
-    func didClickMarkWindow(recognizer: UIGestureRecognizer) {
-        NSLog("タップなう")
-    }
-    */
-    
-    @IBAction func updateGPS(sender: AnyObject) {
+        
+        UIAlertView.showAlertView("エラー", message:"位置情報の取得が失敗しました。アプリを再起動してください。")
     }
     
     func onClickMyButton(sender: UIButton){
@@ -194,6 +197,12 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     
     func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return kAnimationController
+    }
+    
+    func onClickProfileSettingButton() {
+        let profileView = ProfileViewController()
+        self.navigationController?.pushViewController(profileView, animated: true)
+        
     }
 }
 

@@ -44,8 +44,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         let logoImage = UIImage(named: "profile_icon.png")
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: logoImage, style: UIBarButtonItemStyle.Plain, target: self, action: "onClickProfileSettingButton")
         
-        //title
-        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
         self.navigationItem.title = "Machinbo!!"
         
         lm = CLLocationManager()
@@ -72,10 +70,10 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         //GeoPoint 更新ボタンの生成
         updateGeoPoint = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 200, height: 40))
         updateGeoPoint.trackTouchLocation = true
-        updateGeoPoint.backgroundColor = LayoutManager.getUIColorFromRGB(0x2196F3)
+        updateGeoPoint.backgroundColor = LayoutManager.getUIColorFromRGB(0x3949AB)
         //updateGeoPoint.layer.borderWidth = 1
         //updateGeoPoint.layer.borderColor = LayoutManager.getUIColorFromRGB(0x1565C0).CGColor
-        updateGeoPoint.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x2196F3)
+        updateGeoPoint.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x3949AB)
         updateGeoPoint.rippleColor = LayoutManager.getUIColorFromRGB(0x1565C0)
         updateGeoPoint.setTitle("Update GPS!!", forState: .Normal)
         updateGeoPoint.layer.cornerRadius = 5.0

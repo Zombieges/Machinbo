@@ -32,6 +32,8 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     
     private var updateGeoPoint : ZFRippleButton!
     
+    var mainNavigationCtrl: UINavigationController?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -133,8 +135,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
             map.delegate = self
             
             self.view = map
-            //self.mapViewContainer.addSubview(map)
-            //self.mapViewContainer.hidden = false
             
             //現在の自分の表示範囲から50kmの範囲、100件のデータを取得する
             var userinfo = ParseHelper.getNearUserInfomation(target)
@@ -143,7 +143,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         
         manager.stopUpdatingLocation()
         
-        //self.createNavigationItem()
         //GeoPoint更新ボタンの生成
         self.createupdateGeoPointButton()
     }
@@ -160,17 +159,12 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     }
     
     func mapView(mapView: GMSMapView!, didTapInfoWindowOfMarker marker: GMSMarker!) {
-        self.performSegueWithIdentifier("next", sender: self)
+        let vc = TargetProfileViewController()
+        
+        vc.lblName = markWindow.Name.text!
+        
+        self.navigationController!.pushViewController(vc, animated: true)
     }
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
-        if (segue.identifier == "next") {
-            //segue（画面遷移）で値を渡せるようにバンドルする
-            var view = segue.destinationViewController as! TargetProfileViewController
-            view.lblName = markWindow.Name.text!
-        }
-    }
-    
     
     func mapView(mapView: GMSMapView!, didTapMarker marker: GMSMarker!) -> Bool {
         return false

@@ -51,10 +51,10 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>位置情報は自分の現在位置をマップ上で共有する際に利用されます</string>
 	<key>GOOGLE_MAPS_API_KEY</key>
-	<string>{1}</string>
+	<string>AIzaSyDrB6jLqJERRanVLE28MnmGtZj7S-xjNnU</string>
 	<key>PARSE_APP_ID_KEY</key>
-	<string>{2}</string>
+	<string>EwD8qTNw1qNvRs51lE3BzLGe7NqyYOwNGCEe3uSq</string>
 	<key>PARSE_CLIENT_KEY</key>
-	<string>{3}</string>
+	<string>YkZGaz5ujL8F4NBJCWu9FrGmNFltqVJcUqsFFTQa</string>
 </dict>
 </plist>

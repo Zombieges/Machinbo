@@ -32,7 +32,8 @@
                 <viewController storyboardIdentifier="profile" wantsFullScreenLayout="YES" id="eWK-e7-jlI" customClass="ProfileViewController" customModule="Machinbo" customModuleProvider="target" sceneMemberID="viewController">
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
-                        <segue destination="iEz-Qt-A7L" kind="show" identifier="goAgePicker" id="fNj-5p-QKa"/>
+                        <segue destination="iEz-Qt-A7L" kind="presentation" identifier="goAgePicker" id="fNj-5p-QKa"/>
+                        <segue destination="iEz-Qt-A7L" kind="presentation" identifier="goGenderPicker" id="bbV-Qv-Zdc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aaw-4H-x8t" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -54,5 +55,8 @@
     <resources>
         <image name="first" width="30" height="30"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="bbV-Qv-Zdc"/>
+    </inferredMetricsTieBreakers>
     <color key="tintColor" red="1" green="0.99545441684757829" blue="0.99200037974574684" alpha="1" colorSpace="calibratedRGB"/>
 </document>

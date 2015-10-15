@@ -27,7 +27,7 @@
         
         //GoogleMaps
         GMSServices.provideAPIKey(googleMapsKey)
-        
+        /*
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
         if !PersistentData.firstLaunch {
@@ -56,13 +56,16 @@
                 }
             }
         }
+        */
         
         /*
         Main NavigationController
         */
         //基点となるViewを定義
-        let first = MapViewController()
-        mainNavigationCtrl = UINavigationController(rootViewController: first)
+        var storyboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
+        var mainViewController = storyboard.instantiateInitialViewController() as! UIViewController
+        mainNavigationCtrl = UINavigationController(rootViewController: mainViewController)
+        
         mainNavigationCtrl!.navigationBar.barTintColor = LayoutManager.getUIColorFromRGB(0x2196F3)
         
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)

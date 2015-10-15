@@ -115,16 +115,34 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
 
     
     @IBAction func genderButtonOnClick(sender: AnyObject) {
-        //performSegueWithIdentifier("goGenderPicker", sender: nil)
-        let pickerCireCtrl = PickerViewController()
-        self.navigationController?.pushViewController(pickerCireCtrl, animated: true)
+        let vc = PickerViewController()
+        
+        self.myItems = ["男性","女性"]
+        vc.palmItems = self.myItems
+        vc.palKind = "gender"
+        
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     
     @IBAction func ageButtonOnClick(sender: AnyObject) {
-        //performSegueWithIdentifier("goAgePicker", sender: nil)
-        let pickerCireCtrl = PickerViewController()
-        self.navigationController?.pushViewController(pickerCireCtrl, animated: true)
+        let vc = PickerViewController()
+        
+        let date = NSDate()      // 現在日時
+        let calendar = NSCalendar.currentCalendar()
+        var comp : NSDateComponents = calendar.components(
+            NSCalendarUnit.CalendarUnitYear, fromDate: date)
+        
+        
+        var i:Int = 0
+        for i in 0...50 {
+            self.myItems.append((String(comp.year - i)))
+        }
+        
+        vc.palmItems = self.myItems
+        vc.palKind = "age"
+        
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
@@ -143,41 +161,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
         self.dismissViewControllerAnimated(true, completion: nil)
-    }
-
-    
-    /*
-    * 画面遷移
-    */
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?){
-        var pickerView = segue.destinationViewController as! PickerViewController
-        
-        self.myItems = []
-        
-        var childController = segue.destinationViewController as! PickerViewController
-        childController.delegate = self
-        
-        if(segue.identifier == "goAgePicker") {
-            let date = NSDate()      // 現在日時
-            let calendar = NSCalendar.currentCalendar()
-            var comp : NSDateComponents = calendar.components(
-                NSCalendarUnit.CalendarUnitYear, fromDate: date)
-            
-            
-            var i:Int = 0
-            for i in 0...50 {
-                self.myItems.append((String(comp.year - i)))
-            }
-            
-            pickerView.palmItems = self.myItems
-            pickerView.palKind = "age"
-            
-        } else if(segue.identifier == "goGenderPicker"){
-            
-            self.myItems = ["男性","女性"]
-            pickerView.palmItems = self.myItems
-            pickerView.palKind = "gender"
-        }
     }
     
     func getGender(selectedIndex: Int,selected: String) {

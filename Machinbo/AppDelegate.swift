@@ -66,7 +66,8 @@
         var mainViewController = storyboard.instantiateInitialViewController() as! UIViewController
         mainNavigationCtrl = UINavigationController(rootViewController: mainViewController)
         
-        mainNavigationCtrl!.navigationBar.barTintColor = LayoutManager.getUIColorFromRGB(0x2196F3)
+        mainNavigationCtrl!.navigationBar.barTintColor = LayoutManager.getUIColorFromRGB(0x3949AB)
+        mainNavigationCtrl!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
         
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
         self.window?.rootViewController = mainNavigationCtrl

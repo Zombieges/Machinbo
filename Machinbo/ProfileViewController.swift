@@ -45,9 +45,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
         if let view = UINib(nibName: "ProfileView", bundle: nil).instantiateWithOwner(self, options: nil).first as? UIView {
             self.view = view
         }
-        
-        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
-        
+
         /*
         // プロフィール編集時（登録済みユーザー）
         editButon = UIBarButtonItem(title: "編集", style: .Plain, target: nil, action: "editDepression")

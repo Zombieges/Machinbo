@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>5B19FA33-72CF-483B-8939-FB6AD5C9CDE8</string>
 	<key>IDESourceControlProjectName</key>
-	<string>project</string>
+	<string>Machinbo</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>4722ADC41B0326CBDDE7CF2C3FA6F6164944CF69</key>
 		<string>https://github.com/Zombieges/Machinbo.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Machinbo.xcodeproj/project.xcworkspace</string>
+	<string>Machinbo.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>4722ADC41B0326CBDDE7CF2C3FA6F6164944CF69</key>

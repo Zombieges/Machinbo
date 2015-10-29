@@ -92,7 +92,7 @@
 		BBA37A9A1B632961004B7484 /* LoginManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginManager.swift; sourceTree = "<group>"; };
 		BBA5C4931B3542F3005D062B /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMaps.framework; path = Pods/GoogleMaps/Frameworks/GoogleMaps.framework; sourceTree = "<group>"; };
 		BBA5C4951B3545D4005D062B /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = Pods/GoogleMaps/Frameworks/GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle; sourceTree = "<group>"; };
-		BBBDA9951B92CE8100085E85 /* MarkWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkWindowController.swift; sourceTree = "<group>"; };
+		BBBDA9951B92CE8100085E85 /* MarkWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MarkWindowController.swift; path = ../MarkWindowController.swift; sourceTree = "<group>"; };
 		BBC3A3ED1B3E7BB6002CBBE9 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		BBC3A3EF1B3E7BC1002CBBE9 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		BBC3A3F11B3E7BDC002CBBE9 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -114,7 +114,7 @@
 		BBDB23431B929C700035EE1A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		BBE088C11BC3F7CA009D21C0 /* UIAlertView+Custom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIAlertView+Custom.swift"; sourceTree = "<group>"; };
 		BBE088C31BC8BA24009D21C0 /* ProfileView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileView.xib; sourceTree = "<group>"; };
-		BBE088CC1BC8C156009D21C0 /* profile_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profile_icon.png; sourceTree = "<group>"; };
+		BBE088CC1BC8C156009D21C0 /* profile_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = profile_icon.png; path = ../profile_icon.png; sourceTree = "<group>"; };
 		BBE088D01BCB83B6009D21C0 /* PickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PickerView.xib; sourceTree = "<group>"; };
 		BBEFA89A1B57BE99002EFC7A /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BBEFA8A81B59E603002EFC7A /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -206,7 +206,6 @@
 		9409F77B1B2D994D0069DAE8 = {
 			isa = PBXGroup;
 			children = (
-				BBBDA9951B92CE8100085E85 /* MarkWindowController.swift */,
 				BBA5C4951B3545D4005D062B /* GoogleMaps.bundle */,
 				9409F7861B2D994D0069DAE8 /* Machinbo */,
 				9409F79E1B2D994D0069DAE8 /* MachinboTests */,
@@ -228,6 +227,7 @@
 		9409F7861B2D994D0069DAE8 /* Machinbo */ = {
 			isa = PBXGroup;
 			children = (
+				BBE088CC1BC8C156009D21C0 /* profile_icon.png */,
 				BBE088C51BC8BE8C009D21C0 /* Image */,
 				BBFEC6D71B92B7D90069137A /* Main.storyboard */,
 				BBFB01161B7A114F00926D9C /* Classes */,
@@ -239,6 +239,7 @@
 				94B90CDB1B495A610097F55E /* ProfileViewController.swift */,
 				BBFEC6DA1B92B84E0069137A /* PickerViewController.swift */,
 				BB30CC871B9F05100085D163 /* TargetProfileViewController.swift */,
+				BBBDA9951B92CE8100085E85 /* MarkWindowController.swift */,
 				9409F7921B2D994D0069DAE8 /* Images.xcassets */,
 				9409F7941B2D994D0069DAE8 /* LaunchScreen.xib */,
 				9409F7871B2D994D0069DAE8 /* Supporting Files */,
@@ -297,7 +298,6 @@
 		BBE088C51BC8BE8C009D21C0 /* Image */ = {
 			isa = PBXGroup;
 			children = (
-				BBE088CC1BC8C156009D21C0 /* profile_icon.png */,
 			);
 			name = Image;
 			path = ..;

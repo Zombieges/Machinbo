@@ -41,10 +41,26 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
             self.view = view
         }
         
-        let logoImage = UIImage(named: "profile_icon.png")
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: logoImage, style: UIBarButtonItemStyle.Plain, target: self, action: "onClickProfileSettingButton")
         
-        self.navigationItem.title = "Machinbo!!"
+        //create a new button
+        let button: UIButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
+        //set image for button
+        button.setImage(UIImage(named: "profile_icon.png"), forState: UIControlState.Normal)
+        //add function for button
+        button.addTarget(self, action: "onClickProfileSettingButton", forControlEvents: UIControlEvents.TouchUpInside)
+        //set frame
+        button.frame = CGRectMake(0, 0, 53, 53)
+        let barButton = UIBarButtonItem(customView: button)
+        //assign button to navigationbar
+        self.navigationItem.rightBarButtonItem = barButton
+        
+        
+        //let logoImage = UIImage(named: "profile_icon.png")
+        //self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: logoImage, style: UIBarButtonItemStyle.Plain, target: self, action: "onClickProfileSettingButton")
+        
+        //self.navigationItem.rightBarButtonItem?.tintColor = UIColor(red: 0.13, green: 0.55, blue: 0.83, alpha: 0.1)
+        
+//        self.navigationItem.title = "Machinbo!!"
         
         lm = CLLocationManager()
         lm.delegate = self

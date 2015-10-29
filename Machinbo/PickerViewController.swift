@@ -92,16 +92,16 @@ class PickerViewController: UIViewController,
     */
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        //println("Num: \(indexPath.row)")
-        //println("Value: \(myItems[indexPath.row])")
-        
-        //if let myItem = myItems[indexPath.row] as? String {
-        
         if (self.kind == "age"){
             
             let indexPath: String? = myItems[indexPath.row] as? String
             if indexPath != nil {
+                
                 self.selectedAge = indexPath!.uppercaseString
+                self.delegate!.getAge(self.selectedAge)
+                self.navigationController!.popViewControllerAnimated(true)
+
+
             }
             
         } else if (self.kind == "gender"){
@@ -111,6 +111,8 @@ class PickerViewController: UIViewController,
             let indexPath: String? = myItems[indexPath.row] as? String
             if indexPath != nil {
                 self.selectedGender = indexPath!.uppercaseString
+                self.delegate!.getGender(self.selectedGenderIndex,selected: self.selectedGender)
+                self.navigationController!.popViewControllerAnimated(true)
             }
         }
     }
@@ -136,28 +138,5 @@ class PickerViewController: UIViewController,
         cell.textLabel!.text = "\(myItems[indexPath.row])"
         
         return cell
-    }
-    
-    /*
-    キャンセルボタン押下時
-    */
-    func cancelPush(){
-        self.dismissViewControllerAnimated(true, completion: nil)
-    }
-    
-    /*
-    保存ボタン押下時
-    */
-    func savePush(){
-        
-        if (self.kind == "age"){
-            
-            self.delegate!.getAge(self.selectedAge)
-        }
-        else if (self.kind == "gender"){
-            
-            self.delegate!.getGender(self.selectedGenderIndex,selected: self.selectedGender)
-        }
-        self.dismissViewControllerAnimated(true, completion: nil)
     }
 }

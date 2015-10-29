@@ -114,10 +114,11 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
     
     @IBAction func genderButtonOnClick(sender: AnyObject) {
         let vc = PickerViewController()
-        
         self.myItems = ["男性","女性"]
         vc.palmItems = self.myItems
         vc.palKind = "gender"
+        vc.delegate = self
+
         
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -139,6 +140,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
         
         vc.palmItems = self.myItems
         vc.palKind = "age"
+        vc.delegate = self
         
         self.navigationController?.pushViewController(vc, animated: true)
     }

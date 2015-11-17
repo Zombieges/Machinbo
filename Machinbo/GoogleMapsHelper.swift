@@ -12,7 +12,7 @@ import GoogleMaps
 
 class GoogleMapsHelper {
 
-    class func setUserMarker(map: GMSMapView, userObjects: [PFObject]) {
+    class func setUserMarker(map: GMSMapView, userObjects: [AnyObject]) {
         
         for user in userObjects {
             let UserID = user.objectForKey("UserID") as! String

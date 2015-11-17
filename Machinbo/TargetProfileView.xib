@@ -7,6 +7,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TargetProfileViewController" customModule="Machinbo" customModuleProvider="target">
             <connections>
                 <outlet property="ProfileImage" destination="u4u-VW-GhD" id="Fnz-6g-zp1"/>
+                <outlet property="headerView" destination="MH4-Eb-qle" id="X7H-N6-Kxn"/>
                 <outlet property="tableView" destination="3WK-ds-zQ9" id="aEd-h6-Qt5"/>
             </connections>
         </placeholder>
@@ -15,24 +16,33 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="u4u-VW-GhD">
-                    <rect key="frame" x="8" y="73" width="93" height="93"/>
-                </imageView>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="3WK-ds-zQ9">
-                    <rect key="frame" x="8" y="174" width="600" height="600"/>
+                    <rect key="frame" x="8" y="200" width="577" height="394"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="600" id="XD5-kT-jHh"/>
-                    </constraints>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="Zwv-Td-3z6"/>
                         <outlet property="delegate" destination="-1" id="d33-Hy-Voj"/>
                     </connections>
                 </tableView>
+                <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MH4-Eb-qle">
+                    <rect key="frame" x="0.0" y="8" width="600" height="184"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="u4u-VW-GhD">
+                            <rect key="frame" x="8" y="74" width="93" height="93"/>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" red="0.98039215686274506" green="0.98039215686274506" blue="0.98039215686274506" alpha="1" colorSpace="calibratedRGB"/>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="3WK-ds-zQ9" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="-16" id="g2F-g0-ieX"/>
+                <constraint firstItem="MH4-Eb-qle" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="LaE-Dg-pCV"/>
+                <constraint firstItem="3WK-ds-zQ9" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="1" id="UJd-91-VI3"/>
+                <constraint firstItem="MH4-Eb-qle" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="eh9-Kx-BcN"/>
+                <constraint firstAttribute="trailing" secondItem="3WK-ds-zQ9" secondAttribute="trailing" constant="1" id="ehy-Za-m6B"/>
+                <constraint firstItem="MH4-Eb-qle" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="jUF-9l-69z"/>
+                <constraint firstItem="3WK-ds-zQ9" firstAttribute="top" secondItem="MH4-Eb-qle" secondAttribute="bottom" id="tqp-MQ-5VG"/>
+                <constraint firstAttribute="trailing" secondItem="MH4-Eb-qle" secondAttribute="trailing" id="vNq-H2-Kp7"/>
             </constraints>
             <point key="canvasLocation" x="191" y="97"/>
         </view>

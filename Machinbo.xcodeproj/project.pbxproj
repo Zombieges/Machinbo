@@ -41,6 +41,8 @@
 		BBC90A361B6DC9EC00A74ED4 /* ParseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC90A351B6DC9EC00A74ED4 /* ParseHelper.swift */; };
 		BBC90A381B6DDCD400A74ED4 /* GoogleMapsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC90A371B6DDCD400A74ED4 /* GoogleMapsHelper.swift */; };
 		BBD106971B95F3830075FE04 /* PushAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD106961B95F3830075FE04 /* PushAnimator.swift */; };
+		BBDDFC301BFB44C2005F60E2 /* DetailProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDDFC2F1BFB44C2005F60E2 /* DetailProfileTableViewCell.swift */; };
+		BBDDFC321BFB456B005F60E2 /* DetailProfileTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBDDFC311BFB456B005F60E2 /* DetailProfileTableViewCell.xib */; };
 		BBE088C21BC3F7CA009D21C0 /* UIAlertView+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE088C11BC3F7CA009D21C0 /* UIAlertView+Custom.swift */; };
 		BBE088C41BC8BA24009D21C0 /* ProfileView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBE088C31BC8BA24009D21C0 /* ProfileView.xib */; };
 		BBE088CD1BC8C156009D21C0 /* profile_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = BBE088CC1BC8C156009D21C0 /* profile_icon.png */; };
@@ -112,6 +114,8 @@
 		BBC90A371B6DDCD400A74ED4 /* GoogleMapsHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleMapsHelper.swift; sourceTree = "<group>"; };
 		BBD106961B95F3830075FE04 /* PushAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushAnimator.swift; sourceTree = "<group>"; };
 		BBDB23431B929C700035EE1A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		BBDDFC2F1BFB44C2005F60E2 /* DetailProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailProfileTableViewCell.swift; sourceTree = "<group>"; };
+		BBDDFC311BFB456B005F60E2 /* DetailProfileTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailProfileTableViewCell.xib; sourceTree = "<group>"; };
 		BBE088C11BC3F7CA009D21C0 /* UIAlertView+Custom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIAlertView+Custom.swift"; sourceTree = "<group>"; };
 		BBE088C31BC8BA24009D21C0 /* ProfileView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileView.xib; sourceTree = "<group>"; };
 		BBE088CC1BC8C156009D21C0 /* profile_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = profile_icon.png; path = ../profile_icon.png; sourceTree = "<group>"; };
@@ -291,6 +295,8 @@
 				BBE088C31BC8BA24009D21C0 /* ProfileView.xib */,
 				BBE088D01BCB83B6009D21C0 /* PickerView.xib */,
 				BBC5676D1BCBD2B5009D15F8 /* MapView.xib */,
+				BBDDFC2F1BFB44C2005F60E2 /* DetailProfileTableViewCell.swift */,
+				BBDDFC311BFB456B005F60E2 /* DetailProfileTableViewCell.xib */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -425,6 +431,7 @@
 				94755CFB1B5A1084004FDEBC /* Info.plist in Resources */,
 				9409F7931B2D994D0069DAE8 /* Images.xcassets in Resources */,
 				BBA5C4961B3545D4005D062B /* GoogleMaps.bundle in Resources */,
+				BBDDFC321BFB456B005F60E2 /* DetailProfileTableViewCell.xib in Resources */,
 				BBE088CD1BC8C156009D21C0 /* profile_icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -478,6 +485,7 @@
 			files = (
 				BBEFA8B51B59EBDD002EFC7A /* ConfigHelper.swift in Sources */,
 				94B90CDC1B495A610097F55E /* ProfileViewController.swift in Sources */,
+				BBDDFC301BFB44C2005F60E2 /* DetailProfileTableViewCell.swift in Sources */,
 				BBFEC6DB1B92B84E0069137A /* PickerViewController.swift in Sources */,
 				BBD106971B95F3830075FE04 /* PushAnimator.swift in Sources */,
 				BBFEC6D61B92B08E0069137A /* ZFRippleButton.swift in Sources */,

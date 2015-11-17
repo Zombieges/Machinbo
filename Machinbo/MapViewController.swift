@@ -151,8 +151,14 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
             self.view = map
             
             //現在の自分の表示範囲から50kmの範囲、100件のデータを取得する
-            var userinfo = ParseHelper.getNearUserInfomation(target)
-            GoogleMapsHelper.setUserMarker(map, userObjects: userinfo)
+            ParseHelper.getNearUserInfomation(target) { (success, errorMesssage, result) -> Void in
+                if success == true {
+                    GoogleMapsHelper.setUserMarker(map, userObjects: result!)
+                } else {
+                    // Error Occured
+                    println(errorMesssage)
+                }
+            }
         }
         
         manager.stopUpdatingLocation()
@@ -165,6 +171,13 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         NSLog("window pop!!")
         //MarkDownWindow生成
         markWindow = NSBundle.mainBundle().loadNibNamed("MarkWindow", owner: self, options: nil).first! as! MarkWindow
+        
+        let imageFile = marker.userData.valueForKey("ProfilePicture") as! PFFile?
+        imageFile?.getDataInBackgroundWithBlock({ (imageData, error) -> Void in
+            if(error == nil) {
+                self.markWindow.ProfileImage!.image = UIImage(data: imageData!)!
+            }
+        })
         markWindow.Name.text = marker.userData.objectForKey("Name") as? String
         markWindow.Detail.text = marker.userData.objectForKey("Comment") as? String
         markWindow.ProfileImage.transform = CGAffineTransformMakeRotation(-08)
@@ -175,8 +188,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     func mapView(mapView: GMSMapView!, didTapInfoWindowOfMarker marker: GMSMarker!) {
         let vc = TargetProfileViewController()
         
-        vc.lblName = markWindow.Name.text!
-        
+        vc.userInfo = marker.userData
         self.navigationController!.pushViewController(vc, animated: true)
     }
     

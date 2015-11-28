@@ -41,7 +41,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
             self.view = view
         }
         
-        
         //create a new button
         let button: UIButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
         //set image for button
@@ -187,8 +186,8 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     
     func mapView(mapView: GMSMapView!, didTapInfoWindowOfMarker marker: GMSMarker!) {
         let vc = TargetProfileViewController()
-        
         vc.userInfo = marker.userData
+        
         self.navigationController!.pushViewController(vc, animated: true)
     }
     

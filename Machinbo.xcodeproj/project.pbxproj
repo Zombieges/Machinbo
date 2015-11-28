@@ -42,7 +42,7 @@
 		BBC90A381B6DDCD400A74ED4 /* GoogleMapsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC90A371B6DDCD400A74ED4 /* GoogleMapsHelper.swift */; };
 		BBD106971B95F3830075FE04 /* PushAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD106961B95F3830075FE04 /* PushAnimator.swift */; };
 		BBDDFC301BFB44C2005F60E2 /* DetailProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDDFC2F1BFB44C2005F60E2 /* DetailProfileTableViewCell.swift */; };
-		BBDDFC321BFB456B005F60E2 /* DetailProfileTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBDDFC311BFB456B005F60E2 /* DetailProfileTableViewCell.xib */; };
+		BBDDFC361BFE226F005F60E2 /* DetailProfileTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBDDFC351BFE226F005F60E2 /* DetailProfileTableViewCell.xib */; };
 		BBE088C21BC3F7CA009D21C0 /* UIAlertView+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE088C11BC3F7CA009D21C0 /* UIAlertView+Custom.swift */; };
 		BBE088C41BC8BA24009D21C0 /* ProfileView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBE088C31BC8BA24009D21C0 /* ProfileView.xib */; };
 		BBE088CD1BC8C156009D21C0 /* profile_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = BBE088CC1BC8C156009D21C0 /* profile_icon.png */; };
@@ -115,7 +115,7 @@
 		BBD106961B95F3830075FE04 /* PushAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushAnimator.swift; sourceTree = "<group>"; };
 		BBDB23431B929C700035EE1A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		BBDDFC2F1BFB44C2005F60E2 /* DetailProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailProfileTableViewCell.swift; sourceTree = "<group>"; };
-		BBDDFC311BFB456B005F60E2 /* DetailProfileTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailProfileTableViewCell.xib; sourceTree = "<group>"; };
+		BBDDFC351BFE226F005F60E2 /* DetailProfileTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailProfileTableViewCell.xib; sourceTree = "<group>"; };
 		BBE088C11BC3F7CA009D21C0 /* UIAlertView+Custom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIAlertView+Custom.swift"; sourceTree = "<group>"; };
 		BBE088C31BC8BA24009D21C0 /* ProfileView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileView.xib; sourceTree = "<group>"; };
 		BBE088CC1BC8C156009D21C0 /* profile_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = profile_icon.png; path = ../profile_icon.png; sourceTree = "<group>"; };
@@ -296,7 +296,7 @@
 				BBE088D01BCB83B6009D21C0 /* PickerView.xib */,
 				BBC5676D1BCBD2B5009D15F8 /* MapView.xib */,
 				BBDDFC2F1BFB44C2005F60E2 /* DetailProfileTableViewCell.swift */,
-				BBDDFC311BFB456B005F60E2 /* DetailProfileTableViewCell.xib */,
+				BBDDFC351BFE226F005F60E2 /* DetailProfileTableViewCell.xib */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -431,7 +431,7 @@
 				94755CFB1B5A1084004FDEBC /* Info.plist in Resources */,
 				9409F7931B2D994D0069DAE8 /* Images.xcassets in Resources */,
 				BBA5C4961B3545D4005D062B /* GoogleMaps.bundle in Resources */,
-				BBDDFC321BFB456B005F60E2 /* DetailProfileTableViewCell.xib in Resources */,
+				BBDDFC361BFE226F005F60E2 /* DetailProfileTableViewCell.xib in Resources */,
 				BBE088CD1BC8C156009D21C0 /* profile_icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

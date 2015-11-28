@@ -26,32 +26,38 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate {
     var otherItemsValue: [String] = []
     
     // Sectionで使用する配列を定義する.
-    private let sections: NSArray = [" ", " "]
-    
-    var myDetailText : NSString = ""
+    private let sections: NSArray = ["プロフィール", "いまイクログ"]
+
+    let detailTableViewCellIdentifier: String = "DetailCell"
     
     override func loadView() {
         if let view = UINib(nibName: "TargetProfileView", bundle: nil).instantiateWithOwner(self, options: nil).first as? UIView {
             self.view = view
         }
         
-        self.navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
+        self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
         
-        //tableView.delegate = self
-        //tableView.dataSource = self
+        //self.tableView.estimatedRowHeight = 60
+        //self.tableView.rowHeight = UITableViewAutomaticDimension
+        //self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "ell")
         
-        headerView.layer.borderWidth = 5
-        headerView.layer.borderColor = UIColor.redColor().CGColor//IColor(red:179,green:179,blue:179,alpha:10).CGColor
+        //self.tableView.registerClass(DetailProfileTableViewCell.self, forCellReuseIdentifier: detailTableViewCellIdentifier)
         
-        self.tableView.estimatedRowHeight = 60
+        let nibName = UINib(nibName: "DetailProfileTableViewCell", bundle:nil)
+        self.tableView.registerNib(nibName, forCellReuseIdentifier: detailTableViewCellIdentifier)
+        self.tableView.estimatedRowHeight = 100.0
         self.tableView.rowHeight = UITableViewAutomaticDimension
-        self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
+
         self.view.addSubview(tableView)
         
         let imageFile: PFFile? = self.userInfo.valueForKey("ProfilePicture") as! PFFile?
         imageFile?.getDataInBackgroundWithBlock({ (imageData, error) -> Void in
             if(error == nil) {
                 self.ProfileImage!.image = UIImage(data: imageData!)!
+                self.ProfileImage!.layer.borderColor = UIColor.whiteColor().CGColor
+                self.ProfileImage!.layer.borderWidth = 3
+                self.ProfileImage!.layer.cornerRadius = 10
+                self.ProfileImage!.layer.masksToBounds = true
             }
         })
         
@@ -111,68 +117,54 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate {
         }
     }
     
-    
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        let text: NSString = myDetailText as NSString // myDetailTextは、detailTextLabelに入力するテキスト。NSStringにキャストする。
-        let labelWidth = tableView.bounds.size.width - 30.0 // 30.0は適当。正しくdetailTextLabelの幅を計算してください。
-        let maxSize = CGSize(width: labelWidth, height: CGFloat.max)
-        let attribute = [NSFontAttributeName: UIFont.systemFontOfSize(11.0)] // デフォルトのdetailTextLabelのフォントとそのサイズ。これも適切な値にしてください。
-        let size = text.boundingRectWithSize(maxSize, options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: attribute, context: nil).size
-        
-        var rowHeight = 30.0 as CGFloat
-        if indexPath.row == 3 {
-            rowHeight = 100.0
-        }
-        
-        return size.height + rowHeight // この28.0も適当な数字。
-    }
     /*
     Cellに値を設定する.
     */
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let identifier = "Cell" // セルのIDを定数identifierにする。
-        let identifierDetail = "DetailCell" // セルのIDを定数identifierにする。
-        var cell: UITableViewCell? // nilになることがあるので、Optionalで宣言
-        // セルを再利用する。
-        cell = tableView.dequeueReusableCellWithIdentifier(identifier) as? UITableViewCell
-        if cell == nil { // 再利用するセルがなかったら（不足していたら）
-            // セルを新規に作成する。
-            cell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: identifier)
-        }
+        let tableViewCellIdentifier = "Cell"
         
+        var cell: UITableViewCell? // nilになることがあるので、Optionalで宣言
         if indexPath.section == 0 {
-            if indexPath.row == 0 {
-                cell?.textLabel?.text = otherItems[indexPath.row]
-                cell?.detailTextLabel?.text = self.userInfo.objectForKey("Name") as? String
-                
-            } else if indexPath.row == 1 {
-                cell?.textLabel?.text = otherItems[indexPath.row]
-                cell?.detailTextLabel?.text = self.userInfo.objectForKey("Gender") as? String
-                
-            } else if indexPath.row == 2 {
-                cell?.textLabel?.text = otherItems[indexPath.row]
-                cell?.detailTextLabel?.text = self.userInfo.objectForKey("Age") as? String
-                
-            } else if indexPath.row == 3 {
-                
-                cell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: identifier)
-                
-                myDetailText = self.userInfo.objectForKey("Comment") as! NSString
-                //let cell = tableView.dequeueReusableCellWithIdentifier(identifierDetail, forIndexPath: indexPath) as! DetailProfileTableViewCell
-                myDetailText = "あいうえおかきくけこさしすせそあいうえおかきくけこさしすせそあいうえおかきくけこさしすせそあいうえおかきくけこさしすせそあいうえおかきくけこさしすせそあいうえおかきくけこさしすせそあいうえおかきくけこさしすせそあいうえおかきくけこさしすせそあいうえおかきくけこさしすせそあいうえおかきくけこさしすせそあいうえおかきくけこさしすせそあいうえおかきくけこさしすせそあいうえおかきくけこさしすせそあいうえおかきくけこさしすせそあいうえおかきくけこさしすせそあいうえおかきくけこさしすせそあいうえおかきくけこさしすせそあいうえおかきくけこさしすせそあいうえおかきくけこさしすせそあいうえおかきくけこさしすせそあいうえおかきくけこさしすせそあいうえおかきくけこさしすせそあいうえおかきくけこさしすせそあいうえおかきくけこさしすせそあいうえおかきくけこさしすせそあいうえおかきくけこさしすせそあいうえおかきくけこさしすせそあいうえおかきくけこさしすせそあいうえおかきくけこさしすせそあいうえおかきくけこさしすせそあいうえおかきくけこさしすせそあいうえおかきくけこさしすせそあいうえおかきくけこさしすせそあいうえおかきくけこさしすせそあいうえおかきくけこさしすせそあいうえおかきくけこさしすせそあいうえおかきくけこさしすせそあいうえおかきくけこさしすせそ"
             
-                cell?.detailTextLabel?.numberOfLines = 0
-                cell?.textLabel?.text = otherItems[indexPath.row]
+            if indexPath.row < 3 {
+                // セルを再利用する。
+                var normalCell = tableView.dequeueReusableCellWithIdentifier(tableViewCellIdentifier) as? UITableViewCell
+                if normalCell == nil { // 再利用するセルがなかったら（不足していたら）
+                    // セルを新規に作成する。
+                    normalCell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: tableViewCellIdentifier)
+                }
                 
-                //cell?.detailTextLabel?.text = self.userInfo.objectForKey("Comment") as? String
-                cell?.detailTextLabel?.text = myDetailText as String
-                //cell?.detailTextLabel?.font = UIFont.systemFontOfSize(15)
+                if indexPath.row == 0 {
+                    normalCell?.textLabel?.text = otherItems[indexPath.row]
+                    normalCell?.detailTextLabel?.text = self.userInfo.objectForKey("Name") as? String
+                    
+                } else if indexPath.row == 1 {
+                    normalCell?.textLabel?.text = otherItems[indexPath.row]
+                    normalCell?.detailTextLabel?.text = self.userInfo.objectForKey("Gender") as? String
+                    
+                } else if indexPath.row == 2 {
+                    normalCell?.textLabel?.text = otherItems[indexPath.row]
+                    normalCell?.detailTextLabel?.text = self.userInfo.objectForKey("Age") as? String
+                }
                 
+                cell = normalCell
                 
-            } else if indexPath.row == 4 {
+            } else {
                 
+                let detailCell = tableView.dequeueReusableCellWithIdentifier(detailTableViewCellIdentifier, forIndexPath: indexPath) as? DetailProfileTableViewCell
+                
+                if indexPath.row == 3 {
+                    detailCell?.titleLabel.text = otherItems[indexPath.row]
+                    detailCell?.valueLabel.text = self.userInfo.objectForKey("Comment") as? String
+                    
+                }
+                
+                cell = detailCell
             }
+            
+        } else if indexPath.section == 2 {
+            
         }
         
         return cell!

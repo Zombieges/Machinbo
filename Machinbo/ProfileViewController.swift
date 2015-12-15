@@ -148,6 +148,14 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
         self.TableView.reloadData()
     }
 
+    // PickerViewController よりを保存ボタンを押下した際に実行される処理
+    internal func setComment(comment: String) {
+        
+        self.inputComment = comment
+        
+        // テーブル再描画
+        self.TableView.reloadData()
+    }
     
     /*
     テーブルに表示する配列の総数を返す.
@@ -264,10 +272,13 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
             } else if indexPath.row == 3 {
                 
                 
-                   
-
-            } else if indexPath.row == 4 {
+                vc.palmItems = self.myItems
+                vc.palKind = "comment"
+                vc.palInput = self.inputComment
+                vc.delegate = self
                 
+                self.navigationController?.pushViewController(vc, animated: true)
+
             }
         }
     }

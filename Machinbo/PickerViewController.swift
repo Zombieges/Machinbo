@@ -14,6 +14,8 @@ protocol PickerViewControllerDelegate{
     func setGender(selectedIndex: Int,selected: String)
     func setAge(selectedIndex: Int,selected: String)
     func setName(name: String)
+    func setComment(comment: String)
+
 }
 
 
@@ -89,6 +91,15 @@ class PickerViewController: UIViewController,
             self.view.addSubview(myTextField)
             
             createButton(displayWidth)
+        } else if (self.kind == "comment"){
+            
+            myTextField.frame = CGRectMake(10, 100, displayWidth - 20 ,80)
+            myTextField.borderStyle = UITextBorderStyle.RoundedRect
+            myTextField.text = self.Input as? String
+            
+            self.view.addSubview(myTextField)
+            
+            createButton(displayWidth)
         }
         
     }
@@ -112,7 +123,7 @@ class PickerViewController: UIViewController,
         saveButton.tag = 1
         
         //配置場所
-        saveButton.layer.position = CGPoint(x: displayWidth/2, y:180)
+        saveButton.layer.position = CGPoint(x: displayWidth/2, y:210)
         
         //背景色
         saveButton.backgroundColor = UIColor(red: 0.7, green: 0.2, blue: 0.2, alpha: 0.2)
@@ -138,8 +149,16 @@ class PickerViewController: UIViewController,
     
     internal func onClickSaveButton(sender: UIButton){
         
-        self.delegate!.setName(self.myTextField.text)
-        self.navigationController!.popViewControllerAnimated(true)
+        if (self.kind == "name"){
+        
+            self.delegate!.setName(self.myTextField.text)
+            self.navigationController!.popViewControllerAnimated(true)
+            
+        } else if (self.kind == "comment"){
+            
+            self.delegate!.setComment(self.myTextField.text)
+            self.navigationController!.popViewControllerAnimated(true)
+        }
     }
     
     /*

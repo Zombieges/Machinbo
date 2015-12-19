@@ -31,6 +31,7 @@ class ParseHelper {
         var query = PFQuery(className: "UserInfo")
         query.whereKey("GPS", nearGeoPoint: myGeoPoint, withinKilometers: 50.0)
         query.limit = 100
+        query.includeKey("Action")
         query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
             if error == nil {
                 //GoogleMapsHelper.setUserMarker(map, userObjects: objects)

@@ -7,40 +7,76 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="fL1-Qt-zLI" customClass="MarkWindow" customModule="Machinbo" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="255" height="91"/>
+            <rect key="frame" x="0.0" y="0.0" width="260" height="113"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iTF-oh-fte">
-                    <rect key="frame" x="0.0" y="0.0" width="255" height="91"/>
+                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iTF-oh-fte">
+                    <rect key="frame" x="0.0" y="0.0" width="270" height="106"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xEb-ui-iey">
-                            <rect key="frame" x="0.0" y="0.0" width="90" height="91"/>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="fukidashi.png" translatesAutoresizingMaskIntoConstraints="NO" id="UEF-ox-hMI">
+                            <rect key="frame" x="0.0" y="0.0" width="257" height="106"/>
                         </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uny-ld-Fsz">
-                            <rect key="frame" x="93" y="0.0" width="162" height="34"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vkG-5e-vsB">
+                            <rect key="frame" x="8" y="8" width="83" height="83"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="83" id="YVS-xm-fBs"/>
+                                <constraint firstAttribute="width" constant="83" id="d0p-hr-7qV"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uny-ld-Fsz">
+                            <rect key="frame" x="99" y="8" width="148" height="25"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="25" id="mrp-pi-aqx"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                            <color key="textColor" red="0.0" green="0.083727384868421059" blue="0.66367701480263153" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JPD-KG-Q9J">
-                            <rect key="frame" x="93" y="42" width="162" height="31"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Detail Text" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JPD-KG-Q9J">
+                            <rect key="frame" x="99" y="36" width="148" height="55"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="JPD-KG-Q9J" secondAttribute="trailing" constant="5" id="2S8-XK-oRw"/>
+                        <constraint firstAttribute="trailing" secondItem="Uny-ld-Fsz" secondAttribute="trailing" constant="5" id="6Qn-f3-qGa"/>
+                        <constraint firstItem="vkG-5e-vsB" firstAttribute="top" secondItem="iTF-oh-fte" secondAttribute="top" constant="5" id="DHX-Lp-cxQ"/>
+                        <constraint firstItem="vkG-5e-vsB" firstAttribute="leading" secondItem="iTF-oh-fte" secondAttribute="leading" constant="5" id="Pw2-rd-mZw"/>
+                        <constraint firstItem="JPD-KG-Q9J" firstAttribute="top" secondItem="Uny-ld-Fsz" secondAttribute="bottom" constant="12" id="bHF-pN-QSl"/>
+                        <constraint firstItem="Uny-ld-Fsz" firstAttribute="top" secondItem="iTF-oh-fte" secondAttribute="top" constant="5" id="oDP-aC-8AF"/>
+                        <constraint firstAttribute="bottom" secondItem="JPD-KG-Q9J" secondAttribute="bottom" constant="8" id="qM5-Gy-YBh"/>
+                        <constraint firstAttribute="bottom" secondItem="vkG-5e-vsB" secondAttribute="bottom" constant="15" id="vzR-bf-cb7"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="5"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
                 </view>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="iTF-oh-fte" firstAttribute="leading" secondItem="fL1-Qt-zLI" secondAttribute="leading" id="8PS-cw-p37"/>
+                <constraint firstItem="iTF-oh-fte" firstAttribute="leading" secondItem="fL1-Qt-zLI" secondAttribute="leading" id="SHK-re-yPQ"/>
+                <constraint firstItem="iTF-oh-fte" firstAttribute="top" secondItem="fL1-Qt-zLI" secondAttribute="top" id="TSK-hg-Flw"/>
+                <constraint firstAttribute="trailing" secondItem="iTF-oh-fte" secondAttribute="trailing" constant="15" id="ear-yS-jW6"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="iTF-oh-fte" secondAttribute="trailing" id="qoo-Rp-m7F"/>
+                <constraint firstItem="iTF-oh-fte" firstAttribute="top" secondItem="fL1-Qt-zLI" secondAttribute="top" id="yqH-Jp-yDD"/>
+            </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="ClickView" destination="iTF-oh-fte" id="Bjp-60-LyI"/>
                 <outlet property="Detail" destination="JPD-KG-Q9J" id="Haz-Gq-wCl"/>
                 <outlet property="Name" destination="Uny-ld-Fsz" id="Kff-e8-JCS"/>
-                <outlet property="ProfileImage" destination="xEb-ui-iey" id="taK-Ow-OQ5"/>
+                <outlet property="ProfileImage" destination="vkG-5e-vsB" id="emU-dh-hru"/>
             </connections>
-            <point key="canvasLocation" x="172.5" y="-72.5"/>
+            <point key="canvasLocation" x="187" y="-48.5"/>
         </view>
     </objects>
+    <resources>
+        <image name="fukidashi.png" width="260" height="116"/>
+    </resources>
 </document>

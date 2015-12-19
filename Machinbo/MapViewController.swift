@@ -41,26 +41,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
             self.view = view
         }
         
-        //create a new button
-        let button: UIButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
-        //set image for button
-        button.setImage(UIImage(named: "profile_icon.png"), forState: UIControlState.Normal)
-        //add function for button
-        button.addTarget(self, action: "onClickProfileSettingButton", forControlEvents: UIControlEvents.TouchUpInside)
-        //set frame
-        button.frame = CGRectMake(0, 0, 53, 53)
-        let barButton = UIBarButtonItem(customView: button)
-        //assign button to navigationbar
-        self.navigationItem.rightBarButtonItem = barButton
-        
-        
-        //let logoImage = UIImage(named: "profile_icon.png")
-        //self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: logoImage, style: UIBarButtonItemStyle.Plain, target: self, action: "onClickProfileSettingButton")
-        
-        //self.navigationItem.rightBarButtonItem?.tintColor = UIColor(red: 0.13, green: 0.55, blue: 0.83, alpha: 0.1)
-        
-//        self.navigationItem.title = "Machinbo!!"
-        
         lm = CLLocationManager()
         lm.delegate = self
         lm.desiredAccuracy = kCLLocationAccuracyBest
@@ -76,11 +56,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         lm.startUpdatingLocation()
     }
     
-    func createNavigationItem() {
-        let navigationController = UINavigationController(rootViewController: self)
-    }
-    
-    
+    /*
     func createupdateGeoPointButton() {
         //GeoPoint 更新ボタンの生成
         updateGeoPoint = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 200, height: 40))
@@ -97,6 +73,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         
         self.view.addSubview(updateGeoPoint)
     }
+    */
     
     
     func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
@@ -162,26 +139,63 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         
         manager.stopUpdatingLocation()
         
-        //GeoPoint更新ボタンの生成
-        self.createupdateGeoPointButton()
+        //button 生成
+        createNavigationItem()
+    }
+    
+    func createNavigationItem() {
+        
+        //create a new button
+        let profileViewButton: UIButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
+        //set image for button
+        profileViewButton.setImage(UIImage(named: "profile_icon.png"), forState: UIControlState.Normal)
+        //add function for button
+        profileViewButton.addTarget(self, action: "onClickProfileSettingButton", forControlEvents: UIControlEvents.TouchUpInside)
+        //set frame
+        profileViewButton.frame = CGRectMake(0, 0, 53, 53)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: profileViewButton)
+        
+        
+        //いま行くボタンと、いまココボタンは両立できないため、どちらかを表示する
+        //いずれもParseに登録した値を引っ張ってくる必要がある
+        
+        
+        //通知があったら表示
+        
+        //いまいくボタンを押下したら表示するようにする
+        //create a new button
+        let imaikuViewButton: UIButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
+        //set image for button
+        imaikuViewButton.setImage(UIImage(named: "imaiku.png"), forState: UIControlState.Normal)
+        //add function for button
+        imaikuViewButton.addTarget(self, action: "onClickProfileSettingButton", forControlEvents: UIControlEvents.TouchUpInside)
+        //set frame
+        imaikuViewButton.frame = CGRectMake(0, 0, 53, 53)
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: imaikuViewButton)
+        
     }
     
     func mapView(mapView: GMSMapView!, markerInfoWindow marker: GMSMarker!) -> UIView! {
-        NSLog("window pop!!")
+        
         //MarkDownWindow生成
-        markWindow = NSBundle.mainBundle().loadNibNamed("MarkWindow", owner: self, options: nil).first! as! MarkWindow
+        self.markWindow = NSBundle.mainBundle().loadNibNamed("MarkWindow", owner: self, options: nil).first! as! MarkWindow
         
-        let imageFile = marker.userData.valueForKey("ProfilePicture") as! PFFile?
-        imageFile?.getDataInBackgroundWithBlock({ (imageData, error) -> Void in
-            if(error == nil) {
-                self.markWindow.ProfileImage!.image = UIImage(data: imageData!)!
-            }
-        })
-        markWindow.Name.text = marker.userData.objectForKey("Name") as? String
-        markWindow.Detail.text = marker.userData.objectForKey("Comment") as? String
-        markWindow.ProfileImage.transform = CGAffineTransformMakeRotation(-08)
+        if let imageFile = marker.userData.valueForKey("ProfilePicture") as? PFFile {
+            var imageData: NSData = imageFile.getData()!
+            self.markWindow.ProfileImage.image = UIImage(data: imageData)!
+            self.markWindow.ProfileImage.layer.borderColor = UIColor.whiteColor().CGColor
+            self.markWindow.ProfileImage.layer.borderWidth = 3
+            self.markWindow.ProfileImage.layer.cornerRadius = 10
+            self.markWindow.ProfileImage.layer.masksToBounds = true
+        }
+
+        self.markWindow.Name.text = marker.userData.objectForKey("Action") as? String
+        self.markWindow.Name.sizeToFit()
         
-        return markWindow
+        self.markWindow.Detail.text = marker.userData.objectForKey("Comment") as? String
+        self.markWindow.Detail.sizeToFit()
+        
+        return self.markWindow
     }
     
     func mapView(mapView: GMSMapView!, didTapInfoWindowOfMarker marker: GMSMarker!) {

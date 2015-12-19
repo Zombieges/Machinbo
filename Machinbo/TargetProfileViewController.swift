@@ -18,7 +18,6 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate {
     var userInfo: AnyObject = []
 
     @IBOutlet weak var headerView: UIView!
-
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var ProfileImage: UIImageView!
     
@@ -26,7 +25,7 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate {
     var otherItemsValue: [String] = []
     
     // Sectionで使用する配列を定義する.
-    private let sections: NSArray = ["プロフィール", "いまイクログ"]
+    private let sections: NSArray = ["プロフィール"]
 
     let detailTableViewCellIdentifier: String = "DetailCell"
     
@@ -50,16 +49,17 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate {
 
         self.view.addSubview(tableView)
         
-        let imageFile: PFFile? = self.userInfo.valueForKey("ProfilePicture") as! PFFile?
-        imageFile?.getDataInBackgroundWithBlock({ (imageData, error) -> Void in
-            if(error == nil) {
-                self.ProfileImage!.image = UIImage(data: imageData!)!
-                self.ProfileImage!.layer.borderColor = UIColor.whiteColor().CGColor
-                self.ProfileImage!.layer.borderWidth = 3
-                self.ProfileImage!.layer.cornerRadius = 10
-                self.ProfileImage!.layer.masksToBounds = true
+        if let imageFile = self.userInfo.valueForKey("ProfilePicture") as? PFFile {
+            imageFile.getDataInBackgroundWithBlock { (imageData, error) -> Void in
+                if(error == nil) {
+                    self.ProfileImage.image = UIImage(data: imageData!)!
+                    self.ProfileImage.layer.borderColor = UIColor.whiteColor().CGColor
+                    self.ProfileImage.layer.borderWidth = 3
+                    self.ProfileImage.layer.cornerRadius = 10
+                    self.ProfileImage.layer.masksToBounds = true
+                }
             }
-        })
+        }
         
     }
     
@@ -188,4 +188,83 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate {
     func showModal(sender: AnyObject){
         self.presentViewController(self.mapView, animated: true, completion: nil)
     }
+    
+    /*
+    いまから行きますボタン押下時
+    */
+    @IBAction func clickImaikuButton(sender: AnyObject) {
+        //PickerViewController へ遷移し、何分以内に行くかを選択させる
+        
+        //ひとまず、何分かかるか選択する機能はおいておく
+
+        
+        //すでに登録済みかを確認
+        /*
+        var query = PFQuery(className: "Action")
+        query.whereKey("UserID", containsString: userid)
+        query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
+            if error == nil {
+                //GoogleMapsHelper.setUserMarker(map, userObjects: objects)
+                completion(success: true, errorMesssage: nil, result: objects)
+            } else {
+                
+            }
+            
+        }*/
+        
+        //ナベがクロマティにイマイクなケース
+        //UserID demo6 が target demo7 にイマイク
+        
+        //ユーザーIDの取得
+        let userid = "demo1"//PersistentData.userID
+        let targetUserid = self.userInfo.objectForKey("UserID") as! String
+        
+        let query = PFQuery(className: "Action")
+        query.getObjectInBackgroundWithId(userid, block: { (target, error) -> Void in
+
+            if error != nil {
+                //self.navigationController?.popToRootViewControllerAnimated(TRUE)
+                NSLog("========> error")
+                
+                /*
+                var testObject = PFObject(className:"Action")
+                testObject["mitNavn"] = "janus"
+                testObject.saveInBackgroundWithBlock {
+                    (success: Bool, error: NSError!) -> Void in
+                    if (success) {
+                        // The object has been saved.
+                        println("succesfull saved object")
+                    } else {
+                        // There was a problem, check error.description
+                        println("error saving the object")
+                    }
+                }*/
+                
+            } else if let target = target {
+                
+                //既にイマイク登録されている場合は登録できない
+                //一度登録したのは１日経過するか、削除しなければいかん
+                target.saveInBackgroundWithBlock({ (success, error) -> Void in
+                    if (success) {
+                        NSLog("Save to area")
+                        
+                    } else {
+                        NSLog("non success!!")
+                    }
+                })
+                
+            }
+
+        })
+
+        //gpsMark["GPS"] = geoPoint
+        
+        /*query.whereKey("TargetUserID", equalTo: self.userInfo.objectForKey("UserID"))
+        
+        query["MarkTime"] = NSDate()
+        query.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+            NSLog("GPS情報登録成功")
+        }*/
+    }
+    
 }

@@ -43,9 +43,13 @@
 		BBD106971B95F3830075FE04 /* PushAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD106961B95F3830075FE04 /* PushAnimator.swift */; };
 		BBDDFC301BFB44C2005F60E2 /* DetailProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDDFC2F1BFB44C2005F60E2 /* DetailProfileTableViewCell.swift */; };
 		BBDDFC361BFE226F005F60E2 /* DetailProfileTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBDDFC351BFE226F005F60E2 /* DetailProfileTableViewCell.xib */; };
+		BBDDFC3A1C1064FF005F60E2 /* fukidashi.png in Resources */ = {isa = PBXBuildFile; fileRef = BBDDFC391C1064FF005F60E2 /* fukidashi.png */; };
+		BBDDFC421C106EEE005F60E2 /* profile_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = BBDDFC411C106EEE005F60E2 /* profile_icon.png */; };
+		BBDDFC461C1183BA005F60E2 /* ImaikuTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBDDFC451C1183BA005F60E2 /* ImaikuTableViewCell.xib */; };
+		BBDDFC481C118567005F60E2 /* ImaikuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDDFC471C118567005F60E2 /* ImaikuTableViewCell.swift */; };
+		BBDDFC4E1C15C9C3005F60E2 /* imaiku.png in Resources */ = {isa = PBXBuildFile; fileRef = BBDDFC4D1C15C9C3005F60E2 /* imaiku.png */; };
 		BBE088C21BC3F7CA009D21C0 /* UIAlertView+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE088C11BC3F7CA009D21C0 /* UIAlertView+Custom.swift */; };
 		BBE088C41BC8BA24009D21C0 /* ProfileView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBE088C31BC8BA24009D21C0 /* ProfileView.xib */; };
-		BBE088CD1BC8C156009D21C0 /* profile_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = BBE088CC1BC8C156009D21C0 /* profile_icon.png */; };
 		BBE088D11BCB83B6009D21C0 /* PickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBE088D01BCB83B6009D21C0 /* PickerView.xib */; };
 		BBEFA89B1B57BE99002EFC7A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEFA89A1B57BE99002EFC7A /* AppDelegate.swift */; };
 		BBEFA8A91B59E603002EFC7A /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBEFA8A81B59E603002EFC7A /* AudioToolbox.framework */; };
@@ -116,9 +120,13 @@
 		BBDB23431B929C700035EE1A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		BBDDFC2F1BFB44C2005F60E2 /* DetailProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailProfileTableViewCell.swift; sourceTree = "<group>"; };
 		BBDDFC351BFE226F005F60E2 /* DetailProfileTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailProfileTableViewCell.xib; sourceTree = "<group>"; };
+		BBDDFC391C1064FF005F60E2 /* fukidashi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fukidashi.png; sourceTree = "<group>"; };
+		BBDDFC411C106EEE005F60E2 /* profile_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profile_icon.png; sourceTree = "<group>"; };
+		BBDDFC451C1183BA005F60E2 /* ImaikuTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImaikuTableViewCell.xib; sourceTree = "<group>"; };
+		BBDDFC471C118567005F60E2 /* ImaikuTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImaikuTableViewCell.swift; sourceTree = "<group>"; };
+		BBDDFC4D1C15C9C3005F60E2 /* imaiku.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imaiku.png; sourceTree = "<group>"; };
 		BBE088C11BC3F7CA009D21C0 /* UIAlertView+Custom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIAlertView+Custom.swift"; sourceTree = "<group>"; };
 		BBE088C31BC8BA24009D21C0 /* ProfileView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileView.xib; sourceTree = "<group>"; };
-		BBE088CC1BC8C156009D21C0 /* profile_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = profile_icon.png; path = ../profile_icon.png; sourceTree = "<group>"; };
 		BBE088D01BCB83B6009D21C0 /* PickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PickerView.xib; sourceTree = "<group>"; };
 		BBEFA89A1B57BE99002EFC7A /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BBEFA8A81B59E603002EFC7A /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -231,7 +239,6 @@
 		9409F7861B2D994D0069DAE8 /* Machinbo */ = {
 			isa = PBXGroup;
 			children = (
-				BBE088CC1BC8C156009D21C0 /* profile_icon.png */,
 				BBE088C51BC8BE8C009D21C0 /* Image */,
 				BBFEC6D71B92B7D90069137A /* Main.storyboard */,
 				BBFB01161B7A114F00926D9C /* Classes */,
@@ -297,6 +304,8 @@
 				BBC5676D1BCBD2B5009D15F8 /* MapView.xib */,
 				BBDDFC2F1BFB44C2005F60E2 /* DetailProfileTableViewCell.swift */,
 				BBDDFC351BFE226F005F60E2 /* DetailProfileTableViewCell.xib */,
+				BBDDFC451C1183BA005F60E2 /* ImaikuTableViewCell.xib */,
+				BBDDFC471C118567005F60E2 /* ImaikuTableViewCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -304,6 +313,9 @@
 		BBE088C51BC8BE8C009D21C0 /* Image */ = {
 			isa = PBXGroup;
 			children = (
+				BBDDFC4D1C15C9C3005F60E2 /* imaiku.png */,
+				BBDDFC411C106EEE005F60E2 /* profile_icon.png */,
+				BBDDFC391C1064FF005F60E2 /* fukidashi.png */,
 			);
 			name = Image;
 			path = ..;
@@ -422,17 +434,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				BBE088D11BCB83B6009D21C0 /* PickerView.xib in Resources */,
+				BBDDFC4E1C15C9C3005F60E2 /* imaiku.png in Resources */,
 				BBFEC6D91B92B7D90069137A /* Main.storyboard in Resources */,
 				BBC90A2E1B6C93C300A74ED4 /* MarkWindow.xib in Resources */,
 				9409F7961B2D994D0069DAE8 /* LaunchScreen.xib in Resources */,
+				BBDDFC421C106EEE005F60E2 /* profile_icon.png in Resources */,
 				BBC5676E1BCBD2B5009D15F8 /* MapView.xib in Resources */,
 				BB30CC8A1B9F05B60085D163 /* TargetProfileView.xib in Resources */,
 				BBE088C41BC8BA24009D21C0 /* ProfileView.xib in Resources */,
 				94755CFB1B5A1084004FDEBC /* Info.plist in Resources */,
 				9409F7931B2D994D0069DAE8 /* Images.xcassets in Resources */,
+				BBDDFC461C1183BA005F60E2 /* ImaikuTableViewCell.xib in Resources */,
 				BBA5C4961B3545D4005D062B /* GoogleMaps.bundle in Resources */,
+				BBDDFC3A1C1064FF005F60E2 /* fukidashi.png in Resources */,
 				BBDDFC361BFE226F005F60E2 /* DetailProfileTableViewCell.xib in Resources */,
-				BBE088CD1BC8C156009D21C0 /* profile_icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -490,6 +505,7 @@
 				BBD106971B95F3830075FE04 /* PushAnimator.swift in Sources */,
 				BBFEC6D61B92B08E0069137A /* ZFRippleButton.swift in Sources */,
 				BBEFA89B1B57BE99002EFC7A /* AppDelegate.swift in Sources */,
+				BBDDFC481C118567005F60E2 /* ImaikuTableViewCell.swift in Sources */,
 				BBE088C21BC3F7CA009D21C0 /* UIAlertView+Custom.swift in Sources */,
 				BBBDA9961B92CE8100085E85 /* MarkWindowController.swift in Sources */,
 				BBA37A9B1B632961004B7484 /* LoginManager.swift in Sources */,

@@ -17,6 +17,22 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="3WK-ds-zQ9">
+                    <rect key="frame" x="0.0" y="192" width="600" height="345"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="394" id="JjW-wj-Gry"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="JjW-wj-Gry"/>
+                        </mask>
+                    </variation>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="Zwv-Td-3z6"/>
+                        <outlet property="delegate" destination="-1" id="d33-Hy-Voj"/>
+                    </connections>
+                </tableView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MH4-Eb-qle">
                     <rect key="frame" x="0.0" y="8" width="600" height="184"/>
                     <subviews>
@@ -41,8 +57,8 @@
                         </mask>
                     </variation>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J9A-UB-bav" customClass="ZFRippleButton" customModule="Machinbo" customModuleProvider="target">
-                    <rect key="frame" x="8" y="550" width="584" height="40"/>
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J9A-UB-bav" customClass="ZFRippleButton" customModule="Machinbo" customModuleProvider="target">
+                    <rect key="frame" x="8" y="552" width="584" height="40"/>
                     <color key="backgroundColor" red="0.85098039215686272" green="0.34901960784313724" blue="0.30196078431372547" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="cma-bo-hHP"/>
@@ -62,23 +78,10 @@
                             <integer key="value" value="5"/>
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
-                </button>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="3WK-ds-zQ9">
-                    <rect key="frame" x="0.0" y="192" width="600" height="345"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="394" id="JjW-wj-Gry"/>
-                    </constraints>
-                    <variation key="default">
-                        <mask key="constraints">
-                            <exclude reference="JjW-wj-Gry"/>
-                        </mask>
-                    </variation>
                     <connections>
-                        <outlet property="dataSource" destination="-1" id="Zwv-Td-3z6"/>
-                        <outlet property="delegate" destination="-1" id="d33-Hy-Voj"/>
+                        <action selector="clickImaikuButton:" destination="-1" eventType="touchUpInside" id="ZdY-lb-ted"/>
                     </connections>
-                </tableView>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>

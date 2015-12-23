@@ -69,7 +69,7 @@
                     </state>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="color" keyPath="rippleColor">
-                            <color key="value" red="0.71007555850116955" green="0.25738751203944932" blue="0.25389399496461873" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="value" red="0.70980392156862748" green="0.25882352941176467" blue="0.25490196078431371" alpha="1" colorSpace="calibratedRGB"/>
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="color" keyPath="rippleBackgroundColor">
                             <color key="value" red="0.85098039219999999" green="0.34901960780000002" blue="0.30196078430000001" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
@@ -78,9 +78,6 @@
                             <integer key="value" value="5"/>
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
-                    <connections>
-                        <action selector="clickImaikuButton:" destination="-1" eventType="touchUpInside" id="ZdY-lb-ted"/>
-                    </connections>
                 </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>

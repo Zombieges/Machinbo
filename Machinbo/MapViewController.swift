@@ -12,13 +12,8 @@ import CoreLocation
 import Parse
 
 class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManagerDelegate {
-
     
     var profileSettingButton: UIBarButtonItem!
-    
-    // Google MAP
-    var gmaps: GMSMapView?
-    
     let kAnimationController = PushAnimator()
     
     var lm : CLLocationManager!
@@ -29,10 +24,13 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     var markWindow : MarkWindow = MarkWindow()
     
     @IBOutlet weak var mapViewContainer: UIView!
-    
+
     private var updateGeoPoint : ZFRippleButton!
-    
     var mainNavigationCtrl: UINavigationController?
+    
+    
+    
+    @IBOutlet weak var gmsMapView: GMSMapView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,25 +53,20 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         
         lm.startUpdatingLocation()
     }
-    
-    /*
+
     func createupdateGeoPointButton() {
         //GeoPoint 更新ボタンの生成
-        updateGeoPoint = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 200, height: 40))
+        updateGeoPoint = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 150, height: 40))
         updateGeoPoint.trackTouchLocation = true
-        updateGeoPoint.backgroundColor = LayoutManager.getUIColorFromRGB(0x3949AB)
-        //updateGeoPoint.layer.borderWidth = 1
-        //updateGeoPoint.layer.borderColor = LayoutManager.getUIColorFromRGB(0x1565C0).CGColor
-        updateGeoPoint.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x3949AB)
-        updateGeoPoint.rippleColor = LayoutManager.getUIColorFromRGB(0x1565C0)
-        updateGeoPoint.setTitle("Update GPS!!", forState: .Normal)
+        updateGeoPoint.backgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
+        updateGeoPoint.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
+        updateGeoPoint.rippleColor = LayoutManager.getUIColorFromRGB(0xB54241)
+        updateGeoPoint.setTitle("現在位置登録", forState: .Normal)
         updateGeoPoint.layer.cornerRadius = 5.0
+        updateGeoPoint.layer.masksToBounds = true
         updateGeoPoint.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height - self.view.bounds.height/8.3)
-        updateGeoPoint.addTarget(self, action: "onClickMyButton:", forControlEvents: .TouchUpInside)
-        
         self.view.addSubview(updateGeoPoint)
     }
-    */
     
     
     func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
@@ -116,7 +109,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         var target = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         var camera = GMSCameraPosition(target: target, zoom: 13, bearing: 0, viewingAngle: 0)
         
-        gmaps = GMSMapView()
+        let gmaps: GMSMapView? = GMSMapView()
         if let map = gmaps {
             map.frame = CGRectMake(0, 20, self.view.frame.width, self.view.frame.height/2)
             map.myLocationEnabled = true
@@ -127,12 +120,13 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
             self.view = map
             
             //現在の自分の表示範囲から50kmの範囲、100件のデータを取得する
-            ParseHelper.getNearUserInfomation(target) { (success, errorMesssage, result) -> Void in
-                if success == true {
+            ParseHelper.getNearUserInfomation(target) { (withError error: NSError?, result) -> Void in
+                if error == nil {
                     GoogleMapsHelper.setUserMarker(map, userObjects: result!)
+                    
                 } else {
                     // Error Occured
-                    println(errorMesssage)
+                    println(error)
                 }
             }
         }
@@ -141,10 +135,12 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         
         //button 生成
         createNavigationItem()
+        createupdateGeoPointButton()
     }
     
     func createNavigationItem() {
         
+        //◆プロフィール画面
         //create a new button
         let profileViewButton: UIButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
         //set image for button
@@ -162,13 +158,14 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         
         //通知があったら表示
         
-        //いまいくボタンを押下したら表示するようにする
+        //◆いま行く画面
+        //いまいくボタンを押下したら表示するようにする？
         //create a new button
         let imaikuViewButton: UIButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
         //set image for button
         imaikuViewButton.setImage(UIImage(named: "imaiku.png"), forState: UIControlState.Normal)
         //add function for button
-        imaikuViewButton.addTarget(self, action: "onClickProfileSettingButton", forControlEvents: UIControlEvents.TouchUpInside)
+        imaikuViewButton.addTarget(self, action: "onClickGoNowView", forControlEvents: UIControlEvents.TouchUpInside)
         //set frame
         imaikuViewButton.frame = CGRectMake(0, 0, 53, 53)
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: imaikuViewButton)
@@ -180,7 +177,9 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         //MarkDownWindow生成
         self.markWindow = NSBundle.mainBundle().loadNibNamed("MarkWindow", owner: self, options: nil).first! as! MarkWindow
         
-        if let imageFile = marker.userData.valueForKey("ProfilePicture") as? PFFile {
+        let createdBy: AnyObject? = marker.userData.objectForKey("CreatedBy")
+        
+        if let imageFile = createdBy!.valueForKey("ProfilePicture") as? PFFile {
             var imageData: NSData = imageFile.getData()!
             self.markWindow.ProfileImage.image = UIImage(data: imageData)!
             self.markWindow.ProfileImage.layer.borderColor = UIColor.whiteColor().CGColor
@@ -188,11 +187,11 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
             self.markWindow.ProfileImage.layer.cornerRadius = 10
             self.markWindow.ProfileImage.layer.masksToBounds = true
         }
-
-        self.markWindow.Name.text = marker.userData.objectForKey("Action") as? String
+        
+        self.markWindow.Name.text = createdBy!.objectForKey("Name") as? String
         self.markWindow.Name.sizeToFit()
         
-        self.markWindow.Detail.text = marker.userData.objectForKey("Comment") as? String
+        self.markWindow.Detail.text = createdBy!.objectForKey("Comment") as? String
         self.markWindow.Detail.sizeToFit()
         
         return self.markWindow
@@ -200,7 +199,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     
     func mapView(mapView: GMSMapView!, didTapInfoWindowOfMarker marker: GMSMarker!) {
         let vc = TargetProfileViewController()
-        vc.userInfo = marker.userData
+        vc.userInfo = marker.userData.objectForKey("CreatedBy")!
         
         self.navigationController!.pushViewController(vc, animated: true)
     }
@@ -236,6 +235,30 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         let profileView = ProfileViewController()
         self.navigationController?.pushViewController(profileView, animated: true)
         
+    }
+    
+    func onClickGoNowView() {
+        
+        //TODO:ナベの端末ID取得UserID設定処理が感性したら再実装
+        ParseHelper.getGoNowMe("demo7") { (withError error: NSError?, result) -> Void in
+            if error == nil {
+                let goNowMe: AnyObject? = result?.first
+                let targetAction: AnyObject? = goNowMe!.objectForKey("TargetUser")
+                let targetUser: AnyObject? = targetAction?.objectForKey("CreatedBy")
+                
+                NSLog(targetUser?.objectForKey("Name") as! String)
+                
+                let vc = TargetProfileViewController()
+                vc.userInfo = targetUser!
+                
+                self.navigationController!.pushViewController(vc, animated: true)
+                                
+            } else {
+                // Error Occured
+                println(error)
+            }
+        }
+
     }
 }
 

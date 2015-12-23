@@ -24,24 +24,33 @@ class ParseHelper {
         PFAnalytics.trackAppOpenedWithLaunchOptions(launchOptions)
     }
     
-    class func getNearUserInfomation(myLocation: CLLocationCoordinate2D, completion:(success:Bool, errorMesssage:String?, result:[AnyObject]?)->Void) {
+    class func getNearUserInfomation(myLocation: CLLocationCoordinate2D, completion:((withError: NSError?, result:[AnyObject]?)->Void)?) {
         //50km圏内、近くから100件取得
-        var myGeoPoint = PFGeoPoint(latitude: myLocation.latitude, longitude: myLocation.longitude)
+        let myGeoPoint = PFGeoPoint(latitude: myLocation.latitude, longitude: myLocation.longitude)
         
-        var query = PFQuery(className: "UserInfo")
+        let query = PFQuery(className: "Action")
         query.whereKey("GPS", nearGeoPoint: myGeoPoint, withinKilometers: 50.0)
         query.limit = 100
-        query.includeKey("Action")
+        query.includeKey("CreatedBy")
         query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
             if error == nil {
-                //GoogleMapsHelper.setUserMarker(map, userObjects: objects)
-                completion(success: true, errorMesssage: nil, result: objects)
-            } else {
+                completion?(withError: error, result: objects)
                 
             }
-            
         }
+        
         //return query.findObjects() as! [PFObject]
+    }
+    
+    class func getGoNowMe(loginUser: String, completion:((withError: NSError?, result:[AnyObject]?)->Void)?) {
+        let query = PFQuery(className: "GoNow")
+        query.whereKey("UserID", containsString: loginUser)
+        query.includeKey("TargetUser.CreatedBy")
+        query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
+            if error == nil {
+                completion?(withError: error, result: objects)
+            }
+        }
     }
     
     class func setUserInfomation(userID: String,name: String,gender: Int,age: String,comment: String,photo: PFFile) {

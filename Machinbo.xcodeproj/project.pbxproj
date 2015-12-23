@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9409F78C1B2D994D0069DAE8 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9409F78B1B2D994D0069DAE8 /* MapViewController.swift */; };
 		9409F7931B2D994D0069DAE8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9409F7921B2D994D0069DAE8 /* Images.xcassets */; };
 		9409F7961B2D994D0069DAE8 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9409F7941B2D994D0069DAE8 /* LaunchScreen.xib */; };
 		9409F7A21B2D994D0069DAE8 /* MachinboTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9409F7A11B2D994D0069DAE8 /* MachinboTests.swift */; };
@@ -48,6 +47,7 @@
 		BBDDFC461C1183BA005F60E2 /* ImaikuTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBDDFC451C1183BA005F60E2 /* ImaikuTableViewCell.xib */; };
 		BBDDFC481C118567005F60E2 /* ImaikuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDDFC471C118567005F60E2 /* ImaikuTableViewCell.swift */; };
 		BBDDFC4E1C15C9C3005F60E2 /* imaiku.png in Resources */ = {isa = PBXBuildFile; fileRef = BBDDFC4D1C15C9C3005F60E2 /* imaiku.png */; };
+		BBDDFC501C2A7693005F60E2 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDDFC4F1C2A7693005F60E2 /* MapViewController.swift */; };
 		BBE088C21BC3F7CA009D21C0 /* UIAlertView+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE088C11BC3F7CA009D21C0 /* UIAlertView+Custom.swift */; };
 		BBE088C41BC8BA24009D21C0 /* ProfileView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBE088C31BC8BA24009D21C0 /* ProfileView.xib */; };
 		BBE088D11BCB83B6009D21C0 /* PickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBE088D01BCB83B6009D21C0 /* PickerView.xib */; };
@@ -80,7 +80,6 @@
 		0E38429424BB3D220230A987 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		159EFEA287D2979F9FD4D4EF /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		9409F7841B2D994D0069DAE8 /* Machinbo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Machinbo.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		9409F78B1B2D994D0069DAE8 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		9409F7921B2D994D0069DAE8 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		9409F7951B2D994D0069DAE8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		9409F79B1B2D994D0069DAE8 /* MachinboTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MachinboTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -125,6 +124,7 @@
 		BBDDFC451C1183BA005F60E2 /* ImaikuTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImaikuTableViewCell.xib; sourceTree = "<group>"; };
 		BBDDFC471C118567005F60E2 /* ImaikuTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImaikuTableViewCell.swift; sourceTree = "<group>"; };
 		BBDDFC4D1C15C9C3005F60E2 /* imaiku.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imaiku.png; sourceTree = "<group>"; };
+		BBDDFC4F1C2A7693005F60E2 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		BBE088C11BC3F7CA009D21C0 /* UIAlertView+Custom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIAlertView+Custom.swift"; sourceTree = "<group>"; };
 		BBE088C31BC8BA24009D21C0 /* ProfileView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileView.xib; sourceTree = "<group>"; };
 		BBE088D01BCB83B6009D21C0 /* PickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PickerView.xib; sourceTree = "<group>"; };
@@ -246,7 +246,7 @@
 				BBA37A991B632944004B7484 /* Utilities */,
 				BBEFA8B61B59ED52002EFC7A /* Helpers */,
 				BBEFA89A1B57BE99002EFC7A /* AppDelegate.swift */,
-				9409F78B1B2D994D0069DAE8 /* MapViewController.swift */,
+				BBDDFC4F1C2A7693005F60E2 /* MapViewController.swift */,
 				94B90CDB1B495A610097F55E /* ProfileViewController.swift */,
 				BBFEC6DA1B92B84E0069137A /* PickerViewController.swift */,
 				BB30CC871B9F05100085D163 /* TargetProfileViewController.swift */,
@@ -511,8 +511,8 @@
 				BBA37A9B1B632961004B7484 /* LoginManager.swift in Sources */,
 				BB30CC881B9F05100085D163 /* TargetProfileViewController.swift in Sources */,
 				BB3198B41B7CBC2F00D16C1E /* PersistentData.swift in Sources */,
+				BBDDFC501C2A7693005F60E2 /* MapViewController.swift in Sources */,
 				BBC90A361B6DC9EC00A74ED4 /* ParseHelper.swift in Sources */,
-				9409F78C1B2D994D0069DAE8 /* MapViewController.swift in Sources */,
 				BBC90A301B6C979100A74ED4 /* MarkWindow.swift in Sources */,
 				BB3198B21B7CB87B00D16C1E /* LayoutManager.swift in Sources */,
 				BBC90A381B6DDCD400A74ED4 /* GoogleMapsHelper.swift in Sources */,

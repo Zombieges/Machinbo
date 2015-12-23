@@ -14,11 +14,11 @@ class GoogleMapsHelper {
 
     class func setUserMarker(map: GMSMapView, userObjects: [AnyObject]) {
         
-        for user in userObjects {
-            let UserID = user.objectForKey("UserID") as! String
+        for users in userObjects {
+            //let UserID = user.objectForKey("UserID") as! String
 
             let geoPoint : PFGeoPoint
-            if let tempGeopoint = (user.objectForKey("GPS") as? PFGeoPoint) {
+            if let tempGeopoint = (users.objectForKey("GPS") as? PFGeoPoint) {
                 geoPoint = tempGeopoint
                 
             } else {
@@ -29,9 +29,9 @@ class GoogleMapsHelper {
             marker.position = CLLocationCoordinate2DMake(geoPoint.latitude, geoPoint.longitude)
             marker.appearAnimation = kGMSMarkerAnimationPop
             marker.map = map
-            marker.userData = user
+            marker.userData = users
             
-            NSLog("UserID================>" + UserID)
+            //NSLog("UserID================>" + UserID)
             
             //↓表示したMAP内のみでピンを立てるロジック
             /*

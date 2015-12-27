@@ -28,6 +28,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
     
     var picker: UIImagePickerController?
     var window: UIWindow?
+    var FarstTimeStart : Bool = false
    
     var myItems:[String] = []
     
@@ -53,9 +54,29 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
         self.profilePicture.userInteractionEnabled = true;
         var myTap:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "tapGesture:")
         self.profilePicture.addGestureRecognizer(myTap)
-        /*
+        
+        
         // プロフィール編集時（登録済みユーザー）
-        editButon = UIBarButtonItem(title: "編集", style: .Plain, target: nil, action: "editDepression")
+        /*
+        if uuid が存在するなら{
+        } else{
+        */
+        // 新規登録時
+        
+        if (self.FarstTimeStart){
+            
+            
+        } else {
+            
+            startButton.hidden = true
+        }
+        
+        // 初期画像
+        self.profilePicture.image = UIImage(named: "photo.png")
+        imageMolding(self.profilePicture)
+        //}
+        
+        /*editButon = UIBarButtonItem(title: "編集", style: .Plain, target: nil, action: "editDepression")
         self.navigationItem.leftBarButtonItem = editButon
         self.navigationItem.rightBarButtonItem = nil
         self.navigationItem.leftBarButtonItem?.tintColor = UIColor.whiteColor()
@@ -75,7 +96,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
         self.TableView.rowHeight = UITableViewAutomaticDimension
         self.view.addSubview(TableView)
         
-        startButton.hidden = true
 
         // 初回起動時（未登録ユーザ）
         
@@ -111,7 +131,9 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
         let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        profilePicture.image = resizedImage
+        self.profilePicture.image = resizedImage
+        
+        imageMolding(self.profilePicture)
     }
     
     // 写真選択画面でキャンセルした場合の処理
@@ -286,7 +308,28 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
     @IBAction func pushStart(sender: AnyObject) {
         let imageData = UIImagePNGRepresentation(profilePicture.image)
         let imageFile = PFFile(name:"image.png", data:imageData)
+        let uuid = NSUUID().UUIDString
         
-        ParseHelper.setUserInfomation("userid",name: self.inputName,gender: self.gender!,age: self.selectedAge ,comment: inputComment,photo: imageFile)
+        //var user = PersistentData.User()
+        //user.userID = uuid
+        
+        PersistentData.userID = uuid
+        
+        
+        //to do 
+        
+        NSLog("userID" + PersistentData.userID)
+        //NSLog("userID" + user.userID)
+        NSLog("UUID" + uuid)
+        
+        ParseHelper.setUserInfomation(uuid ,name: self.inputName,gender: self.gender!,age: self.selectedAge ,comment: inputComment,photo: imageFile)
+    }
+    
+    private func imageMolding(target : UIImageView){
+        
+        target.layer.borderColor = UIColor.whiteColor().CGColor
+        target.layer.borderWidth = 3
+        target.layer.cornerRadius = 10
+        target.layer.masksToBounds = true
     }
 }

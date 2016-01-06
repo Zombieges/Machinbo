@@ -28,9 +28,10 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     private var updateGeoPoint : ZFRippleButton!
     var mainNavigationCtrl: UINavigationController?
     
-    
-    
     @IBOutlet weak var gmsMapView: GMSMapView!
+    
+    
+    private var myActivityIndicator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +39,21 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         if let view = UINib(nibName: "MapView", bundle: nil).instantiateWithOwner(self, options: nil).first as? UIView {
             self.view = view
         }
+        
+        // インジケータを作成する.
+        myActivityIndicator = UIActivityIndicatorView()
+        myActivityIndicator.frame = CGRectMake(0, 0, 50, 50)
+        myActivityIndicator.center = self.view.center
+        
+        // アニメーションが停止している時もインジケータを表示させる.
+        myActivityIndicator.hidesWhenStopped = false
+        myActivityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+        
+        // アニメーションを開始する.
+        myActivityIndicator.startAnimating()
+        
+        // インジケータをViewに追加する.
+        self.view.addSubview(myActivityIndicator)
         
         lm = CLLocationManager()
         lm.delegate = self
@@ -141,15 +157,26 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     func createNavigationItem() {
         
         //◆プロフィール画面
-        //create a new button
+        
         let profileViewButton: UIButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
         //set image for button
         profileViewButton.setImage(UIImage(named: "profile_icon.png"), forState: UIControlState.Normal)
         //add function for button
-        profileViewButton.addTarget(self, action: "onClickProfileSettingButton", forControlEvents: UIControlEvents.TouchUpInside)
+        profileViewButton.addTarget(self, action: "onClickProfileView", forControlEvents: UIControlEvents.TouchUpInside)
         //set frame
         profileViewButton.frame = CGRectMake(0, 0, 53, 53)
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: profileViewButton)
+        
+        //create a new button
+        let imakokoViewButton: UIButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
+        //set image for button
+        imakokoViewButton.setImage(UIImage(named: "imakoko.png"), forState: UIControlState.Normal)
+        //add function for button
+        imakokoViewButton.addTarget(self, action: "onClickGoNowListView", forControlEvents: UIControlEvents.TouchUpInside)
+        //set frame
+        imakokoViewButton.frame = CGRectMake(0, 0, 53, 53)
+        
+        self.navigationItem.rightBarButtonItems =
+            [UIBarButtonItem(customView: profileViewButton), UIBarButtonItem(customView: imakokoViewButton)]
         
         
         //いま行くボタンと、いまココボタンは両立できないため、どちらかを表示する
@@ -168,6 +195,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         imaikuViewButton.addTarget(self, action: "onClickGoNowView", forControlEvents: UIControlEvents.TouchUpInside)
         //set frame
         imaikuViewButton.frame = CGRectMake(0, 0, 53, 53)
+        
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: imaikuViewButton)
         
     }
@@ -231,16 +259,33 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         return kAnimationController
     }
     
-    func onClickProfileSettingButton() {
+    func onClickProfileView() {
         let profileView = ProfileViewController()
         self.navigationController?.pushViewController(profileView, animated: true)
         
     }
     
-    func onClickGoNowView() {
+    func onClickGoNowListView() {
         
         //TODO:ナベの端末ID取得UserID設定処理が感性したら再実装
-        ParseHelper.getGoNowMe("demo7") { (withError error: NSError?, result) -> Void in
+        ParseHelper.getGoNowMeList("demo9") { (withError error: NSError?, result) -> Void in
+            if error == nil {
+                
+                let vc = GoNowListViewController()
+                vc.goNowList = result!
+                self.navigationController!.pushViewController(vc, animated: true)
+                
+            } else {
+                println(error)
+            }
+        }
+    }
+    
+    func onClickGoNowView() {
+        myActivityIndicator.startAnimating()
+        
+        //TODO:ナベの端末ID取得UserID設定処理が感性したら再実装
+        ParseHelper.getMyGoNow("demo7") { (withError error: NSError?, result) -> Void in
             if error == nil {
                 let goNowMe: AnyObject? = result?.first
                 let targetAction: AnyObject? = goNowMe!.objectForKey("TargetUser")
@@ -250,7 +295,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
                 
                 let vc = TargetProfileViewController()
                 vc.userInfo = targetUser!
-                
                 self.navigationController!.pushViewController(vc, animated: true)
                                 
             } else {
@@ -258,6 +302,8 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
                 println(error)
             }
         }
+        
+        myActivityIndicator.stopAnimating()
 
     }
 }

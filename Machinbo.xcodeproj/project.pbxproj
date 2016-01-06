@@ -25,7 +25,7 @@
 		BB4B3E701B5A009500183F62 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BBC3A3FD1B3E7C2B002CBBE9 /* libz.dylib */; };
 		BB4B3E721B5A009F00183F62 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB4B3E711B5A009F00183F62 /* Accounts.framework */; };
 		BB4B3E741B5A00A600183F62 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB4B3E731B5A00A600183F62 /* Social.framework */; };
-		BB6FDDA31C3D558800C366A2 /* ZFRippleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6FDDA21C3D558800C366A2 /* ZFRippleButton.swift */; };
+		BB6FDDA91C3D574100C366A2 /* ZFRippleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6FDDA81C3D574100C366A2 /* ZFRippleButton.swift */; };
 		BBA37A9B1B632961004B7484 /* LoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBA37A9A1B632961004B7484 /* LoginManager.swift */; };
 		BBA5C4941B3542F3005D062B /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBA5C4931B3542F3005D062B /* GoogleMaps.framework */; };
 		BBA5C4961B3545D4005D062B /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BBA5C4951B3545D4005D062B /* GoogleMaps.bundle */; };
@@ -105,7 +105,7 @@
 		BB4B3E6E1B5A001200183F62 /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
 		BB4B3E711B5A009F00183F62 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		BB4B3E731B5A00A600183F62 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
-		BB6FDDA21C3D558800C366A2 /* ZFRippleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZFRippleButton.swift; sourceTree = "<group>"; };
+		BB6FDDA81C3D574100C366A2 /* ZFRippleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZFRippleButton.swift; sourceTree = "<group>"; };
 		BBA37A9A1B632961004B7484 /* LoginManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginManager.swift; sourceTree = "<group>"; };
 		BBA5C4931B3542F3005D062B /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMaps.framework; path = Pods/GoogleMaps/Frameworks/GoogleMaps.framework; sourceTree = "<group>"; };
 		BBA5C4951B3545D4005D062B /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = Pods/GoogleMaps/Frameworks/GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle; sourceTree = "<group>"; };
@@ -251,7 +251,7 @@
 		9409F7861B2D994D0069DAE8 /* Machinbo */ = {
 			isa = PBXGroup;
 			children = (
-				BB6FDDA11C3D558800C366A2 /* Classes */,
+				BB6FDDA71C3D574100C366A2 /* Classes */,
 				BB26E2B11C3D50DE003AB9A1 /* Image */,
 				BBFEC6D71B92B7D90069137A /* Main.storyboard */,
 				BBC90A2C1B6C93A900A74ED4 /* View */,
@@ -308,10 +308,10 @@
 			path = Image;
 			sourceTree = "<group>";
 		};
-		BB6FDDA11C3D558800C366A2 /* Classes */ = {
+		BB6FDDA71C3D574100C366A2 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				BB6FDDA21C3D558800C366A2 /* ZFRippleButton.swift */,
+				BB6FDDA81C3D574100C366A2 /* ZFRippleButton.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -534,7 +534,6 @@
 				BBEFA8B51B59EBDD002EFC7A /* ConfigHelper.swift in Sources */,
 				94B90CDC1B495A610097F55E /* ProfileViewController.swift in Sources */,
 				BBDDFC301BFB44C2005F60E2 /* DetailProfileTableViewCell.swift in Sources */,
-				BB6FDDA31C3D558800C366A2 /* ZFRippleButton.swift in Sources */,
 				BBFEC6DB1B92B84E0069137A /* PickerViewController.swift in Sources */,
 				BBD106971B95F3830075FE04 /* PushAnimator.swift in Sources */,
 				BBEFA89B1B57BE99002EFC7A /* AppDelegate.swift in Sources */,
@@ -550,6 +549,7 @@
 				BBC90A301B6C979100A74ED4 /* MarkWindow.swift in Sources */,
 				BB3198B21B7CB87B00D16C1E /* LayoutManager.swift in Sources */,
 				BBC90A381B6DDCD400A74ED4 /* GoogleMapsHelper.swift in Sources */,
+				BB6FDDA91C3D574100C366A2 /* ZFRippleButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

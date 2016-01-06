@@ -25,6 +25,7 @@
 		BB4B3E701B5A009500183F62 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BBC3A3FD1B3E7C2B002CBBE9 /* libz.dylib */; };
 		BB4B3E721B5A009F00183F62 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB4B3E711B5A009F00183F62 /* Accounts.framework */; };
 		BB4B3E741B5A00A600183F62 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB4B3E731B5A00A600183F62 /* Social.framework */; };
+		BB6FDDA31C3D558800C366A2 /* ZFRippleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6FDDA21C3D558800C366A2 /* ZFRippleButton.swift */; };
 		BBA37A9B1B632961004B7484 /* LoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBA37A9A1B632961004B7484 /* LoginManager.swift */; };
 		BBA5C4941B3542F3005D062B /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBA5C4931B3542F3005D062B /* GoogleMaps.framework */; };
 		BBA5C4961B3545D4005D062B /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BBA5C4951B3545D4005D062B /* GoogleMaps.bundle */; };
@@ -65,7 +66,6 @@
 		BBEFA8B51B59EBDD002EFC7A /* ConfigHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEFA8B41B59EBDD002EFC7A /* ConfigHelper.swift */; };
 		BBEFA8BD1B59F3AA002EFC7A /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBEFA8BB1B59F3AA002EFC7A /* Bolts.framework */; };
 		BBEFA8BE1B59F3AA002EFC7A /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBEFA8BC1B59F3AA002EFC7A /* Parse.framework */; };
-		BBFEC6D61B92B08E0069137A /* ZFRippleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBFEC6D51B92B08E0069137A /* ZFRippleButton.swift */; };
 		BBFEC6D91B92B7D90069137A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BBFEC6D71B92B7D90069137A /* Main.storyboard */; };
 		BBFEC6DB1B92B84E0069137A /* PickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBFEC6DA1B92B84E0069137A /* PickerViewController.swift */; };
 		F114EAA15DDE0C57023719C3 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CED439709AEAA3AB282E6B8 /* libPods.a */; };
@@ -105,6 +105,7 @@
 		BB4B3E6E1B5A001200183F62 /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
 		BB4B3E711B5A009F00183F62 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		BB4B3E731B5A00A600183F62 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		BB6FDDA21C3D558800C366A2 /* ZFRippleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZFRippleButton.swift; sourceTree = "<group>"; };
 		BBA37A9A1B632961004B7484 /* LoginManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginManager.swift; sourceTree = "<group>"; };
 		BBA5C4931B3542F3005D062B /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMaps.framework; path = Pods/GoogleMaps/Frameworks/GoogleMaps.framework; sourceTree = "<group>"; };
 		BBA5C4951B3545D4005D062B /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = Pods/GoogleMaps/Frameworks/GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle; sourceTree = "<group>"; };
@@ -148,7 +149,6 @@
 		BBEFA8B41B59EBDD002EFC7A /* ConfigHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigHelper.swift; sourceTree = "<group>"; };
 		BBEFA8BB1B59F3AA002EFC7A /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		BBEFA8BC1B59F3AA002EFC7A /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
-		BBFEC6D51B92B08E0069137A /* ZFRippleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ZFRippleButton.swift; path = ../../../Project/Machinbo/Machinbo/ZFRippleButton.swift; sourceTree = "<group>"; };
 		BBFEC6D81B92B7D90069137A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BBFEC6DA1B92B84E0069137A /* PickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -251,9 +251,9 @@
 		9409F7861B2D994D0069DAE8 /* Machinbo */ = {
 			isa = PBXGroup;
 			children = (
+				BB6FDDA11C3D558800C366A2 /* Classes */,
 				BB26E2B11C3D50DE003AB9A1 /* Image */,
 				BBFEC6D71B92B7D90069137A /* Main.storyboard */,
-				BBFB01161B7A114F00926D9C /* Classes */,
 				BBC90A2C1B6C93A900A74ED4 /* View */,
 				BBA37A991B632944004B7484 /* Utilities */,
 				BBEFA8B61B59ED52002EFC7A /* Helpers */,
@@ -308,6 +308,14 @@
 			path = Image;
 			sourceTree = "<group>";
 		};
+		BB6FDDA11C3D558800C366A2 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				BB6FDDA21C3D558800C366A2 /* ZFRippleButton.swift */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
 		BBA37A991B632944004B7484 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
@@ -346,15 +354,6 @@
 				BBE088C11BC3F7CA009D21C0 /* UIAlertView+Custom.swift */,
 			);
 			name = Helpers;
-			sourceTree = "<group>";
-		};
-		BBFB01161B7A114F00926D9C /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				BBFEC6D51B92B08E0069137A /* ZFRippleButton.swift */,
-			);
-			name = Classes;
-			path = "../../../Desktop/ZFRippleButton-master/Classes";
 			sourceTree = "<group>";
 		};
 		EC3F8760D246C1C60C9B2D71 /* Pods */ = {
@@ -535,9 +534,9 @@
 				BBEFA8B51B59EBDD002EFC7A /* ConfigHelper.swift in Sources */,
 				94B90CDC1B495A610097F55E /* ProfileViewController.swift in Sources */,
 				BBDDFC301BFB44C2005F60E2 /* DetailProfileTableViewCell.swift in Sources */,
+				BB6FDDA31C3D558800C366A2 /* ZFRippleButton.swift in Sources */,
 				BBFEC6DB1B92B84E0069137A /* PickerViewController.swift in Sources */,
 				BBD106971B95F3830075FE04 /* PushAnimator.swift in Sources */,
-				BBFEC6D61B92B08E0069137A /* ZFRippleButton.swift in Sources */,
 				BBEFA89B1B57BE99002EFC7A /* AppDelegate.swift in Sources */,
 				BBDDFC481C118567005F60E2 /* GoNowTableViewCell.swift in Sources */,
 				BBE088C21BC3F7CA009D21C0 /* UIAlertView+Custom.swift in Sources */,

@@ -20,17 +20,29 @@ class PersistentData {
         }
     }
     
+
     class var userID : String {
         get {
             return NSUserDefaults.standardUserDefaults().stringForKey("userID") ?? ""
         }
         set {
-            NSUserDefaults.standardUserDefaults().setObject(userID, forKey: "userID")
+            NSUserDefaults.standardUserDefaults().setObject(newValue, forKey: "userID")
             NSUserDefaults.standardUserDefaults().synchronize()
         }
     }
-    
     /*
+    struct User {
+        var userID : String {
+            get {
+                return NSUserDefaults.standardUserDefaults().stringForKey("userID") ?? ""
+            }
+            set {
+                NSUserDefaults.standardUserDefaults().setObject(newValue , forKey: "userID")
+                NSUserDefaults.standardUserDefaults().synchronize()
+            }
+        }
+    }
+
     var userID = NSUserDefaults.standardUserDefaults().stringForKey("userID") ?? "" {
         didSet{
             NSUserDefaults.standardUserDefaults().setObject(userID, forKey: "userID")

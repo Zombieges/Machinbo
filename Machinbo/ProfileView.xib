@@ -19,6 +19,18 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I8u-xI-29R">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="186"/>
                     <subviews>
+                        <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PEC-ux-cxX">
+                            <rect key="frame" x="0.0" y="2" width="600" height="184"/>
+                            <color key="backgroundColor" red="0.91224608210000002" green="0.91224608210000002" blue="0.91224608210000002" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="184" id="hts-dB-7eg"/>
+                            </constraints>
+                            <variation key="default">
+                                <mask key="constraints">
+                                    <exclude reference="hts-dB-7eg"/>
+                                </mask>
+                            </variation>
+                        </view>
                         <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" restorationIdentifier="picture" translatesAutoresizingMaskIntoConstraints="NO" id="leq-Pp-UA6">
                             <rect key="frame" x="13" y="78" width="93" height="93"/>
                             <constraints>
@@ -34,20 +46,6 @@
                         <constraint firstItem="leq-Pp-UA6" firstAttribute="top" secondItem="I8u-xI-29R" secondAttribute="top" constant="75" id="cFi-y9-WAJ"/>
                     </constraints>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rf5-tc-hSa">
-                    <rect key="frame" x="172" y="492" width="46" height="30"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="46" id="fEz-ZF-Ud5"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <state key="normal" title="start">
-                        <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="pushStart:" destination="-1" eventType="touchUpInside" id="i3p-sa-6nX"/>
-                    </connections>
-                </button>
                 <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9pS-5U-R7O" customClass="ZFRippleButton" customModule="Machinbo" customModuleProvider="target">
                     <rect key="frame" x="8" y="562" width="584" height="30"/>
                     <color key="backgroundColor" red="0.70980392160000005" green="0.25882352939999997" blue="0.25490196079999999" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
@@ -81,6 +79,20 @@
                         <outlet property="delegate" destination="-1" id="xtW-vq-gEY"/>
                     </connections>
                 </tableView>
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rf5-tc-hSa">
+                    <rect key="frame" x="277" y="492" width="46" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="46" id="fEz-ZF-Ud5"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <state key="normal" title="start">
+                        <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="pushStart:" destination="-1" eventType="touchUpInside" id="i3p-sa-6nX"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>

@@ -59,19 +59,37 @@
         */
         
         /*
-        Main NavigationController
+        登録済みか否かをチェック
         */
-        //基点となるViewを定義
-        var storyboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
-        var mainViewController = storyboard.instantiateInitialViewController() as! UIViewController
-        mainNavigationCtrl = UINavigationController(rootViewController: mainViewController)
-        
-        mainNavigationCtrl!.navigationBar.barTintColor = LayoutManager.getUIColorFromRGB(0x3949AB)
-        mainNavigationCtrl!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
-        
-        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        self.window?.rootViewController = mainNavigationCtrl
-        self.window?.makeKeyAndVisible()
+        NSLog("userID　　　" + PersistentData.userID)
+        if PersistentData.userID != "" {
+        //if (0 == 1){
+            /*
+            Main NavigationController
+            */
+            //基点となるViewを定義
+            var storyboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
+            var mainViewController = storyboard.instantiateInitialViewController() as! UIViewController
+            mainNavigationCtrl = UINavigationController(rootViewController: mainViewController)
+            
+            mainNavigationCtrl!.navigationBar.barTintColor = LayoutManager.getUIColorFromRGB(0x3949AB)
+            mainNavigationCtrl!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
+            
+            self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+            self.window?.rootViewController = mainNavigationCtrl
+            self.window?.makeKeyAndVisible()
+            
+        } else {
+            
+            let profileViewCtrl: ProfileViewController = ProfileViewController()
+            
+            // UIWindowを生成する.
+            profileViewCtrl.FarstTimeStart = true
+            self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+            self.window?.rootViewController = profileViewCtrl
+            self.window?.makeKeyAndVisible()
+
+        }
         
         return true
     }

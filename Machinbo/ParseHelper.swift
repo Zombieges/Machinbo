@@ -42,10 +42,21 @@ class ParseHelper {
         //return query.findObjects() as! [PFObject]
     }
     
-    class func getGoNowMe(loginUser: String, completion:((withError: NSError?, result:[AnyObject]?)->Void)?) {
+    class func getMyGoNow(loginUser: String, completion:((withError: NSError?, result:[AnyObject]?)->Void)?) {
         let query = PFQuery(className: "GoNow")
         query.whereKey("UserID", containsString: loginUser)
-        query.includeKey("TargetUser.CreatedBy")
+        query.includeKey("TargetUser.CreatedBy")//ActionのPointerからUserInfoへリレーション
+        query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
+            if error == nil {
+                completion?(withError: error, result: objects)
+            }
+        }
+    }
+    
+    class func getGoNowMeList(loginUser: String, completion:((withError: NSError?, result:[AnyObject]?)->Void)?) {
+        let query = PFQuery(className: "GoNow")
+        query.whereKey("TargetUserID", containsString: loginUser)
+        query.includeKey("User")//UserInfoのPointerから情報を取得
         query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
             if error == nil {
                 completion?(withError: error, result: objects)

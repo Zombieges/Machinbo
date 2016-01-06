@@ -8,12 +8,14 @@
 
 import UIKit
 
-class ImaikuTableViewCell : UITableViewCell {
+class GoNowTableViewCell : UITableViewCell {
     
     @IBOutlet weak var profileImage: UIImageView!
     
     @IBOutlet weak var titleLabel: UILabel!
-
+    
+    @IBOutlet weak var gonowTime: UILabel!
+    
     @IBOutlet weak var valueLabel: UILabel!
     
     required init(coder aDecoder: NSCoder) {
@@ -31,7 +33,9 @@ class ImaikuTableViewCell : UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        profileImage.image = nil
         titleLabel.textColor = UIColor.darkGrayColor()
+        gonowTime.textColor = UIColor.darkGrayColor()
         valueLabel.textColor = UIColor.grayColor()
     }
     

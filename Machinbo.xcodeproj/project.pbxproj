@@ -12,6 +12,11 @@
 		9409F7A21B2D994D0069DAE8 /* MachinboTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9409F7A11B2D994D0069DAE8 /* MachinboTests.swift */; };
 		94755CFB1B5A1084004FDEBC /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94755CFA1B5A1084004FDEBC /* Info.plist */; };
 		94B90CDC1B495A610097F55E /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B90CDB1B495A610097F55E /* ProfileViewController.swift */; };
+		BB26E2B71C3D50DE003AB9A1 /* fukidashi.png in Resources */ = {isa = PBXBuildFile; fileRef = BB26E2B21C3D50DE003AB9A1 /* fukidashi.png */; };
+		BB26E2B81C3D50DE003AB9A1 /* imaiku.png in Resources */ = {isa = PBXBuildFile; fileRef = BB26E2B31C3D50DE003AB9A1 /* imaiku.png */; };
+		BB26E2B91C3D50DE003AB9A1 /* imakoko.png in Resources */ = {isa = PBXBuildFile; fileRef = BB26E2B41C3D50DE003AB9A1 /* imakoko.png */; };
+		BB26E2BA1C3D50DE003AB9A1 /* photo.png in Resources */ = {isa = PBXBuildFile; fileRef = BB26E2B51C3D50DE003AB9A1 /* photo.png */; };
+		BB26E2BB1C3D50DE003AB9A1 /* profile_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = BB26E2B61C3D50DE003AB9A1 /* profile_icon.png */; };
 		BB30CC881B9F05100085D163 /* TargetProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB30CC871B9F05100085D163 /* TargetProfileViewController.swift */; };
 		BB30CC8A1B9F05B60085D163 /* TargetProfileView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB30CC891B9F05B60085D163 /* TargetProfileView.xib */; };
 		BB3198B21B7CB87B00D16C1E /* LayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3198B11B7CB87B00D16C1E /* LayoutManager.swift */; };
@@ -42,13 +47,9 @@
 		BBD106971B95F3830075FE04 /* PushAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD106961B95F3830075FE04 /* PushAnimator.swift */; };
 		BBDDFC301BFB44C2005F60E2 /* DetailProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDDFC2F1BFB44C2005F60E2 /* DetailProfileTableViewCell.swift */; };
 		BBDDFC361BFE226F005F60E2 /* DetailProfileTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBDDFC351BFE226F005F60E2 /* DetailProfileTableViewCell.xib */; };
-		BBDDFC3A1C1064FF005F60E2 /* fukidashi.png in Resources */ = {isa = PBXBuildFile; fileRef = BBDDFC391C1064FF005F60E2 /* fukidashi.png */; };
-		BBDDFC421C106EEE005F60E2 /* profile_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = BBDDFC411C106EEE005F60E2 /* profile_icon.png */; };
 		BBDDFC461C1183BA005F60E2 /* GoNowTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBDDFC451C1183BA005F60E2 /* GoNowTableViewCell.xib */; };
 		BBDDFC481C118567005F60E2 /* GoNowTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDDFC471C118567005F60E2 /* GoNowTableViewCell.swift */; };
-		BBDDFC4E1C15C9C3005F60E2 /* imaiku.png in Resources */ = {isa = PBXBuildFile; fileRef = BBDDFC4D1C15C9C3005F60E2 /* imaiku.png */; };
 		BBDDFC501C2A7693005F60E2 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDDFC4F1C2A7693005F60E2 /* MapViewController.swift */; };
-		BBDDFC541C2C16B6005F60E2 /* imakoko.png in Resources */ = {isa = PBXBuildFile; fileRef = BBDDFC531C2C16B6005F60E2 /* imakoko.png */; };
 		BBDDFC561C2C174B005F60E2 /* GoNowListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBDDFC551C2C174B005F60E2 /* GoNowListViewController.swift */; };
 		BBDDFC581C2C1D6A005F60E2 /* GoNowListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBDDFC571C2C1D6A005F60E2 /* GoNowListView.xib */; };
 		BBE088C21BC3F7CA009D21C0 /* UIAlertView+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBE088C11BC3F7CA009D21C0 /* UIAlertView+Custom.swift */; };
@@ -92,6 +93,11 @@
 		9409F7A11B2D994D0069DAE8 /* MachinboTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MachinboTests.swift; sourceTree = "<group>"; };
 		94755CFA1B5A1084004FDEBC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		94B90CDB1B495A610097F55E /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		BB26E2B21C3D50DE003AB9A1 /* fukidashi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fukidashi.png; sourceTree = "<group>"; };
+		BB26E2B31C3D50DE003AB9A1 /* imaiku.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imaiku.png; sourceTree = "<group>"; };
+		BB26E2B41C3D50DE003AB9A1 /* imakoko.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imakoko.png; sourceTree = "<group>"; };
+		BB26E2B51C3D50DE003AB9A1 /* photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = photo.png; sourceTree = "<group>"; };
+		BB26E2B61C3D50DE003AB9A1 /* profile_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profile_icon.png; sourceTree = "<group>"; };
 		BB30CC871B9F05100085D163 /* TargetProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TargetProfileViewController.swift; sourceTree = "<group>"; };
 		BB30CC891B9F05B60085D163 /* TargetProfileView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TargetProfileView.xib; sourceTree = "<group>"; };
 		BB3198B11B7CB87B00D16C1E /* LayoutManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayoutManager.swift; sourceTree = "<group>"; };
@@ -124,13 +130,9 @@
 		BBDB23431B929C700035EE1A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		BBDDFC2F1BFB44C2005F60E2 /* DetailProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailProfileTableViewCell.swift; sourceTree = "<group>"; };
 		BBDDFC351BFE226F005F60E2 /* DetailProfileTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailProfileTableViewCell.xib; sourceTree = "<group>"; };
-		BBDDFC391C1064FF005F60E2 /* fukidashi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fukidashi.png; sourceTree = "<group>"; };
-		BBDDFC411C106EEE005F60E2 /* profile_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profile_icon.png; sourceTree = "<group>"; };
 		BBDDFC451C1183BA005F60E2 /* GoNowTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GoNowTableViewCell.xib; sourceTree = "<group>"; };
 		BBDDFC471C118567005F60E2 /* GoNowTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoNowTableViewCell.swift; sourceTree = "<group>"; };
-		BBDDFC4D1C15C9C3005F60E2 /* imaiku.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imaiku.png; sourceTree = "<group>"; };
 		BBDDFC4F1C2A7693005F60E2 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
-		BBDDFC531C2C16B6005F60E2 /* imakoko.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imakoko.png; sourceTree = "<group>"; };
 		BBDDFC551C2C174B005F60E2 /* GoNowListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoNowListViewController.swift; sourceTree = "<group>"; };
 		BBDDFC571C2C1D6A005F60E2 /* GoNowListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GoNowListView.xib; sourceTree = "<group>"; };
 		BBE088C11BC3F7CA009D21C0 /* UIAlertView+Custom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIAlertView+Custom.swift"; sourceTree = "<group>"; };
@@ -249,7 +251,7 @@
 		9409F7861B2D994D0069DAE8 /* Machinbo */ = {
 			isa = PBXGroup;
 			children = (
-				BBE088C51BC8BE8C009D21C0 /* Image */,
+				BB26E2B11C3D50DE003AB9A1 /* Image */,
 				BBFEC6D71B92B7D90069137A /* Main.storyboard */,
 				BBFB01161B7A114F00926D9C /* Classes */,
 				BBC90A2C1B6C93A900A74ED4 /* View */,
@@ -294,6 +296,18 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		BB26E2B11C3D50DE003AB9A1 /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				BB26E2B21C3D50DE003AB9A1 /* fukidashi.png */,
+				BB26E2B31C3D50DE003AB9A1 /* imaiku.png */,
+				BB26E2B41C3D50DE003AB9A1 /* imakoko.png */,
+				BB26E2B51C3D50DE003AB9A1 /* photo.png */,
+				BB26E2B61C3D50DE003AB9A1 /* profile_icon.png */,
+			);
+			path = Image;
+			sourceTree = "<group>";
+		};
 		BBA37A991B632944004B7484 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
@@ -320,18 +334,6 @@
 				BBDDFC571C2C1D6A005F60E2 /* GoNowListView.xib */,
 			);
 			name = View;
-			sourceTree = "<group>";
-		};
-		BBE088C51BC8BE8C009D21C0 /* Image */ = {
-			isa = PBXGroup;
-			children = (
-				BBDDFC531C2C16B6005F60E2 /* imakoko.png */,
-				BBDDFC4D1C15C9C3005F60E2 /* imaiku.png */,
-				BBDDFC411C106EEE005F60E2 /* profile_icon.png */,
-				BBDDFC391C1064FF005F60E2 /* fukidashi.png */,
-			);
-			name = Image;
-			path = ..;
 			sourceTree = "<group>";
 		};
 		BBEFA8B61B59ED52002EFC7A /* Helpers */ = {
@@ -448,21 +450,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				BBE088D11BCB83B6009D21C0 /* PickerView.xib in Resources */,
-				BBDDFC4E1C15C9C3005F60E2 /* imaiku.png in Resources */,
+				BB26E2BA1C3D50DE003AB9A1 /* photo.png in Resources */,
+				BB26E2B81C3D50DE003AB9A1 /* imaiku.png in Resources */,
 				BBFEC6D91B92B7D90069137A /* Main.storyboard in Resources */,
+				BB26E2BB1C3D50DE003AB9A1 /* profile_icon.png in Resources */,
 				BBC90A2E1B6C93C300A74ED4 /* MarkWindow.xib in Resources */,
 				BBDDFC581C2C1D6A005F60E2 /* GoNowListView.xib in Resources */,
+				BB26E2B71C3D50DE003AB9A1 /* fukidashi.png in Resources */,
 				9409F7961B2D994D0069DAE8 /* LaunchScreen.xib in Resources */,
-				BBDDFC421C106EEE005F60E2 /* profile_icon.png in Resources */,
 				BBC5676E1BCBD2B5009D15F8 /* MapView.xib in Resources */,
 				BB30CC8A1B9F05B60085D163 /* TargetProfileView.xib in Resources */,
+				BB26E2B91C3D50DE003AB9A1 /* imakoko.png in Resources */,
 				BBE088C41BC8BA24009D21C0 /* ProfileView.xib in Resources */,
-				BBDDFC541C2C16B6005F60E2 /* imakoko.png in Resources */,
 				94755CFB1B5A1084004FDEBC /* Info.plist in Resources */,
 				9409F7931B2D994D0069DAE8 /* Images.xcassets in Resources */,
 				BBDDFC461C1183BA005F60E2 /* GoNowTableViewCell.xib in Resources */,
 				BBA5C4961B3545D4005D062B /* GoogleMaps.bundle in Resources */,
-				BBDDFC3A1C1064FF005F60E2 /* fukidashi.png in Resources */,
 				BBDDFC361BFE226F005F60E2 /* DetailProfileTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

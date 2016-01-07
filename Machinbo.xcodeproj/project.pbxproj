@@ -11,11 +11,6 @@
 		9409F7961B2D994D0069DAE8 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9409F7941B2D994D0069DAE8 /* LaunchScreen.xib */; };
 		9409F7A21B2D994D0069DAE8 /* MachinboTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9409F7A11B2D994D0069DAE8 /* MachinboTests.swift */; };
 		94755CFB1B5A1084004FDEBC /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94755CFA1B5A1084004FDEBC /* Info.plist */; };
-		BB26E2B71C3D50DE003AB9A1 /* fukidashi.png in Resources */ = {isa = PBXBuildFile; fileRef = BB26E2B21C3D50DE003AB9A1 /* fukidashi.png */; };
-		BB26E2B81C3D50DE003AB9A1 /* imaiku.png in Resources */ = {isa = PBXBuildFile; fileRef = BB26E2B31C3D50DE003AB9A1 /* imaiku.png */; };
-		BB26E2B91C3D50DE003AB9A1 /* imakoko.png in Resources */ = {isa = PBXBuildFile; fileRef = BB26E2B41C3D50DE003AB9A1 /* imakoko.png */; };
-		BB26E2BA1C3D50DE003AB9A1 /* photo.png in Resources */ = {isa = PBXBuildFile; fileRef = BB26E2B51C3D50DE003AB9A1 /* photo.png */; };
-		BB26E2BB1C3D50DE003AB9A1 /* profile_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = BB26E2B61C3D50DE003AB9A1 /* profile_icon.png */; };
 		BB4B3E6F1B5A001200183F62 /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BB4B3E6E1B5A001200183F62 /* libstdc++.6.dylib */; };
 		BB4B3E701B5A009500183F62 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BBC3A3FD1B3E7C2B002CBBE9 /* libz.dylib */; };
 		BB4B3E721B5A009F00183F62 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB4B3E711B5A009F00183F62 /* Accounts.framework */; };
@@ -46,6 +41,11 @@
 		BB6FDDFD1C3E998000C366A2 /* PickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6FDDF71C3E998000C366A2 /* PickerViewController.swift */; };
 		BB6FDDFE1C3E998000C366A2 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6FDDF81C3E998000C366A2 /* ProfileViewController.swift */; };
 		BB6FDDFF1C3E998000C366A2 /* TargetProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6FDDF91C3E998000C366A2 /* TargetProfileViewController.swift */; };
+		BB6FDE061C3E9D0D00C366A2 /* fukidashi.png in Resources */ = {isa = PBXBuildFile; fileRef = BB6FDE011C3E9D0D00C366A2 /* fukidashi.png */; };
+		BB6FDE071C3E9D0D00C366A2 /* imaiku.png in Resources */ = {isa = PBXBuildFile; fileRef = BB6FDE021C3E9D0D00C366A2 /* imaiku.png */; };
+		BB6FDE081C3E9D0D00C366A2 /* imakoko.png in Resources */ = {isa = PBXBuildFile; fileRef = BB6FDE031C3E9D0D00C366A2 /* imakoko.png */; };
+		BB6FDE091C3E9D0D00C366A2 /* photo.png in Resources */ = {isa = PBXBuildFile; fileRef = BB6FDE041C3E9D0D00C366A2 /* photo.png */; };
+		BB6FDE0A1C3E9D0D00C366A2 /* profile_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = BB6FDE051C3E9D0D00C366A2 /* profile_icon.png */; };
 		BBA5C4941B3542F3005D062B /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBA5C4931B3542F3005D062B /* GoogleMaps.framework */; };
 		BBA5C4961B3545D4005D062B /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BBA5C4951B3545D4005D062B /* GoogleMaps.bundle */; };
 		BBC3A3EE1B3E7BB6002CBBE9 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBC3A3ED1B3E7BB6002CBBE9 /* AVFoundation.framework */; };
@@ -92,11 +92,6 @@
 		9409F7A01B2D994D0069DAE8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9409F7A11B2D994D0069DAE8 /* MachinboTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MachinboTests.swift; sourceTree = "<group>"; };
 		94755CFA1B5A1084004FDEBC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BB26E2B21C3D50DE003AB9A1 /* fukidashi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fukidashi.png; sourceTree = "<group>"; };
-		BB26E2B31C3D50DE003AB9A1 /* imaiku.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imaiku.png; sourceTree = "<group>"; };
-		BB26E2B41C3D50DE003AB9A1 /* imakoko.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imakoko.png; sourceTree = "<group>"; };
-		BB26E2B51C3D50DE003AB9A1 /* photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = photo.png; sourceTree = "<group>"; };
-		BB26E2B61C3D50DE003AB9A1 /* profile_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profile_icon.png; sourceTree = "<group>"; };
 		BB4B3E6E1B5A001200183F62 /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
 		BB4B3E711B5A009F00183F62 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		BB4B3E731B5A00A600183F62 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
@@ -126,6 +121,11 @@
 		BB6FDDF71C3E998000C366A2 /* PickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerViewController.swift; sourceTree = "<group>"; };
 		BB6FDDF81C3E998000C366A2 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		BB6FDDF91C3E998000C366A2 /* TargetProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TargetProfileViewController.swift; sourceTree = "<group>"; };
+		BB6FDE011C3E9D0D00C366A2 /* fukidashi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fukidashi.png; sourceTree = "<group>"; };
+		BB6FDE021C3E9D0D00C366A2 /* imaiku.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imaiku.png; sourceTree = "<group>"; };
+		BB6FDE031C3E9D0D00C366A2 /* imakoko.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imakoko.png; sourceTree = "<group>"; };
+		BB6FDE041C3E9D0D00C366A2 /* photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = photo.png; sourceTree = "<group>"; };
+		BB6FDE051C3E9D0D00C366A2 /* profile_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profile_icon.png; sourceTree = "<group>"; };
 		BBA5C4931B3542F3005D062B /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMaps.framework; path = Pods/GoogleMaps/Frameworks/GoogleMaps.framework; sourceTree = "<group>"; };
 		BBA5C4951B3545D4005D062B /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = Pods/GoogleMaps/Frameworks/GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle; sourceTree = "<group>"; };
 		BBC3A3ED1B3E7BB6002CBBE9 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -251,12 +251,12 @@
 		9409F7861B2D994D0069DAE8 /* Machinbo */ = {
 			isa = PBXGroup;
 			children = (
+				BB6FDE001C3E9D0D00C366A2 /* Images */,
 				BB6FDDF31C3E998000C366A2 /* Controllers */,
 				BB6FDDD81C3E97E100C366A2 /* Views */,
 				BB6FDDCD1C3E952700C366A2 /* Helpers */,
 				BB6FDDC81C3E934F00C366A2 /* Utilities */,
 				BB6FDDC51C3E92FD00C366A2 /* Classes */,
-				BB26E2B11C3D50DE003AB9A1 /* Image */,
 				BBFEC6D71B92B7D90069137A /* Main.storyboard */,
 				BBEFA89A1B57BE99002EFC7A /* AppDelegate.swift */,
 				9409F7921B2D994D0069DAE8 /* Images.xcassets */,
@@ -289,18 +289,6 @@
 				9409F7A01B2D994D0069DAE8 /* Info.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		BB26E2B11C3D50DE003AB9A1 /* Image */ = {
-			isa = PBXGroup;
-			children = (
-				BB26E2B21C3D50DE003AB9A1 /* fukidashi.png */,
-				BB26E2B31C3D50DE003AB9A1 /* imaiku.png */,
-				BB26E2B41C3D50DE003AB9A1 /* imakoko.png */,
-				BB26E2B51C3D50DE003AB9A1 /* photo.png */,
-				BB26E2B61C3D50DE003AB9A1 /* profile_icon.png */,
-			);
-			path = Image;
 			sourceTree = "<group>";
 		};
 		BB6FDDC51C3E92FD00C366A2 /* Classes */ = {
@@ -362,6 +350,18 @@
 				BB6FDDF91C3E998000C366A2 /* TargetProfileViewController.swift */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		BB6FDE001C3E9D0D00C366A2 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				BB6FDE011C3E9D0D00C366A2 /* fukidashi.png */,
+				BB6FDE021C3E9D0D00C366A2 /* imaiku.png */,
+				BB6FDE031C3E9D0D00C366A2 /* imakoko.png */,
+				BB6FDE041C3E9D0D00C366A2 /* photo.png */,
+				BB6FDE051C3E9D0D00C366A2 /* profile_icon.png */,
+			);
+			path = Images;
 			sourceTree = "<group>";
 		};
 		EC3F8760D246C1C60C9B2D71 /* Pods */ = {
@@ -457,18 +457,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				BB6FDDED1C3E97E100C366A2 /* MarkWindow.xib in Resources */,
-				BB26E2BA1C3D50DE003AB9A1 /* photo.png in Resources */,
+				BB6FDE071C3E9D0D00C366A2 /* imaiku.png in Resources */,
 				BB6FDDEA1C3E97E100C366A2 /* GoNowTableViewCell.xib in Resources */,
-				BB26E2B81C3D50DE003AB9A1 /* imaiku.png in Resources */,
+				BB6FDE0A1C3E9D0D00C366A2 /* profile_icon.png in Resources */,
 				BB6FDDF21C3E97E100C366A2 /* TargetProfileView.xib in Resources */,
 				BBFEC6D91B92B7D90069137A /* Main.storyboard in Resources */,
-				BB26E2BB1C3D50DE003AB9A1 /* profile_icon.png in Resources */,
-				BB26E2B71C3D50DE003AB9A1 /* fukidashi.png in Resources */,
+				BB6FDE091C3E9D0D00C366A2 /* photo.png in Resources */,
+				BB6FDE081C3E9D0D00C366A2 /* imakoko.png in Resources */,
+				BB6FDE061C3E9D0D00C366A2 /* fukidashi.png in Resources */,
 				BB6FDDE71C3E97E100C366A2 /* DetailProfileTableViewCell.xib in Resources */,
 				BB6FDDEE1C3E97E100C366A2 /* PickerView.xib in Resources */,
 				9409F7961B2D994D0069DAE8 /* LaunchScreen.xib in Resources */,
 				BB6FDDE81C3E97E100C366A2 /* GoNowListView.xib in Resources */,
-				BB26E2B91C3D50DE003AB9A1 /* imakoko.png in Resources */,
 				94755CFB1B5A1084004FDEBC /* Info.plist in Resources */,
 				9409F7931B2D994D0069DAE8 /* Images.xcassets in Resources */,
 				BB6FDDF11C3E97E100C366A2 /* PushAnimator.xib in Resources */,

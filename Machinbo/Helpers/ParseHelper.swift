@@ -64,6 +64,17 @@ class ParseHelper {
         }
     }
     
+    class func getUserInfomation(userID: String, completion:((withError: NSError?, result: PFObject?)->Void)?) {
+        let query = PFQuery(className: "UserInfo")
+        query.whereKey("UserID", containsString: userID)
+        query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
+            if error == nil {
+                let object = objects!.first as! PFObject
+                completion?(withError: error, result: object)
+            }
+        }
+    }
+    
     class func setUserInfomation(userID: String,name: String,gender: Int,age: String,comment: String,photo: PFFile) {
         //新規ユーザー登録
         let info = PFObject(className: "UserInfo")

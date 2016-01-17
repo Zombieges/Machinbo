@@ -16,6 +16,8 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     var profileSettingButton: UIBarButtonItem!
     let kAnimationController = PushAnimator()
     
+    var myPosition: CLLocationCoordinate2D = CLLocationCoordinate2D()
+    
     var lm : CLLocationManager!
     var longitude: CLLocationDegrees!
     var latitude: CLLocationDegrees!
@@ -28,10 +30,9 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     private var updateGeoPoint : ZFRippleButton!
     var mainNavigationCtrl: UINavigationController?
     
-    @IBOutlet weak var gmsMapView: GMSMapView!
-    
-    
     private var myActivityIndicator: UIActivityIndicatorView!
+    
+    var gmaps : GMSMapView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,6 +79,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         updateGeoPoint.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
         updateGeoPoint.rippleColor = LayoutManager.getUIColorFromRGB(0xB54241)
         updateGeoPoint.setTitle("現在位置登録", forState: .Normal)
+        updateGeoPoint.addTarget(self, action: "onClickGoNow", forControlEvents: UIControlEvents.TouchUpInside)
         updateGeoPoint.layer.cornerRadius = 5.0
         updateGeoPoint.layer.masksToBounds = true
         updateGeoPoint.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height - self.view.bounds.height/8.3)
@@ -122,29 +124,26 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         
         NSLog("位置情報取得成功！-> latiitude: \(latitude) , longitude: \(longitude)")
         
-        var target = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-        var camera = GMSCameraPosition(target: target, zoom: 13, bearing: 0, viewingAngle: 0)
+        //現在位置
+        self.myPosition = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        var camera = GMSCameraPosition(target: self.myPosition, zoom: 13, bearing: 0, viewingAngle: 0)
         
-        let gmaps: GMSMapView? = GMSMapView()
-        if let map = gmaps {
-            map.frame = CGRectMake(0, 20, self.view.frame.width, self.view.frame.height/2)
-            map.myLocationEnabled = true
-            map.settings.myLocationButton = true
-            map.camera = camera
-            map.delegate = self
+        self.gmaps = GMSMapView()
+        if let gmaps = gmaps {
+            self.gmaps.frame = CGRectMake(0, 20, self.view.frame.width, self.view.frame.height/2)
+            self.gmaps.myLocationEnabled = true
+            self.gmaps.settings.myLocationButton = true
+            self.gmaps.camera = camera
+            self.gmaps.delegate = self
             
-            self.view = map
+            self.view = self.gmaps
             
-            //現在の自分の表示範囲から50kmの範囲、100件のデータを取得する
-            ParseHelper.getNearUserInfomation(target) { (withError error: NSError?, result) -> Void in
-                if error == nil {
-                    GoogleMapsHelper.setUserMarker(map, userObjects: result!)
-                    
-                } else {
-                    // Error Occured
-                    println(error)
-                }
-            }
+        }
+        
+        FeedData.mainData().refreshMapFeed(myPosition) { () -> () in
+            
+            GoogleMapsHelper.setUserMarker(self.gmaps!, userObjects: FeedData.mainData().feedItems)
+            
         }
         
         manager.stopUpdatingLocation()
@@ -178,13 +177,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         self.navigationItem.rightBarButtonItems =
             [UIBarButtonItem(customView: profileViewButton), UIBarButtonItem(customView: imakokoViewButton)]
         
-        
-        //いま行くボタンと、いまココボタンは両立できないため、どちらかを表示する
-        //いずれもParseに登録した値を引っ張ってくる必要がある
-        
-        
         //通知があったら表示
-        
         //◆いま行く画面
         //いまいくボタンを押下したら表示するようにする？
         //create a new button
@@ -196,7 +189,22 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         //set frame
         imaikuViewButton.frame = CGRectMake(0, 0, 53, 53)
         
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: imaikuViewButton)
+        self.navigationItem.rightBarButtonItems =
+            [UIBarButtonItem(customView: profileViewButton), UIBarButtonItem(customView: imakokoViewButton), UIBarButtonItem(customView: imaikuViewButton)]
+        
+        //いま行くボタンと、いまココボタンは両立できないため、どちらかを表示する
+        //いずれもParseに登録した値を引っ張ってくる必要がある
+        
+        //リロード
+        let reloadButton: UIButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
+        //set image for button
+        reloadButton.setImage(UIImage(named: "reload.png"), forState: UIControlState.Normal)
+        //add function for button
+        reloadButton.addTarget(self, action: "onClickReload", forControlEvents: UIControlEvents.TouchUpInside)
+        //set frame
+        reloadButton.frame = CGRectMake(0, 0, 53, 53)
+        
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: reloadButton)
         
     }
     
@@ -243,18 +251,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         UIAlertView.showAlertView("エラー", message:"位置情報の取得が失敗しました。アプリを再起動してください。")
     }
     
-    func onClickMyButton(sender: UIButton){
-        var geoPoint = PFGeoPoint(latitude: latitude, longitude: longitude);
-        
-        //USER情報にUPDATEをかける
-        let gpsMark = PFObject(className: "UserInfo")
-        gpsMark["GPS"] = geoPoint
-        gpsMark["MarkTime"] = NSDate()
-        gpsMark.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
-            NSLog("GPS情報登録成功")
-        }
-    }
-    
     func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return kAnimationController
     }
@@ -263,6 +259,26 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         let profileView = ProfileViewController()
         self.navigationController?.pushViewController(profileView, animated: true)
         
+    }
+
+    func onClickGoNow(){
+        ParseHelper.getUserInfomation(PersistentData.userID) { (withError error: NSError?, result) -> Void in
+            if error == nil {
+                //result[""] = aaaa
+                
+            } else {
+                println(error)
+            }
+        }
+        
+        /*
+        //USER情報にUPDATEをかける
+        let gpsMark = PFObject(className: "UserInfo")
+        gpsMark["GPS"] = geoPoint
+        gpsMark["MarkTime"] = NSDate()
+        gpsMark.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+            NSLog("GPS情報登録成功")
+        }*/
     }
     
     func onClickGoNowListView() {
@@ -306,5 +322,17 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         myActivityIndicator.stopAnimating()
 
     }
+    
+    //更新
+    func refreshFeed() {
+        
+        FeedData.mainData().refreshMapFeed(self.myPosition) { () -> () in
+            
+            GoogleMapsHelper.setUserMarker(self.gmaps!, userObjects: FeedData.mainData().feedItems)
+            
+        }
+        
+    }
+    
 }
 

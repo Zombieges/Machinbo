@@ -65,7 +65,7 @@
         let user = PersistentData.User()
         NSLog("userID　　　" + user.userID)
         //if PersistentData.userID != "" {
-        if user.userID != "" {
+        if user.userID == "" {
         //if (0 == 0){
             /*
             Main NavigationController

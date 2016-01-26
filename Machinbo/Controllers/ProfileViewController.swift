@@ -16,7 +16,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
     UIImagePickerControllerDelegate,
     UIPickerViewDelegate,
     PickerViewControllerDelegate ,
-    UITableViewDelegate{
+UITableViewDelegate{
     
     
     @IBOutlet weak var profilePicture: UIImageView!
@@ -26,10 +26,11 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
     var photoItems: [String] = ["フォト"]
     var otherItems: [String] = ["名前", "性別", "年齢", "プロフィール"]
     
+    var mainNavigationCtrl: UINavigationController?
     var picker: UIImagePickerController?
     var window: UIWindow?
     var FarstTimeStart : Bool = false
-   
+    
     var myItems:[String] = []
     
     var gender: Int? = 0
@@ -45,29 +46,41 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         if let view = UINib(nibName: "ProfileView", bundle: nil).instantiateWithOwner(self, options: nil).first as? UIView {
             self.view = view
         }
-
+        
         // profilePicture をタップできるように設定
         self.profilePicture.userInteractionEnabled = true;
         var myTap:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "tapGesture:")
         self.profilePicture.addGestureRecognizer(myTap)
         
         
-        // プロフィール編集時（登録済みユーザー）
-        /*
-        if uuid が存在するなら{
-        } else{
-        */
-        // 新規登録時
-        
         if (self.FarstTimeStart){
             
+            // 新規登録時
+            var storyboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
+            var mainViewController = ProfileViewController()
+            mainNavigationCtrl = UINavigationController(rootViewController: mainViewController)
+            
+            // navigationBar 設置
+            mainNavigationCtrl!.navigationBar.barTintColor = LayoutManager.getUIColorFromRGB(0x3949AB)
+            mainNavigationCtrl!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
+            
+            self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+            self.window?.rootViewController = mainNavigationCtrl
+            self.window?.makeKeyAndVisible()
+            
+            // start button 表示
+            startButton.hidden = false
             
         } else {
             
+            // 通常の画面遷移
+            
+            
+            // start button 非表示
             startButton.hidden = true
         }
         
@@ -96,7 +109,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
         self.TableView.rowHeight = UITableViewAutomaticDimension
         self.view.addSubview(TableView)
         
-
+        
         // 初回起動時（未登録ユーザ）
         
     }
@@ -117,7 +130,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
         self.presentViewController(picker!, animated: true, completion: nil)
     }
     
-
+    
     // 写真選択時の処理
     internal func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
         self.dismissViewControllerAnimated(true, completion: nil)
@@ -169,7 +182,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
         // テーブル再描画
         self.TableView.reloadData()
     }
-
+    
     // PickerViewController よりを保存ボタンを押下した際に実行される処理
     internal func setComment(comment: String) {
         
@@ -183,7 +196,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
     テーブルに表示する配列の総数を返す.
     */
     internal func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    
+        
         return otherItems.count
     }
     
@@ -201,6 +214,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
             cell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: identifier)
         }
         
+        
         if indexPath.section == 0 {
             if indexPath.row < 3 {
                 
@@ -213,15 +227,15 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
                 if indexPath.row == 0 {
                     normalCell?.textLabel?.text = otherItems[indexPath.row]
                     normalCell?.detailTextLabel?.text = self.inputName as String
-                
+                    
                 } else if indexPath.row == 1 {
                     normalCell?.textLabel?.text = otherItems[indexPath.row]
                     normalCell?.detailTextLabel?.text = self.selectedGender as String
-                
+                    
                 } else if indexPath.row == 2 {
                     normalCell?.textLabel?.text = otherItems[indexPath.row]
                     normalCell?.detailTextLabel?.text = self.selectedAge as String
-                
+                    
                 }
                 
                 
@@ -235,7 +249,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
                     
                     detailCell?.titleLabel.text = otherItems[indexPath.row]
                     detailCell?.valueLabel.text = self.inputComment as String
-                
+                    
                 }
                 
                 cell = detailCell
@@ -299,8 +313,10 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
                 vc.palInput = self.inputComment
                 vc.delegate = self
                 
+                //let profileViewCtrl: ProfileViewController = PickerViewController()
+                //self.window?.rootViewController = profileViewCtrl
                 self.navigationController?.pushViewController(vc, animated: true)
-
+                
             }
         }
     }
@@ -312,13 +328,13 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
         
         //var user = PersistentData.User()
         //user.userID = uuid
+        var user = PersistentData.User()
+        user.userID = uuid
         
-        PersistentData.userID = uuid
         
+        //to do
         
-        //to do 
-        
-        NSLog("userID" + PersistentData.userID)
+        //NSLog("userID" + PersistentData.userID)
         //NSLog("userID" + user.userID)
         NSLog("UUID" + uuid)
         

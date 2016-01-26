@@ -270,9 +270,10 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     func onClickGoNow(){
         var geoPoint = PFGeoPoint(latitude: latitude, longitude: longitude)
         
-        NSLog("UserID - " + PersistentData.userID)
+        let user = PersistentData.User()
+        NSLog("UserID - " + user.userID)
         
-        ParseHelper.getUserInfomation(PersistentData.userID) { (withError error: NSError?, result: PFObject?) -> Void in
+        ParseHelper.getUserInfomation(user.userID) { (withError error: NSError?, result: PFObject?) -> Void in
             if error == nil {
                 let query = result! as PFObject
                 

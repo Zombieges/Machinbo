@@ -21,7 +21,7 @@ class PersistentData {
     }
     
 
-    class var userID : String {
+    /*class var userID : String {
         get {
             return NSUserDefaults.standardUserDefaults().stringForKey("userID") ?? ""
         }
@@ -29,8 +29,8 @@ class PersistentData {
             NSUserDefaults.standardUserDefaults().setObject(newValue, forKey: "userID")
             NSUserDefaults.standardUserDefaults().synchronize()
         }
-    }
-    /*
+    }*/
+    
     struct User {
         var userID : String {
             get {
@@ -41,16 +41,51 @@ class PersistentData {
                 NSUserDefaults.standardUserDefaults().synchronize()
             }
         }
+        var comment : String {
+            get {
+                return NSUserDefaults.standardUserDefaults().stringForKey("comment") ?? ""
+            }
+            set {
+                NSUserDefaults.standardUserDefaults().setObject(newValue , forKey: "comment")
+                NSUserDefaults.standardUserDefaults().synchronize()
+            }
+        }
+        var gender : Int {
+            get {
+                return NSUserDefaults.standardUserDefaults().integerForKey("gender") ?? 0
+            }
+            set {
+                NSUserDefaults.standardUserDefaults().setObject(newValue , forKey: "gender")
+                NSUserDefaults.standardUserDefaults().synchronize()
+            }
+        }
+        var name : String {
+            get {
+                return NSUserDefaults.standardUserDefaults().stringForKey("name") ?? ""
+            }
+            set {
+                NSUserDefaults.standardUserDefaults().setObject(newValue , forKey: "name")
+                NSUserDefaults.standardUserDefaults().synchronize()
+            }
+        }
+        var age : String {
+            get {
+                return NSUserDefaults.standardUserDefaults().stringForKey("age") ?? ""
+            }
+            set {
+                NSUserDefaults.standardUserDefaults().setObject(newValue , forKey: "age")
+                NSUserDefaults.standardUserDefaults().synchronize()
+            }
+        }
+
+
+
     }
 
-    var userID = NSUserDefaults.standardUserDefaults().stringForKey("userID") ?? "" {
+    /*var userID = NSUserDefaults.standardUserDefaults().stringForKey("userID") ?? "" {
         didSet{
             NSUserDefaults.standardUserDefaults().setObject(userID, forKey: "userID")
             NSUserDefaults.standardUserDefaults().synchronize()
         }
-        
-    }
-*/
-    
-    
+    }*/
 }

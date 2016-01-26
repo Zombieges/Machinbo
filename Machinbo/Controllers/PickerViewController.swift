@@ -15,13 +15,14 @@ protocol PickerViewControllerDelegate{
     func setAge(selectedIndex: Int,selected: String)
     func setName(name: String)
     func setComment(comment: String)
-
+    
 }
 
 
 class PickerViewController: UIViewController,
     UITableViewDelegate,
     UITableViewDataSource{
+    
     
     var delegate: PickerViewControllerDelegate?
     //var saveButton: UIBarButtonItem!
@@ -32,7 +33,9 @@ class PickerViewController: UIViewController,
     var selectedAge:String = ""
     var selectedGenderIndex: Int = 0
     var selectedGender: String = ""
-    var myTextField = UITextField()
+    var inputTextField = UITextField()
+    var inputTextView = UITextView()
+    var realTextView = UITextView()
     
     // Tableで使用する配列を設定する
     private var myTableView: UITableView!
@@ -46,6 +49,7 @@ class PickerViewController: UIViewController,
     
     var myViewController: UIViewController?
     
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -69,35 +73,45 @@ class PickerViewController: UIViewController,
         if (self.kind == "gender" || self.kind == "age") {
             // TableViewの生成す
             myTableView = UITableView(frame: CGRect(x: 0, y: navBarHeight!, width: displayWidth, height: displayHeight - navBarHeight!))
-        
+            
             // Cell名の登録をおこなう.
             myTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
-        
+            
             // DataSourceの設定をする.
             myTableView.dataSource = self
-        
+            
             // Delegateを設定する.
             myTableView.delegate = self
-        
+            
             // Viewに追加する.
             self.view.addSubview(myTableView)
             
         } else if (self.kind == "name"){
             
-            myTextField.frame = CGRectMake(10, 100, displayWidth - 20 , 30)
-            myTextField.borderStyle = UITextBorderStyle.RoundedRect
-            myTextField.text = self.Input as? String
+            inputTextField.frame = CGRectMake(10, 100, displayWidth - 20 , 30)
+            inputTextField.borderStyle = UITextBorderStyle.RoundedRect
+            inputTextField.text = self.Input as? String
             
-            self.view.addSubview(myTextField)
+            self.view.addSubview(inputTextField)
+            
             
             createButton(displayWidth)
+            
         } else if (self.kind == "comment"){
             
-            myTextField.frame = CGRectMake(10, 100, displayWidth - 20 ,80)
-            myTextField.borderStyle = UITextBorderStyle.RoundedRect
-            myTextField.text = self.Input as? String
             
-            self.view.addSubview(myTextField)
+            inputTextView.frame = CGRectMake(10, 80, displayWidth - 20 ,80)
+            inputTextView.text = self.Input as? String
+            inputTextView.layer.masksToBounds = true
+            inputTextView.layer.cornerRadius = 10.0
+            inputTextView.layer.borderWidth = 1
+            inputTextView.layer.borderColor = UIColor.grayColor().CGColor
+            inputTextView.font = UIFont.systemFontOfSize(CGFloat(15))
+            inputTextView.textAlignment = NSTextAlignment.Left
+            inputTextView.selectedRange = NSMakeRange(0, 0)
+            self.automaticallyAdjustsScrollViewInsets = false
+            
+            self.view.addSubview(inputTextView)
             
             createButton(displayWidth)
         }
@@ -123,7 +137,7 @@ class PickerViewController: UIViewController,
         saveButton.tag = 1
         
         //配置場所
-        saveButton.layer.position = CGPoint(x: displayWidth/2, y:210)
+        saveButton.layer.position = CGPoint(x: displayWidth/2, y:200)
         
         //背景色
         saveButton.backgroundColor = UIColor(red: 0.7, green: 0.2, blue: 0.2, alpha: 0.2)
@@ -139,7 +153,7 @@ class PickerViewController: UIViewController,
         
         //viewにボタンを追加する
         self.view.addSubview(saveButton)
-
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -150,13 +164,13 @@ class PickerViewController: UIViewController,
     internal func onClickSaveButton(sender: UIButton){
         
         if (self.kind == "name"){
-        
-            self.delegate!.setName(self.myTextField.text)
+            
+            self.delegate!.setName(self.inputTextField.text)
             self.navigationController!.popViewControllerAnimated(true)
             
         } else if (self.kind == "comment"){
             
-            self.delegate!.setComment(self.myTextField.text)
+            self.delegate!.setComment(self.inputTextView.text)
             self.navigationController!.popViewControllerAnimated(true)
         }
     }
@@ -176,7 +190,7 @@ class PickerViewController: UIViewController,
                 self.selectedAge = indexPath!.uppercaseString
                 self.delegate!.setAge(self.selectedAgeIndex,selected: self.selectedAge)
                 self.navigationController!.popViewControllerAnimated(true)
-
+                
             }
             
         } else if (self.kind == "gender"){

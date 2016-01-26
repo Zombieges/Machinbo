@@ -27,10 +27,11 @@
         
         //GoogleMaps
         GMSServices.provideAPIKey(googleMapsKey)
-        /*
+        
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
-        if !PersistentData.firstLaunch {
+        //if !PersistentData.firstLaunch {
+        /*if (0 == 0){
             NSLog("初めての起動です★")
             if PersistentData.userID == "" {
                 PersistentData.userID = NSUUID().UUIDString
@@ -39,7 +40,7 @@
                 
                 //Profile画面へ遷移
                 let currentController = storyboard.instantiateViewControllerWithIdentifier("profile") as? ProfileViewController
-                //self.window?.rootViewController = currentController
+                self.window?.rootViewController = currentController
                 
             }
             
@@ -52,22 +53,34 @@
                 if error != nil {
                     //MAP画面へ遷移
                     let currentController = storyboard.instantiateViewControllerWithIdentifier("map") as? MapViewController
-                    //self.window?.rootViewController = currentController
+                    self.window?.rootViewController = currentController
                 }
             }
-        }
-        */
+        }*/
+        
         
         /*
         登録済みか否かをチェック
         */
-        NSLog("userID　　　" + PersistentData.userID)
-        if PersistentData.userID != "" {
-        //if (0 == 1){
+        let user = PersistentData.User()
+        NSLog("userID　　　" + user.userID)
+        //if PersistentData.userID != "" {
+        if user.userID != "" {
+        //if (0 == 0){
             /*
             Main NavigationController
             */
             //基点となるViewを定義
+            let profileViewCtrl: ProfileViewController = ProfileViewController()
+            profileViewCtrl.FarstTimeStart = true
+            self.window?.rootViewController = profileViewCtrl
+            //mainNavigationCtrl?.pushViewController(profileViewCtrl, animated: true)
+            self.window?.makeKeyAndVisible()
+            
+        } else {
+            
+            
+            
             var storyboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
             var mainViewController = storyboard.instantiateInitialViewController() as! UIViewController
             mainNavigationCtrl = UINavigationController(rootViewController: mainViewController)
@@ -78,17 +91,6 @@
             self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
             self.window?.rootViewController = mainNavigationCtrl
             self.window?.makeKeyAndVisible()
-            
-        } else {
-            
-            let profileViewCtrl: ProfileViewController = ProfileViewController()
-            
-            // UIWindowを生成する.
-            profileViewCtrl.FarstTimeStart = true
-            self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
-            self.window?.rootViewController = profileViewCtrl
-            self.window?.makeKeyAndVisible()
-
         }
         
         return true

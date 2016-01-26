@@ -1,10 +1,13 @@
 PODS:
   - GoogleMaps (1.11.1)
+  - MBProgressHUD (0.9.2)
 
 DEPENDENCIES:
   - GoogleMaps
+  - MBProgressHUD (~> 0.9.2)
 
 SPEC CHECKSUMS:
   GoogleMaps: c947160008f414c66707a5ea60f35e92055c7670
+  MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
 
 COCOAPODS: 0.39.0

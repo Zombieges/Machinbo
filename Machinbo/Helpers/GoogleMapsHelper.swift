@@ -15,8 +15,7 @@ class GoogleMapsHelper {
     class func setUserMarker(map: GMSMapView, userObjects: [AnyObject]) {
         
         for users in userObjects {
-            //let UserID = user.objectForKey("UserID") as! String
-
+            
             let geoPoint : PFGeoPoint
             if let tempGeopoint = (users.objectForKey("GPS") as? PFGeoPoint) {
                 geoPoint = tempGeopoint

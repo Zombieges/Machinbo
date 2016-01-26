@@ -10,6 +10,7 @@ import UIKit
 import GoogleMaps
 import CoreLocation
 import Parse
+import MBProgressHUD
 
 class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManagerDelegate {
     
@@ -124,6 +125,10 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         
         NSLog("位置情報取得成功！-> latiitude: \(latitude) , longitude: \(longitude)")
         
+        let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        hud.mode = MBProgressHUDMode.AnnularDeterminate
+        hud.progress = 0.0
+        
         //現在位置
         self.myPosition = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         var camera = GMSCameraPosition(target: self.myPosition, zoom: 13, bearing: 0, viewingAngle: 0)
@@ -141,7 +146,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         }
         
         FeedData.mainData().refreshMapFeed(myPosition) { () -> () in
-            
             GoogleMapsHelper.setUserMarker(self.gmaps!, userObjects: FeedData.mainData().feedItems)
             
         }
@@ -151,6 +155,8 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         //button 生成
         createNavigationItem()
         createupdateGeoPointButton()
+        
+        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
     }
     
     func createNavigationItem() {
@@ -262,12 +268,60 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     }
 
     func onClickGoNow(){
-        ParseHelper.getUserInfomation(PersistentData.userID) { (withError error: NSError?, result) -> Void in
+        var geoPoint = PFGeoPoint(latitude: latitude, longitude: longitude)
+        
+        NSLog("UserID - " + PersistentData.userID)
+        
+        ParseHelper.getUserInfomation(PersistentData.userID) { (withError error: NSError?, result: PFObject?) -> Void in
             if error == nil {
-                //result[""] = aaaa
+                let query = result! as PFObject
                 
-            } else {
-                println(error)
+                NSLog("objectId - " + query.objectId!)
+                
+                let gpsMark = PFObject(className: "Action")
+                gpsMark["CreatedBy"] = query
+                gpsMark["GPS"] = geoPoint
+                gpsMark["MarkTime"] = NSDate()
+                
+                let dialog = UIAlertController(title: "", message: "現在位置を登録しますか？", preferredStyle: .Alert)
+                let okAction = UIAlertAction(title: "OK", style: .Default) {
+                    (action: UIAlertAction!) -> Void in
+                    
+                    let textFields:Array<UITextField>? =  dialog.textFields?.first as! Array<UITextField>?
+                    if textFields != nil {
+                        
+                        //gpsMark["PlaceDetail"] = textFields?.first
+                        
+                        gpsMark.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+                            if error == nil {
+                                
+                                let completeDialog = UIAlertController(title: "", message: "現在位置を登録しました", preferredStyle: .Alert)
+                                
+                                completeDialog.addTextFieldWithConfigurationHandler( { (user: UITextField!) -> Void in })
+                                
+                                self.presentViewController(completeDialog, animated: true) { () -> Void in
+                                    let delay = 1.0 * Double(NSEC_PER_SEC)
+                                    let time  = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+                                    dispatch_after(time, dispatch_get_main_queue(), {
+                                        self.dismissViewControllerAnimated(true, completion: nil)
+                                    })
+                                }
+                                
+                                self.lm.startUpdatingLocation()
+                            }
+                        }
+                    }
+                }
+                
+                let cancelAction = UIAlertAction(title: "CANCEL", style: .Cancel) {
+                    action in
+                }
+                
+                dialog.addAction(okAction)
+                dialog.addAction(cancelAction)
+                dialog.addTextFieldWithConfigurationHandler( { (user: UITextField!) -> Void in })
+                
+                self.presentViewController(dialog, animated: true, completion: nil)
             }
         }
         
@@ -312,10 +366,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
                 let vc = TargetProfileViewController()
                 vc.userInfo = targetUser!
                 self.navigationController!.pushViewController(vc, animated: true)
-                                
-            } else {
-                // Error Occured
-                println(error)
             }
         }
         
@@ -324,13 +374,27 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     }
     
     //更新
-    func refreshFeed() {
+    func onClickReload() {
         
+        self.lm.startUpdatingLocation()
+        
+        let dialog = UIAlertController(title: "", message: "マップを更新しました", preferredStyle: .Alert)
+        
+        self.presentViewController(dialog, animated: true) { () -> Void in
+            let delay = 1.0 * Double(NSEC_PER_SEC)
+            let time  = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+            dispatch_after(time, dispatch_get_main_queue(), {
+                self.dismissViewControllerAnimated(true, completion: nil)
+            })
+        }
+        
+        /*
         FeedData.mainData().refreshMapFeed(self.myPosition) { () -> () in
-            
             GoogleMapsHelper.setUserMarker(self.gmaps!, userObjects: FeedData.mainData().feedItems)
             
-        }
+            self.lm.stopUpdatingLocation()
+            
+        }*/
         
     }
     

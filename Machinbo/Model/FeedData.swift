@@ -24,7 +24,6 @@ class FeedData: NSObject {
 
         ParseHelper.getNearUserInfomation(myLocation) { (withError error: NSError?, result) -> Void in
             if error == nil {
-                
                 self.feedItems = result!
                 
             }

@@ -69,7 +69,7 @@ class ParseHelper {
         query.whereKey("UserID", containsString: userID)
         query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
             if error == nil {
-                let object = objects!.first as! PFObject
+                let object = objects!.first as? PFObject
                 completion?(withError: error, result: object)
             }
         }

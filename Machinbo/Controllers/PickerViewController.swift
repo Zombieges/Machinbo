@@ -83,6 +83,12 @@ class PickerViewController: UIViewController,
             // Delegateを設定する.
             myTableView.delegate = self
             
+            // 不要行の削除
+            var v:UIView = UIView(frame: CGRectZero)
+            v.backgroundColor = UIColor.clearColor()
+            myTableView.tableFooterView = v
+            myTableView.tableHeaderView = v
+            
             // Viewに追加する.
             self.view.addSubview(myTableView)
             

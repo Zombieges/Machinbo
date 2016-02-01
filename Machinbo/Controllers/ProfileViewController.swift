@@ -16,11 +16,11 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
     UIImagePickerControllerDelegate,
     UIPickerViewDelegate,
     PickerViewControllerDelegate ,
-UITableViewDelegate{
+    UITableViewDelegate{
     
     
     @IBOutlet weak var profilePicture: UIImageView!
-    @IBOutlet weak var startButton: UIButton!
+    @IBOutlet weak var startButton: ZFRippleButton!
     @IBOutlet weak var TableView: UITableView!
     
     var photoItems: [String] = ["フォト"]
@@ -56,6 +56,17 @@ UITableViewDelegate{
         var myTap:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "tapGesture:")
         self.profilePicture.addGestureRecognizer(myTap)
         
+        let nibName = UINib(nibName: "DetailProfileTableViewCell", bundle:nil)
+        self.TableView.registerNib(nibName, forCellReuseIdentifier: detailTableViewCellIdentifier)
+        self.TableView.estimatedRowHeight = 200.0
+        self.TableView.rowHeight = UITableViewAutomaticDimension
+        
+        // 不要行の削除
+        var v:UIView = UIView(frame: CGRectZero)
+        v.backgroundColor = UIColor.clearColor()
+        self.TableView.tableFooterView = v
+        self.TableView.tableHeaderView = v
+        self.view.addSubview(TableView)
         
         if (self.FarstTimeStart){
             
@@ -73,7 +84,7 @@ UITableViewDelegate{
             self.window?.makeKeyAndVisible()
             
             // start button 表示
-            startButton.hidden = false
+            //startButton.hidden = false
             
         } else {
             
@@ -103,11 +114,6 @@ UITableViewDelegate{
         profilePicture.hidden = true
         ageSelectButton.hidden = true
         */
-        let nibName = UINib(nibName: "DetailProfileTableViewCell", bundle:nil)
-        self.TableView.registerNib(nibName, forCellReuseIdentifier: detailTableViewCellIdentifier)
-        self.TableView.estimatedRowHeight = 200.0
-        self.TableView.rowHeight = UITableViewAutomaticDimension
-        self.view.addSubview(TableView)
         
         
         // 初回起動時（未登録ユーザ）

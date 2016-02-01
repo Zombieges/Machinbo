@@ -8,7 +8,7 @@
             <connections>
                 <outlet property="TableView" destination="YmW-wK-9N8" id="v3k-pe-YGe"/>
                 <outlet property="profilePicture" destination="leq-Pp-UA6" id="1G5-Dh-Jvl"/>
-                <outlet property="startButton" destination="Rf5-tc-hSa" id="TtE-fN-Jb2"/>
+                <outlet property="startButton" destination="Rf5-tc-hSa" id="5A7-x6-S1D"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -16,10 +16,10 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="I8u-xI-29R">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I8u-xI-29R">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="186"/>
                     <subviews>
-                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PEC-ux-cxX">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PEC-ux-cxX">
                             <rect key="frame" x="0.0" y="2" width="600" height="184"/>
                             <color key="backgroundColor" red="0.91224608210000002" green="0.91224608210000002" blue="0.91224608210000002" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
@@ -50,7 +50,7 @@
                         <constraint firstAttribute="trailing" secondItem="PEC-ux-cxX" secondAttribute="trailing" id="qzb-aW-nbj"/>
                     </constraints>
                 </view>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="YmW-wK-9N8">
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="YmW-wK-9N8">
                     <rect key="frame" x="0.0" y="184" width="600" height="300"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
@@ -61,16 +61,28 @@
                         <outlet property="delegate" destination="-1" id="xtW-vq-gEY"/>
                     </connections>
                 </tableView>
-                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rf5-tc-hSa">
-                    <rect key="frame" x="277" y="554" width="46" height="30"/>
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rf5-tc-hSa" customClass="ZFRippleButton" customModule="Machinbo" customModuleProvider="target">
+                    <rect key="frame" x="8" y="552" width="584" height="40"/>
+                    <color key="backgroundColor" red="0.70980392160000005" green="0.25882352939999997" blue="0.25490196079999999" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="46" id="fEz-ZF-Ud5"/>
+                        <constraint firstAttribute="height" constant="40" id="JBi-Za-hTp"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                     <state key="normal" title="start">
-                        <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="color" keyPath="rippleColor">
+                            <color key="value" red="0.70980392160000005" green="0.25882352939999997" blue="0.25490196079999999" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="rippleBackgroundColor">
+                            <color key="value" red="0.85098039215686272" green="0.34901960784313724" blue="0.30196078431372547" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="5"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
                     <connections>
                         <action selector="pushStart:" destination="-1" eventType="touchUpInside" id="i3p-sa-6nX"/>
                     </connections>
@@ -78,17 +90,21 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="Rf5-tc-hSa" firstAttribute="top" secondItem="YmW-wK-9N8" secondAttribute="bottom" constant="8" symbolic="YES" id="4NI-MZ-kQd"/>
                 <constraint firstItem="YmW-wK-9N8" firstAttribute="leading" secondItem="3iS-eM-Ybb" secondAttribute="leading" id="7Fb-zd-9fl"/>
                 <constraint firstItem="YmW-wK-9N8" firstAttribute="trailing" secondItem="I8u-xI-29R" secondAttribute="trailing" id="Cy6-rv-ZDW"/>
                 <constraint firstItem="I8u-xI-29R" firstAttribute="top" secondItem="3iS-eM-Ybb" secondAttribute="top" id="FGS-ZO-rFB"/>
-                <constraint firstItem="Rf5-tc-hSa" firstAttribute="leading" secondItem="3iS-eM-Ybb" secondAttribute="leading" constant="172" id="Rsc-qg-hXY"/>
                 <constraint firstItem="YmW-wK-9N8" firstAttribute="leading" secondItem="I8u-xI-29R" secondAttribute="leading" id="T6C-Xs-72G"/>
-                <constraint firstItem="YmW-wK-9N8" firstAttribute="centerX" secondItem="Rf5-tc-hSa" secondAttribute="centerX" id="XYJ-Kb-OWu"/>
                 <constraint firstItem="YmW-wK-9N8" firstAttribute="top" secondItem="3iS-eM-Ybb" secondAttribute="top" constant="184" id="YYR-eK-jsF"/>
-                <constraint firstAttribute="bottom" secondItem="Rf5-tc-hSa" secondAttribute="bottom" constant="78" id="k12-SO-fcQ"/>
+                <constraint firstItem="Rf5-tc-hSa" firstAttribute="top" secondItem="YmW-wK-9N8" secondAttribute="bottom" constant="16" id="d7B-kP-WhW"/>
+                <constraint firstAttribute="trailing" secondItem="YmW-wK-9N8" secondAttribute="trailing" id="yRM-hk-yTl"/>
+                <constraint firstItem="YmW-wK-9N8" firstAttribute="centerX" secondItem="Rf5-tc-hSa" secondAttribute="centerX" id="yZe-bt-x5V"/>
             </constraints>
-            <point key="canvasLocation" x="341" y="-341"/>
+            <userDefinedRuntimeAttributes>
+                <userDefinedRuntimeAttribute type="color" keyPath="rippleColor">
+                    <color key="value" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                </userDefinedRuntimeAttribute>
+            </userDefinedRuntimeAttributes>
+            <point key="canvasLocation" x="340" y="-338"/>
         </view>
     </objects>
 </document>

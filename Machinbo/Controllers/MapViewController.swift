@@ -162,23 +162,24 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     func createNavigationItem() {
         
         //◆プロフィール画面
-        
         let profileViewButton: UIButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
-        //set image for button
         profileViewButton.setImage(UIImage(named: "profile_icon.png"), forState: UIControlState.Normal)
-        //add function for button
+        profileViewButton.titleLabel?.font = UIFont.systemFontOfSize(11)
+        profileViewButton.setTitle("設定", forState: UIControlState.Normal)
         profileViewButton.addTarget(self, action: "onClickProfileView", forControlEvents: UIControlEvents.TouchUpInside)
-        //set frame
-        profileViewButton.frame = CGRectMake(0, 0, 53, 53)
+        profileViewButton.frame = CGRectMake(0, 0, 60, 53)
+        profileViewButton.imageEdgeInsets = UIEdgeInsetsMake(-25, 17, 0, 0)
+        profileViewButton.titleEdgeInsets = UIEdgeInsetsMake(22, -22, 0, 0)
         
         //create a new button
         let imakokoViewButton: UIButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
-        //set image for button
         imakokoViewButton.setImage(UIImage(named: "imakoko.png"), forState: UIControlState.Normal)
-        //add function for button
+        imakokoViewButton.titleLabel?.font = UIFont.systemFontOfSize(11)
+        imakokoViewButton.setTitle("いま来る", forState: UIControlState.Normal)
         imakokoViewButton.addTarget(self, action: "onClickGoNowListView", forControlEvents: UIControlEvents.TouchUpInside)
-        //set frame
-        imakokoViewButton.frame = CGRectMake(0, 0, 53, 53)
+        imakokoViewButton.frame = CGRectMake(0, 0, 60, 53)
+        imakokoViewButton.imageEdgeInsets = UIEdgeInsetsMake(-25, 17, 0, 0)
+        imakokoViewButton.titleEdgeInsets = UIEdgeInsetsMake(22, -22, 0, 0)
         
         self.navigationItem.rightBarButtonItems =
             [UIBarButtonItem(customView: profileViewButton), UIBarButtonItem(customView: imakokoViewButton)]
@@ -186,14 +187,15 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         //通知があったら表示
         //◆いま行く画面
         //いまいくボタンを押下したら表示するようにする？
-        //create a new button
         let imaikuViewButton: UIButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
-        //set image for button
         imaikuViewButton.setImage(UIImage(named: "imaiku.png"), forState: UIControlState.Normal)
-        //add function for button
+        imaikuViewButton.titleLabel?.font = UIFont.systemFontOfSize(11)
+        imaikuViewButton.setTitle("いま行く", forState: UIControlState.Normal)
+        imaikuViewButton.sizeToFit()
         imaikuViewButton.addTarget(self, action: "onClickGoNowView", forControlEvents: UIControlEvents.TouchUpInside)
-        //set frame
-        imaikuViewButton.frame = CGRectMake(0, 0, 53, 53)
+        imaikuViewButton.frame = CGRectMake(0, 0, 60, 53)
+        imaikuViewButton.imageEdgeInsets = UIEdgeInsetsMake(-25, 17, 0, 0)
+        imaikuViewButton.titleEdgeInsets = UIEdgeInsetsMake(22, -22, 0, 0)
         
         self.navigationItem.rightBarButtonItems =
             [UIBarButtonItem(customView: profileViewButton), UIBarButtonItem(customView: imakokoViewButton), UIBarButtonItem(customView: imaikuViewButton)]
@@ -203,12 +205,13 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         
         //リロード
         let reloadButton: UIButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
-        //set image for button
         reloadButton.setImage(UIImage(named: "reload.png"), forState: UIControlState.Normal)
-        //add function for button
+        reloadButton.titleLabel?.font = UIFont.systemFontOfSize(11)
+        reloadButton.setTitle("リロード", forState: UIControlState.Normal)
         reloadButton.addTarget(self, action: "onClickReload", forControlEvents: UIControlEvents.TouchUpInside)
-        //set frame
-        reloadButton.frame = CGRectMake(0, 0, 53, 53)
+        reloadButton.frame = CGRectMake(0, 0, 60, 53)
+        reloadButton.imageEdgeInsets = UIEdgeInsetsMake(-25, 17, 0, 0)
+        reloadButton.titleEdgeInsets = UIEdgeInsetsMake(22, -22, 0, 0)
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: reloadButton)
         
@@ -268,12 +271,15 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     }
 
     func onClickGoNow(){
+        
+        let vc = PickerViewController()
+        vc.palKind = "imakoko"
+        self.navigationController!.pushViewController(vc, animated: true)
+        
+        /*
         var geoPoint = PFGeoPoint(latitude: latitude, longitude: longitude)
         
-        let user = PersistentData.User()
-        NSLog("UserID - " + user.userID)
-        
-        ParseHelper.getUserInfomation(user.userID) { (withError error: NSError?, result: PFObject?) -> Void in
+        ParseHelper.getUserInfomation(PersistentData.User().userID) { (withError error: NSError?, result: PFObject?) -> Void in
             if error == nil {
                 let query = result! as PFObject
                 
@@ -324,7 +330,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
                 
                 self.presentViewController(dialog, animated: true, completion: nil)
             }
-        }
+        }*/
         
         /*
         //USER情報にUPDATEをかける

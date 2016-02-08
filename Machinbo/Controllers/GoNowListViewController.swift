@@ -23,6 +23,7 @@ class GoNowListViewController: UIViewController, UITableViewDelegate {
             self.view = view
         }
         
+        self.navigationItem.title = "いまから来る人リスト"
         self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
         
         let nibName = UINib(nibName: "GoNowTableViewCell", bundle:nil)

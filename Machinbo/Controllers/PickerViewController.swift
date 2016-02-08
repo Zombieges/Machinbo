@@ -120,6 +120,26 @@ class PickerViewController: UIViewController,
             self.view.addSubview(inputTextView)
             
             createButton(displayWidth)
+        
+        } else if (self.kind == "imakoko") {
+            
+            self.navigationItem.title = "待ち合わせ場所の詳細を入力"
+            self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
+            
+            inputTextView.frame = CGRectMake(10, 80, displayWidth - 20 ,80)
+            inputTextView.text = self.Input as? String
+            inputTextView.layer.masksToBounds = true
+            inputTextView.layer.cornerRadius = 10.0
+            inputTextView.layer.borderWidth = 1
+            inputTextView.layer.borderColor = UIColor.grayColor().CGColor
+            inputTextView.font = UIFont.systemFontOfSize(CGFloat(15))
+            inputTextView.textAlignment = NSTextAlignment.Left
+            inputTextView.selectedRange = NSMakeRange(0, 0)
+            self.automaticallyAdjustsScrollViewInsets = false
+            
+            self.view.addSubview(inputTextView)
+            
+            createButton(displayWidth)
         }
         
     }

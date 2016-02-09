@@ -33,8 +33,8 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
     
     var myItems:[String] = []
     
-    var gender: Int? = 0
-    var age: Int? = 0
+    var gender: Int?
+    var age: Int?
     var inputName: String = ""
     var selectedAge: String = ""
     var selectedGender: String = ""
@@ -92,7 +92,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
             
             
             // start button 非表示
-            startButton.hidden = true
+            //startButton.hidden = true
         }
         
         // 初期画像
@@ -286,7 +286,10 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
                 self.myItems = ["男性","女性"]
                 vc.palmItems = self.myItems
                 vc.palKind = "gender"
-                vc.palInput = self.gender!
+                if let gender = self.gender{
+                    
+                    vc.palInput = gender
+                }
                 vc.delegate = self
                 
                 self.navigationController?.pushViewController(vc, animated: true)
@@ -306,7 +309,10 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
                 
                 vc.palmItems = self.myItems
                 vc.palKind = "age"
-                vc.palInput = self.age!
+                if let age = self.age{
+                    
+                    vc.palInput = age
+                }
                 vc.delegate = self
                 
                 self.navigationController?.pushViewController(vc, animated: true)
@@ -328,6 +334,18 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
     }
     
     @IBAction func pushStart(sender: AnyObject) {
+        
+        // 必須チェック
+        if self.inputName.isEmpty {
+            
+            var alert = UIAlertView()
+            alert.message = "名前は必須項目です。"
+            alert.addButtonWithTitle("OK")
+            alert.show()
+        }
+        
+        //if self.
+        
         let imageData = UIImagePNGRepresentation(profilePicture.image)
         let imageFile = PFFile(name:"image.png", data:imageData)
         let uuid = NSUUID().UUIDString

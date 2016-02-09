@@ -29,9 +29,9 @@ class PickerViewController: UIViewController,
     
     let saveButton = UIButton()
     
-    var selectedAgeIndex: Int = 0
+    var selectedAgeIndex: Int?
     var selectedAge:String = ""
-    var selectedGenderIndex: Int = 0
+    var selectedGenderIndex: Int?
     var selectedGender: String = ""
     var inputTextField = UITextField()
     var inputTextView = UITextView()
@@ -208,26 +208,27 @@ class PickerViewController: UIViewController,
         
         if (self.kind == "age"){
             
-            self.selectedAgeIndex = indexPath.row
             
-            let indexPath: String? = myItems[indexPath.row] as? String
-            if indexPath != nil {
+            //self.selectedAgeIndex = indexPath.row
+            
+            //let selected: String? = myItems[indexPath.row] as? String
+            if let selected = myItems[indexPath.row] as? String {
                 
-                self.selectedAge = indexPath!.uppercaseString
-                self.delegate!.setAge(self.selectedAgeIndex,selected: self.selectedAge)
+                //self.selectedAge = selected!.uppercaseString
+                self.delegate!.setAge(indexPath.row,selected: selected.uppercaseString)
                 self.navigationController!.popViewControllerAnimated(true)
                 
             }
             
         } else if (self.kind == "gender"){
             
-            self.selectedGenderIndex = indexPath.row
+            //self.selectedGenderIndex = indexPath.row
             
-            let indexPath: String? = myItems[indexPath.row] as? String
-            if indexPath != nil {
+            //let selected: String? = myItems[indexPath.row] as? String
+            if let selected = myItems[indexPath.row] as? String {
                 
-                self.selectedGender = indexPath!.uppercaseString
-                self.delegate!.setGender(self.selectedGenderIndex,selected: self.selectedGender)
+                //self.selectedGender = selected!.uppercaseString
+                self.delegate!.setGender(indexPath.row,selected: selected.uppercaseString)
                 self.navigationController!.popViewControllerAnimated(true)
             }
         }

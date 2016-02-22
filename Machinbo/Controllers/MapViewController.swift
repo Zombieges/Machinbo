@@ -272,9 +272,15 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
 
     func onClickGoNow(){
         
+        let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        hud.labelText = "Loading..."
+        
         let vc = PickerViewController()
         vc.palKind = "imakoko"
+        vc.palGeoPoint = PFGeoPoint(latitude: latitude, longitude: longitude)
         self.navigationController!.pushViewController(vc, animated: true)
+        
+        hud.hide(true)
         
         /*
         var geoPoint = PFGeoPoint(latitude: latitude, longitude: longitude)
@@ -344,6 +350,9 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     
     func onClickGoNowListView() {
         
+        let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        hud.labelText = "Loading..."
+        
         //TODO:ナベの端末ID取得UserID設定処理が感性したら再実装
         ParseHelper.getGoNowMeList("demo9") { (withError error: NSError?, result) -> Void in
             if error == nil {
@@ -355,11 +364,14 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
             } else {
                 println(error)
             }
+            
+            hud.hide(true)
         }
     }
     
     func onClickGoNowView() {
-        myActivityIndicator.startAnimating()
+        let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        hud.labelText = "Loading..."
         
         //TODO:ナベの端末ID取得UserID設定処理が感性したら再実装
         ParseHelper.getMyGoNow("demo7") { (withError error: NSError?, result) -> Void in
@@ -374,10 +386,9 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
                 vc.userInfo = targetUser!
                 self.navigationController!.pushViewController(vc, animated: true)
             }
+            
+            hud.hide(true)
         }
-        
-        myActivityIndicator.stopAnimating()
-
     }
     
     //更新

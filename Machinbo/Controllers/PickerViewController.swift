@@ -9,6 +9,8 @@
 import Foundation
 import UIKit
 import SpriteKit
+import Parse
+import MBProgressHUD
 
 protocol PickerViewControllerDelegate{
     func setGender(selectedIndex: Int,selected: String)
@@ -45,6 +47,8 @@ class PickerViewController: UIViewController,
     var palmItems:[String] = []
     var palKind: String = ""
     var palInput: AnyObject = ""
+    var palGeoPoint: PFGeoPoint?
+    
     var window: UIWindow?
     
     var myViewController: UIViewController?
@@ -109,7 +113,7 @@ class PickerViewController: UIViewController,
             inputTextView.frame = CGRectMake(10, 80, displayWidth - 20 ,80)
             inputTextView.text = self.Input as? String
             inputTextView.layer.masksToBounds = true
-            inputTextView.layer.cornerRadius = 10.0
+            inputTextView.layer.cornerRadius = 5.0
             inputTextView.layer.borderWidth = 1
             inputTextView.layer.borderColor = UIColor.grayColor().CGColor
             inputTextView.font = UIFont.systemFontOfSize(CGFloat(15))
@@ -129,7 +133,7 @@ class PickerViewController: UIViewController,
             inputTextView.frame = CGRectMake(10, 80, displayWidth - 20 ,80)
             inputTextView.text = self.Input as? String
             inputTextView.layer.masksToBounds = true
-            inputTextView.layer.cornerRadius = 10.0
+            inputTextView.layer.cornerRadius = 5.0
             inputTextView.layer.borderWidth = 1
             inputTextView.layer.borderColor = UIColor.grayColor().CGColor
             inputTextView.font = UIFont.systemFontOfSize(CGFloat(15))
@@ -139,7 +143,7 @@ class PickerViewController: UIViewController,
             
             self.view.addSubview(inputTextView)
             
-            createButton(displayWidth)
+            createInsertPlaceButton(displayWidth)
         }
         
     }
@@ -182,6 +186,26 @@ class PickerViewController: UIViewController,
         
     }
     
+    func createInsertPlaceButton(displayWidth: CGFloat) {
+        
+        var updateGeoPoint = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 150, height: 40))
+        updateGeoPoint.trackTouchLocation = true
+        updateGeoPoint.backgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
+        updateGeoPoint.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
+        updateGeoPoint.rippleColor = LayoutManager.getUIColorFromRGB(0xB54241)
+        updateGeoPoint.setTitle("保存", forState: .Normal)
+        updateGeoPoint.layer.cornerRadius = 5.0
+        updateGeoPoint.layer.masksToBounds = true
+        updateGeoPoint.layer.position = CGPoint(x: displayWidth/2, y:200)
+        updateGeoPoint.addTarget(self, action: "onClickSaveButton:", forControlEvents: UIControlEvents.TouchUpInside)
+        
+        self.view.addSubview(updateGeoPoint)
+    }
+    
+    func onClickInsertPlace() {
+        
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -189,15 +213,56 @@ class PickerViewController: UIViewController,
     
     internal func onClickSaveButton(sender: UIButton){
         
-        if (self.kind == "name"){
+        if (self.kind == "name") {
             
             self.delegate!.setName(self.inputTextField.text)
             self.navigationController!.popViewControllerAnimated(true)
             
-        } else if (self.kind == "comment"){
+        } else if (self.kind == "comment") {
             
             self.delegate!.setComment(self.inputTextView.text)
             self.navigationController!.popViewControllerAnimated(true)
+        
+        } else if (self.kind == "imakoko") {
+            
+            let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+            hud.labelText = "Loading..."
+            
+            ParseHelper.getUserInfomation(PersistentData.User().userID) { (withError error: NSError?, result: PFObject?) -> Void in
+                if error == nil {
+                    let query = result! as PFObject
+                    
+                    let gpsMark = PFObject(className: "Action")
+                    gpsMark["CreatedBy"] = query
+                    gpsMark["GPS"] = self.palGeoPoint
+                    gpsMark["MarkTime"] = NSDate()
+                    //場所詳細
+                    gpsMark["PlaceDetail"] = self.inputTextView.text
+                    //登録処理
+                    gpsMark.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+                        if error == nil {
+                            
+                            hud.hide(true)
+                            
+                            let completeDialog = UIAlertController(
+                                title: "",
+                                message: "現在位置を登録しました", preferredStyle: .Alert
+                            )
+                            
+                            self.presentViewController(completeDialog, animated: true) { () -> Void in
+                                let delay = 1.0 * Double(NSEC_PER_SEC)
+                                let time  = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+                                dispatch_after(time, dispatch_get_main_queue(), {
+                                    self.dismissViewControllerAnimated(true, completion: nil)
+                                    //前画面遷移
+                                    self.navigationController!.popViewControllerAnimated(true)
+                                })
+                            }
+                            
+                        }
+                    }
+                }
+            }
         }
     }
     

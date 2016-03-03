@@ -80,7 +80,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         updateGeoPoint.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
         updateGeoPoint.rippleColor = LayoutManager.getUIColorFromRGB(0xB54241)
         updateGeoPoint.setTitle("現在位置登録", forState: .Normal)
-        updateGeoPoint.addTarget(self, action: "onClickGoNow", forControlEvents: UIControlEvents.TouchUpInside)
+        updateGeoPoint.addTarget(self, action: "onClickImakoko", forControlEvents: UIControlEvents.TouchUpInside)
         updateGeoPoint.layer.cornerRadius = 5.0
         updateGeoPoint.layer.masksToBounds = true
         updateGeoPoint.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height - self.view.bounds.height/8.3)
@@ -243,10 +243,16 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     }
     
     func mapView(mapView: GMSMapView!, didTapInfoWindowOfMarker marker: GMSMarker!) {
+        
+        let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        hud.labelText = "Loading..."
+        
         let vc = TargetProfileViewController()
         vc.userInfo = marker.userData.objectForKey("CreatedBy")!
         
         self.navigationController!.pushViewController(vc, animated: true)
+        
+        hud.hide(true)
     }
     
     func mapView(mapView: GMSMapView!, didTapMarker marker: GMSMarker!) -> Bool {
@@ -270,88 +276,22 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         
     }
 
-    func onClickGoNow(){
+    func onClickImakoko(){
         
-        let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-        hud.labelText = "Loading..."
+        MBProgressHUDHelper.show("Loading...")
         
         let vc = PickerViewController()
         vc.palKind = "imakoko"
         vc.palGeoPoint = PFGeoPoint(latitude: latitude, longitude: longitude)
+        
         self.navigationController!.pushViewController(vc, animated: true)
         
-        hud.hide(true)
-        
-        /*
-        var geoPoint = PFGeoPoint(latitude: latitude, longitude: longitude)
-        
-        ParseHelper.getUserInfomation(PersistentData.User().userID) { (withError error: NSError?, result: PFObject?) -> Void in
-            if error == nil {
-                let query = result! as PFObject
-                
-                NSLog("objectId - " + query.objectId!)
-                
-                let gpsMark = PFObject(className: "Action")
-                gpsMark["CreatedBy"] = query
-                gpsMark["GPS"] = geoPoint
-                gpsMark["MarkTime"] = NSDate()
-                
-                let dialog = UIAlertController(title: "", message: "現在位置を登録しますか？", preferredStyle: .Alert)
-                let okAction = UIAlertAction(title: "OK", style: .Default) {
-                    (action: UIAlertAction!) -> Void in
-                    
-                    let textFields:Array<UITextField>? =  dialog.textFields?.first as! Array<UITextField>?
-                    if textFields != nil {
-                        
-                        //gpsMark["PlaceDetail"] = textFields?.first
-                        
-                        gpsMark.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
-                            if error == nil {
-                                
-                                let completeDialog = UIAlertController(title: "", message: "現在位置を登録しました", preferredStyle: .Alert)
-                                
-                                completeDialog.addTextFieldWithConfigurationHandler( { (user: UITextField!) -> Void in })
-                                
-                                self.presentViewController(completeDialog, animated: true) { () -> Void in
-                                    let delay = 1.0 * Double(NSEC_PER_SEC)
-                                    let time  = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-                                    dispatch_after(time, dispatch_get_main_queue(), {
-                                        self.dismissViewControllerAnimated(true, completion: nil)
-                                    })
-                                }
-                                
-                                self.lm.startUpdatingLocation()
-                            }
-                        }
-                    }
-                }
-                
-                let cancelAction = UIAlertAction(title: "CANCEL", style: .Cancel) {
-                    action in
-                }
-                
-                dialog.addAction(okAction)
-                dialog.addAction(cancelAction)
-                dialog.addTextFieldWithConfigurationHandler( { (user: UITextField!) -> Void in })
-                
-                self.presentViewController(dialog, animated: true, completion: nil)
-            }
-        }*/
-        
-        /*
-        //USER情報にUPDATEをかける
-        let gpsMark = PFObject(className: "UserInfo")
-        gpsMark["GPS"] = geoPoint
-        gpsMark["MarkTime"] = NSDate()
-        gpsMark.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
-            NSLog("GPS情報登録成功")
-        }*/
+        MBProgressHUDHelper.hide()
     }
     
     func onClickGoNowListView() {
         
-        let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-        hud.labelText = "Loading..."
+        MBProgressHUDHelper.show("Loading...")
         
         //TODO:ナベの端末ID取得UserID設定処理が感性したら再実装
         ParseHelper.getGoNowMeList("demo9") { (withError error: NSError?, result) -> Void in
@@ -365,13 +305,12 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
                 println(error)
             }
             
-            hud.hide(true)
+            MBProgressHUDHelper.hide()
         }
     }
     
     func onClickGoNowView() {
-        let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-        hud.labelText = "Loading..."
+        MBProgressHUDHelper.show("Loading...")
         
         //TODO:ナベの端末ID取得UserID設定処理が感性したら再実装
         ParseHelper.getMyGoNow("demo7") { (withError error: NSError?, result) -> Void in
@@ -387,7 +326,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
                 self.navigationController!.pushViewController(vc, animated: true)
             }
             
-            hud.hide(true)
+            MBProgressHUDHelper.hide()
         }
     }
     

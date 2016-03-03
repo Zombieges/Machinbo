@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import Parse
+import MBProgressHUD
 
 class TargetProfileViewController: UIViewController, UITableViewDelegate {
     
@@ -16,6 +17,9 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate {
     let modalTextLabel = UILabel()
     var lblName: String = ""
     var userInfo: AnyObject = []
+    
+    //遷移元の画面IDを指定
+    var kind: String = ""
 
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var tableView: UITableView!
@@ -177,10 +181,6 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate {
         
         // 選択中のセルが何番目か.
         println("Num: \(indexPath.row)")
-        
-        // 選択中のセルのvalue.
-        //println("Value: \(myItems[indexPath.row])")
-        
         // 選択中のセルを編集できるか.
         println("Edeintg: \(tableView.editing)")
     }
@@ -189,82 +189,23 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate {
         self.presentViewController(self.mapView, animated: true, completion: nil)
     }
     
-    /*
-    いまから行きますボタン押下時
-    */
     @IBAction func clickImaikuButton(sender: AnyObject) {
-        //PickerViewController へ遷移し、何分以内に行くかを選択させる
         
-        //ひとまず、何分かかるか選択する機能はおいておく
-
+        let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        hud.labelText = "Loading..."
         
-        //すでに登録済みかを確認
-        /*
-        var query = PFQuery(className: "Action")
-        query.whereKey("UserID", containsString: userid)
-        query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
-            if error == nil {
-                //GoogleMapsHelper.setUserMarker(map, userObjects: objects)
-                completion(success: true, errorMesssage: nil, result: objects)
-            } else {
-                
-            }
-            
+        
+        let vc = PickerViewController()
+        vc.palTargetUser = self.userInfo as? PFObject
+        vc.palKind = "imaiku"
+        vc.palmItems = ["5分","10分", "15分", "20分", "25分", "30分"]
+        /*for var i = 5; i < 60; i + 5 {
+            vc.palmItems.append(String(i) + "分")
         }*/
+       
+        self.navigationController!.pushViewController(vc, animated: true)
         
-        //ナベがクロマティにイマイクなケース
-        //UserID demo6 が target demo7 にイマイク
-        
-        //ユーザーIDの取得
-        let userid = "demo1"//PersistentData.userID
-        let targetUserid = self.userInfo.objectForKey("UserID") as! String
-        
-        let query = PFQuery(className: "Action")
-        query.getObjectInBackgroundWithId(userid, block: { (target, error) -> Void in
-
-            if error != nil {
-                //self.navigationController?.popToRootViewControllerAnimated(TRUE)
-                NSLog("========> error")
-                
-                /*
-                var testObject = PFObject(className:"Action")
-                testObject["mitNavn"] = "janus"
-                testObject.saveInBackgroundWithBlock {
-                    (success: Bool, error: NSError!) -> Void in
-                    if (success) {
-                        // The object has been saved.
-                        println("succesfull saved object")
-                    } else {
-                        // There was a problem, check error.description
-                        println("error saving the object")
-                    }
-                }*/
-                
-            } else if let target = target {
-                
-                //既にイマイク登録されている場合は登録できない
-                //一度登録したのは１日経過するか、削除しなければいかん
-                target.saveInBackgroundWithBlock({ (success, error) -> Void in
-                    if (success) {
-                        NSLog("Save to area")
-                        
-                    } else {
-                        NSLog("non success!!")
-                    }
-                })
-                
-            }
-
-        })
-
-        //gpsMark["GPS"] = geoPoint
-        
-        /*query.whereKey("TargetUserID", equalTo: self.userInfo.objectForKey("UserID"))
-        
-        query["MarkTime"] = NSDate()
-        query.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
-            NSLog("GPS情報登録成功")
-        }*/
+        hud.hide(true)
     }
     
 }

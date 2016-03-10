@@ -16,6 +16,7 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate {
     var mapView: MapViewController!
     let modalTextLabel = UILabel()
     var lblName: String = ""
+    var actionInfo: AnyObject = []
     var userInfo: AnyObject = []
     
     //遷移元の画面IDを指定
@@ -39,6 +40,8 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate {
         }
         
         self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
+        
+        userInfo = actionInfo.objectForKey("CreatedBy") as! PFObject
         
         //self.tableView.estimatedRowHeight = 60
         //self.tableView.rowHeight = UITableViewAutomaticDimension
@@ -196,12 +199,9 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate {
         
         
         let vc = PickerViewController()
-        vc.palTargetUser = self.userInfo as? PFObject
+        vc.palTargetUser = self.actionInfo as? PFObject
         vc.palKind = "imaiku"
-        vc.palmItems = ["5分","10分", "15分", "20分", "25分", "30分"]
-        /*for var i = 5; i < 60; i + 5 {
-            vc.palmItems.append(String(i) + "分")
-        }*/
+        vc.palmItems = ["5分","10分", "15分", "20分", "25分", "30分", "35分", "40分", "45分", "50分", "55分", "60分"]
        
         self.navigationController!.pushViewController(vc, animated: true)
         

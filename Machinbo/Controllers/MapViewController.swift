@@ -120,14 +120,13 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     
     
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+        
+        MBProgressHUDHelper.show("Loading...")
+        
         latitude = locations.first!.coordinate.latitude
         longitude = locations.first!.coordinate.longitude
         
         NSLog("位置情報取得成功！-> latiitude: \(latitude) , longitude: \(longitude)")
-        
-        let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-        hud.mode = MBProgressHUDMode.AnnularDeterminate
-        hud.progress = 0.0
         
         //現在位置
         self.myPosition = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
@@ -156,7 +155,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         createNavigationItem()
         createupdateGeoPointButton()
         
-        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+        MBProgressHUDHelper.hide()
     }
     
     func createNavigationItem() {
@@ -244,15 +243,11 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     
     func mapView(mapView: GMSMapView!, didTapInfoWindowOfMarker marker: GMSMarker!) {
         
-        let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-        hud.labelText = "Loading..."
-        
         let vc = TargetProfileViewController()
-        vc.userInfo = marker.userData.objectForKey("CreatedBy")!
+        vc.actionInfo = marker.userData
         
         self.navigationController!.pushViewController(vc, animated: true)
         
-        hud.hide(true)
     }
     
     func mapView(mapView: GMSMapView!, didTapMarker marker: GMSMarker!) -> Bool {
@@ -278,15 +273,11 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
 
     func onClickImakoko(){
         
-        MBProgressHUDHelper.show("Loading...")
-        
         let vc = PickerViewController()
         vc.palKind = "imakoko"
         vc.palGeoPoint = PFGeoPoint(latitude: latitude, longitude: longitude)
         
         self.navigationController!.pushViewController(vc, animated: true)
-        
-        MBProgressHUDHelper.hide()
     }
     
     func onClickGoNowListView() {
@@ -315,14 +306,17 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         //TODO:ナベの端末ID取得UserID設定処理が感性したら再実装
         ParseHelper.getMyGoNow("demo7") { (withError error: NSError?, result) -> Void in
             if error == nil {
-                let goNowMe: AnyObject? = result?.first
-                let targetAction: AnyObject? = goNowMe!.objectForKey("TargetUser")
-                let targetUser: AnyObject? = targetAction?.objectForKey("CreatedBy")
+                if let goNowObj: AnyObject = result?.first {
+                    
+                }
                 
-                NSLog(targetUser?.objectForKey("Name") as! String)
+                //let targetAction: AnyObject? = oNowObj!.objectForKey("TargetUser")
+                //let targetUser: AnyObject? = targetAction?.objectForKey("CreatedBy")
+                
+                //NSLog(targetUser?.objectForKey("Name") as! String)
                 
                 let vc = TargetProfileViewController()
-                vc.userInfo = targetUser!
+                //vc.actionInfo = targetAction!
                 self.navigationController!.pushViewController(vc, animated: true)
             }
             
@@ -344,14 +338,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
                 self.dismissViewControllerAnimated(true, completion: nil)
             })
         }
-        
-        /*
-        FeedData.mainData().refreshMapFeed(self.myPosition) { () -> () in
-            GoogleMapsHelper.setUserMarker(self.gmaps!, userObjects: FeedData.mainData().feedItems)
-            
-            self.lm.stopUpdatingLocation()
-            
-        }*/
         
     }
     

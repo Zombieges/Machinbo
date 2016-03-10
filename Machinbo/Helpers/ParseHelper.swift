@@ -24,7 +24,7 @@ class ParseHelper {
         PFAnalytics.trackAppOpenedWithLaunchOptions(launchOptions)
     }
     
-    class func getNearUserInfomation(myLocation: CLLocationCoordinate2D, completion:((withError: NSError?, result:[AnyObject]?)->Void)?) {
+    class func getNearUserInfomation(myLocation: CLLocationCoordinate2D, completion:((withError: NSError?, result:[PFObject]?)->Void)?) {
         //50km圏内、近くから100件取得
         let myGeoPoint = PFGeoPoint(latitude: myLocation.latitude, longitude: myLocation.longitude)
         
@@ -34,7 +34,8 @@ class ParseHelper {
         query.includeKey("CreatedBy")
         query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
             if error == nil {
-                completion?(withError: error, result: objects)
+                let resultNearUser = objects as! [PFObject]
+                completion?(withError: error, result: resultNearUser)
                 
             }
         }

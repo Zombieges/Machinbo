@@ -27,7 +27,6 @@ class PickerViewController: UIViewController,
     
     
     var delegate: PickerViewControllerDelegate?
-    //var saveButton: UIBarButtonItem!
     
     let saveButton = UIButton()
     
@@ -52,6 +51,8 @@ class PickerViewController: UIViewController,
     var window: UIWindow?
     
     var myViewController: UIViewController?
+    
+    var palTargetUser: PFObject?
     
         
     override func viewDidLoad() {
@@ -124,6 +125,25 @@ class PickerViewController: UIViewController,
             self.view.addSubview(inputTextView)
             
             createButton(displayWidth)
+            
+        } else if (self.kind == "imaiku") {
+            
+            self.navigationItem.title = "待ち合わせまでにかかる時間"
+            self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
+            
+            myTableView = UITableView(frame: CGRect(x: 0, y: navBarHeight!, width: displayWidth, height: displayHeight - navBarHeight!))
+            
+            myTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
+            myTableView.dataSource = self
+            myTableView.delegate = self
+            
+            var v:UIView = UIView(frame: CGRectZero)
+            v.backgroundColor = UIColor.clearColor()
+            myTableView.tableFooterView = v
+            myTableView.tableHeaderView = v
+            
+            // Viewに追加する.
+            self.view.addSubview(myTableView)
         
         } else if (self.kind == "imakoko") {
             
@@ -143,7 +163,7 @@ class PickerViewController: UIViewController,
             
             self.view.addSubview(inputTextView)
             
-            createInsertPlaceButton(displayWidth)
+            createInsertDataButton(displayWidth)
         }
         
     }
@@ -186,7 +206,7 @@ class PickerViewController: UIViewController,
         
     }
     
-    func createInsertPlaceButton(displayWidth: CGFloat) {
+    func createInsertDataButton(displayWidth: CGFloat) {
         
         var updateGeoPoint = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 150, height: 40))
         updateGeoPoint.trackTouchLocation = true
@@ -222,6 +242,74 @@ class PickerViewController: UIViewController,
             
             self.delegate!.setComment(self.inputTextView.text)
             self.navigationController!.popViewControllerAnimated(true)
+            
+        } else if (self.kind == "imaiku") {
+            
+            
+            
+            //PickerViewController へ遷移し、何分以内に行くかを選択させる
+            
+            //ひとまず、何分かかるか選択する機能はおいておく
+            
+            
+            //すでに登録済みかを確認
+            /*
+            var query = PFQuery(className: "Action")
+            query.whereKey("UserID", containsString: userid)
+            query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
+            if error == nil {
+            //GoogleMapsHelper.setUserMarker(map, userObjects: objects)
+            completion(success: true, errorMesssage: nil, result: objects)
+            } else {
+            
+            }
+            
+            }*/
+            
+            //ナベがクロマティにイマイクなケース
+            //UserID demo6 が target demo7 にイマイク
+            
+            //ユーザーIDの取得
+            /*
+            let userid = "demo1"//PersistentData.userID
+            let targetUserid = self.userInfo.objectForKey("UserID") as! String
+            
+            let query = PFQuery(className: "Action")
+            query.getObjectInBackgroundWithId(userid, block: { (target, error) -> Void in
+                
+                if error != nil {
+                    //self.navigationController?.popToRootViewControllerAnimated(TRUE)
+                    NSLog("========> error")
+                    
+                    
+                    
+                } else if let target = target {
+                    
+                    //既にイマイク登録されている場合は登録できない
+                    //一度登録したのは１日経過するか、削除しなければいかん
+                    target.saveInBackgroundWithBlock({ (success, error) -> Void in
+                        if (success) {
+                            NSLog("Save to area")
+                            
+                        } else {
+                            NSLog("non success!!")
+                        }
+                    })
+                    
+                }
+                
+            })
+            
+            //gpsMark["GPS"] = geoPoint
+            
+            /*query.whereKey("TargetUserID", equalTo: self.userInfo.objectForKey("UserID"))
+            
+            query["MarkTime"] = NSDate()
+            query.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+            NSLog("GPS情報登録成功")
+            }*/
+            
+            */
         
         } else if (self.kind == "imakoko") {
             
@@ -296,6 +384,60 @@ class PickerViewController: UIViewController,
                 self.delegate!.setGender(indexPath.row,selected: selected.uppercaseString)
                 self.navigationController!.popViewControllerAnimated(true)
             }
+            
+        } else if (self.kind == "imaiku") {
+            
+            if let selected = myItems[indexPath.row] as? String {
+                
+                //ここでDBに登録
+                MBProgressHUDHelper.show("Loading...")
+                
+                ParseHelper.getUserInfomation("demo9") { (withError error: NSError?, result) -> Void in
+                    if error == nil {
+                        //let myUserInfo = result! as PFObject
+                        
+                        let query = PFObject(className: "GoNow")
+                        
+                        let userID = result?.objectForKey("UserID") as? String
+                        let targetUserID = self.palTargetUser?.objectForKey("CreatedBy")!.objectForKey("UserID") as? String
+                        
+                        query["UserID"] = userID
+                        query["TargetUserID"] = targetUserID
+                        
+                        query["User"] = result
+                        
+                        //TODO: TargetUser が拾えていない　＞　PFObjectではないから？
+                        query["TargetUser"] = self.palTargetUser
+                        
+                        
+                        query["GotoTime"] = selected
+                        query.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+                            if error == nil {
+                                
+                                MBProgressHUDHelper.hide()
+                                
+                                let completeDialog = UIAlertController(
+                                    title: "",
+                                    message: "いまから行くことを送信しました", preferredStyle: .Alert
+                                )
+                                
+                                self.presentViewController(completeDialog, animated: true) { () -> Void in
+                                    let delay = 1.0 * Double(NSEC_PER_SEC)
+                                    let time  = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+                                    dispatch_after(time, dispatch_get_main_queue(), {
+                                        self.dismissViewControllerAnimated(true, completion: nil)
+                                        //前画面遷移
+                                        self.navigationController!.popToRootViewControllerAnimated(true)
+                                    })
+                                }
+                                
+                            }
+                        }
+                    }
+                }
+                
+            }
+            
         }
     }
     

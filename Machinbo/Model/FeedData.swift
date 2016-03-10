@@ -13,7 +13,7 @@ let _mainData: FeedData = FeedData()
 
 class FeedData: NSObject {
     
-    var feedItems: [AnyObject] = []
+    var feedItems: [PFObject] = []
     
     class func mainData() -> FeedData {
         
@@ -24,6 +24,7 @@ class FeedData: NSObject {
 
         ParseHelper.getNearUserInfomation(myLocation) { (withError error: NSError?, result) -> Void in
             if error == nil {
+                
                 self.feedItems = result!
                 
             }

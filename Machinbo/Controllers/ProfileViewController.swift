@@ -11,20 +11,21 @@ import UIKit
 import Photos
 import Parse
 import SpriteKit
+import MBProgressHUD
 
 class ProfileViewController: UIViewController, UINavigationControllerDelegate,
     UIImagePickerControllerDelegate,
     UIPickerViewDelegate,
     PickerViewControllerDelegate ,
-    UITableViewDelegate{
+UITableViewDelegate{
     
     
     @IBOutlet weak var profilePicture: UIImageView!
     @IBOutlet weak var startButton: ZFRippleButton!
     @IBOutlet weak var TableView: UITableView!
     
-    var photoItems: [String] = ["フォト"]
-    var otherItems: [String] = ["名前", "性別", "年齢", "プロフィール"]
+    let photoItems: [String] = ["フォト"]
+    let otherItems: [String] = ["名前", "性別", "年齢", "プロフィール"]
     
     var mainNavigationCtrl: UINavigationController?
     var picker: UIImagePickerController?
@@ -52,23 +53,23 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
         }
         
         // profilePicture をタップできるように設定
-        self.profilePicture.userInteractionEnabled = true;
+        profilePicture.userInteractionEnabled = true;
         var myTap:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "tapGesture:")
-        self.profilePicture.addGestureRecognizer(myTap)
+        profilePicture.addGestureRecognizer(myTap)
         
         let nibName = UINib(nibName: "DetailProfileTableViewCell", bundle:nil)
-        self.TableView.registerNib(nibName, forCellReuseIdentifier: detailTableViewCellIdentifier)
-        self.TableView.estimatedRowHeight = 200.0
-        self.TableView.rowHeight = UITableViewAutomaticDimension
+        TableView.registerNib(nibName, forCellReuseIdentifier: detailTableViewCellIdentifier)
+        TableView.estimatedRowHeight = 200.0
+        TableView.rowHeight = UITableViewAutomaticDimension
         
         // 不要行の削除
         var v:UIView = UIView(frame: CGRectZero)
         v.backgroundColor = UIColor.clearColor()
-        self.TableView.tableFooterView = v
-        self.TableView.tableHeaderView = v
-        self.view.addSubview(TableView)
+        TableView.tableFooterView = v
+        TableView.tableHeaderView = v
+        view.addSubview(TableView)
         
-        if (self.FarstTimeStart){
+        if (FarstTimeStart){
             
             // 新規登録時
             var storyboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
@@ -79,9 +80,9 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
             mainNavigationCtrl!.navigationBar.barTintColor = LayoutManager.getUIColorFromRGB(0x3949AB)
             mainNavigationCtrl!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
             
-            self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
-            self.window?.rootViewController = mainNavigationCtrl
-            self.window?.makeKeyAndVisible()
+            window = UIWindow(frame: UIScreen.mainScreen().bounds)
+            window?.rootViewController = mainNavigationCtrl
+            window?.makeKeyAndVisible()
             
             // start button 表示
             //startButton.hidden = false
@@ -96,8 +97,8 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
         }
         
         // 初期画像
-        self.profilePicture.image = UIImage(named: "photo.png")
-        imageMolding(self.profilePicture)
+        profilePicture.image = UIImage(named: "photo.png")
+        imageMolding(profilePicture)
         //}
         
         /*editButon = UIBarButtonItem(title: "編集", style: .Plain, target: nil, action: "editDepression")
@@ -133,13 +134,13 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
         picker?.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
         picker?.allowsEditing = false
         
-        self.presentViewController(picker!, animated: true, completion: nil)
+        presentViewController(picker!, animated: true, completion: nil)
     }
     
     
     // 写真選択時の処理
     internal func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        dismissViewControllerAnimated(true, completion: nil)
         
         let image = info[UIImagePickerControllerOriginalImage] as! UIImage
         
@@ -150,52 +151,52 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
         let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        self.profilePicture.image = resizedImage
+        profilePicture.image = resizedImage
         
-        imageMolding(self.profilePicture)
+        imageMolding(profilePicture)
     }
     
     // 写真選択画面でキャンセルした場合の処理
     internal func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
     // PickerViewController より性別を選択した際に実行される処理
     internal func setGender(selectedIndex: Int,selected: String) {
         
-        self.gender = selectedIndex
-        self.selectedGender = selected
+        gender = selectedIndex
+        selectedGender = selected
         
         // テーブル再描画
-        self.TableView.reloadData()
+        TableView.reloadData()
     }
     
     // PickerViewController より年齢を選択した際に実行される処理
     internal func setAge(selectedIndex: Int,selected: String) {
         
-        self.age = selectedIndex
-        self.selectedAge = selected
+        age = selectedIndex
+        selectedAge = selected
         
         // テーブル再描画
-        self.TableView.reloadData()
+        TableView.reloadData()
     }
     
     // PickerViewController よりを保存ボタンを押下した際に実行される処理
     internal func setName(name: String) {
         
-        self.inputName = name
+        inputName = name
         
         // テーブル再描画
-        self.TableView.reloadData()
+        TableView.reloadData()
     }
     
     // PickerViewController よりを保存ボタンを押下した際に実行される処理
     internal func setComment(comment: String) {
         
-        self.inputComment = comment
+        inputComment = comment
         
         // テーブル再描画
-        self.TableView.reloadData()
+        TableView.reloadData()
     }
     
     /*
@@ -232,15 +233,15 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
                 
                 if indexPath.row == 0 {
                     normalCell?.textLabel?.text = otherItems[indexPath.row]
-                    normalCell?.detailTextLabel?.text = self.inputName as String
+                    normalCell?.detailTextLabel?.text = inputName as String
                     
                 } else if indexPath.row == 1 {
                     normalCell?.textLabel?.text = otherItems[indexPath.row]
-                    normalCell?.detailTextLabel?.text = self.selectedGender as String
+                    normalCell?.detailTextLabel?.text = selectedGender as String
                     
                 } else if indexPath.row == 2 {
                     normalCell?.textLabel?.text = otherItems[indexPath.row]
-                    normalCell?.detailTextLabel?.text = self.selectedAge as String
+                    normalCell?.detailTextLabel?.text = selectedAge as String
                     
                 }
                 
@@ -254,7 +255,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
                 if indexPath.row == 3 {
                     
                     detailCell?.titleLabel.text = otherItems[indexPath.row]
-                    detailCell?.valueLabel.text = self.inputComment as String
+                    detailCell?.valueLabel.text = inputComment as String
                     
                 }
                 
@@ -268,31 +269,31 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
     // セルがタップされた時
     internal func tableView(table: UITableView, didSelectRowAtIndexPath indexPath:NSIndexPath) {
         
-        self.myItems = []
+        myItems = []
         let vc = PickerViewController()
         
         if indexPath.section == 0 {
             if indexPath.row == 0 {
                 
-                vc.palmItems = self.myItems
+                vc.palmItems = myItems
                 vc.palKind = "name"
-                vc.palInput = self.inputName
+                vc.palInput = inputName
                 vc.delegate = self
                 
-                self.navigationController?.pushViewController(vc, animated: true)
+                navigationController?.pushViewController(vc, animated: true)
                 
             } else if indexPath.row == 1 {
                 
-                self.myItems = ["男性","女性"]
-                vc.palmItems = self.myItems
+                myItems = ["男性","女性"]
+                vc.palmItems = myItems
                 vc.palKind = "gender"
-                if let gender = self.gender{
+                if let gender = gender{
                     
                     vc.palInput = gender
                 }
                 vc.delegate = self
                 
-                self.navigationController?.pushViewController(vc, animated: true)
+                navigationController?.pushViewController(vc, animated: true)
                 
             } else if indexPath.row == 2 {
                 
@@ -304,47 +305,49 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
                 
                 var i:Int = 0
                 for i in 0...50 {
-                    self.myItems.append((String(comp.year - i)))
+                    myItems.append((String(comp.year - i)))
                 }
                 
-                vc.palmItems = self.myItems
+                vc.palmItems = myItems
                 vc.palKind = "age"
-                if let age = self.age{
+                if let age = age{
                     
                     vc.palInput = age
                 }
                 vc.delegate = self
                 
-                self.navigationController?.pushViewController(vc, animated: true)
+                navigationController?.pushViewController(vc, animated: true)
                 
             } else if indexPath.row == 3 {
                 
                 
-                vc.palmItems = self.myItems
+                vc.palmItems = myItems
                 vc.palKind = "comment"
-                vc.palInput = self.inputComment
+                vc.palInput = inputComment
                 vc.delegate = self
                 
                 //let profileViewCtrl: ProfileViewController = PickerViewController()
                 //self.window?.rootViewController = profileViewCtrl
-                self.navigationController?.pushViewController(vc, animated: true)
+                navigationController?.pushViewController(vc, animated: true)
                 
             }
         }
     }
     
+    
     @IBAction func pushStart(sender: AnyObject) {
         
         // 必須チェック
-        if self.inputName.isEmpty {
-            
-            var alert = UIAlertView()
-            alert.message = "名前は必須項目です。"
-            alert.addButtonWithTitle("OK")
-            alert.show()
+        if inputName.isEmpty {
+            errorMessageDeisplay("名前を入力してください");
+        }
+        if selectedGender.isEmpty{
+            errorMessageDeisplay("性別を選択してください");
+        }
+        if selectedAge.isEmpty{
+            errorMessageDeisplay("年齢を選択してください");
         }
         
-        //if self.
         
         let imageData = UIImagePNGRepresentation(profilePicture.image)
         let imageFile = PFFile(name:"image.png", data:imageData)
@@ -355,14 +358,28 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
         var user = PersistentData.User()
         user.userID = uuid
         
-        
-        //to do
-        
-        //NSLog("userID" + PersistentData.userID)
-        //NSLog("userID" + user.userID)
         NSLog("UUID" + uuid)
         
-        ParseHelper.setUserInfomation(uuid ,name: self.inputName,gender: self.gender!,age: self.selectedAge ,comment: inputComment,photo: imageFile)
+        //var isNoneNil = if let uuid = uuid && let gender = gender && let gender = gender && let selectedAge = selectedAge && let inputComment = inputComment)
+        
+        // 登録
+      //  ParseHelper.setUserInfomation(uuid ,name: inputName,gender: gender!,age: selectedAge ,comment: inputComment,photo: imageFile)
+        
+        let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        hud.labelText = "Loading..."
+        
+        
+        // MapViewControler へ
+        var storyboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
+        var mainViewController = MapViewController()
+        mainNavigationCtrl = UINavigationController(rootViewController: mainViewController)
+        
+        mainNavigationCtrl!.navigationBar.barTintColor = LayoutManager.getUIColorFromRGB(0x3949AB)
+        mainNavigationCtrl!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
+        
+        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        self.window?.rootViewController = mainNavigationCtrl
+        self.window?.makeKeyAndVisible()
     }
     
     private func imageMolding(target : UIImageView){
@@ -371,5 +388,24 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
         target.layer.borderWidth = 3
         target.layer.cornerRadius = 10
         target.layer.masksToBounds = true
+    }
+    
+    private func errorMessageDeisplay(message: String){
+        
+        
+        let uiAlertController = UIAlertController(title: "", message: message , preferredStyle: UIAlertControllerStyle.Alert)
+        
+        let defaultAction:UIAlertAction = UIAlertAction(
+            title: "OK",
+            style: UIAlertActionStyle.Default,
+            handler:{
+                (action:UIAlertAction!) -> Void in
+                print("Default")
+        })
+        // アクションを登録
+        uiAlertController.addAction(defaultAction)
+        
+        
+        presentViewController(uiAlertController, animated: true, completion: nil)
     }
 }

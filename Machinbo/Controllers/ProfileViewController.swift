@@ -363,7 +363,7 @@ UITableViewDelegate{
         //var isNoneNil = if let uuid = uuid && let gender = gender && let gender = gender && let selectedAge = selectedAge && let inputComment = inputComment)
         
         // 登録
-      //  ParseHelper.setUserInfomation(uuid ,name: inputName,gender: gender!,age: selectedAge ,comment: inputComment,photo: imageFile)
+        ParseHelper.setUserInfomation(uuid ,name: inputName,gender: gender!,age: selectedAge ,comment: inputComment,photo: imageFile)
         
         let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
         hud.labelText = "Loading..."

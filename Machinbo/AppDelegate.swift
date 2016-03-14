@@ -62,36 +62,25 @@
         /*
         登録済みか否かをチェック
         */
-        let user = PersistentData.User()
-        NSLog("userID　　　" + user.userID)
-        //if PersistentData.userID != "" {
-        if user.userID == "" {
-        //if (0 == 0){
-            /*
-            Main NavigationController
-            */
-            //基点となるViewを定義
-            let profileViewCtrl: ProfileViewController = ProfileViewController()
-            profileViewCtrl.FarstTimeStart = true
-            self.window?.rootViewController = profileViewCtrl
-            //mainNavigationCtrl?.pushViewController(profileViewCtrl, animated: true)
-            self.window?.makeKeyAndVisible()
+        let firstViewController: UIViewController
+        if PersistentData.User().userID != "" {
+            firstViewController = storyboard.instantiateViewControllerWithIdentifier("profile") as! ProfileViewController
+
             
         } else {
-            
-            
-            
             var storyboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
-            var mainViewController = storyboard.instantiateInitialViewController() as! UIViewController
-            mainNavigationCtrl = UINavigationController(rootViewController: mainViewController)
-            
-            mainNavigationCtrl!.navigationBar.barTintColor = LayoutManager.getUIColorFromRGB(0x3949AB)
-            mainNavigationCtrl!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
-            
-            self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
-            self.window?.rootViewController = mainNavigationCtrl
-            self.window?.makeKeyAndVisible()
+            firstViewController = storyboard.instantiateInitialViewController() as! UIViewController
         }
+        
+        mainNavigationCtrl = UINavigationController(rootViewController: firstViewController)
+        
+        mainNavigationCtrl!.navigationBar.barTintColor = LayoutManager.getUIColorFromRGB(0x3949AB)
+        mainNavigationCtrl!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
+        mainNavigationCtrl!.navigationBar.tintColor = UIColor.whiteColor()
+        
+        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        self.window?.rootViewController = mainNavigationCtrl
+        self.window?.makeKeyAndVisible()
         
         return true
     }

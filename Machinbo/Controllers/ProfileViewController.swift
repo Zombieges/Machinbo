@@ -45,6 +45,7 @@ UITableViewDelegate{
     var cell: UITableViewCell? // nilになることがあるので、Optionalで宣言
     let detailTableViewCellIdentifier: String = "DetailCell"
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -69,28 +70,20 @@ UITableViewDelegate{
         TableView.tableHeaderView = v
         view.addSubview(TableView)
         
-        if (FarstTimeStart){
-            
-            // 新規登録時
-            var storyboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
-            var mainViewController = ProfileViewController()
-            mainNavigationCtrl = UINavigationController(rootViewController: mainViewController)
-            
+        if PersistentData.User().userID != "" {
             // navigationBar 設置
-            mainNavigationCtrl!.navigationBar.barTintColor = LayoutManager.getUIColorFromRGB(0x3949AB)
-            mainNavigationCtrl!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
-            
-            window = UIWindow(frame: UIScreen.mainScreen().bounds)
-            window?.rootViewController = mainNavigationCtrl
-            window?.makeKeyAndVisible()
-            
+            self.navigationItem.title = "プロフィールを登録してください"
             // start button 表示
             //startButton.hidden = false
             
         } else {
             
             // 通常の画面遷移
-            
+            let userData = PersistentData.User()
+            //age = userData.age
+            gender = userData.gender
+            inputName = userData.name
+            inputComment = userData.comment
             
             // start button 非表示
             //startButton.hidden = true
@@ -339,15 +332,19 @@ UITableViewDelegate{
         
         // 必須チェック
         if inputName.isEmpty {
-            errorMessageDeisplay("名前を入力してください");
+            //errorMessageDeisplay("名前を入力してください");
+            UIAlertView.showAlertView("", message: "名前を入力してください")
         }
         if selectedGender.isEmpty{
-            errorMessageDeisplay("性別を選択してください");
+            //errorMessageDeisplay("性別を選択してください");
+            UIAlertView.showAlertView("", message: "性別を選択してください")
         }
         if selectedAge.isEmpty{
-            errorMessageDeisplay("年齢を選択してください");
+            //errorMessageDeisplay("年齢を選択してください");
+            UIAlertView.showAlertView("", message: "年齢を選択してください")
         }
         
+        MBProgressHUDHelper.show("Loading...")
         
         let imageData = UIImagePNGRepresentation(profilePicture.image)
         let imageFile = PFFile(name:"image.png", data:imageData)
@@ -365,10 +362,11 @@ UITableViewDelegate{
         // 登録
         ParseHelper.setUserInfomation(uuid ,name: inputName,gender: gender!,age: selectedAge ,comment: inputComment,photo: imageFile)
         
-        let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-        hud.labelText = "Loading..."
+        var userInfo = PersistentData.User()
+        userInfo.userID = uuid
+        userInfo.name = inputName
         
-        
+        /*
         // MapViewControler へ
         var storyboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
         var mainViewController = MapViewController()
@@ -380,6 +378,17 @@ UITableViewDelegate{
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
         self.window?.rootViewController = mainNavigationCtrl
         self.window?.makeKeyAndVisible()
+*/
+        
+        var newRootVC = MapViewController()
+        var navigationController = UINavigationController(rootViewController: newRootVC)
+        navigationController.navigationBar.barTintColor = LayoutManager.getUIColorFromRGB(0x3949AB)
+        navigationController.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
+        
+        UIApplication.sharedApplication().keyWindow?.rootViewController = navigationController
+        
+        MBProgressHUDHelper.hide()
+        
     }
     
     private func imageMolding(target : UIImageView){

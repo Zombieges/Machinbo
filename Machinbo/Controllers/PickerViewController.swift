@@ -313,8 +313,7 @@ class PickerViewController: UIViewController,
         
         } else if (self.kind == "imakoko") {
             
-            let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-            hud.labelText = "Loading..."
+            MBProgressHUDHelper.show("Loading...")
             
             ParseHelper.getUserInfomation(PersistentData.User().userID) { (withError error: NSError?, result: PFObject?) -> Void in
                 if error == nil {
@@ -329,24 +328,11 @@ class PickerViewController: UIViewController,
                     //登録処理
                     gpsMark.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
                         if error == nil {
-                            
-                            hud.hide(true)
-                            
-                            let completeDialog = UIAlertController(
-                                title: "",
-                                message: "現在位置を登録しました", preferredStyle: .Alert
-                            )
-                            
-                            self.presentViewController(completeDialog, animated: true) { () -> Void in
-                                let delay = 1.0 * Double(NSEC_PER_SEC)
-                                let time  = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-                                dispatch_after(time, dispatch_get_main_queue(), {
-                                    self.dismissViewControllerAnimated(true, completion: nil)
-                                    //前画面遷移
-                                    self.navigationController!.popViewControllerAnimated(true)
-                                })
-                            }
-                            
+                            MBProgressHUDHelper.hide()
+                            //Alert
+                            UIAlertView.showAlertDismiss("", message: "現在位置を登録しました")
+                            //前画面遷移
+                            self.navigationController!.popViewControllerAnimated(true)
                         }
                     }
                 }

@@ -306,18 +306,21 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         //TODO:ナベの端末ID取得UserID設定処理が感性したら再実装
         ParseHelper.getMyGoNow("demo7") { (withError error: NSError?, result) -> Void in
             if error == nil {
-                if let goNowObj: AnyObject = result?.first {
-                    
-                }
-                
-                //let targetAction: AnyObject? = oNowObj!.objectForKey("TargetUser")
-                //let targetUser: AnyObject? = targetAction?.objectForKey("CreatedBy")
-                
-                //NSLog(targetUser?.objectForKey("Name") as! String)
-                
                 let vc = TargetProfileViewController()
-                //vc.actionInfo = targetAction!
-                self.navigationController!.pushViewController(vc, animated: true)
+                
+                if let goNowObj: AnyObject = result?.first {
+                    let targetAction: AnyObject? = goNowObj.objectForKey("TargetUser")
+                    let targetUser: AnyObject? = targetAction?.objectForKey("CreatedBy")
+                    
+                    NSLog(targetUser?.objectForKey("Name") as! String)
+                    
+                    vc.actionInfo = targetAction!
+                    self.navigationController!.pushViewController(vc, animated: true)
+                    
+                } else {
+                    
+                    UIAlertView.showAlertDismiss("", message: "いまから行く人が登録されていません")
+                }
             }
             
             MBProgressHUDHelper.hide()
@@ -326,19 +329,8 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     
     //更新
     func onClickReload() {
-        
         self.lm.startUpdatingLocation()
-        
-        let dialog = UIAlertController(title: "", message: "マップを更新しました", preferredStyle: .Alert)
-        
-        self.presentViewController(dialog, animated: true) { () -> Void in
-            let delay = 1.0 * Double(NSEC_PER_SEC)
-            let time  = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-            dispatch_after(time, dispatch_get_main_queue(), {
-                self.dismissViewControllerAnimated(true, completion: nil)
-            })
-        }
-        
+        UIAlertView.showAlertDismiss("", message: "マップを更新しました")
     }
     
 }

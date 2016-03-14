@@ -16,7 +16,7 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate {
     var mapView: MapViewController!
     let modalTextLabel = UILabel()
     var lblName: String = ""
-    var actionInfo: AnyObject = []
+    var actionInfo: AnyObject?
     var userInfo: AnyObject = []
     
     //遷移元の画面IDを指定
@@ -39,65 +39,32 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate {
             self.view = view
         }
         
-        self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
-        
-        userInfo = actionInfo.objectForKey("CreatedBy") as! PFObject
-        
-        //self.tableView.estimatedRowHeight = 60
-        //self.tableView.rowHeight = UITableViewAutomaticDimension
-        //self.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "ell")
-        
-        //self.tableView.registerClass(DetailProfileTableViewCell.self, forCellReuseIdentifier: detailTableViewCellIdentifier)
-        
+        navigationController!.navigationBar.tintColor = UIColor.whiteColor()
+   
         let nibName = UINib(nibName: "DetailProfileTableViewCell", bundle:nil)
-        self.tableView.registerNib(nibName, forCellReuseIdentifier: detailTableViewCellIdentifier)
-        self.tableView.estimatedRowHeight = 100.0
-        self.tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.registerNib(nibName, forCellReuseIdentifier: detailTableViewCellIdentifier)
+        tableView.estimatedRowHeight = 100.0
+        tableView.rowHeight = UITableViewAutomaticDimension
 
-        self.view.addSubview(tableView)
+        view.addSubview(tableView)
         
-        if let imageFile = self.userInfo.valueForKey("ProfilePicture") as? PFFile {
-            imageFile.getDataInBackgroundWithBlock { (imageData, error) -> Void in
-                if(error == nil) {
-                    self.ProfileImage.image = UIImage(data: imageData!)!
-                    self.ProfileImage.layer.borderColor = UIColor.whiteColor().CGColor
-                    self.ProfileImage.layer.borderWidth = 3
-                    self.ProfileImage.layer.cornerRadius = 10
-                    self.ProfileImage.layer.masksToBounds = true
+        if let actionInfo: AnyObject = self.actionInfo {
+             userInfo = actionInfo.objectForKey("CreatedBy") as! PFObject
+            
+            if let imageFile = userInfo.valueForKey("ProfilePicture") as? PFFile {
+                imageFile.getDataInBackgroundWithBlock { (imageData, error) -> Void in
+                    if(error == nil) {
+                        self.ProfileImage.image = UIImage(data: imageData!)!
+                        self.ProfileImage.layer.borderColor = UIColor.whiteColor().CGColor
+                        self.ProfileImage.layer.borderWidth = 3
+                        self.ProfileImage.layer.cornerRadius = 10
+                        self.ProfileImage.layer.masksToBounds = true
+                    }
                 }
             }
         }
-        
+
     }
-    
-    /*
-    func setUserInfo() {
-        //ユーザー情報取得
-        var query = PFQuery(className: "UserInfo")
-        query.whereKey("UserID", containsString: "demo13")
-        query.findObjectsInBackgroundWithBlock { (objects, error) in
-            if error == nil {
-                if let object = objects?.first as? PFObject {
-                    self.otherItemsValue.append((object.valueForKey("Name") as? String)!)
-                    self.otherItemsValue.append("")
-                    self.otherItemsValue.append((object.valueForKey("Age") as? String)!)
-                    self.otherItemsValue.append((object.valueForKey("Comment") as? String)!)
-                    //TODO:ナベに画像を圧縮してもらう
-                    let imageFile: PFFile? = object.valueForKey("ProfilePicture") as! PFFile?
-                    imageFile?.getDataInBackgroundWithBlock({ (imageData, error) -> Void in
-                        if(error == nil) {
-                            self.ProfileImage!.image = UIImage(data: imageData!)!
-                        }
-                    })
-                }
-                
-            } else {
-                let title = "エラー"
-                let message = "ユーザー情報が取得できませんでした。前画面からアクセスし直し、改善されない場合は一度立ち上げ直してください。"
-                UIAlertView.showAlertView(title, message: message)
-            }
-        }
-    }*/
     
     /*
     セクションの数を返す.
@@ -135,7 +102,7 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate {
         if indexPath.section == 0 {
             
             if indexPath.row < 3 {
-                // セルを再利用する。
+                // セルを再利用する
                 var normalCell = tableView.dequeueReusableCellWithIdentifier(tableViewCellIdentifier) as? UITableViewCell
                 if normalCell == nil { // 再利用するセルがなかったら（不足していたら）
                     // セルを新規に作成する。

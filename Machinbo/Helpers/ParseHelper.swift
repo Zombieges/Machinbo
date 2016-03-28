@@ -25,11 +25,11 @@ class ParseHelper {
     }
     
     class func getNearUserInfomation(myLocation: CLLocationCoordinate2D, completion:((withError: NSError?, result:[PFObject]?)->Void)?) {
-        //50km圏内、近くから100件取得
+        //25km圏内、近くから100件取得
         let myGeoPoint = PFGeoPoint(latitude: myLocation.latitude, longitude: myLocation.longitude)
         
         let query = PFQuery(className: "Action")
-        query.whereKey("GPS", nearGeoPoint: myGeoPoint, withinKilometers: 50.0)
+        query.whereKey("GPS", nearGeoPoint: myGeoPoint, withinKilometers: 25.0)
         query.limit = 100
         query.includeKey("CreatedBy")
         query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
@@ -39,17 +39,16 @@ class ParseHelper {
                 
             }
         }
-        
-        //return query.findObjects() as! [PFObject]
     }
     
-    class func getMyGoNow(loginUser: String, completion:((withError: NSError?, result:[AnyObject]?)->Void)?) {
+    class func getMyGoNow(loginUser: String, completion:((withError: NSError?, result: PFObject?)->Void)?) {
         let query = PFQuery(className: "GoNow")
         query.whereKey("UserID", containsString: loginUser)
         query.includeKey("TargetUser.CreatedBy")//ActionのPointerからUserInfoへリレーション
         query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
             if error == nil {
-                completion?(withError: error, result: objects)
+                let object = objects!.first as? PFObject
+                completion?(withError: error, result: object)
             }
         }
     }
@@ -76,7 +75,34 @@ class ParseHelper {
         }
     }
     
-    class func setUserInfomation(userID: String,name: String,gender: Int,age: String,comment: String,photo: PFFile) {
+    class func getActionInfomation(userID: String, completion:((withError: NSError?, result: PFObject?)->Void)?) {
+        
+        let userInfoQuery = PFQuery(className: "UserInfo")
+        userInfoQuery.whereKey("UserID", containsString: userID)
+        
+        let actionQuery = PFQuery(className: "Action")
+        actionQuery.includeKey("CreatedBy")
+        actionQuery.whereKey("CreatedBy", matchesQuery: userInfoQuery)
+        
+        actionQuery.getFirstObjectInBackgroundWithBlock { (object, error) -> Void in
+            if error == nil {
+                //既存のレコードを削除
+                object!.deleteInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+                    if (success) {
+                        //
+                        NSLog("削除しました！")
+                        
+                    } else {
+                        // handle error
+                    }
+                }
+                
+                completion?(withError: error, result: object)
+            }
+        }
+    }
+    
+    class func setUserInfomation(userID: String, name: String, gender: String, age: String, comment: String, photo: PFFile) {
         //新規ユーザー登録
         let info = PFObject(className: "UserInfo")
         info["UserID"] = userID
@@ -85,13 +111,37 @@ class ParseHelper {
         info["Age"] = age
         info["Comment"] = comment
         info["ProfilePicture"] = photo
-        //info["GPS"] = ""
-        //info["MarkTime"] = ""
+        
         info.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
             if success {
                 NSLog("ユーザー初期登録成功")
             }
         }
+    }
+    
+    class func setUserName(userID: String, name: String) {
+        let info = PFObject(className: "UserInfo")
+        info["UserID"] = userID
+        info["Name"] = name
+        
+        info.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+            if success {
+                NSLog("ユーザー初期登録成功")
+            }
+        }
+    }
+    
+    class func deleteGoNow(targetObjectID: String, completion: () -> ()) {
+        let query = PFQuery(className: "GoNow")
+        query.getObjectInBackgroundWithId(targetObjectID, block: { objects, error in
+            if error != nil {
+                NSLog("%@", error!)
+            } else {
+                objects!.deleteInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+                    completion()
+                }
+            }
+        })
     }
     
     func getErrorMessage(error:NSError?) -> String {

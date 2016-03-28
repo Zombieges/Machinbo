@@ -28,10 +28,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     
     @IBOutlet weak var mapViewContainer: UIView!
 
-    private var updateGeoPoint : ZFRippleButton!
     var mainNavigationCtrl: UINavigationController?
-    
-    private var myActivityIndicator: UIActivityIndicatorView!
     
     var gmaps : GMSMapView!
     
@@ -42,26 +39,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
             self.view = view
         }
         
-        // インジケータを作成する.
-        myActivityIndicator = UIActivityIndicatorView()
-        myActivityIndicator.frame = CGRectMake(0, 0, 50, 50)
-        myActivityIndicator.center = self.view.center
-        
-        // アニメーションが停止している時もインジケータを表示させる.
-        myActivityIndicator.hidesWhenStopped = false
-        myActivityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
-        
-        // アニメーションを開始する.
-        myActivityIndicator.startAnimating()
-        
-        // インジケータをViewに追加する.
-        self.view.addSubview(myActivityIndicator)
-        
-        lm = CLLocationManager()
-        lm.delegate = self
-        lm.desiredAccuracy = kCLLocationAccuracyBest
-        lm.distanceFilter = 100
-        
         // セキュリティ認証のステータスを取得
         let status = CLLocationManager.authorizationStatus()
         if status == CLAuthorizationStatus.NotDetermined {
@@ -69,24 +46,54 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
             self.lm.requestWhenInUseAuthorization()
         }
         
-        lm.startUpdatingLocation()
+        let reachability = AMReachability.reachabilityForInternetConnection()
+        if reachability.isReachable() {
+            println("インターネット接続あり")
+            
+            lm = CLLocationManager()
+            lm.delegate = self
+            lm.desiredAccuracy = kCLLocationAccuracyBest
+            lm.distanceFilter = 100
+            
+            lm.startUpdatingLocation()
+            
+        } else {
+            println("インターネット接続なし")
+            UIAlertView.showAlertView("", message: "接続に失敗しました。通信状況を確認の上、再接続してくだささい。")
+            createRefreshButton()
+            return
+        }
     }
 
     func createupdateGeoPointButton() {
-        //GeoPoint 更新ボタンの生成
-        updateGeoPoint = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 150, height: 40))
-        updateGeoPoint.trackTouchLocation = true
-        updateGeoPoint.backgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
-        updateGeoPoint.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
-        updateGeoPoint.rippleColor = LayoutManager.getUIColorFromRGB(0xB54241)
-        updateGeoPoint.setTitle("現在位置登録", forState: .Normal)
-        updateGeoPoint.addTarget(self, action: "onClickImakoko", forControlEvents: UIControlEvents.TouchUpInside)
-        updateGeoPoint.layer.cornerRadius = 5.0
-        updateGeoPoint.layer.masksToBounds = true
-        updateGeoPoint.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height - self.view.bounds.height/8.3)
-        self.view.addSubview(updateGeoPoint)
+        //GeoPoint 更新ボタン
+        let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 150, height: 40))
+        btn.trackTouchLocation = true
+        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
+        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
+        btn.rippleColor = LayoutManager.getUIColorFromRGB(0xB54241)
+        btn.setTitle("現在位置登録", forState: .Normal)
+        btn.addTarget(self, action: "onClickImakoko", forControlEvents: UIControlEvents.TouchUpInside)
+        btn.layer.cornerRadius = 5.0
+        btn.layer.masksToBounds = true
+        btn.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height - self.view.bounds.height/8.3)
+        self.view.addSubview(btn)
     }
     
+    func createRefreshButton() {
+        //画面リフレッシュボタン
+        let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 150, height: 40))
+        btn.trackTouchLocation = true
+        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
+        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
+        btn.rippleColor = LayoutManager.getUIColorFromRGB(0xB54241)
+        btn.setTitle("再表示", forState: .Normal)
+        btn.addTarget(self, action: "onClickViewRefresh", forControlEvents: UIControlEvents.TouchUpInside)
+        btn.layer.cornerRadius = 5.0
+        btn.layer.masksToBounds = true
+        btn.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height - self.view.bounds.height/8.3)
+        self.view.addSubview(btn)
+    }
     
     func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         
@@ -243,7 +250,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     
     func mapView(mapView: GMSMapView!, didTapInfoWindowOfMarker marker: GMSMarker!) {
         
-        let vc = TargetProfileViewController()
+        let vc = TargetProfileViewController(type: ProfileType.TargetProfile)
         vc.actionInfo = marker.userData
         
         self.navigationController!.pushViewController(vc, animated: true)
@@ -256,8 +263,8 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     
     func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
         manager.stopUpdatingLocation()
-        NSLog("位置情報取得失敗")
         
+        NSLog("位置情報取得失敗")
         UIAlertView.showAlertView("エラー", message:"位置情報の取得が失敗しました。アプリを再起動してください。")
     }
     
@@ -267,12 +274,12 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     
     func onClickProfileView() {
         let profileView = ProfileViewController()
+        //profileView.userInfo =
         self.navigationController?.pushViewController(profileView, animated: true)
         
     }
 
     func onClickImakoko(){
-        
         let vc = PickerViewController()
         vc.palKind = "imakoko"
         vc.palGeoPoint = PFGeoPoint(latitude: latitude, longitude: longitude)
@@ -281,11 +288,9 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     }
     
     func onClickGoNowListView() {
-        
         MBProgressHUDHelper.show("Loading...")
         
-        //TODO:ナベの端末ID取得UserID設定処理が感性したら再実装
-        ParseHelper.getGoNowMeList("demo9") { (withError error: NSError?, result) -> Void in
+        ParseHelper.getGoNowMeList(PersistentData.User().userID) { (withError error: NSError?, result) -> Void in
             if error == nil {
                 
                 let vc = GoNowListViewController()
@@ -303,23 +308,23 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     func onClickGoNowView() {
         MBProgressHUDHelper.show("Loading...")
         
-        //TODO:ナベの端末ID取得UserID設定処理が感性したら再実装
-        ParseHelper.getMyGoNow("demo7") { (withError error: NSError?, result) -> Void in
+        ParseHelper.getMyGoNow(PersistentData.User().userID) { (withError error: NSError?, result) -> Void in
             if error == nil {
-                let vc = TargetProfileViewController()
+                let vc = TargetProfileViewController(type: ProfileType.ImaikuTargetProfile)
                 
-                if let goNowObj: AnyObject = result?.first {
+                if let goNowObj: AnyObject = result {
                     let targetAction: AnyObject? = goNowObj.objectForKey("TargetUser")
                     let targetUser: AnyObject? = targetAction?.objectForKey("CreatedBy")
                     
-                    NSLog(targetUser?.objectForKey("Name") as! String)
-                    
+                    vc.targetObjectID = goNowObj.objectId
                     vc.actionInfo = targetAction!
                     self.navigationController!.pushViewController(vc, animated: true)
                     
                 } else {
                     
-                    UIAlertView.showAlertDismiss("", message: "いまから行く人が登録されていません")
+                    UIAlertView.showAlertDismiss("", message: "いまから行く人が登録されていません") { () -> () in
+                        //self.navigationController!.popToRootViewControllerAnimated(true)
+                    }
                 }
             }
             
@@ -330,7 +335,13 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     //更新
     func onClickReload() {
         self.lm.startUpdatingLocation()
-        UIAlertView.showAlertDismiss("", message: "マップを更新しました")
+        UIAlertView.showAlertDismiss("", message: "マップを更新しました") { () -> () in
+        }
+    }
+    
+    func onClickViewRefresh() {
+        loadView()
+        viewDidLoad()
     }
     
 }

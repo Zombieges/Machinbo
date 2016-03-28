@@ -27,6 +27,8 @@ UITableViewDelegate{
     let photoItems: [String] = ["フォト"]
     let otherItems: [String] = ["名前", "性別", "年齢", "プロフィール"]
     
+    let sections: NSArray = ["プロフィール"]
+    
     var mainNavigationCtrl: UINavigationController?
     var picker: UIImagePickerController?
     var window: UIWindow?
@@ -34,8 +36,8 @@ UITableViewDelegate{
     
     var myItems:[String] = []
     
-    var gender: Int?
-    var age: Int?
+    var gender: String?
+    var age: String?
     var inputName: String = ""
     var selectedAge: String = ""
     var selectedGender: String = ""
@@ -45,6 +47,7 @@ UITableViewDelegate{
     var cell: UITableViewCell? // nilになることがあるので、Optionalで宣言
     let detailTableViewCellIdentifier: String = "DetailCell"
     
+    //var userInfo: PFObject?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,8 +56,10 @@ UITableViewDelegate{
             self.view = view
         }
         
+        navigationController!.navigationBar.tintColor = UIColor.whiteColor()
+        
         // profilePicture をタップできるように設定
-        profilePicture.userInteractionEnabled = true;
+        profilePicture.userInteractionEnabled = true
         var myTap:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "tapGesture:")
         profilePicture.addGestureRecognizer(myTap)
         
@@ -70,48 +75,29 @@ UITableViewDelegate{
         TableView.tableHeaderView = v
         view.addSubview(TableView)
         
-        if PersistentData.User().userID != "" {
-            // navigationBar 設置
+        if PersistentData.User().userID == "" {
             self.navigationItem.title = "プロフィールを登録してください"
-            // start button 表示
-            //startButton.hidden = false
+            // 初期画像
+            profilePicture.image = UIImage(named: "photo.png")
             
         } else {
+            self.navigationItem.title = "プロフィール"
+            
+            startButton.hidden = true
             
             // 通常の画面遷移
             let userData = PersistentData.User()
-            //age = userData.age
-            gender = userData.gender
+            profilePicture.image = userData.profileImage
             inputName = userData.name
+            age = userData.age
+            selectedAge = userData.age
+            gender = userData.gender
+            selectedGender = String(userData.gender)
             inputComment = userData.comment
-            
-            // start button 非表示
-            //startButton.hidden = true
         }
         
-        // 初期画像
-        profilePicture.image = UIImage(named: "photo.png")
+
         imageMolding(profilePicture)
-        //}
-        
-        /*editButon = UIBarButtonItem(title: "編集", style: .Plain, target: nil, action: "editDepression")
-        self.navigationItem.leftBarButtonItem = editButon
-        self.navigationItem.rightBarButtonItem = nil
-        self.navigationItem.leftBarButtonItem?.tintColor = UIColor.whiteColor()
-        */
-        /*
-        // control Init
-        name.enabled = false
-        comment.enabled = false
-        genderSelectButton.hidden = true
-        imgPhotoButton.hidden = true
-        profilePicture.hidden = true
-        ageSelectButton.hidden = true
-        */
-        
-        
-        // 初回起動時（未登録ユーザ）
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -147,6 +133,25 @@ UITableViewDelegate{
         profilePicture.image = resizedImage
         
         imageMolding(profilePicture)
+        
+        var userInfo = PersistentData.User()
+        if userInfo.userID != "" {
+
+            ParseHelper.getUserInfomation(userInfo.userID) { (withError error: NSError?, result: PFObject?) -> Void in
+                if let result = result {
+                    let imageData = UIImagePNGRepresentation(self.profilePicture.image)
+                    let imageFile = PFFile(name:"image.png", data:imageData)
+                    
+                    result["ProfilePicture"] = imageFile
+                    result.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+                        
+                        userInfo.profileImage = self.profilePicture.image!
+                        //self.navigationController!.popViewControllerAnimated(true)
+                    }
+                    
+                }
+            }
+        }
     }
     
     // 写真選択画面でキャンセルした場合の処理
@@ -157,7 +162,7 @@ UITableViewDelegate{
     // PickerViewController より性別を選択した際に実行される処理
     internal func setGender(selectedIndex: Int,selected: String) {
         
-        gender = selectedIndex
+        gender = selected
         selectedGender = selected
         
         // テーブル再描画
@@ -167,7 +172,7 @@ UITableViewDelegate{
     // PickerViewController より年齢を選択した際に実行される処理
     internal func setAge(selectedIndex: Int,selected: String) {
         
-        age = selectedIndex
+        age = String(selectedIndex)
         selectedAge = selected
         
         // テーブル再描画
@@ -200,6 +205,19 @@ UITableViewDelegate{
         return otherItems.count
     }
     
+    /*
+    セクションの数を返す.
+    */
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return sections.count
+    }
+    
+    /*
+    セクションのタイトルを返す.
+    */
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return sections[section] as? String
+    }
     /*
     Cellに値を設定する.
     */
@@ -265,6 +283,12 @@ UITableViewDelegate{
         myItems = []
         let vc = PickerViewController()
         
+        if PersistentData.User().userID != "" {
+            if indexPath.row == 1 || indexPath.row == 2 {
+                return
+            }
+        }
+        
         if indexPath.section == 0 {
             if indexPath.row == 0 {
                 
@@ -319,29 +343,27 @@ UITableViewDelegate{
                 vc.palInput = inputComment
                 vc.delegate = self
                 
-                //let profileViewCtrl: ProfileViewController = PickerViewController()
-                //self.window?.rootViewController = profileViewCtrl
                 navigationController?.pushViewController(vc, animated: true)
-                
             }
         }
     }
     
     
     @IBAction func pushStart(sender: AnyObject) {
-        
         // 必須チェック
         if inputName.isEmpty {
-            //errorMessageDeisplay("名前を入力してください");
             UIAlertView.showAlertView("", message: "名前を入力してください")
+            return
         }
-        if selectedGender.isEmpty{
-            //errorMessageDeisplay("性別を選択してください");
+        
+        if selectedGender.isEmpty {
             UIAlertView.showAlertView("", message: "性別を選択してください")
+            return
         }
-        if selectedAge.isEmpty{
-            //errorMessageDeisplay("年齢を選択してください");
+        
+        if selectedAge.isEmpty {
             UIAlertView.showAlertView("", message: "年齢を選択してください")
+            return
         }
         
         MBProgressHUDHelper.show("Loading...")
@@ -350,71 +372,38 @@ UITableViewDelegate{
         let imageFile = PFFile(name:"image.png", data:imageData)
         let uuid = NSUUID().UUIDString
         
-        //var user = PersistentData.User()
-        //user.userID = uuid
-        var user = PersistentData.User()
-        user.userID = uuid
-        
         NSLog("UUID" + uuid)
         
-        //var isNoneNil = if let uuid = uuid && let gender = gender && let gender = gender && let selectedAge = selectedAge && let inputComment = inputComment)
-        
         // 登録
-        ParseHelper.setUserInfomation(uuid ,name: inputName,gender: gender!,age: selectedAge ,comment: inputComment,photo: imageFile)
+        ParseHelper.setUserInfomation(
+            uuid,
+            name: inputName,
+            gender: gender!,
+            age: selectedAge,
+            comment: inputComment,
+            photo: imageFile
+        )
         
         var userInfo = PersistentData.User()
         userInfo.userID = uuid
         userInfo.name = inputName
-        
-        /*
-        // MapViewControler へ
-        var storyboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
-        var mainViewController = MapViewController()
-        mainNavigationCtrl = UINavigationController(rootViewController: mainViewController)
-        
-        mainNavigationCtrl!.navigationBar.barTintColor = LayoutManager.getUIColorFromRGB(0x3949AB)
-        mainNavigationCtrl!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
-        
-        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        self.window?.rootViewController = mainNavigationCtrl
-        self.window?.makeKeyAndVisible()
-*/
+        userInfo.gender = selectedGender
+        userInfo.age = selectedAge
+        userInfo.comment = inputComment
         
         var newRootVC = MapViewController()
         var navigationController = UINavigationController(rootViewController: newRootVC)
         navigationController.navigationBar.barTintColor = LayoutManager.getUIColorFromRGB(0x3949AB)
         navigationController.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
-        
         UIApplication.sharedApplication().keyWindow?.rootViewController = navigationController
         
         MBProgressHUDHelper.hide()
-        
     }
     
     private func imageMolding(target : UIImageView){
-        
         target.layer.borderColor = UIColor.whiteColor().CGColor
         target.layer.borderWidth = 3
         target.layer.cornerRadius = 10
         target.layer.masksToBounds = true
-    }
-    
-    private func errorMessageDeisplay(message: String){
-        
-        
-        let uiAlertController = UIAlertController(title: "", message: message , preferredStyle: UIAlertControllerStyle.Alert)
-        
-        let defaultAction:UIAlertAction = UIAlertAction(
-            title: "OK",
-            style: UIAlertActionStyle.Default,
-            handler:{
-                (action:UIAlertAction!) -> Void in
-                print("Default")
-        })
-        // アクションを登録
-        uiAlertController.addAction(defaultAction)
-        
-        
-        presentViewController(uiAlertController, animated: true, completion: nil)
     }
 }

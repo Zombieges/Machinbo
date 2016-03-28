@@ -11,13 +11,18 @@ import UIKit
 import Parse
 import MBProgressHUD
 
+enum ProfileType {
+    case TargetProfile, ImaikuTargetProfile
+}
+
 class TargetProfileViewController: UIViewController, UITableViewDelegate {
     
-    var mapView: MapViewController!
+    let mapView: MapViewController = MapViewController()
     let modalTextLabel = UILabel()
-    var lblName: String = ""
+    let lblName: String = ""
     var actionInfo: AnyObject?
     var userInfo: AnyObject = []
+    var targetObjectID: String?
     
     //遷移元の画面IDを指定
     var kind: String = ""
@@ -25,6 +30,7 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate {
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var ProfileImage: UIImageView!
+    @IBOutlet weak var targetButton: ZFRippleButton!
     
     var otherItems: [String] = ["名前", "性別", "年齢", "プロフィール"]
     var otherItemsValue: [String] = []
@@ -34,6 +40,17 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate {
 
     let detailTableViewCellIdentifier: String = "DetailCell"
     
+    var type: ProfileType = ProfileType.TargetProfile
+    
+    init (type: ProfileType) {
+        super.init(nibName: nil, bundle: nil)
+        self.type = type
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+
     override func loadView() {
         if let view = UINib(nibName: "TargetProfileView", bundle: nil).instantiateWithOwner(self, options: nil).first as? UIView {
             self.view = view
@@ -62,6 +79,12 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate {
                     }
                 }
             }
+        }
+        
+        if type == ProfileType.TargetProfile {
+            
+        } else if type == ProfileType.ImaikuTargetProfile {
+            targetButton.setTitle("取り消し", forState: .Normal)
         }
 
     }
@@ -148,7 +171,6 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate {
     Cellが選択された際に呼び出される.
     */
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
         // 選択中のセルが何番目か.
         println("Num: \(indexPath.row)")
         // 選択中のセルを編集できるか.
@@ -161,18 +183,53 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate {
     
     @IBAction func clickImaikuButton(sender: AnyObject) {
         
-        let hud = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-        hud.labelText = "Loading..."
+        MBProgressHUDHelper.show("Loading...")
         
+        var userInfo = PersistentData.User()
         
-        let vc = PickerViewController()
-        vc.palTargetUser = self.actionInfo as? PFObject
-        vc.palKind = "imaiku"
-        vc.palmItems = ["5分","10分", "15分", "20分", "25分", "30分", "35分", "40分", "45分", "50分", "55分", "60分"]
-       
-        self.navigationController!.pushViewController(vc, animated: true)
+        if type == ProfileType.TargetProfile {
+            
+            if userInfo.imaikuFlag {
+                UIAlertView.showAlertDismiss("", message: "既にいまから行く対象の人がいます", completion: { () -> () in
+                    //self.navigationController!.popToRootViewControllerAnimated(true)
+                    MBProgressHUDHelper.hide()
+                })
+            }
+            //imaiku flag on
+            userInfo.imaikuFlag = true
+            
+            let vc = PickerViewController()
+            vc.palTargetUser = self.actionInfo as? PFObject
+            vc.palKind = "imaiku"
+            vc.palmItems = ["5分","10分", "15分", "20分", "25分", "30分", "35分", "40分", "45分", "50分", "55分", "60分"]
+            
+            self.navigationController!.pushViewController(vc, animated: true)
+            MBProgressHUDHelper.hide()
+
+        } else if type == ProfileType.ImaikuTargetProfile {
+            
+            //imaiku flag on
+            userInfo.imaikuFlag = false
+            
+            //imaiku削除
+            UIAlertView.showAlertOKCancel("", message: "いまから行くを取り消しますか？") { action in
+                
+                if action == UIAlertView.ActionButton.OK {
+                    
+                    UIAlertView.showAlertDismiss("", message: "取り消しました", completion: { () -> () in
+                        ParseHelper.deleteGoNow(self.targetObjectID!) { () -> () in
+                            self.navigationController!.popToRootViewControllerAnimated(true)
+                            MBProgressHUDHelper.hide()
+                        }
+                    })
+                    
+                } else {
+                    MBProgressHUDHelper.hide()
+                }
+            }
+            
+        }
         
-        hud.hide(true)
     }
     
 }

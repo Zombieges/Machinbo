@@ -29,26 +29,6 @@ class GoogleMapsHelper {
             marker.appearAnimation = kGMSMarkerAnimationPop
             marker.map = map
             marker.userData = users
-            
-            //NSLog("UserID================>" + UserID)
-            
-            //↓表示したMAP内のみでピンを立てるロジック
-            /*
-            if map.projection.containsCoordinate(location) {
-                var marker = GMSMarker()
-                marker.position = CLLocationCoordinate2DMake(geoPoint.latitude, geoPoint.longitude)
-                marker.appearAnimation = kGMSMarkerAnimationPop
-                marker.map = map
-                marker.userData = user
-                
-                //markers.append(marker)
-
-                NSLog("UserID================>" + UserID)
-
-            } else {
-                NSLog("★★★" + UserID)
-                continue
-            }*/
         }
     }
 }

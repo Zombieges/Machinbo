@@ -10,6 +10,7 @@
                 <outlet property="ProfileImage" destination="u4u-VW-GhD" id="Fnz-6g-zp1"/>
                 <outlet property="headerView" destination="MH4-Eb-qle" id="X7H-N6-Kxn"/>
                 <outlet property="tableView" destination="3WK-ds-zQ9" id="aEd-h6-Qt5"/>
+                <outlet property="targetButton" destination="J9A-UB-bav" id="HvV-Ij-khE"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>

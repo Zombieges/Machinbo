@@ -20,11 +20,9 @@ protocol PickerViewControllerDelegate{
     
 }
 
-
 class PickerViewController: UIViewController,
     UITableViewDelegate,
     UITableViewDataSource{
-    
     
     var delegate: PickerViewControllerDelegate?
     
@@ -81,13 +79,10 @@ class PickerViewController: UIViewController,
             
             // Cell名の登録をおこなう.
             myTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
-            
             // DataSourceの設定をする.
             myTableView.dataSource = self
-            
             // Delegateを設定する.
             myTableView.delegate = self
-            
             // 不要行の削除
             var v:UIView = UIView(frame: CGRectZero)
             v.backgroundColor = UIColor.clearColor()
@@ -106,7 +101,7 @@ class PickerViewController: UIViewController,
             self.view.addSubview(inputTextField)
             
             
-            createButton(displayWidth)
+            createInsertDataButton(displayWidth)
             
         } else if (self.kind == "comment"){
             
@@ -124,7 +119,7 @@ class PickerViewController: UIViewController,
             
             self.view.addSubview(inputTextView)
             
-            createButton(displayWidth)
+            createInsertDataButton(displayWidth)
             
         } else if (self.kind == "imaiku") {
             
@@ -168,58 +163,20 @@ class PickerViewController: UIViewController,
         
     }
     
-    private func createButton(displayWidth: CGFloat){
-        saveButton.setTitle("保存", forState: .Normal)
-        
-        //テキストの色
-        saveButton.setTitleColor(UIColor.blueColor(), forState: .Normal)
-        
-        //タップした状態のテキスト
-        //saveButton.setTitle("Tapped!", forState: .Highlighted)
-        
-        //タップした状態の色
-        saveButton.setTitleColor(UIColor.redColor(), forState: .Highlighted)
-        
-        //サイズ
-        saveButton.frame = CGRectMake(0, 0, displayWidth - 150, 30)
-        
-        //タグ番号
-        saveButton.tag = 1
-        
-        //配置場所
-        saveButton.layer.position = CGPoint(x: displayWidth/2, y:200)
-        
-        //背景色
-        saveButton.backgroundColor = UIColor(red: 0.7, green: 0.2, blue: 0.2, alpha: 0.2)
-        
-        //角丸
-        saveButton.layer.cornerRadius = 10
-        
-        //ボーダー幅
-        //saveButton.layer.borderWidth = 1
-        
-        //ボタンをタップした時に実行するメソッドを指定
-        saveButton.addTarget(self, action: "onClickSaveButton:", forControlEvents:.TouchUpInside)
-        
-        //viewにボタンを追加する
-        self.view.addSubview(saveButton)
-        
-    }
-    
     func createInsertDataButton(displayWidth: CGFloat) {
         
-        var updateGeoPoint = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 150, height: 40))
-        updateGeoPoint.trackTouchLocation = true
-        updateGeoPoint.backgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
-        updateGeoPoint.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
-        updateGeoPoint.rippleColor = LayoutManager.getUIColorFromRGB(0xB54241)
-        updateGeoPoint.setTitle("保存", forState: .Normal)
-        updateGeoPoint.layer.cornerRadius = 5.0
-        updateGeoPoint.layer.masksToBounds = true
-        updateGeoPoint.layer.position = CGPoint(x: displayWidth/2, y:200)
-        updateGeoPoint.addTarget(self, action: "onClickSaveButton:", forControlEvents: UIControlEvents.TouchUpInside)
+        var btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 150, height: 40))
+        btn.trackTouchLocation = true
+        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
+        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
+        btn.rippleColor = LayoutManager.getUIColorFromRGB(0xB54241)
+        btn.setTitle("保存", forState: .Normal)
+        btn.layer.cornerRadius = 5.0
+        btn.layer.masksToBounds = true
+        btn.layer.position = CGPoint(x: displayWidth/2, y:200)
+        btn.addTarget(self, action: "onClickSaveButton:", forControlEvents: UIControlEvents.TouchUpInside)
         
-        self.view.addSubview(updateGeoPoint)
+        self.view.addSubview(btn)
     }
     
     func onClickInsertPlace() {
@@ -235,107 +192,116 @@ class PickerViewController: UIViewController,
         
         if (self.kind == "name") {
             
-            self.delegate!.setName(self.inputTextField.text)
-            self.navigationController!.popViewControllerAnimated(true)
+            if self.inputTextField.text.isEmpty {
+                UIAlertView.showAlertView("", message: "名前を入力してください")
+                return
+            }
+            
+            var userInfo = PersistentData.User()
+            
+            if PersistentData.User().userID == "" {
+                self.delegate!.setName(userInfo.name)
+                self.navigationController!.popViewControllerAnimated(true)
+                
+            } else {
+                ParseHelper.getUserInfomation(PersistentData.User().userID) { (withError error: NSError?, result: PFObject?) -> Void in
+                    if let result = result {
+                        result["Name"] = self.inputTextField.text
+                        result.saveInBackground()
+                        
+                        userInfo.name = self.inputTextField.text
+                        
+                        self.delegate!.setName(self.inputTextField.text)
+                        self.navigationController!.popViewControllerAnimated(true)
+                    }
+                }
+            }
             
         } else if (self.kind == "comment") {
             
-            self.delegate!.setComment(self.inputTextView.text)
-            self.navigationController!.popViewControllerAnimated(true)
-            
-        } else if (self.kind == "imaiku") {
-            
-            
-            
-            //PickerViewController へ遷移し、何分以内に行くかを選択させる
-            
-            //ひとまず、何分かかるか選択する機能はおいておく
-            
-            
-            //すでに登録済みかを確認
-            /*
-            var query = PFQuery(className: "Action")
-            query.whereKey("UserID", containsString: userid)
-            query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
-            if error == nil {
-            //GoogleMapsHelper.setUserMarker(map, userObjects: objects)
-            completion(success: true, errorMesssage: nil, result: objects)
-            } else {
-            
+            if self.inputTextView.text.isEmpty {
+                UIAlertView.showAlertView("", message: "コメントを入力してください")
+                return
             }
             
-            }*/
+            var userInfo = PersistentData.User()
             
-            //ナベがクロマティにイマイクなケース
-            //UserID demo6 が target demo7 にイマイク
-            
-            //ユーザーIDの取得
-            /*
-            let userid = "demo1"//PersistentData.userID
-            let targetUserid = self.userInfo.objectForKey("UserID") as! String
-            
-            let query = PFQuery(className: "Action")
-            query.getObjectInBackgroundWithId(userid, block: { (target, error) -> Void in
+            if PersistentData.User().userID == "" {
+                self.delegate!.setComment(userInfo.comment)
+                self.navigationController!.popViewControllerAnimated(true)
                 
-                if error != nil {
-                    //self.navigationController?.popToRootViewControllerAnimated(TRUE)
-                    NSLog("========> error")
-                    
-                    
-                    
-                } else if let target = target {
-                    
-                    //既にイマイク登録されている場合は登録できない
-                    //一度登録したのは１日経過するか、削除しなければいかん
-                    target.saveInBackgroundWithBlock({ (success, error) -> Void in
-                        if (success) {
-                            NSLog("Save to area")
-                            
-                        } else {
-                            NSLog("non success!!")
-                        }
-                    })
-                    
+            } else {
+                ParseHelper.getUserInfomation(PersistentData.User().userID) { (withError error: NSError?, result: PFObject?) -> Void in
+                    if let result = result {
+                        result["Comment"] = self.inputTextView.text
+                        result.saveInBackground()
+                        
+                        userInfo.comment = self.inputTextView.text
+                        
+                        self.delegate!.setComment(self.inputTextView.text)
+                        self.navigationController!.popViewControllerAnimated(true)
+                    }
                 }
-                
-            })
+            }
             
-            //gpsMark["GPS"] = geoPoint
-            
-            /*query.whereKey("TargetUserID", equalTo: self.userInfo.objectForKey("UserID"))
-            
-            query["MarkTime"] = NSDate()
-            query.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
-            NSLog("GPS情報登録成功")
-            }*/
-            
-            */
-        
         } else if (self.kind == "imakoko") {
             
             MBProgressHUDHelper.show("Loading...")
             
-            ParseHelper.getUserInfomation(PersistentData.User().userID) { (withError error: NSError?, result: PFObject?) -> Void in
-                if error == nil {
-                    let query = result! as PFObject
-                    
-                    let gpsMark = PFObject(className: "Action")
-                    gpsMark["CreatedBy"] = query
-                    gpsMark["GPS"] = self.palGeoPoint
-                    gpsMark["MarkTime"] = NSDate()
-                    //場所詳細
-                    gpsMark["PlaceDetail"] = self.inputTextView.text
-                    //登録処理
-                    gpsMark.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
-                        if error == nil {
-                            MBProgressHUDHelper.hide()
-                            //Alert
-                            UIAlertView.showAlertDismiss("", message: "現在位置を登録しました")
-                            //前画面遷移
-                            self.navigationController!.popViewControllerAnimated(true)
+            var userInfo = PersistentData.User()
+            
+            if userInfo.imakokoFlag {
+                ParseHelper.getActionInfomation(userInfo.userID) { (withError error: NSError?, result: PFObject?) -> Void in
+                    if error == nil {
+                        let query = result! as PFObject
+                        let gpsMark = PFObject(className: "Action")
+                        gpsMark["CreatedBy"] = query.objectForKey("CreatedBy")
+                        gpsMark["GPS"] = self.palGeoPoint
+                        gpsMark["MarkTime"] = NSDate()
+                        //場所詳細
+                        gpsMark["PlaceDetail"] = self.inputTextView.text
+                        //登録処理
+                        gpsMark.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+                            if error == nil {
+                                MBProgressHUDHelper.hide()
+                                //Alert
+                                UIAlertView.showAlertDismiss("", message: "現在位置を登録しました") { () -> () in
+                                    self.navigationController!.popToRootViewControllerAnimated(true)
+                                }
+                            }
                         }
                     }
                 }
+                
+            } else {
+                
+                ParseHelper.getUserInfomation(userInfo.userID) { (withError error: NSError?, result: PFObject?) -> Void in
+                    if error == nil {
+                        let query = result! as PFObject
+                        
+                        let gpsMark = PFObject(className: "Action")
+                        gpsMark["CreatedBy"] = query
+                        gpsMark["GPS"] = self.palGeoPoint
+                        gpsMark["MarkTime"] = NSDate()
+                        //場所詳細
+                        gpsMark["PlaceDetail"] = self.inputTextView.text
+                        //登録処理
+                        gpsMark.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+                            if error == nil {
+                                MBProgressHUDHelper.hide()
+                                //Alert
+                                UIAlertView.showAlertDismiss("", message: "現在位置を登録しました") { () -> () in
+                                    self.navigationController!.popToRootViewControllerAnimated(true)
+                                }
+                            }
+                        }
+                    }
+                    
+                }
+                
+                //一回登録したいとは常にフラグを立てる
+                userInfo.imakokoFlag = true
+
             }
         }
     }
@@ -346,27 +312,15 @@ class PickerViewController: UIViewController,
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         if (self.kind == "age"){
-            
-            
-            //self.selectedAgeIndex = indexPath.row
-            
-            //let selected: String? = myItems[indexPath.row] as? String
             if let selected = myItems[indexPath.row] as? String {
-                
-                //self.selectedAge = selected!.uppercaseString
                 self.delegate!.setAge(indexPath.row,selected: selected.uppercaseString)
                 self.navigationController!.popViewControllerAnimated(true)
                 
             }
             
         } else if (self.kind == "gender"){
-            
-            //self.selectedGenderIndex = indexPath.row
-            
-            //let selected: String? = myItems[indexPath.row] as? String
+
             if let selected = myItems[indexPath.row] as? String {
-                
-                //self.selectedGender = selected!.uppercaseString
                 self.delegate!.setGender(indexPath.row,selected: selected.uppercaseString)
                 self.navigationController!.popViewControllerAnimated(true)
             }
@@ -378,7 +332,7 @@ class PickerViewController: UIViewController,
                 //ここでDBに登録
                 MBProgressHUDHelper.show("Loading...")
                 
-                ParseHelper.getUserInfomation("demo9") { (withError error: NSError?, result) -> Void in
+                ParseHelper.getUserInfomation(PersistentData.User().userID) { (withError error: NSError?, result) -> Void in
                     if error == nil {
                         //let myUserInfo = result! as PFObject
                         
@@ -402,21 +356,9 @@ class PickerViewController: UIViewController,
                                 
                                 MBProgressHUDHelper.hide()
                                 
-                                let completeDialog = UIAlertController(
-                                    title: "",
-                                    message: "いまから行くことを送信しました", preferredStyle: .Alert
-                                )
-                                
-                                self.presentViewController(completeDialog, animated: true) { () -> Void in
-                                    let delay = 1.0 * Double(NSEC_PER_SEC)
-                                    let time  = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-                                    dispatch_after(time, dispatch_get_main_queue(), {
-                                        self.dismissViewControllerAnimated(true, completion: nil)
-                                        //前画面遷移
-                                        self.navigationController!.popToRootViewControllerAnimated(true)
-                                    })
+                                UIAlertView.showAlertDismiss("", message: "いまから行くことを送信しました") { () -> () in
+                                    self.navigationController!.popToRootViewControllerAnimated(true)
                                 }
-                                
                             }
                         }
                     }

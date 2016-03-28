@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class PersistentData {
 
@@ -20,17 +21,6 @@ class PersistentData {
         }
     }
     
-
-    /*class var userID : String {
-        get {
-            return NSUserDefaults.standardUserDefaults().stringForKey("userID") ?? ""
-        }
-        set {
-            NSUserDefaults.standardUserDefaults().setObject(newValue, forKey: "userID")
-            NSUserDefaults.standardUserDefaults().synchronize()
-        }
-    }*/
-    
     struct User {
         var userID : String {
             get {
@@ -38,6 +28,23 @@ class PersistentData {
             }
             set {
                 NSUserDefaults.standardUserDefaults().setObject(newValue , forKey: "userID")
+                NSUserDefaults.standardUserDefaults().synchronize()
+            }
+        }
+        
+        var profileImage : UIImage {
+            get {
+                if NSUserDefaults.standardUserDefaults().objectForKey("profileImage") != nil {
+                    return UIImage(data: NSUserDefaults.standardUserDefaults().objectForKey("profileImage") as! NSData)!
+                    
+                } else {
+                    return UIImage(named: "photo.png")!
+                }
+            }
+            set{
+                var imageData = UIImagePNGRepresentation(newValue)
+                //var myEncodedImageData = NSKeyedArchiver.archivedDataWithRootObject(imageData)
+                NSUserDefaults.standardUserDefaults().setObject(imageData, forKey: "profileImage")
                 NSUserDefaults.standardUserDefaults().synchronize()
             }
         }
@@ -50,9 +57,9 @@ class PersistentData {
                 NSUserDefaults.standardUserDefaults().synchronize()
             }
         }
-        var gender : Int {
+        var gender : String {
             get {
-                return NSUserDefaults.standardUserDefaults().integerForKey("gender") ?? 0
+                return NSUserDefaults.standardUserDefaults().stringForKey("gender") ?? ""
             }
             set {
                 NSUserDefaults.standardUserDefaults().setObject(newValue , forKey: "gender")
@@ -77,15 +84,24 @@ class PersistentData {
                 NSUserDefaults.standardUserDefaults().synchronize()
             }
         }
-
-
-
-    }
-
-    /*var userID = NSUserDefaults.standardUserDefaults().stringForKey("userID") ?? "" {
-        didSet{
-            NSUserDefaults.standardUserDefaults().setObject(userID, forKey: "userID")
-            NSUserDefaults.standardUserDefaults().synchronize()
+        var imaikuFlag: Bool {
+            get {
+                return NSUserDefaults.standardUserDefaults().boolForKey("imaikuFlag") ?? false
+            }
+            set {
+                NSUserDefaults.standardUserDefaults().setBool(newValue , forKey: "imaikuFlag")
+                NSUserDefaults.standardUserDefaults().synchronize()
+            }
         }
-    }*/
+        
+        var imakokoFlag: Bool {
+            get {
+                return NSUserDefaults.standardUserDefaults().boolForKey("imakokoFlag") ?? false
+            }
+            set {
+                NSUserDefaults.standardUserDefaults().setBool(newValue , forKey: "imakokoFlag")
+                NSUserDefaults.standardUserDefaults().synchronize()
+            }
+        }
+    }
 }

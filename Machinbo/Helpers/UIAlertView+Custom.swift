@@ -9,29 +9,69 @@
 import Foundation
 import UIKit
 
+
 public extension UIAlertView {
     
+    enum ActionButton {
+        case OK, Cancel
+    }
+
     class func showAlertView(title:String , message:String) {
-        let alert = UIAlertView()
-        alert.title = title
-        alert.message = message
-        alert.addButtonWithTitle("OK")
-        alert.show()
+        let alertController = UIAlertController(
+            title: title,
+            message: message,
+            preferredStyle: .Alert
+        )
+
+        let defaultAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+        alertController.addAction(defaultAction)
+        
+        let controller = (UIApplication.sharedApplication().delegate as! AppDelegate).window!.rootViewController!
+        controller.presentViewController(alertController, animated: true, completion: nil)
     }
     
-    class func showAlertDismiss(tittle:String, message:String) {
-        let completeDialog = UIAlertController(
-            title: tittle,
+    /*
+     * Alert OK CANCEL
+     */
+    class func showAlertOKCancel(title: String, message: String, completion: (action: ActionButton) -> Void) {
+        let alertController = UIAlertController(
+            title: title,
             message: message,
             preferredStyle: .Alert
         )
         
+        let okAction = UIAlertAction(title: "OK", style: .Default, handler: {
+            (action:UIAlertAction!) -> Void in
+            completion(action: ActionButton.OK)
+        })
+        alertController.addAction(okAction)
+        
+        let cancelAction = UIAlertAction(title: "キャンセル", style: .Cancel, handler:{
+            (action:UIAlertAction!) -> Void in
+            completion(action: ActionButton.Cancel)
+        })
+        alertController.addAction(cancelAction)
+        
         let controller = (UIApplication.sharedApplication().delegate as! AppDelegate).window!.rootViewController!
-        controller.presentViewController(completeDialog, animated: true) { () -> Void in
+        controller.presentViewController(alertController, animated: true, completion: nil)
+    
+    }
+    
+    class func showAlertDismiss(title:String, message:String, completion: () -> ()) {
+        let alertController = UIAlertController(
+            title: title,
+            message: message,
+            preferredStyle: .Alert
+        )
+    
+        let controller = (UIApplication.sharedApplication().delegate as! AppDelegate).window!.rootViewController!
+        controller.presentViewController(alertController, animated: true) { () -> Void in
             let delay = 1.0 * Double(NSEC_PER_SEC)
             let time  = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
             dispatch_after(time, dispatch_get_main_queue(), {
                 controller.dismissViewControllerAnimated(true, completion: nil)
+                //back
+                completion()
             })
         }
     }

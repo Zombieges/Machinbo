@@ -17,7 +17,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
     UIImagePickerControllerDelegate,
     UIPickerViewDelegate,
     PickerViewControllerDelegate ,
-UITableViewDelegate{
+    UITableViewDelegate{
     
     
     @IBOutlet weak var profilePicture: UIImageView!
@@ -75,7 +75,9 @@ UITableViewDelegate{
         TableView.tableHeaderView = v
         view.addSubview(TableView)
         
-        if PersistentData.User().userID == "" {
+        let userData = PersistentData.User()
+        
+        if userData.userID == "" {
             self.navigationItem.title = "プロフィールを登録してください"
             // 初期画像
             profilePicture.image = UIImage(named: "photo.png")
@@ -86,7 +88,6 @@ UITableViewDelegate{
             startButton.hidden = true
             
             // 通常の画面遷移
-            let userData = PersistentData.User()
             profilePicture.image = userData.profileImage
             inputName = userData.name
             age = userData.age

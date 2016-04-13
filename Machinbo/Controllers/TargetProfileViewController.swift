@@ -20,10 +20,10 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate {
     let mapView: MapViewController = MapViewController()
     let modalTextLabel = UILabel()
     let lblName: String = ""
+    
     var actionInfo: AnyObject?
     var userInfo: AnyObject = []
     var targetObjectID: String?
-    
     //遷移元の画面IDを指定
     var kind: String = ""
 
@@ -32,11 +32,11 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate {
     @IBOutlet weak var ProfileImage: UIImageView!
     @IBOutlet weak var targetButton: ZFRippleButton!
     
-    var otherItems: [String] = ["名前", "性別", "年齢", "プロフィール"]
-    var otherItemsValue: [String] = []
+    var targetProfileItems: [String] = ["名前", "性別", "年齢", "プロフィール"]
+    var otherItems: [String] = ["登録時間", "場所", "特徴"]
     
     // Sectionで使用する配列を定義する.
-    private let sections: NSArray = ["プロフィール"]
+    private let sections: NSArray = ["プロフィール", "待ち合わせ情報"]
 
     let detailTableViewCellIdentifier: String = "DetailCell"
     
@@ -81,9 +81,7 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate {
             }
         }
         
-        if type == ProfileType.TargetProfile {
-            
-        } else if type == ProfileType.ImaikuTargetProfile {
+        if type == ProfileType.ImaikuTargetProfile {
             targetButton.setTitle("取り消し", forState: .Normal)
         }
 
@@ -93,7 +91,14 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate {
     セクションの数を返す.
     */
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return sections.count
+        
+        var returnSectionCount = sections.count
+        /*
+        if type == ProfileType.TargetProfile {
+            returnSectionCount -= 1
+        }*/
+        
+        return returnSectionCount
     }
     
     /*
@@ -108,6 +113,8 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate {
     */
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
+            return self.targetProfileItems.count
+        } else if section == 1 {
             return self.otherItems.count
         } else {
             return 0
@@ -133,15 +140,15 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate {
                 }
                 
                 if indexPath.row == 0 {
-                    normalCell?.textLabel?.text = otherItems[indexPath.row]
+                    normalCell?.textLabel?.text = targetProfileItems[indexPath.row]
                     normalCell?.detailTextLabel?.text = self.userInfo.objectForKey("Name") as? String
                     
                 } else if indexPath.row == 1 {
-                    normalCell?.textLabel?.text = otherItems[indexPath.row]
+                    normalCell?.textLabel?.text = targetProfileItems[indexPath.row]
                     normalCell?.detailTextLabel?.text = self.userInfo.objectForKey("Gender") as? String
                     
                 } else if indexPath.row == 2 {
-                    normalCell?.textLabel?.text = otherItems[indexPath.row]
+                    normalCell?.textLabel?.text = targetProfileItems[indexPath.row]
                     normalCell?.detailTextLabel?.text = self.userInfo.objectForKey("Age") as? String
                 }
                 
@@ -152,7 +159,7 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate {
                 let detailCell = tableView.dequeueReusableCellWithIdentifier(detailTableViewCellIdentifier, forIndexPath: indexPath) as? DetailProfileTableViewCell
                 
                 if indexPath.row == 3 {
-                    detailCell?.titleLabel.text = otherItems[indexPath.row]
+                    detailCell?.titleLabel.text = targetProfileItems[indexPath.row]
                     detailCell?.valueLabel.text = self.userInfo.objectForKey("Comment") as? String
                     
                 }
@@ -160,7 +167,41 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate {
                 cell = detailCell
             }
             
-        } else if indexPath.section == 2 {
+        } else if indexPath.section == 1 {
+            
+            if indexPath.row == 0 {
+                var normalCell = tableView.dequeueReusableCellWithIdentifier(tableViewCellIdentifier) as? UITableViewCell
+                if normalCell == nil { // 再利用するセルがなかったら（不足していたら）
+                    // セルを新規に作成する。
+                    normalCell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: tableViewCellIdentifier)
+                }
+                
+                normalCell?.textLabel?.text = otherItems[indexPath.row]
+                
+                let dateFormatter = NSDateFormatter();
+                dateFormatter.dateFormat = "yyyy年MM月dd日 HH時mm分ss秒"
+                let formatDateString = dateFormatter.stringFromDate(self.actionInfo!.objectForKey("MarkTime") as! NSDate)
+                
+                normalCell?.detailTextLabel?.text = formatDateString
+                
+                cell = normalCell
+                
+            } else if indexPath.row == 1 {
+                let detailCell = tableView.dequeueReusableCellWithIdentifier(detailTableViewCellIdentifier, forIndexPath: indexPath) as? DetailProfileTableViewCell
+                
+                detailCell?.titleLabel.text = otherItems[indexPath.row]
+                detailCell?.valueLabel.text = self.actionInfo!.objectForKey("PlaceDetail") as? String
+                
+                cell = detailCell
+                
+            } else if indexPath.row == 2 {
+                let detailCell = tableView.dequeueReusableCellWithIdentifier(detailTableViewCellIdentifier, forIndexPath: indexPath) as? DetailProfileTableViewCell
+                
+                detailCell?.titleLabel.text = otherItems[indexPath.row]
+                detailCell?.valueLabel.text = self.actionInfo!.objectForKey("MyChar") as? String
+                
+                cell = detailCell
+            }
             
         }
         

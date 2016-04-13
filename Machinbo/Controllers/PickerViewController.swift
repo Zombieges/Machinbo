@@ -34,6 +34,8 @@ class PickerViewController: UIViewController,
     var selectedGender: String = ""
     var inputTextField = UITextField()
     var inputTextView = UITextView()
+    var inputPlace = UITextView()
+    var inputMyCodinate = UITextView()
     var realTextView = UITextView()
     
     // Tableで使用する配列を設定する
@@ -44,7 +46,6 @@ class PickerViewController: UIViewController,
     var palmItems:[String] = []
     var palKind: String = ""
     var palInput: AnyObject = ""
-    var palGeoPoint: PFGeoPoint?
     
     var window: UIWindow?
     
@@ -52,7 +53,6 @@ class PickerViewController: UIViewController,
     
     var palTargetUser: PFObject?
     
-        
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -92,7 +92,7 @@ class PickerViewController: UIViewController,
             // Viewに追加する.
             self.view.addSubview(myTableView)
             
-        } else if (self.kind == "name"){
+        } else if self.kind == "name" {
             
             inputTextField.frame = CGRectMake(10, 100, displayWidth - 20 , 30)
             inputTextField.borderStyle = UITextBorderStyle.RoundedRect
@@ -100,27 +100,15 @@ class PickerViewController: UIViewController,
             
             self.view.addSubview(inputTextField)
             
+            createInsertDataButton(displayWidth, displayHeight: 200)
             
-            createInsertDataButton(displayWidth)
+        } else if self.kind == "comment" {
+            createCommentField(displayWidth, displayHeight: 200)
             
-        } else if (self.kind == "comment"){
+        } else if self.kind == "imakoko" {
+            createCommentField(displayWidth, displayHeight: 200)
             
-            
-            inputTextView.frame = CGRectMake(10, 80, displayWidth - 20 ,80)
-            inputTextView.text = self.Input as? String
-            inputTextView.layer.masksToBounds = true
-            inputTextView.layer.cornerRadius = 5.0
-            inputTextView.layer.borderWidth = 1
-            inputTextView.layer.borderColor = UIColor.grayColor().CGColor
-            inputTextView.font = UIFont.systemFontOfSize(CGFloat(15))
-            inputTextView.textAlignment = NSTextAlignment.Left
-            inputTextView.selectedRange = NSMakeRange(0, 0)
-            self.automaticallyAdjustsScrollViewInsets = false
-            
-            self.view.addSubview(inputTextView)
-            
-            createInsertDataButton(displayWidth)
-            
+        
         } else if (self.kind == "imaiku") {
             
             self.navigationItem.title = "待ち合わせまでにかかる時間"
@@ -140,30 +128,28 @@ class PickerViewController: UIViewController,
             // Viewに追加する.
             self.view.addSubview(myTableView)
         
-        } else if (self.kind == "imakoko") {
-            
-            self.navigationItem.title = "待ち合わせ場所の詳細を入力"
-            self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
-            
-            inputTextView.frame = CGRectMake(10, 80, displayWidth - 20 ,80)
-            inputTextView.text = self.Input as? String
-            inputTextView.layer.masksToBounds = true
-            inputTextView.layer.cornerRadius = 5.0
-            inputTextView.layer.borderWidth = 1
-            inputTextView.layer.borderColor = UIColor.grayColor().CGColor
-            inputTextView.font = UIFont.systemFontOfSize(CGFloat(15))
-            inputTextView.textAlignment = NSTextAlignment.Left
-            inputTextView.selectedRange = NSMakeRange(0, 0)
-            self.automaticallyAdjustsScrollViewInsets = false
-            
-            self.view.addSubview(inputTextView)
-            
-            createInsertDataButton(displayWidth)
         }
-        
     }
     
-    func createInsertDataButton(displayWidth: CGFloat) {
+    func createCommentField(displayWidth: CGFloat, displayHeight: CGFloat) {
+
+        inputTextView.frame = CGRectMake(10, 80, displayWidth - 20 ,80)
+        inputTextView.text = self.Input as? String
+        inputTextView.layer.masksToBounds = true
+        inputTextView.layer.cornerRadius = 5.0
+        inputTextView.layer.borderWidth = 1
+        inputTextView.layer.borderColor = UIColor.grayColor().CGColor
+        inputTextView.font = UIFont.systemFontOfSize(CGFloat(15))
+        inputTextView.textAlignment = NSTextAlignment.Left
+        inputTextView.selectedRange = NSMakeRange(0, 0)
+        self.automaticallyAdjustsScrollViewInsets = false
+        
+        self.view.addSubview(inputTextView)
+        
+        createInsertDataButton(displayWidth, displayHeight: 200)
+    }
+    
+    func createInsertDataButton(displayWidth: CGFloat, displayHeight: CGFloat) {
         
         var btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 150, height: 40))
         btn.trackTouchLocation = true
@@ -173,7 +159,7 @@ class PickerViewController: UIViewController,
         btn.setTitle("保存", forState: .Normal)
         btn.layer.cornerRadius = 5.0
         btn.layer.masksToBounds = true
-        btn.layer.position = CGPoint(x: displayWidth/2, y:200)
+        btn.layer.position = CGPoint(x: displayWidth/2, y: displayHeight)
         btn.addTarget(self, action: "onClickSaveButton:", forControlEvents: UIControlEvents.TouchUpInside)
         
         self.view.addSubview(btn)
@@ -200,7 +186,7 @@ class PickerViewController: UIViewController,
             var userInfo = PersistentData.User()
             
             if PersistentData.User().userID == "" {
-                self.delegate!.setName(userInfo.name)
+                self.delegate!.setName(self.inputTextField.text)
                 self.navigationController!.popViewControllerAnimated(true)
                 
             } else {
@@ -227,7 +213,7 @@ class PickerViewController: UIViewController,
             var userInfo = PersistentData.User()
             
             if PersistentData.User().userID == "" {
-                self.delegate!.setComment(userInfo.comment)
+                self.delegate!.setComment(self.inputTextView.text)
                 self.navigationController!.popViewControllerAnimated(true)
                 
             } else {
@@ -244,65 +230,9 @@ class PickerViewController: UIViewController,
                 }
             }
             
-        } else if (self.kind == "imakoko") {
-            
-            MBProgressHUDHelper.show("Loading...")
-            
-            var userInfo = PersistentData.User()
-            
-            if userInfo.imakokoFlag {
-                ParseHelper.getActionInfomation(userInfo.userID) { (withError error: NSError?, result: PFObject?) -> Void in
-                    if error == nil {
-                        let query = result! as PFObject
-                        let gpsMark = PFObject(className: "Action")
-                        gpsMark["CreatedBy"] = query.objectForKey("CreatedBy")
-                        gpsMark["GPS"] = self.palGeoPoint
-                        gpsMark["MarkTime"] = NSDate()
-                        //場所詳細
-                        gpsMark["PlaceDetail"] = self.inputTextView.text
-                        //登録処理
-                        gpsMark.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
-                            if error == nil {
-                                MBProgressHUDHelper.hide()
-                                //Alert
-                                UIAlertView.showAlertDismiss("", message: "現在位置を登録しました") { () -> () in
-                                    self.navigationController!.popToRootViewControllerAnimated(true)
-                                }
-                            }
-                        }
-                    }
-                }
-                
-            } else {
-                
-                ParseHelper.getUserInfomation(userInfo.userID) { (withError error: NSError?, result: PFObject?) -> Void in
-                    if error == nil {
-                        let query = result! as PFObject
-                        
-                        let gpsMark = PFObject(className: "Action")
-                        gpsMark["CreatedBy"] = query
-                        gpsMark["GPS"] = self.palGeoPoint
-                        gpsMark["MarkTime"] = NSDate()
-                        //場所詳細
-                        gpsMark["PlaceDetail"] = self.inputTextView.text
-                        //登録処理
-                        gpsMark.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
-                            if error == nil {
-                                MBProgressHUDHelper.hide()
-                                //Alert
-                                UIAlertView.showAlertDismiss("", message: "現在位置を登録しました") { () -> () in
-                                    self.navigationController!.popToRootViewControllerAnimated(true)
-                                }
-                            }
-                        }
-                    }
-                    
-                }
-                
-                //一回登録したいとは常にフラグを立てる
-                userInfo.imakokoFlag = true
-
-            }
+        } else if self.kind == "imakoko" {
+            self.delegate!.setComment(self.inputTextView.text)
+            self.navigationController!.popViewControllerAnimated(true)
         }
     }
     

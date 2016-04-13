@@ -43,8 +43,8 @@
         }
         
         mainNavigationCtrl = UINavigationController(rootViewController: firstViewController)
-        
-        mainNavigationCtrl!.navigationBar.barTintColor = LayoutManager.getUIColorFromRGB(0x3949AB)
+        //#303F9F
+        mainNavigationCtrl!.navigationBar.barTintColor = UIColor.hex("303F9F", alpha: 1)
         mainNavigationCtrl!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
         mainNavigationCtrl!.navigationBar.tintColor = UIColor.whiteColor()
         

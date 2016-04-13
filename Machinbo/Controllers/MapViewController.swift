@@ -39,12 +39,14 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
             self.view = view
         }
         
+        /*
+        
         // セキュリティ認証のステータスを取得
         let status = CLLocationManager.authorizationStatus()
         if status == CLAuthorizationStatus.NotDetermined {
             // まだ承認が得られていない場合は、認証ダイアログを表示
-            self.lm.requestWhenInUseAuthorization()
-        }
+            lm.requestWhenInUseAuthorization()
+        }*/
         
         let reachability = AMReachability.reachabilityForInternetConnection()
         if reachability.isReachable() {
@@ -128,8 +130,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
         
-        MBProgressHUDHelper.show("Loading...")
-        
         latitude = locations.first!.coordinate.latitude
         longitude = locations.first!.coordinate.longitude
         
@@ -153,7 +153,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         
         FeedData.mainData().refreshMapFeed(myPosition) { () -> () in
             GoogleMapsHelper.setUserMarker(self.gmaps!, userObjects: FeedData.mainData().feedItems)
-            
         }
         
         manager.stopUpdatingLocation()
@@ -161,8 +160,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         //button 生成
         createNavigationItem()
         createupdateGeoPointButton()
-        
-        MBProgressHUDHelper.hide()
     }
     
     func createNavigationItem() {
@@ -230,20 +227,25 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         
         let createdBy: AnyObject? = marker.userData.objectForKey("CreatedBy")
         
-        if let imageFile = createdBy!.valueForKey("ProfilePicture") as? PFFile {
-            var imageData: NSData = imageFile.getData()!
-            self.markWindow.ProfileImage.image = UIImage(data: imageData)!
-            self.markWindow.ProfileImage.layer.borderColor = UIColor.whiteColor().CGColor
-            self.markWindow.ProfileImage.layer.borderWidth = 3
-            self.markWindow.ProfileImage.layer.cornerRadius = 10
-            self.markWindow.ProfileImage.layer.masksToBounds = true
+        if let createdBy: AnyObject = createdBy {
+            if let imageFile = createdBy.valueForKey("ProfilePicture") as? PFFile {
+                var imageData: NSData = imageFile.getData()!
+                self.markWindow.ProfileImage.image = UIImage(data: imageData)!
+                self.markWindow.ProfileImage.layer.borderColor = UIColor.whiteColor().CGColor
+                self.markWindow.ProfileImage.layer.borderWidth = 3
+                self.markWindow.ProfileImage.layer.cornerRadius = 10
+                self.markWindow.ProfileImage.layer.masksToBounds = true
+            }
+            
+            self.markWindow.Name.text = createdBy.objectForKey("Name") as? String
+            self.markWindow.Name.sizeToFit()
+            
+            self.markWindow.Detail.text = marker.userData.objectForKey("PlaceDetail") as? String
+            self.markWindow.Detail.sizeToFit()
+            
+        } else {
+            onClickViewRefresh()
         }
-        
-        self.markWindow.Name.text = createdBy!.objectForKey("Name") as? String
-        self.markWindow.Name.sizeToFit()
-        
-        self.markWindow.Detail.text = createdBy!.objectForKey("Comment") as? String
-        self.markWindow.Detail.sizeToFit()
         
         return self.markWindow
     }
@@ -280,8 +282,14 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     }
 
     func onClickImakoko(){
+        /*
         let vc = PickerViewController()
         vc.palKind = "imakoko"
+        vc.palGeoPoint = PFGeoPoint(latitude: latitude, longitude: longitude)
+        */
+        
+        let vc = ImakokoViewController()
+        //vc.palKind = "imakoko"
         vc.palGeoPoint = PFGeoPoint(latitude: latitude, longitude: longitude)
         
         self.navigationController!.pushViewController(vc, animated: true)

@@ -30,7 +30,7 @@ class ParseHelper {
         
         let query = PFQuery(className: "Action")
         query.whereKey("GPS", nearGeoPoint: myGeoPoint, withinKilometers: 25.0)
-        query.limit = 100
+        query.limit = 300
         query.includeKey("CreatedBy")
         query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
             if error == nil {

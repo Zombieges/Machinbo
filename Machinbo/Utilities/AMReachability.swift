@@ -104,7 +104,7 @@ public class AMReachability: NSObject {
     self.init(reachabilityRef: ref)
     }
     
-    public class func reachabilityForInternetConnection() throws -> Reachability {
+    public class func reachabilityForInternetConnection() throws -> AMReachability {
     
     var zeroAddress = sockaddr_in()
     zeroAddress.sin_len = UInt8(sizeofValue(zeroAddress))
@@ -114,10 +114,10 @@ public class AMReachability: NSObject {
     SCNetworkReachabilityCreateWithAddress(nil, UnsafePointer($0))
     }) else { throw ReachabilityError.FailedToCreateWithAddress(zeroAddress) }
     
-    return Reachability(reachabilityRef: ref)
+    return AMReachability(reachabilityRef: ref)
     }
     
-    public class func reachabilityForLocalWiFi() throws -> Reachability {
+    public class func reachabilityForLocalWiFi() throws -> AMReachability {
     
     var localWifiAddress: sockaddr_in = sockaddr_in(sin_len: __uint8_t(0), sin_family: sa_family_t(0), sin_port: in_port_t(0), sin_addr: in_addr(s_addr: 0), sin_zero: (0, 0, 0, 0, 0, 0, 0, 0))
     localWifiAddress.sin_len = UInt8(sizeofValue(localWifiAddress))
@@ -131,7 +131,7 @@ public class AMReachability: NSObject {
     SCNetworkReachabilityCreateWithAddress(nil, UnsafePointer($0))
     }) else { throw ReachabilityError.FailedToCreateWithAddress(localWifiAddress) }
     
-    return Reachability(reachabilityRef: ref)
+    return AMReachability(reachabilityRef: ref)
     }
     
     // MARK: - *** Notifier methods ***

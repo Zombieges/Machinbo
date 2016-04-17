@@ -15,7 +15,6 @@ import MBProgressHUD
 class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManagerDelegate {
     
     var profileSettingButton: UIBarButtonItem!
-    let kAnimationController = PushAnimator()
     
     var myPosition: CLLocationCoordinate2D = CLLocationCoordinate2D()
     
@@ -48,22 +47,31 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
             lm.requestWhenInUseAuthorization()
         }*/
         
-        let reachability = AMReachability.reachabilityForInternetConnection()
-        if reachability.isReachable() {
-            println("インターネット接続あり")
+        do{
+            let reachability = try AMReachability.reachabilityForInternetConnection()
+            if reachability.isReachable() {
+                print("インターネット接続あり")
             
-            lm = CLLocationManager()
-            lm.delegate = self
-            lm.desiredAccuracy = kCLLocationAccuracyBest
-            lm.distanceFilter = 100
+                lm = CLLocationManager()
+                lm.delegate = self
+                lm.desiredAccuracy = kCLLocationAccuracyBest
+                lm.distanceFilter = 100
             
-            lm.startUpdatingLocation()
+                lm.startUpdatingLocation()
             
-        } else {
-            println("インターネット接続なし")
-            UIAlertView.showAlertView("", message: "接続に失敗しました。通信状況を確認の上、再接続してくだささい。")
-            createRefreshButton()
-            return
+            } else {
+                print("インターネット接続なし")
+                UIAlertView.showAlertView("", message: "接続に失敗しました。通信状況を確認の上、再接続してくだささい。")
+                createRefreshButton()
+                return
+            }
+                
+        } catch let error as ReachabilityError {
+        // エラー処理
+        } catch let error as NSError {
+        // NSErrorが投げられた場合
+        } catch {
+        // その他ハンドル出来なかったもの
         }
     }
 
@@ -97,7 +105,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         self.view.addSubview(btn)
     }
     
-    func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         
         NSLog("didChangeAuthorizationStatus");
         
@@ -128,7 +136,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     }
     
     
-    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
         latitude = locations.first!.coordinate.latitude
         longitude = locations.first!.coordinate.longitude
@@ -137,7 +145,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         
         //現在位置
         self.myPosition = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-        var camera = GMSCameraPosition(target: self.myPosition, zoom: 13, bearing: 0, viewingAngle: 0)
+        let camera = GMSCameraPosition(target: self.myPosition, zoom: 13, bearing: 0, viewingAngle: 0)
         
         self.gmaps = GMSMapView()
         if let gmaps = gmaps {
@@ -165,7 +173,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     func createNavigationItem() {
         
         //◆プロフィール画面
-        let profileViewButton: UIButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
+        let profileViewButton: UIButton = UIButton(type: UIButtonType.Custom)
         profileViewButton.setImage(UIImage(named: "profile_icon.png"), forState: UIControlState.Normal)
         profileViewButton.titleLabel?.font = UIFont.systemFontOfSize(11)
         profileViewButton.setTitle("設定", forState: UIControlState.Normal)
@@ -175,7 +183,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         profileViewButton.titleEdgeInsets = UIEdgeInsetsMake(22, -22, 0, 0)
         
         //create a new button
-        let imakokoViewButton: UIButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
+        let imakokoViewButton: UIButton = UIButton(type: UIButtonType.Custom)
         imakokoViewButton.setImage(UIImage(named: "imakoko.png"), forState: UIControlState.Normal)
         imakokoViewButton.titleLabel?.font = UIFont.systemFontOfSize(11)
         imakokoViewButton.setTitle("いま来る", forState: UIControlState.Normal)
@@ -190,7 +198,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         //通知があったら表示
         //◆いま行く画面
         //いまいくボタンを押下したら表示するようにする？
-        let imaikuViewButton: UIButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
+        let imaikuViewButton: UIButton = UIButton(type: UIButtonType.Custom)
         imaikuViewButton.setImage(UIImage(named: "imaiku.png"), forState: UIControlState.Normal)
         imaikuViewButton.titleLabel?.font = UIFont.systemFontOfSize(11)
         imaikuViewButton.setTitle("いま行く", forState: UIControlState.Normal)
@@ -207,7 +215,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         //いずれもParseに登録した値を引っ張ってくる必要がある
         
         //リロード
-        let reloadButton: UIButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
+        let reloadButton: UIButton = UIButton(type: UIButtonType.Custom)
         reloadButton.setImage(UIImage(named: "reload.png"), forState: UIControlState.Normal)
         reloadButton.titleLabel?.font = UIFont.systemFontOfSize(11)
         reloadButton.setTitle("リロード", forState: UIControlState.Normal)
@@ -229,7 +237,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         
         if let createdBy: AnyObject = createdBy {
             if let imageFile = createdBy.valueForKey("ProfilePicture") as? PFFile {
-                var imageData: NSData = imageFile.getData()!
+                let imageData: NSData = imageFile.getData()!
                 self.markWindow.ProfileImage.image = UIImage(data: imageData)!
                 self.markWindow.ProfileImage.layer.borderColor = UIColor.whiteColor().CGColor
                 self.markWindow.ProfileImage.layer.borderWidth = 3
@@ -263,16 +271,16 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         return false
     }
     
-    func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
+    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         manager.stopUpdatingLocation()
         
         NSLog("位置情報取得失敗")
         UIAlertView.showAlertView("エラー", message:"位置情報の取得が失敗しました。アプリを再起動してください。")
     }
     
-    func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+   /* func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return kAnimationController
-    }
+    }*/
     
     func onClickProfileView() {
         let profileView = ProfileViewController()
@@ -306,7 +314,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
                 self.navigationController!.pushViewController(vc, animated: true)
                 
             } else {
-                println(error)
+                print(error)
             }
             
             MBProgressHUDHelper.hide()

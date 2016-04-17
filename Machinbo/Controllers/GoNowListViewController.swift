@@ -77,8 +77,8 @@ class GoNowListViewController: UIViewController, UITableViewDelegate {
     Cellが選択された際に呼び出される.
     */
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        println("Num: \(indexPath.row)")
-        println("Edeintg: \(tableView.editing)")
+        print("Num: \(indexPath.row)")
+        print("Edeintg: \(tableView.editing)")
     }
     
 }

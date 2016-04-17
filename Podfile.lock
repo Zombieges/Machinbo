@@ -4,7 +4,7 @@ PODS:
 
 DEPENDENCIES:
   - GoogleMaps
-  - MBProgressHUD (~> 0.9.2)
+  - MBProgressHUD
 
 SPEC CHECKSUMS:
   GoogleMaps: c947160008f414c66707a5ea60f35e92055c7670

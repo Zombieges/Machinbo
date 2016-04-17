@@ -42,7 +42,7 @@ class PersistentData {
                 }
             }
             set{
-                var imageData = UIImagePNGRepresentation(newValue)
+                let imageData = UIImagePNGRepresentation(newValue)
                 //var myEncodedImageData = NSKeyedArchiver.archivedDataWithRootObject(imageData)
                 NSUserDefaults.standardUserDefaults().setObject(imageData, forKey: "profileImage")
                 NSUserDefaults.standardUserDefaults().synchronize()

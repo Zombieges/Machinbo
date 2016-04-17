@@ -60,7 +60,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
         
         // profilePicture をタップできるように設定
         profilePicture.userInteractionEnabled = true
-        var myTap:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "tapGesture:")
+        let myTap:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "tapGesture:")
         profilePicture.addGestureRecognizer(myTap)
         
         let nibName = UINib(nibName: "DetailProfileTableViewCell", bundle:nil)
@@ -69,7 +69,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
         TableView.rowHeight = UITableViewAutomaticDimension
         
         // 不要行の削除
-        var v:UIView = UIView(frame: CGRectZero)
+        let v:UIView = UIView(frame: CGRectZero)
         v.backgroundColor = UIColor.clearColor()
         TableView.tableFooterView = v
         TableView.tableHeaderView = v
@@ -119,7 +119,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
     
     
     // 写真選択時の処理
-    internal func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+    internal func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         dismissViewControllerAnimated(true, completion: nil)
         
         let image = info[UIImagePickerControllerOriginalImage] as! UIImage
@@ -140,8 +140,8 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
 
             ParseHelper.getUserInfomation(userInfo.userID) { (withError error: NSError?, result: PFObject?) -> Void in
                 if let result = result {
-                    let imageData = UIImagePNGRepresentation(self.profilePicture.image)
-                    let imageFile = PFFile(name:"image.png", data:imageData)
+                    let imageData = UIImagePNGRepresentation(self.profilePicture.image!)
+                    let imageFile = PFFile(name:"image.png", data:imageData!)
                     
                     result["ProfilePicture"] = imageFile
                     result.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
@@ -227,7 +227,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
         let tableViewCellIdentifier = "Cell"
         
         // セルを再利用する。
-        cell = tableView.dequeueReusableCellWithIdentifier(identifier) as? UITableViewCell
+        cell = tableView.dequeueReusableCellWithIdentifier(identifier)
         if cell == nil { // 再利用するセルがなかったら（不足していたら）
             // セルを新規に作成する。
             cell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: identifier)
@@ -237,7 +237,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
         if indexPath.section == 0 {
             if indexPath.row < 3 {
                 
-                var normalCell = tableView.dequeueReusableCellWithIdentifier(tableViewCellIdentifier) as? UITableViewCell
+                var normalCell = tableView.dequeueReusableCellWithIdentifier(tableViewCellIdentifier)
                 if normalCell == nil { // 再利用するセルがなかったら（不足していたら）
                     // セルを新規に作成する。
                     normalCell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: tableViewCellIdentifier)
@@ -317,8 +317,8 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
                 
                 let date = NSDate()      // 現在日時
                 let calendar = NSCalendar.currentCalendar()
-                var comp : NSDateComponents = calendar.components(
-                    NSCalendarUnit.CalendarUnitYear, fromDate: date)
+                let comp : NSDateComponents = calendar.components(
+                    NSCalendarUnit.Year, fromDate: date)
                 
                 
                 var i:Int = 0
@@ -369,8 +369,8 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
         
         MBProgressHUDHelper.show("Loading...")
         
-        let imageData = UIImagePNGRepresentation(profilePicture.image)
-        let imageFile = PFFile(name:"image.png", data:imageData)
+        let imageData = UIImagePNGRepresentation(profilePicture.image!)
+        let imageFile = PFFile(name:"image.png", data:imageData!)
         let uuid = NSUUID().UUIDString
         
         NSLog("UUID" + uuid)

@@ -18,7 +18,7 @@ class GoNowTableViewCell : UITableViewCell {
     
     @IBOutlet weak var valueLabel: UILabel!
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
@@ -26,7 +26,7 @@ class GoNowTableViewCell : UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         // UILabelとかを追加
         
-        let autoresizingMasks = UIViewAutoresizing.FlexibleHeight | UIViewAutoresizing.FlexibleWidth;
+        let autoresizingMasks: UIViewAutoresizing = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth];
         self.contentView.autoresizingMask = autoresizingMasks
     }
     

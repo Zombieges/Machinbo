@@ -165,6 +165,7 @@ class ImakokoViewController: UIViewController, UINavigationControllerDelegate,
                     gpsMark.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
                         if error == nil {
                             MBProgressHUDHelper.hide()
+                            
                             //Alert
                             UIAlertView.showAlertDismiss("", message: "現在位置を登録しました") { () -> () in
                                 self.navigationController!.popToRootViewControllerAnimated(true)
@@ -191,6 +192,7 @@ class ImakokoViewController: UIViewController, UINavigationControllerDelegate,
                     gpsMark.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
                         if error == nil {
                             MBProgressHUDHelper.hide()
+                            
                             //Alert
                             UIAlertView.showAlertDismiss("", message: "現在位置を登録しました") { () -> () in
                                 self.navigationController!.popToRootViewControllerAnimated(true)

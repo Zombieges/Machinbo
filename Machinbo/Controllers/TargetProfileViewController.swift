@@ -47,7 +47,7 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate {
         self.type = type
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
@@ -92,7 +92,7 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate {
     */
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
-        var returnSectionCount = sections.count
+        let returnSectionCount = sections.count
         /*
         if type == ProfileType.TargetProfile {
             returnSectionCount -= 1
@@ -133,7 +133,7 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate {
             
             if indexPath.row < 3 {
                 // セルを再利用する
-                var normalCell = tableView.dequeueReusableCellWithIdentifier(tableViewCellIdentifier) as? UITableViewCell
+                var normalCell = tableView.dequeueReusableCellWithIdentifier(tableViewCellIdentifier)
                 if normalCell == nil { // 再利用するセルがなかったら（不足していたら）
                     // セルを新規に作成する。
                     normalCell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: tableViewCellIdentifier)
@@ -170,7 +170,7 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate {
         } else if indexPath.section == 1 {
             
             if indexPath.row == 0 {
-                var normalCell = tableView.dequeueReusableCellWithIdentifier(tableViewCellIdentifier) as? UITableViewCell
+                var normalCell = tableView.dequeueReusableCellWithIdentifier(tableViewCellIdentifier)
                 if normalCell == nil { // 再利用するセルがなかったら（不足していたら）
                     // セルを新規に作成する。
                     normalCell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: tableViewCellIdentifier)
@@ -213,9 +213,9 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate {
     */
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         // 選択中のセルが何番目か.
-        println("Num: \(indexPath.row)")
+        print("Num: \(indexPath.row)")
         // 選択中のセルを編集できるか.
-        println("Edeintg: \(tableView.editing)")
+        print("Edeintg: \(tableView.editing)")
     }
     
     func showModal(sender: AnyObject){

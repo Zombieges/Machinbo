@@ -1,6 +1,6 @@
-platform :ios, ‘8.4’
+platform :ios, ‘9.1’
 use_frameworks!
 
 
 pod 'GoogleMaps'
-pod 'MBProgressHUD', '~> 0.9.2'
+pod 'MBProgressHUD'

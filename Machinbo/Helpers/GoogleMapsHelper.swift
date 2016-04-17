@@ -24,7 +24,7 @@ class GoogleMapsHelper {
                 geoPoint = PFGeoPoint(latitude: 0, longitude: 0)
             }
 
-            var marker = GMSMarker()
+            let marker = GMSMarker()
             marker.position = CLLocationCoordinate2DMake(geoPoint.latitude, geoPoint.longitude)
             marker.appearAnimation = kGMSMarkerAnimationPop
             marker.map = map

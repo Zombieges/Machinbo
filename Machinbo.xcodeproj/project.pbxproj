@@ -12,6 +12,9 @@
 		9409F7961B2D994D0069DAE8 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9409F7941B2D994D0069DAE8 /* LaunchScreen.xib */; };
 		9409F7A21B2D994D0069DAE8 /* MachinboTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9409F7A11B2D994D0069DAE8 /* MachinboTests.swift */; };
 		94755CFB1B5A1084004FDEBC /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94755CFA1B5A1084004FDEBC /* Info.plist */; };
+		9484EBD81CC38B0300DEC7A4 /* ImakokoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9484EBD71CC38B0300DEC7A4 /* ImakokoViewController.swift */; };
+		9484EBDA1CC38BC800DEC7A4 /* AMReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9484EBD91CC38BC800DEC7A4 /* AMReachability.swift */; };
+		94A91D401CC448B1004E7652 /* MBProgressHUDHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A91D3F1CC448B1004E7652 /* MBProgressHUDHelper.swift */; };
 		BB4B3E6F1B5A001200183F62 /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BB4B3E6E1B5A001200183F62 /* libstdc++.6.dylib */; };
 		BB4B3E701B5A009500183F62 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BBC3A3FD1B3E7C2B002CBBE9 /* libz.dylib */; };
 		BB4B3E721B5A009F00183F62 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB4B3E711B5A009F00183F62 /* Accounts.framework */; };
@@ -34,8 +37,6 @@
 		BB6FDDED1C3E97E100C366A2 /* MarkWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB6FDDE01C3E97E100C366A2 /* MarkWindow.xib */; };
 		BB6FDDEE1C3E97E100C366A2 /* PickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB6FDDE11C3E97E100C366A2 /* PickerView.xib */; };
 		BB6FDDEF1C3E97E100C366A2 /* ProfileView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB6FDDE21C3E97E100C366A2 /* ProfileView.xib */; };
-		BB6FDDF01C3E97E100C366A2 /* PushAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6FDDE31C3E97E100C366A2 /* PushAnimator.swift */; };
-		BB6FDDF11C3E97E100C366A2 /* PushAnimator.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB6FDDE41C3E97E100C366A2 /* PushAnimator.xib */; };
 		BB6FDDF21C3E97E100C366A2 /* TargetProfileView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB6FDDE51C3E97E100C366A2 /* TargetProfileView.xib */; };
 		BB6FDDFA1C3E998000C366A2 /* GoNowListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6FDDF41C3E998000C366A2 /* GoNowListViewController.swift */; };
 		BB6FDDFB1C3E998000C366A2 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6FDDF51C3E998000C366A2 /* MapViewController.swift */; };
@@ -93,6 +94,9 @@
 		9409F7A01B2D994D0069DAE8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9409F7A11B2D994D0069DAE8 /* MachinboTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MachinboTests.swift; sourceTree = "<group>"; };
 		94755CFA1B5A1084004FDEBC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9484EBD71CC38B0300DEC7A4 /* ImakokoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImakokoViewController.swift; sourceTree = "<group>"; };
+		9484EBD91CC38BC800DEC7A4 /* AMReachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AMReachability.swift; sourceTree = "<group>"; };
+		94A91D3F1CC448B1004E7652 /* MBProgressHUDHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MBProgressHUDHelper.swift; sourceTree = "<group>"; };
 		BB4B3E6E1B5A001200183F62 /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
 		BB4B3E711B5A009F00183F62 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		BB4B3E731B5A00A600183F62 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
@@ -115,8 +119,6 @@
 		BB6FDDE01C3E97E100C366A2 /* MarkWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MarkWindow.xib; sourceTree = "<group>"; };
 		BB6FDDE11C3E97E100C366A2 /* PickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PickerView.xib; sourceTree = "<group>"; };
 		BB6FDDE21C3E97E100C366A2 /* ProfileView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileView.xib; sourceTree = "<group>"; };
-		BB6FDDE31C3E97E100C366A2 /* PushAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushAnimator.swift; sourceTree = "<group>"; };
-		BB6FDDE41C3E97E100C366A2 /* PushAnimator.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PushAnimator.xib; sourceTree = "<group>"; };
 		BB6FDDE51C3E97E100C366A2 /* TargetProfileView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TargetProfileView.xib; sourceTree = "<group>"; };
 		BB6FDDF41C3E998000C366A2 /* GoNowListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoNowListViewController.swift; sourceTree = "<group>"; };
 		BB6FDDF51C3E998000C366A2 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
@@ -311,6 +313,7 @@
 		BB6FDDC81C3E934F00C366A2 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				9484EBD91CC38BC800DEC7A4 /* AMReachability.swift */,
 				BB6FDDC91C3E934F00C366A2 /* LayoutManager.swift */,
 				BB6FDDCA1C3E934F00C366A2 /* LoginManager.swift */,
 			);
@@ -321,6 +324,7 @@
 			isa = PBXGroup;
 			children = (
 				BB6FDDCE1C3E952700C366A2 /* ConfigHelper.swift */,
+				94A91D3F1CC448B1004E7652 /* MBProgressHUDHelper.swift */,
 				BB6FDDCF1C3E952700C366A2 /* GoogleMapsHelper.swift */,
 				BB6FDDD01C3E952700C366A2 /* ParseHelper.swift */,
 				BB6FDDD11C3E952700C366A2 /* PersistentData.swift */,
@@ -342,8 +346,6 @@
 				BB6FDDE01C3E97E100C366A2 /* MarkWindow.xib */,
 				BB6FDDE11C3E97E100C366A2 /* PickerView.xib */,
 				BB6FDDE21C3E97E100C366A2 /* ProfileView.xib */,
-				BB6FDDE31C3E97E100C366A2 /* PushAnimator.swift */,
-				BB6FDDE41C3E97E100C366A2 /* PushAnimator.xib */,
 				BB6FDDE51C3E97E100C366A2 /* TargetProfileView.xib */,
 			);
 			path = Views;
@@ -354,6 +356,7 @@
 			children = (
 				BB6FDDF41C3E998000C366A2 /* GoNowListViewController.swift */,
 				BB6FDDF51C3E998000C366A2 /* MapViewController.swift */,
+				9484EBD71CC38B0300DEC7A4 /* ImakokoViewController.swift */,
 				BB6FDDF71C3E998000C366A2 /* PickerViewController.swift */,
 				BB6FDDF81C3E998000C366A2 /* ProfileViewController.swift */,
 				BB6FDDF91C3E998000C366A2 /* TargetProfileViewController.swift */,
@@ -438,6 +441,8 @@
 		9409F77C1B2D994D0069DAE8 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftMigration = 0720;
+				LastSwiftUpdateCheck = 0720;
 				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = Zombieges;
 				TargetAttributes = {
@@ -490,7 +495,6 @@
 				BB6FDDE81C3E97E100C366A2 /* GoNowListView.xib in Resources */,
 				94755CFB1B5A1084004FDEBC /* Info.plist in Resources */,
 				9409F7931B2D994D0069DAE8 /* Images.xcassets in Resources */,
-				BB6FDDF11C3E97E100C366A2 /* PushAnimator.xib in Resources */,
 				BBA5C4961B3545D4005D062B /* GoogleMaps.bundle in Resources */,
 				BB6FDDEF1C3E97E100C366A2 /* ProfileView.xib in Resources */,
 				BB6FDDEB1C3E97E100C366A2 /* MapView.xib in Resources */,
@@ -559,6 +563,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9484EBDA1CC38BC800DEC7A4 /* AMReachability.swift in Sources */,
 				BB6FDDD71C3E952700C366A2 /* UIAlertView+Custom.swift in Sources */,
 				BB6FDDD41C3E952700C366A2 /* GoogleMapsHelper.swift in Sources */,
 				BB6FDDCC1C3E934F00C366A2 /* LoginManager.swift in Sources */,
@@ -566,7 +571,6 @@
 				BB6FDDE91C3E97E100C366A2 /* GoNowTableViewCell.swift in Sources */,
 				BB6FDDFE1C3E998000C366A2 /* ProfileViewController.swift in Sources */,
 				BB6FDDE61C3E97E100C366A2 /* DetailProfileTableViewCell.swift in Sources */,
-				BB6FDDF01C3E97E100C366A2 /* PushAnimator.swift in Sources */,
 				BB6FDDD31C3E952700C366A2 /* ConfigHelper.swift in Sources */,
 				BBEFA89B1B57BE99002EFC7A /* AppDelegate.swift in Sources */,
 				BB6FDE0F1C43AC1500C366A2 /* FeedData.swift in Sources */,
@@ -575,9 +579,11 @@
 				BB6FDDFA1C3E998000C366A2 /* GoNowListViewController.swift in Sources */,
 				BB6FDDEC1C3E97E100C366A2 /* MarkWindow.swift in Sources */,
 				BB6FDDC71C3E92FD00C366A2 /* ZFRippleButton.swift in Sources */,
+				9484EBD81CC38B0300DEC7A4 /* ImakokoViewController.swift in Sources */,
 				BB6FDDCB1C3E934F00C366A2 /* LayoutManager.swift in Sources */,
 				BB6FDDD51C3E952700C366A2 /* ParseHelper.swift in Sources */,
 				BB6FDDD61C3E952700C366A2 /* PersistentData.swift in Sources */,
+				94A91D401CC448B1004E7652 /* MBProgressHUDHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

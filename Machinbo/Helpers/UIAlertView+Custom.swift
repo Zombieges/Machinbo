@@ -41,13 +41,13 @@ public extension UIAlertView {
         )
         
         let okAction = UIAlertAction(title: "OK", style: .Default, handler: {
-            (action:UIAlertAction!) -> Void in
+            (action:UIAlertAction) -> Void in
             completion(action: ActionButton.OK)
         })
         alertController.addAction(okAction)
         
         let cancelAction = UIAlertAction(title: "キャンセル", style: .Cancel, handler:{
-            (action:UIAlertAction!) -> Void in
+            (action:UIAlertAction) -> Void in
             completion(action: ActionButton.Cancel)
         })
         alertController.addAction(cancelAction)

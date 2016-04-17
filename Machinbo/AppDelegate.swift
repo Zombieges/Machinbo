@@ -38,8 +38,8 @@
             firstViewController = storyboard.instantiateViewControllerWithIdentifier("profile") as! ProfileViewController
             
         } else {
-            var storyboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
-            firstViewController = storyboard.instantiateInitialViewController() as! UIViewController
+            let storyboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
+            firstViewController = storyboard.instantiateInitialViewController() as! UIViewController!
         }
         
         mainNavigationCtrl = UINavigationController(rootViewController: firstViewController)

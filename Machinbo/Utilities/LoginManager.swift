@@ -66,7 +66,7 @@ class LoginManager
         userDefaults.removeObjectForKey(localUUID)
         userDefaults.synchronize()
         
-        var query: PFQuery = PFQuery(className: "UserInfo")
+        let query: PFQuery = PFQuery(className: "UserInfo")
         query.whereKey("UserID", containsString: localUUID)
         query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
             for object in (objects as! [PFObject]) {
@@ -120,7 +120,7 @@ func getUserIdFromDB() -> (userId: NSUUID, generatedOn: NSDate)
 func getDeviceIdForVendor() -> NSUUID
 {
     let device = UIDevice.currentDevice()
-    return device.identifierForVendor
+    return device.identifierForVendor!
 }
 
 

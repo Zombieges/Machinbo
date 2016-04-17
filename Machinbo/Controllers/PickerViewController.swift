@@ -84,7 +84,7 @@ class PickerViewController: UIViewController,
             // Delegateを設定する.
             myTableView.delegate = self
             // 不要行の削除
-            var v:UIView = UIView(frame: CGRectZero)
+            let v:UIView = UIView(frame: CGRectZero)
             v.backgroundColor = UIColor.clearColor()
             myTableView.tableFooterView = v
             myTableView.tableHeaderView = v
@@ -120,7 +120,7 @@ class PickerViewController: UIViewController,
             myTableView.dataSource = self
             myTableView.delegate = self
             
-            var v:UIView = UIView(frame: CGRectZero)
+            let v:UIView = UIView(frame: CGRectZero)
             v.backgroundColor = UIColor.clearColor()
             myTableView.tableFooterView = v
             myTableView.tableHeaderView = v
@@ -151,7 +151,7 @@ class PickerViewController: UIViewController,
     
     func createInsertDataButton(displayWidth: CGFloat, displayHeight: CGFloat) {
         
-        var btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 150, height: 40))
+        let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 150, height: 40))
         btn.trackTouchLocation = true
         btn.backgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
         btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
@@ -178,7 +178,7 @@ class PickerViewController: UIViewController,
         
         if (self.kind == "name") {
             
-            if self.inputTextField.text.isEmpty {
+            if self.inputTextField.text!.isEmpty {
                 UIAlertView.showAlertView("", message: "名前を入力してください")
                 return
             }
@@ -186,7 +186,7 @@ class PickerViewController: UIViewController,
             var userInfo = PersistentData.User()
             
             if PersistentData.User().userID == "" {
-                self.delegate!.setName(self.inputTextField.text)
+                self.delegate!.setName(self.inputTextField.text!)
                 self.navigationController!.popViewControllerAnimated(true)
                 
             } else {
@@ -195,9 +195,9 @@ class PickerViewController: UIViewController,
                         result["Name"] = self.inputTextField.text
                         result.saveInBackground()
                         
-                        userInfo.name = self.inputTextField.text
+                        userInfo.name = self.inputTextField.text!
                         
-                        self.delegate!.setName(self.inputTextField.text)
+                        self.delegate!.setName(self.inputTextField.text!)
                         self.navigationController!.popViewControllerAnimated(true)
                     }
                 }
@@ -259,7 +259,7 @@ class PickerViewController: UIViewController,
             
             if let selected = myItems[indexPath.row] as? String {
                 
-                //ここでDBに登録
+                //ここでDBに登録{
                 MBProgressHUDHelper.show("Loading...")
                 
                 ParseHelper.getUserInfomation(PersistentData.User().userID) { (withError error: NSError?, result) -> Void in
@@ -319,7 +319,7 @@ class PickerViewController: UIViewController,
         let identifier = "Cell" // セルのIDを定数identifierにする。
         var cell: UITableViewCell? // nilになることがあるので、Optionalで宣言
         
-        cell = tableView.dequeueReusableCellWithIdentifier(identifier) as? UITableViewCell
+        cell = tableView.dequeueReusableCellWithIdentifier(identifier)
         if cell == nil { // 再利用するセルがなかったら（不足していたら）
             // セルを新規に作成する。
             cell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: identifier)

@@ -233,7 +233,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         //MarkDownWindow生成
         self.markWindow = NSBundle.mainBundle().loadNibNamed("MarkWindow", owner: self, options: nil).first! as! MarkWindow
         
-        let createdBy: AnyObject? = marker.userData.objectForKey("CreatedBy")
+        let createdBy: AnyObject? = marker.userData!.objectForKey("CreatedBy")
         
         if let createdBy: AnyObject = createdBy {
             if let imageFile = createdBy.valueForKey("ProfilePicture") as? PFFile {
@@ -248,7 +248,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
             self.markWindow.Name.text = createdBy.objectForKey("Name") as? String
             self.markWindow.Name.sizeToFit()
             
-            self.markWindow.Detail.text = marker.userData.objectForKey("PlaceDetail") as? String
+            self.markWindow.Detail.text = marker.userData!.objectForKey("PlaceDetail") as? String
             self.markWindow.Detail.sizeToFit()
             
         } else {
@@ -306,7 +306,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     func onClickGoNowListView() {
         MBProgressHUDHelper.show("Loading...")
         
-        ParseHelper.getGoNowMeList(PersistentData.User().userID) { (withError error: NSError?, result) -> Void in
+        ParseHelper.getGoNowMeList(PersistentData.User().userID) { (error: NSError?, result) -> Void in
             if error == nil {
                 
                 let vc = GoNowListViewController()
@@ -324,7 +324,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     func onClickGoNowView() {
         MBProgressHUDHelper.show("Loading...")
         
-        ParseHelper.getMyGoNow(PersistentData.User().userID) { (withError error: NSError?, result) -> Void in
+        ParseHelper.getMyGoNow(PersistentData.User().userID) { (error: NSError?, result) -> Void in
             if error == nil {
                 let vc = TargetProfileViewController(type: ProfileType.ImaikuTargetProfile)
                 

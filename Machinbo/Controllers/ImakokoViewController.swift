@@ -151,7 +151,7 @@ class ImakokoViewController: UIViewController, UINavigationControllerDelegate,
         var userInfo = PersistentData.User()
         
         if userInfo.imakokoFlag {
-            ParseHelper.getActionInfomation(userInfo.userID) { (withError error: NSError?, result: PFObject?) -> Void in
+            ParseHelper.getActionInfomation(userInfo.userID) { (error: NSError?, result: PFObject?) -> Void in
                 if error == nil {
                     let query = result! as PFObject
                     let gpsMark = PFObject(className: "Action")
@@ -177,7 +177,7 @@ class ImakokoViewController: UIViewController, UINavigationControllerDelegate,
             
         } else {
             
-            ParseHelper.getUserInfomation(userInfo.userID) { (withError error: NSError?, result: PFObject?) -> Void in
+            ParseHelper.getUserInfomation(userInfo.userID) { (error: NSError?, result: PFObject?) -> Void in
                 if error == nil {
                     let query = result! as PFObject
                     

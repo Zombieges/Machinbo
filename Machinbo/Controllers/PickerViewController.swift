@@ -190,7 +190,7 @@ class PickerViewController: UIViewController,
                 self.navigationController!.popViewControllerAnimated(true)
                 
             } else {
-                ParseHelper.getUserInfomation(PersistentData.User().userID) { (withError error: NSError?, result: PFObject?) -> Void in
+                ParseHelper.getUserInfomation(PersistentData.User().userID) { (error: NSError?, result: PFObject?) -> Void in
                     if let result = result {
                         result["Name"] = self.inputTextField.text
                         result.saveInBackground()
@@ -217,7 +217,7 @@ class PickerViewController: UIViewController,
                 self.navigationController!.popViewControllerAnimated(true)
                 
             } else {
-                ParseHelper.getUserInfomation(PersistentData.User().userID) { (withError error: NSError?, result: PFObject?) -> Void in
+                ParseHelper.getUserInfomation(PersistentData.User().userID) { (error: NSError?, result: PFObject?) -> Void in
                     if let result = result {
                         result["Comment"] = self.inputTextView.text
                         result.saveInBackground()
@@ -262,7 +262,7 @@ class PickerViewController: UIViewController,
                 //ここでDBに登録{
                 MBProgressHUDHelper.show("Loading...")
                 
-                ParseHelper.getUserInfomation(PersistentData.User().userID) { (withError error: NSError?, result) -> Void in
+                ParseHelper.getUserInfomation(PersistentData.User().userID) { (error: NSError?, result) -> Void in
                     if error == nil {
                         //let myUserInfo = result! as PFObject
                         

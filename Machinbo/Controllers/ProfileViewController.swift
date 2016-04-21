@@ -138,7 +138,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
         var userInfo = PersistentData.User()
         if userInfo.userID != "" {
 
-            ParseHelper.getUserInfomation(userInfo.userID) { (withError error: NSError?, result: PFObject?) -> Void in
+            ParseHelper.getUserInfomation(userInfo.userID) { (error: NSError?, result: PFObject?) -> Void in
                 if let result = result {
                     let imageData = UIImagePNGRepresentation(self.profilePicture.image!)
                     let imageFile = PFFile(name:"image.png", data:imageData!)

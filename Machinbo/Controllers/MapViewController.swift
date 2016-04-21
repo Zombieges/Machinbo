@@ -38,14 +38,13 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
             self.view = view
         }
         
-        /*
         
         // セキュリティ認証のステータスを取得
         let status = CLLocationManager.authorizationStatus()
-        if status == CLAuthorizationStatus.NotDetermined {
+        if status == .NotDetermined {
             // まだ承認が得られていない場合は、認証ダイアログを表示
             lm.requestWhenInUseAuthorization()
-        }*/
+        }
         
         do{
             let reachability = try AMReachability.reachabilityForInternetConnection()
@@ -125,10 +124,10 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         }
         
         NSLog(" CLAuthorizationStatus: \(statusStr)")
-        
-        if status == .AuthorizedWhenInUse {
+
+        /*else if status == .AuthorizedWhenInUse {
             manager.startUpdatingLocation()
-        }
+        }*/
     }
     
     override func didReceiveMemoryWarning() {
@@ -237,7 +236,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         
         if let createdBy: AnyObject = createdBy {
             if let imageFile = createdBy.valueForKey("ProfilePicture") as? PFFile {
-                let imageData: NSData = imageFile.getData()!
+                let imageData: NSData = try! imageFile.getData()
                 self.markWindow.ProfileImage.image = UIImage(data: imageData)!
                 self.markWindow.ProfileImage.layer.borderColor = UIColor.whiteColor().CGColor
                 self.markWindow.ProfileImage.layer.borderWidth = 3
@@ -258,7 +257,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         return self.markWindow
     }
     
-    func mapView(mapView: GMSMapView!, didTapInfoWindowOfMarker marker: GMSMarker!) {
+    func mapView(mapView: GMSMapView, didTapInfoWindowOfMarker marker: GMSMarker) {
         
         let vc = TargetProfileViewController(type: ProfileType.TargetProfile)
         vc.actionInfo = marker.userData
@@ -267,7 +266,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         
     }
     
-    func mapView(mapView: GMSMapView!, didTapMarker marker: GMSMarker!) -> Bool {
+    func mapView(mapView: GMSMapView, didTapMarker marker: GMSMarker) -> Bool {
         return false
     }
     

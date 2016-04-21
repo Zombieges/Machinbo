@@ -69,9 +69,6 @@ class ImakokoViewController: UIViewController, UINavigationControllerDelegate,
     */
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let tableViewCellIdentifier = "Cell"
-        var cell: UITableViewCell? // nilになることがあるので、Optionalで宣言
-
         let detailCell = tableView.dequeueReusableCellWithIdentifier(detailTableViewCellIdentifier, forIndexPath: indexPath) as? DetailProfileTableViewCell
 
         if indexPath.row == 0 {

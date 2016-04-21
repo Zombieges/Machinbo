@@ -382,7 +382,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
             gender: gender!,
             age: selectedAge,
             comment: inputComment,
-            photo: imageFile
+            photo: imageFile!
         )
         
         var userInfo = PersistentData.User()

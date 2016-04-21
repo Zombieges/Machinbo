@@ -22,6 +22,12 @@ class ParseHelper {
         Parse.enableLocalDatastore()
         Parse.setApplicationId(parseAppIdKey, clientKey:parseClientKey)
         PFAnalytics.trackAppOpenedWithLaunchOptions(launchOptions)
+        //Parse.initializeWithConfiguration(ParseClientConfiguration(block: { (configuration: ParseMutableClientConfiguration) -> Void in
+        //    configuration.server = "https://zombieges.azurewebsites.net/parse/" // '/' important after 'parse'
+        //    configuration.applicationId = "EwD8qTNw1qNvRs51lE3BzLGe7NqyYOwNGCEe3uSq"
+        //    configuration.clientKey = "YkZGaz5ujL8F4NBJCWu9FrGmNFltqVJcUqsFFTQa"
+        //    configuration.localDatastoreEnabled = true
+        //}))
     }
     
     class func getNearUserInfomation(myLocation: CLLocationCoordinate2D, completion:((withError: NSError?, result:[PFObject]?)->Void)?) {
@@ -33,11 +39,18 @@ class ParseHelper {
         query.limit = 300
         query.includeKey("CreatedBy")
         query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
-            if error == nil {
-                let resultNearUser = objects as! [PFObject]
-                completion?(withError: error, result: resultNearUser)
-                
+            if let resultNearUser = objects {
+                do {
+                    try completion?(withError: error, result: resultNearUser)
+                } catch {
+                    // Error handling...
+                }
             }
+            //if error == nil {
+            //    let resultNearUser = objects as! [PFObject]
+            //    completion?(withError: error, result: resultNearUser)
+            
+            //}
         }
     }
     
@@ -46,10 +59,18 @@ class ParseHelper {
         query.whereKey("UserID", containsString: loginUser)
         query.includeKey("TargetUser.CreatedBy")//ActionのPointerからUserInfoへリレーション
         query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
-            if error == nil {
-                let object = objects!.first as? PFObject
-                completion?(withError: error, result: object)
+            
+            if let object = objects!.first {
+                do {
+                    try completion?(withError: error, result: object)
+                } catch {
+                    // Error handling...
+                }
             }
+            //if error == nil {
+            //    let object = objects!.first as? PFObject
+            //    completion?(withError: error, result: object)
+            //}
         }
     }
     
@@ -68,10 +89,19 @@ class ParseHelper {
         let query = PFQuery(className: "UserInfo")
         query.whereKey("UserID", containsString: userID)
         query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
-            if error == nil {
-                let object = objects!.first as? PFObject
-                completion?(withError: error, result: object)
+            
+            if let object = objects!.first {
+                do {
+                    try completion?(withError: error, result: object)
+                } catch {
+                    // Error handling...
+                }
             }
+            
+            //if error == nil {
+            //    let object = objects!.first as? PFObject
+            //    completion?(withError: error, result: object)
+            //}
         }
     }
     

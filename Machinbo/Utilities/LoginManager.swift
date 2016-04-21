@@ -69,12 +69,24 @@ class LoginManager
         let query: PFQuery = PFQuery(className: "UserInfo")
         query.whereKey("UserID", containsString: localUUID)
         query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
-            for object in (objects as! [PFObject]) {
-                if(error == nil){
+            
+            if let unwrappedObjects = objects {
+                for object in unwrappedObjects {
                     NSLog("==>delete user:" + localUUID)
-                    object.delete() // 削除
+                    //try! object.delete() // 削除
+                    do {
+                        try object.delete() // 削除                        }
+                    } catch {
+                        // Error handling...
+                    }
                 }
             }
+            //for object in (objects as! [PFObject]) {
+            //    if(error == nil){
+            //        NSLog("==>delete user:" + localUUID)
+            //        object.delete() // 削除
+            //    }
+            //}
         }
     }
 }

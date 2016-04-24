@@ -42,10 +42,10 @@ class ImakokoViewController: UIViewController, UINavigationControllerDelegate,
         tableView.rowHeight = UITableViewAutomaticDimension
         
         // 不要行の削除
-        var v:UIView = UIView(frame: CGRectZero)
-        v.backgroundColor = UIColor.clearColor()
-        tableView.tableFooterView = v
-        tableView.tableHeaderView = v
+        let noCreateView:UIView = UIView(frame: CGRectZero)
+        noCreateView.backgroundColor = UIColor.clearColor()
+        tableView.tableFooterView = noCreateView
+        tableView.tableHeaderView = noCreateView
         
         view.addSubview(tableView)
     }

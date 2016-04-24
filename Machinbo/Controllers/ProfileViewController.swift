@@ -60,7 +60,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
         
         // profilePicture をタップできるように設定
         profilePicture.userInteractionEnabled = true
-        let myTap:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "tapGesture:")
+        let myTap:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ProfileViewController.tapGesture(_:)))
         profilePicture.addGestureRecognizer(myTap)
         
         let nibName = UINib(nibName: "DetailProfileTableViewCell", bundle:nil)
@@ -320,8 +320,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
                 let comp : NSDateComponents = calendar.components(
                     NSCalendarUnit.Year, fromDate: date)
                 
-                
-                var i:Int = 0
                 for i in 0...50 {
                     myItems.append((String(comp.year - i)))
                 }
@@ -392,8 +390,8 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
         userInfo.age = selectedAge
         userInfo.comment = inputComment
         
-        var newRootVC = MapViewController()
-        var navigationController = UINavigationController(rootViewController: newRootVC)
+        let newRootVC = MapViewController()
+        let navigationController = UINavigationController(rootViewController: newRootVC)
         navigationController.navigationBar.barTintColor = LayoutManager.getUIColorFromRGB(0x3949AB)
         navigationController.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
         UIApplication.sharedApplication().keyWindow?.rootViewController = navigationController

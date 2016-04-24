@@ -268,8 +268,8 @@
 				BB6FDDCD1C3E952700C366A2 /* Helpers */,
 				BB6FDDC81C3E934F00C366A2 /* Utilities */,
 				BB6FDDC51C3E92FD00C366A2 /* Classes */,
-				BBFEC6D71B92B7D90069137A /* Main.storyboard */,
 				BBEFA89A1B57BE99002EFC7A /* AppDelegate.swift */,
+				BBFEC6D71B92B7D90069137A /* Main.storyboard */,
 				9409F7921B2D994D0069DAE8 /* Images.xcassets */,
 				9409F7941B2D994D0069DAE8 /* LaunchScreen.xib */,
 				9409F7871B2D994D0069DAE8 /* Supporting Files */,
@@ -448,6 +448,11 @@
 				TargetAttributes = {
 					9409F7831B2D994D0069DAE8 = {
 						CreatedOnToolsVersion = 6.3.2;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					9409F79A1B2D994D0069DAE8 = {
 						CreatedOnToolsVersion = 6.3.2;

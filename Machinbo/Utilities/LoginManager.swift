@@ -14,9 +14,9 @@ class LoginManager
 {
     class var UUID:String?
     {
-        let settings : NSUserDefaults = NSUserDefaults.standardUserDefaults()
+        //let settings : NSUserDefaults = NSUserDefaults.standardUserDefaults()
         //decode
-        var temp = settings.objectForKey("UUID") as? String
+        //var temp = settings.objectForKey("UUID") as? String
         return ""//AESCrypt.decrypt(temp, password: "UUID")
     }
     

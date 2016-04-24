@@ -160,7 +160,7 @@ class PickerViewController: UIViewController,
         btn.layer.cornerRadius = 5.0
         btn.layer.masksToBounds = true
         btn.layer.position = CGPoint(x: displayWidth/2, y: displayHeight)
-        btn.addTarget(self, action: "onClickSaveButton:", forControlEvents: UIControlEvents.TouchUpInside)
+        btn.addTarget(self, action: #selector(PickerViewController.onClickSaveButton(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         
         self.view.addSubview(btn)
     }

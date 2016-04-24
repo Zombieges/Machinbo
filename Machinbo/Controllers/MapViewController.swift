@@ -38,6 +38,40 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
             self.view = view
         }
         
+        do{
+            let reachability = try AMReachability.reachabilityForInternetConnection()
+            if reachability.isReachable() {
+                print("インターネット接続あり")
+                startBackgroundLocationUpdates()
+                
+            
+            } else {
+                print("インターネット接続なし")
+                UIAlertView.showAlertView("", message: "接続に失敗しました。通信状況を確認の上、再接続してくだささい。")
+                createRefreshButton()
+                return
+            }
+            
+        } catch _ as ReachabilityError {
+        // エラー処理
+        } catch _ as NSError {
+        // NSErrorが投げられた場合
+        } catch {
+        // その他ハンドル出来なかったもの
+        }
+    }
+    
+    func startBackgroundLocationUpdates() {
+        lm = CLLocationManager()
+        lm.delegate = self
+        lm.requestWhenInUseAuthorization()
+        lm.desiredAccuracy = kCLLocationAccuracyThreeKilometers
+        lm.pausesLocationUpdatesAutomatically = true
+        if #available(iOS 9.0, *) {
+            lm.allowsBackgroundLocationUpdates = true
+        } else {
+            // Fallback on earlier versions
+        }
         
         // セキュリティ認証のステータスを取得
         let status = CLLocationManager.authorizationStatus()
@@ -46,32 +80,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
             lm.requestWhenInUseAuthorization()
         }
         
-        do{
-            let reachability = try AMReachability.reachabilityForInternetConnection()
-            if reachability.isReachable() {
-                print("インターネット接続あり")
-            
-                lm = CLLocationManager()
-                lm.delegate = self
-                lm.desiredAccuracy = kCLLocationAccuracyBest
-                lm.distanceFilter = 100
-            
-                lm.startUpdatingLocation()
-            
-            } else {
-                print("インターネット接続なし")
-                UIAlertView.showAlertView("", message: "接続に失敗しました。通信状況を確認の上、再接続してくだささい。")
-                createRefreshButton()
-                return
-            }
-                
-        } catch let error as ReachabilityError {
-        // エラー処理
-        } catch let error as NSError {
-        // NSErrorが投げられた場合
-        } catch {
-        // その他ハンドル出来なかったもの
-        }
+        lm.startUpdatingLocation()
     }
 
     func createupdateGeoPointButton() {
@@ -82,7 +91,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
         btn.rippleColor = LayoutManager.getUIColorFromRGB(0xB54241)
         btn.setTitle("現在位置登録", forState: .Normal)
-        btn.addTarget(self, action: "onClickImakoko", forControlEvents: UIControlEvents.TouchUpInside)
+        btn.addTarget(self, action: #selector(MapViewController.onClickImakoko), forControlEvents: UIControlEvents.TouchUpInside)
         btn.layer.cornerRadius = 5.0
         btn.layer.masksToBounds = true
         btn.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height - self.view.bounds.height/8.3)
@@ -97,7 +106,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
         btn.rippleColor = LayoutManager.getUIColorFromRGB(0xB54241)
         btn.setTitle("再表示", forState: .Normal)
-        btn.addTarget(self, action: "onClickViewRefresh", forControlEvents: UIControlEvents.TouchUpInside)
+        btn.addTarget(self, action: #selector(MapViewController.onClickViewRefresh), forControlEvents: UIControlEvents.TouchUpInside)
         btn.layer.cornerRadius = 5.0
         btn.layer.masksToBounds = true
         btn.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height - self.view.bounds.height/8.3)
@@ -147,22 +156,25 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         let camera = GMSCameraPosition(target: self.myPosition, zoom: 13, bearing: 0, viewingAngle: 0)
         
         self.gmaps = GMSMapView()
-        if let gmaps = gmaps {
-            self.gmaps.frame = CGRectMake(0, 20, self.view.frame.width, self.view.frame.height/2)
-            self.gmaps.myLocationEnabled = true
-            self.gmaps.settings.myLocationButton = true
-            self.gmaps.camera = camera
-            self.gmaps.delegate = self
-            
-            self.view = self.gmaps
-            
-        }
+        self.gmaps.frame = CGRectMake(0, 20, self.view.frame.width, self.view.frame.height/2)
+        self.gmaps.myLocationEnabled = true
+        self.gmaps.settings.myLocationButton = true
+        self.gmaps.camera = camera
+        self.gmaps.delegate = self
         
+        self.view = self.gmaps
+
         FeedData.mainData().refreshMapFeed(myPosition) { () -> () in
             GoogleMapsHelper.setUserMarker(self.gmaps!, userObjects: FeedData.mainData().feedItems)
         }
         
-        manager.stopUpdatingLocation()
+        //manager.stopUpdatingLocation()
+        lm.stopUpdatingLocation()
+        if #available(iOS 9.0, *) {
+            lm.allowsBackgroundLocationUpdates = false
+        } else {
+            // Fallback on earlier versions
+        }
         
         //button 生成
         createNavigationItem()
@@ -176,7 +188,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         profileViewButton.setImage(UIImage(named: "profile_icon.png"), forState: UIControlState.Normal)
         profileViewButton.titleLabel?.font = UIFont.systemFontOfSize(11)
         profileViewButton.setTitle("設定", forState: UIControlState.Normal)
-        profileViewButton.addTarget(self, action: "onClickProfileView", forControlEvents: UIControlEvents.TouchUpInside)
+        profileViewButton.addTarget(self, action: #selector(MapViewController.onClickProfileView), forControlEvents: UIControlEvents.TouchUpInside)
         profileViewButton.frame = CGRectMake(0, 0, 60, 53)
         profileViewButton.imageEdgeInsets = UIEdgeInsetsMake(-25, 17, 0, 0)
         profileViewButton.titleEdgeInsets = UIEdgeInsetsMake(22, -22, 0, 0)
@@ -186,7 +198,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         imakokoViewButton.setImage(UIImage(named: "imakoko.png"), forState: UIControlState.Normal)
         imakokoViewButton.titleLabel?.font = UIFont.systemFontOfSize(11)
         imakokoViewButton.setTitle("いま来る", forState: UIControlState.Normal)
-        imakokoViewButton.addTarget(self, action: "onClickGoNowListView", forControlEvents: UIControlEvents.TouchUpInside)
+        imakokoViewButton.addTarget(self, action: #selector(MapViewController.onClickGoNowListView), forControlEvents: UIControlEvents.TouchUpInside)
         imakokoViewButton.frame = CGRectMake(0, 0, 60, 53)
         imakokoViewButton.imageEdgeInsets = UIEdgeInsetsMake(-25, 17, 0, 0)
         imakokoViewButton.titleEdgeInsets = UIEdgeInsetsMake(22, -22, 0, 0)
@@ -202,7 +214,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         imaikuViewButton.titleLabel?.font = UIFont.systemFontOfSize(11)
         imaikuViewButton.setTitle("いま行く", forState: UIControlState.Normal)
         imaikuViewButton.sizeToFit()
-        imaikuViewButton.addTarget(self, action: "onClickGoNowView", forControlEvents: UIControlEvents.TouchUpInside)
+        imaikuViewButton.addTarget(self, action: #selector(MapViewController.onClickGoNowView), forControlEvents: UIControlEvents.TouchUpInside)
         imaikuViewButton.frame = CGRectMake(0, 0, 60, 53)
         imaikuViewButton.imageEdgeInsets = UIEdgeInsetsMake(-25, 17, 0, 0)
         imaikuViewButton.titleEdgeInsets = UIEdgeInsetsMake(22, -22, 0, 0)
@@ -218,7 +230,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         reloadButton.setImage(UIImage(named: "reload.png"), forState: UIControlState.Normal)
         reloadButton.titleLabel?.font = UIFont.systemFontOfSize(11)
         reloadButton.setTitle("リロード", forState: UIControlState.Normal)
-        reloadButton.addTarget(self, action: "onClickReload", forControlEvents: UIControlEvents.TouchUpInside)
+        reloadButton.addTarget(self, action: #selector(MapViewController.onClickReload), forControlEvents: UIControlEvents.TouchUpInside)
         reloadButton.frame = CGRectMake(0, 0, 60, 53)
         reloadButton.imageEdgeInsets = UIEdgeInsetsMake(-25, 17, 0, 0)
         reloadButton.titleEdgeInsets = UIEdgeInsetsMake(22, -22, 0, 0)
@@ -227,7 +239,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         
     }
     
-    func mapView(mapView: GMSMapView!, markerInfoWindow marker: GMSMarker!) -> UIView! {
+    func mapView(mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView? {
         
         //MarkDownWindow生成
         self.markWindow = NSBundle.mainBundle().loadNibNamed("MarkWindow", owner: self, options: nil).first! as! MarkWindow
@@ -329,7 +341,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
                 
                 if let goNowObj: AnyObject = result {
                     let targetAction: AnyObject? = goNowObj.objectForKey("TargetUser")
-                    let targetUser: AnyObject? = targetAction?.objectForKey("CreatedBy")
+                    //let targetUser: AnyObject? = targetAction?.objectForKey("CreatedBy")
                     
                     vc.targetObjectID = goNowObj.objectId
                     vc.actionInfo = targetAction!
@@ -349,7 +361,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     
     //更新
     func onClickReload() {
-        self.lm.startUpdatingLocation()
+        lm.startUpdatingLocation()
         UIAlertView.showAlertDismiss("", message: "マップを更新しました") { () -> () in
         }
     }

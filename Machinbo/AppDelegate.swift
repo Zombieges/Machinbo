@@ -39,7 +39,7 @@
             
         } else {
             let storyboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
-            firstViewController = storyboard.instantiateInitialViewController() as! UIViewController!
+            firstViewController = storyboard.instantiateInitialViewController() as UIViewController!
         }
         
         mainNavigationCtrl = UINavigationController(rootViewController: firstViewController)

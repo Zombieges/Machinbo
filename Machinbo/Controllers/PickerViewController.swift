@@ -120,10 +120,10 @@ class PickerViewController: UIViewController,
             myTableView.dataSource = self
             myTableView.delegate = self
             
-            let v:UIView = UIView(frame: CGRectZero)
-            v.backgroundColor = UIColor.clearColor()
-            myTableView.tableFooterView = v
-            myTableView.tableHeaderView = v
+            let view:UIView = UIView(frame: CGRectZero)
+            view.backgroundColor = UIColor.clearColor()
+            myTableView.tableFooterView = view
+            myTableView.tableHeaderView = view
             
             // Viewに追加する.
             self.view.addSubview(myTableView)
@@ -263,33 +263,36 @@ class PickerViewController: UIViewController,
                 MBProgressHUDHelper.show("Loading...")
                 
                 ParseHelper.getUserInfomation(PersistentData.User().userID) { (error: NSError?, result) -> Void in
-                    if error == nil {
-                        //let myUserInfo = result! as PFObject
+                    
+                    guard error != nil else {
+                        return
+                    }
+                    
+                    let query = PFObject(className: "GoNow")
+                    
+                    let userID = result?.objectForKey("UserID") as? String
+                    let targetUserID = self.palTargetUser?.objectForKey("CreatedBy")!.objectForKey("UserID") as? String
+                    
+                    query["UserID"] = userID
+                    query["TargetUserID"] = targetUserID
+                    
+                    query["User"] = result
+                    
+                    //TODO: TargetUser が拾えていない　＞　PFObjectではないから？
+                    query["TargetUser"] = self.palTargetUser
+                    
+                    
+                    query["GotoTime"] = selected
+                    query.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
                         
-                        let query = PFObject(className: "GoNow")
+                        guard error != nil else {
+                            return
+                        }
+                            
+                        MBProgressHUDHelper.hide()
                         
-                        let userID = result?.objectForKey("UserID") as? String
-                        let targetUserID = self.palTargetUser?.objectForKey("CreatedBy")!.objectForKey("UserID") as? String
-                        
-                        query["UserID"] = userID
-                        query["TargetUserID"] = targetUserID
-                        
-                        query["User"] = result
-                        
-                        //TODO: TargetUser が拾えていない　＞　PFObjectではないから？
-                        query["TargetUser"] = self.palTargetUser
-                        
-                        
-                        query["GotoTime"] = selected
-                        query.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
-                            if error == nil {
-                                
-                                MBProgressHUDHelper.hide()
-                                
-                                UIAlertView.showAlertDismiss("", message: "いまから行くことを送信しました") { () -> () in
-                                    self.navigationController!.popToRootViewControllerAnimated(true)
-                                }
-                            }
+                        UIAlertView.showAlertDismiss("", message: "いまから行くことを送信しました") { () -> () in
+                            self.navigationController!.popToRootViewControllerAnimated(true)
                         }
                     }
                 }
@@ -313,9 +316,6 @@ class PickerViewController: UIViewController,
     */
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        // 再利用するCellを取得する.
-        //let cell = tableView.dequeueReusableCellWithIdentifier("MyCell", forIndexPath: indexPath) as! UITableViewCell
-        
         let identifier = "Cell" // セルのIDを定数identifierにする。
         var cell: UITableViewCell? // nilになることがあるので、Optionalで宣言
         
@@ -336,9 +336,6 @@ class PickerViewController: UIViewController,
             
             
             cell?.textLabel!.text = "\(self.myItems[indexPath.row])"
-            
-            // Cellに値を設定する.
-            //cell.textLabel!.text = "\(myItems[indexPath.row])"
         }
         
         return cell!

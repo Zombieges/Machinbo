@@ -50,6 +50,7 @@
 		BB6FDE0A1C3E9D0D00C366A2 /* profile_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = BB6FDE051C3E9D0D00C366A2 /* profile_icon.png */; };
 		BB6FDE0F1C43AC1500C366A2 /* FeedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6FDE0E1C43AC1500C366A2 /* FeedData.swift */; };
 		BB6FDE131C43C1F200C366A2 /* reload.png in Resources */ = {isa = PBXBuildFile; fileRef = BB6FDE121C43C1F200C366A2 /* reload.png */; };
+		BB8474FA1CCEDC110001FFB8 /* ImakokoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB8474F91CCEDC110001FFB8 /* ImakokoView.xib */; };
 		BBA5C4941B3542F3005D062B /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBA5C4931B3542F3005D062B /* GoogleMaps.framework */; };
 		BBA5C4961B3545D4005D062B /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BBA5C4951B3545D4005D062B /* GoogleMaps.bundle */; };
 		BBC3A3EE1B3E7BB6002CBBE9 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBC3A3ED1B3E7BB6002CBBE9 /* AVFoundation.framework */; };
@@ -132,6 +133,7 @@
 		BB6FDE051C3E9D0D00C366A2 /* profile_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profile_icon.png; sourceTree = "<group>"; };
 		BB6FDE0E1C43AC1500C366A2 /* FeedData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedData.swift; sourceTree = "<group>"; };
 		BB6FDE121C43C1F200C366A2 /* reload.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = reload.png; sourceTree = "<group>"; };
+		BB8474F91CCEDC110001FFB8 /* ImakokoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImakokoView.xib; sourceTree = "<group>"; };
 		BBA5C4931B3542F3005D062B /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMaps.framework; path = Pods/GoogleMaps/Frameworks/GoogleMaps.framework; sourceTree = "<group>"; };
 		BBA5C4951B3545D4005D062B /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = Pods/GoogleMaps/Frameworks/GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle; sourceTree = "<group>"; };
 		BBC3A3ED1B3E7BB6002CBBE9 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -336,6 +338,7 @@
 		BB6FDDD81C3E97E100C366A2 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				BB8474F91CCEDC110001FFB8 /* ImakokoView.xib */,
 				BB6FDDD91C3E97E100C366A2 /* DetailProfileTableViewCell.swift */,
 				BB6FDDDA1C3E97E100C366A2 /* DetailProfileTableViewCell.xib */,
 				BB6FDDDB1C3E97E100C366A2 /* GoNowListView.xib */,
@@ -490,6 +493,7 @@
 				BB6FDE0A1C3E9D0D00C366A2 /* profile_icon.png in Resources */,
 				BB6FDDF21C3E97E100C366A2 /* TargetProfileView.xib in Resources */,
 				BBFEC6D91B92B7D90069137A /* Main.storyboard in Resources */,
+				BB8474FA1CCEDC110001FFB8 /* ImakokoView.xib in Resources */,
 				BB6FDE091C3E9D0D00C366A2 /* photo.png in Resources */,
 				BB6FDE081C3E9D0D00C366A2 /* imakoko.png in Resources */,
 				BB6FDE061C3E9D0D00C366A2 /* fukidashi.png in Resources */,

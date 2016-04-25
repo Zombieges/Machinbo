@@ -179,7 +179,7 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate {
                 normalCell?.textLabel?.text = otherItems[indexPath.row]
                 
                 let dateFormatter = NSDateFormatter();
-                dateFormatter.dateFormat = "yyyy年MM月dd日 HH時mm分ss秒"
+                dateFormatter.dateFormat = "yyyy年M月d日 H:m"
                 let formatDateString = dateFormatter.stringFromDate(self.actionInfo!.objectForKey("MarkTime") as! NSDate)
                 
                 normalCell?.detailTextLabel?.text = formatDateString

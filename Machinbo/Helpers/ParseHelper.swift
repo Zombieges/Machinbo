@@ -46,8 +46,8 @@ class ParseHelper {
         query.includeKey("TargetUser.CreatedBy")//ActionのPointerからUserInfoへリレーション
         query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
             
-            if let object = objects!.first {
-                completion?(withError: error, result: object)
+            if error == nil {
+                completion?(withError: error, result: objects!.first)
             }
         }
     }
@@ -68,8 +68,8 @@ class ParseHelper {
         query.whereKey("UserID", containsString: userID)
         query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
             
-            if let object = objects!.first {
-                completion?(withError: error, result: object)
+            if error == nil {
+                completion?(withError: error, result: objects!.first)
             }
         }
     }

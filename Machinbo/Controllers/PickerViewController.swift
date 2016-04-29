@@ -264,7 +264,8 @@ class PickerViewController: UIViewController,
                 
                 ParseHelper.getUserInfomation(PersistentData.User().userID) { (error: NSError?, result) -> Void in
                     
-                    guard error != nil else {
+                    guard error == nil else {
+                        self.errorAction()
                         return
                     }
                     
@@ -285,7 +286,8 @@ class PickerViewController: UIViewController,
                     query["GotoTime"] = selected
                     query.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
                         
-                        guard error != nil else {
+                        guard error == nil else {
+                            self.errorAction()
                             return
                         }
                             
@@ -301,6 +303,14 @@ class PickerViewController: UIViewController,
             
         }
     }
+    
+    func errorAction() {
+        MBProgressHUDHelper.hide()
+        UIAlertView.showAlertDismiss("", message: "通信エラーが発生しました。再実行してください。") { () -> () in
+            self.navigationController!.popToRootViewControllerAnimated(true)
+        }
+    }
+    
     
     /*
     Cellの総数を返すデータソースメソッド.

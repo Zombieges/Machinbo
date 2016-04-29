@@ -8,7 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="fL1-Qt-zLI" customClass="MarkWindow" customModule="Machinbo" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="260" height="113"/>
+            <rect key="frame" x="0.0" y="0.0" width="260" height="98"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iTF-oh-fte">
@@ -30,7 +30,7 @@
                                 <constraint firstAttribute="height" constant="25" id="mrp-pi-aqx"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
-                            <color key="textColor" red="0.0" green="0.083727384868421059" blue="0.66367701480263153" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="textColor" red="0.0" green="0.082352941176470587" blue="0.66274509803921566" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Detail Text" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JPD-KG-Q9J">
@@ -45,12 +45,10 @@
                         <constraint firstAttribute="trailing" secondItem="JPD-KG-Q9J" secondAttribute="trailing" constant="5" id="2S8-XK-oRw"/>
                         <constraint firstAttribute="trailing" secondItem="Uny-ld-Fsz" secondAttribute="trailing" constant="5" id="6Qn-f3-qGa"/>
                         <constraint firstItem="vkG-5e-vsB" firstAttribute="top" secondItem="iTF-oh-fte" secondAttribute="top" constant="5" id="DHX-Lp-cxQ"/>
-                        <constraint firstItem="JPD-KG-Q9J" firstAttribute="top" secondItem="Uny-ld-Fsz" secondAttribute="bottom" constant="2" id="L9h-qe-Uyn"/>
                         <constraint firstItem="vkG-5e-vsB" firstAttribute="leading" secondItem="iTF-oh-fte" secondAttribute="leading" constant="5" id="Pw2-rd-mZw"/>
                         <constraint firstItem="JPD-KG-Q9J" firstAttribute="top" secondItem="Uny-ld-Fsz" secondAttribute="bottom" constant="2" id="bHF-pN-QSl"/>
                         <constraint firstItem="Uny-ld-Fsz" firstAttribute="top" secondItem="iTF-oh-fte" secondAttribute="top" constant="5" id="oDP-aC-8AF"/>
-                        <constraint firstAttribute="bottom" secondItem="JPD-KG-Q9J" secondAttribute="bottom" constant="8" id="qM5-Gy-YBh"/>
-                        <constraint firstAttribute="bottom" secondItem="vkG-5e-vsB" secondAttribute="bottom" constant="15" id="vzR-bf-cb7"/>
+                        <constraint firstAttribute="bottom" secondItem="JPD-KG-Q9J" secondAttribute="bottom" constant="2" id="qM5-Gy-YBh"/>
                         <constraint firstItem="Uny-ld-Fsz" firstAttribute="leading" secondItem="vkG-5e-vsB" secondAttribute="trailing" constant="2" id="wfQ-I6-sEM"/>
                         <constraint firstItem="JPD-KG-Q9J" firstAttribute="leading" secondItem="vkG-5e-vsB" secondAttribute="trailing" constant="2" id="xNl-LT-gMW"/>
                     </constraints>
@@ -77,7 +75,7 @@
                 <outlet property="Name" destination="Uny-ld-Fsz" id="Kff-e8-JCS"/>
                 <outlet property="ProfileImage" destination="vkG-5e-vsB" id="emU-dh-hru"/>
             </connections>
-            <point key="canvasLocation" x="187" y="-48.5"/>
+            <point key="canvasLocation" x="187" y="-56"/>
         </view>
     </objects>
     <resources>

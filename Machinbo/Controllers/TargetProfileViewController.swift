@@ -12,7 +12,7 @@ import Parse
 import MBProgressHUD
 
 enum ProfileType {
-    case TargetProfile, ImaikuTargetProfile
+    case TargetProfile, ImaikuTargetProfile, ImakuruTargetProfile
 }
 
 class TargetProfileViewController: UIViewController, UITableViewDelegate {
@@ -36,7 +36,7 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate {
     var otherItems: [String] = ["登録時間", "場所", "特徴"]
     
     // Sectionで使用する配列を定義する.
-    private let sections: NSArray = ["プロフィール", "待ち合わせ情報"]
+    private var sections: NSArray = []
 
     let detailTableViewCellIdentifier: String = "DetailCell"
     
@@ -55,7 +55,7 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate {
         if let view = UINib(nibName: "TargetProfileView", bundle: nil).instantiateWithOwner(self, options: nil).first as? UIView {
             self.view = view
         }
-        
+
         navigationController!.navigationBar.tintColor = UIColor.whiteColor()
    
         let nibName = UINib(nibName: "DetailProfileTableViewCell", bundle:nil)
@@ -65,26 +65,42 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate {
 
         view.addSubview(tableView)
         
-        if let actionInfo: AnyObject = self.actionInfo {
-             userInfo = actionInfo.objectForKey("CreatedBy") as! PFObject
+        
+        if type == ProfileType.ImaikuTargetProfile {
+            self.navigationItem.title = "いまから行く人のプロフィール"
+            targetButton.setTitle("取り消し", forState: .Normal)
+        }
+        
+        if type == ProfileType.ImakuruTargetProfile {
+            sections = ["プロフィール"]
+            targetButton.hidden = true
             
-            if let imageFile = userInfo.valueForKey("ProfilePicture") as? PFFile {
-                imageFile.getDataInBackgroundWithBlock { (imageData, error) -> Void in
-                    if(error == nil) {
-                        self.ProfileImage.image = UIImage(data: imageData!)!
-                        self.ProfileImage.layer.borderColor = UIColor.whiteColor().CGColor
-                        self.ProfileImage.layer.borderWidth = 3
-                        self.ProfileImage.layer.cornerRadius = 10
-                        self.ProfileImage.layer.masksToBounds = true
-                    }
+        } else {
+            sections = ["プロフィール", "待ち合わせ情報"]
+            
+            if let actionInfo: AnyObject = self.actionInfo {
+                userInfo = actionInfo.objectForKey("CreatedBy") as! PFObject
+            }
+        }
+        
+        
+        if let imageFile = userInfo.valueForKey("ProfilePicture") as? PFFile {
+            imageFile.getDataInBackgroundWithBlock { (imageData, error) -> Void in
+                if(error == nil) {
+                    self.ProfileImage.image = UIImage(data: imageData!)!
+                    self.ProfileImage.layer.borderColor = UIColor.whiteColor().CGColor
+                    self.ProfileImage.layer.borderWidth = 3
+                    self.ProfileImage.layer.cornerRadius = 10
+                    self.ProfileImage.layer.masksToBounds = true
                 }
             }
         }
         
-        if type == ProfileType.ImaikuTargetProfile {
-            targetButton.setTitle("取り消し", forState: .Normal)
-        }
-
+        // 不要行の削除
+        let v:UIView = UIView(frame: CGRectZero)
+        v.backgroundColor = UIColor.clearColor()
+        tableView.tableFooterView = v
+        tableView.tableHeaderView = v
     }
     
     /*

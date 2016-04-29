@@ -57,18 +57,28 @@ class GoNowListViewController: UIViewController, UITableViewDelegate {
         
         if let imageFile = gonow.objectForKey("User")?.valueForKey("ProfilePicture") as? PFFile {
             imageFile.getDataInBackgroundWithBlock { (imageData, error) -> Void in
-                if(error == nil) {
-                    gonowCell?.profileImage.image = UIImage(data: imageData!)!
-                    gonowCell?.profileImage.layer.borderColor = UIColor.whiteColor().CGColor
-                    gonowCell?.profileImage.layer.borderWidth = 3
-                    gonowCell?.profileImage.layer.cornerRadius = 10
-                    gonowCell?.profileImage.layer.masksToBounds = true
+                
+                guard error == nil else {
+                    return
                 }
+                
+                gonowCell?.profileImage.image = UIImage(data: imageData!)!
+                gonowCell?.profileImage.layer.borderColor = UIColor.whiteColor().CGColor
+                gonowCell?.profileImage.layer.borderWidth = 3
+                gonowCell?.profileImage.layer.cornerRadius = 10
+                gonowCell?.profileImage.layer.masksToBounds = true
             }
         }
         
         gonowCell?.titleLabel.text = gonow.objectForKey("User")?.objectForKey("Name") as? String
         gonowCell?.valueLabel.text = gonow.objectForKey("User")?.objectForKey("Comment") as? String
+        
+        let dateFormatter = NSDateFormatter();
+        dateFormatter.dateFormat = "yyyy年M月d日 H:m"
+        let formatDateString = dateFormatter.stringFromDate(gonow.createdAt as NSDate!)
+        gonowCell?.entryTime.text = formatDateString
+        
+        gonowCell?.gonowTime.text = gonow.objectForKey("GotoTime") as? String
         
         return gonowCell!
     }
@@ -79,6 +89,11 @@ class GoNowListViewController: UIViewController, UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         print("Num: \(indexPath.row)")
         print("Edeintg: \(tableView.editing)")
+        
+        let vc = TargetProfileViewController(type: ProfileType.ImakuruTargetProfile)
+        vc.userInfo = goNowList[indexPath.row].objectForKey("User")!
+        
+        self.navigationController!.pushViewController(vc, animated: true)
     }
     
 }

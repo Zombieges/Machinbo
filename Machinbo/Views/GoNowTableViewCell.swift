@@ -18,6 +18,8 @@ class GoNowTableViewCell : UITableViewCell {
     
     @IBOutlet weak var valueLabel: UILabel!
     
+    @IBOutlet weak var entryTime: UILabel!    
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -34,7 +36,7 @@ class GoNowTableViewCell : UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         profileImage.image = nil
-        titleLabel.textColor = UIColor.darkGrayColor()
+        entryTime.textColor = UIColor.darkGrayColor()
         gonowTime.textColor = UIColor.darkGrayColor()
         valueLabel.textColor = UIColor.grayColor()
     }

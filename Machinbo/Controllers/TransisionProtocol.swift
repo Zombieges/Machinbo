@@ -14,7 +14,10 @@ protocol TransisionProtocol {
     func showAdmob()
 }
 
-extension TransisionProtocol where Self: UIViewController, Self: GADBannerViewDelegate {
+extension TransisionProtocol where
+    Self: UIViewController,
+    Self: GADBannerViewDelegate {
+    
     func showAdmob() {
         
         // AdMob Sample Start

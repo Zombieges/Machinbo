@@ -11,10 +11,14 @@ import UIKit
 import Parse
 import SpriteKit
 import MBProgressHUD
+import GoogleMobileAds
+
+extension ImakokoViewController: TransisionProtocol {}
 
 class ImakokoViewController: UIViewController, UINavigationControllerDelegate,
     UIPickerViewDelegate,
     PickerViewControllerDelegate,
+    GADBannerViewDelegate,
     UITableViewDelegate{
 
     @IBOutlet weak var tableView: UITableView!
@@ -47,6 +51,9 @@ class ImakokoViewController: UIViewController, UINavigationControllerDelegate,
         
         
         view.addSubview(tableView)
+        
+        //広告を表示
+        self.showAdmob()
     }
     
     /*

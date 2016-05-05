@@ -10,12 +10,15 @@ import Foundation
 import UIKit
 import Parse
 import MBProgressHUD
+import GoogleMobileAds
 
 enum ProfileType {
     case TargetProfile, ImaikuTargetProfile, ImakuruTargetProfile
 }
 
-class TargetProfileViewController: UIViewController, UITableViewDelegate {
+extension TargetProfileViewController: TransisionProtocol {}
+
+class TargetProfileViewController: UIViewController, UITableViewDelegate, GADBannerViewDelegate {
     
     let mapView: MapViewController = MapViewController()
     let modalTextLabel = UILabel()
@@ -100,6 +103,9 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate {
         v.backgroundColor = UIColor.clearColor()
         tableView.tableFooterView = v
         tableView.tableHeaderView = v
+        
+        //広告を表示
+        self.showAdmob()
     }
     
     /*

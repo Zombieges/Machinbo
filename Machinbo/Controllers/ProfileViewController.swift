@@ -12,13 +12,14 @@ import Photos
 import Parse
 import SpriteKit
 import MBProgressHUD
+import GoogleMobileAds
 
 class ProfileViewController: UIViewController, UINavigationControllerDelegate,
     UIImagePickerControllerDelegate,
     UIPickerViewDelegate,
     PickerViewControllerDelegate ,
-    UITableViewDelegate{
-    
+    UITableViewDelegate,
+    GADBannerViewDelegate{
     
     @IBOutlet weak var profilePicture: UIImageView!
     @IBOutlet weak var startButton: ZFRippleButton!
@@ -56,6 +57,38 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
         if let view = UINib(nibName: "ProfileView", bundle: nil).instantiateWithOwner(self, options: nil).first as? UIView {
             self.view = view
         }
+        
+        // AdMob Sample Start
+        let AdMobID = ConfigHelper.getPlistKey("ADMOB_ID") as String    //ID をInfoPlist より取得
+        //let TEST_DEVICE_ID = "61b0154xxxxxxxxxxxxxxxxxxxxxxxe0"
+        let AdMobTest:Bool = true
+        let SimulatorTest:Bool = true
+        
+        // Admob のビューを生成
+        var admobView: GADBannerView = GADBannerView()
+        admobView = GADBannerView(adSize:kGADAdSizeBanner)
+        admobView.frame.origin = CGPointMake(0, self.view.frame.size.height - admobView.frame.height)
+        
+        admobView.frame.size = CGSizeMake(self.view.frame.width, admobView.frame.height)
+        admobView.adUnitID = AdMobID
+        admobView.delegate = self
+        admobView.rootViewController = self
+        
+        // Admob ヘリクエスト
+        let admobRequest:GADRequest = GADRequest()
+        
+        if AdMobTest {
+            if SimulatorTest {
+                admobRequest.testDevices = [kGADSimulatorID]
+            }
+            else {
+                //admobRequest.testDevices = [TEST_DEVICE_ID]
+            }
+            
+        }
+        admobView.loadRequest(admobRequest)
+        self.view.addSubview(admobView)
+        // AdMob Sample End
         
         navigationController!.navigationBar.tintColor = UIColor.whiteColor()
         

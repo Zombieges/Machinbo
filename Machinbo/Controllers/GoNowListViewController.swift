@@ -78,7 +78,7 @@ class GoNowListViewController: UIViewController, UITableViewDelegate {
         let formatDateString = dateFormatter.stringFromDate(gonow.createdAt as NSDate!)
         gonowCell?.entryTime.text = formatDateString
         
-        gonowCell?.gonowTime.text = gonow.objectForKey("GotoTime") as? String
+        gonowCell?.gonowTime.text = gonow.objectForKey("GotoTime") as! String + "後"
         
         return gonowCell!
     }

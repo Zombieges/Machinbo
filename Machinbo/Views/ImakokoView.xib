@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ImakokoViewController">
@@ -14,21 +15,13 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="B2F-vt-9rc">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="266"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <connections>
-                        <outlet property="dataSource" destination="-1" id="wfx-Qi-oGe"/>
-                        <outlet property="delegate" destination="-1" id="CTp-O7-wam"/>
-                    </connections>
-                </tableView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vRk-kq-rGR" customClass="ZFRippleButton" customModule="Machinbo" customModuleProvider="target">
-                    <rect key="frame" x="10" y="360" width="580" height="40"/>
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vRk-kq-rGR" customClass="ZFRippleButton" customModule="Machinbo" customModuleProvider="target">
+                    <rect key="frame" x="12" y="330" width="580" height="40"/>
                     <color key="backgroundColor" red="0.85098039219999999" green="0.34901960780000002" blue="0.30196078430000001" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="wlD-MU-s9a"/>
                     </constraints>
-                    <state key="normal" title="いまから行きますボタン">
+                    <state key="normal" title="いまココですボタン">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -47,15 +40,25 @@
                         <action selector="imaikuButton:" destination="-1" eventType="touchUpInside" id="dCP-4A-8Bp"/>
                     </connections>
                 </button>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" sectionIndexMinimumDisplayRowCount="4" rowHeight="120" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="B2F-vt-9rc">
+                    <rect key="frame" x="0.0" y="62" width="600" height="260"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="260" id="lES-Z3-mTz"/>
+                    </constraints>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="wfx-Qi-oGe"/>
+                        <outlet property="delegate" destination="-1" id="CTp-O7-wam"/>
+                    </connections>
+                </tableView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="vRk-kq-rGR" secondAttribute="trailing" constant="10" id="1HJ-7E-8cJ"/>
                 <constraint firstItem="vRk-kq-rGR" firstAttribute="leading" secondItem="NfN-WM-bC4" secondAttribute="leading" constant="10" id="DN6-6B-GwL"/>
-                <constraint firstAttribute="bottom" secondItem="vRk-kq-rGR" secondAttribute="bottom" constant="200" id="IeO-8X-amS"/>
                 <constraint firstItem="B2F-vt-9rc" firstAttribute="leading" secondItem="NfN-WM-bC4" secondAttribute="leading" id="Lzb-cn-odO"/>
                 <constraint firstAttribute="trailing" secondItem="B2F-vt-9rc" secondAttribute="trailing" id="RXw-HJ-N0A"/>
-                <constraint firstAttribute="bottom" secondItem="B2F-vt-9rc" secondAttribute="bottom" constant="260" id="ac5-K4-N54"/>
+                <constraint firstItem="vRk-kq-rGR" firstAttribute="top" secondItem="B2F-vt-9rc" secondAttribute="bottom" constant="10" id="Xjp-GB-o6w"/>
                 <constraint firstItem="B2F-vt-9rc" firstAttribute="top" secondItem="NfN-WM-bC4" secondAttribute="top" constant="60" id="ec7-Ty-BgP"/>
             </constraints>
         </view>

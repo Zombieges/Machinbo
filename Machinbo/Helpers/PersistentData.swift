@@ -21,7 +21,28 @@ class PersistentData {
         }
     }
     
+    class func deleteUserID() {
+        // 保存データを全削除
+        let userDefault = NSUserDefaults.standardUserDefaults()
+        userDefault.removeObjectForKey("userID")
+        userDefault.removeObjectForKey("imakokoFlag")
+        userDefault.removeObjectForKey("imaikuFlag")
+        
+        userDefault.synchronize()
+        
+    }
+    
+    class func deleteUserIDForKey(id: String) {
+        // 保存データを全削除
+        let userDefault = NSUserDefaults.standardUserDefaults()
+        userDefault.removeObjectForKey(id)
+        
+        userDefault.synchronize()
+        
+    }
+    
     struct User {
+        
         var userID : String {
             get {
                 return NSUserDefaults.standardUserDefaults().stringForKey("userID") ?? ""

@@ -13,18 +13,28 @@ class ParseHelper {
     
     class func launch(launchOptions: [NSObject: AnyObject]?) {
         
+//        let parseAppIdKey = ConfigHelper.getPlistKey("PARSE_APP_ID_KEY") as String
+//        let parseClientKey = ConfigHelper.getPlistKey("PARSE_CLIENT_KEY") as String
+//        
+//        NSLog("★PASER APP KEY = " + parseAppIdKey)
+//        NSLog("★PASER CLIENT KEY = " + parseClientKey)
+//        
+//        Parse.enableLocalDatastore()
+//        Parse.setApplicationId(parseAppIdKey, clientKey:parseClientKey)
+//        PFAnalytics.trackAppOpenedWithLaunchOptions(launchOptions)
+
+        
         let parseAppIdKey = ConfigHelper.getPlistKey("PARSE_APP_ID_KEY") as String
+        let parseUrl = ConfigHelper.getPlistKey("PARSE_URL") as String
         let parseClientKey = ConfigHelper.getPlistKey("PARSE_CLIENT_KEY") as String
         
-        NSLog("★PASER APP KEY = " + parseAppIdKey)
-        NSLog("★PASER CLIENT KEY = " + parseClientKey)
-        
-        Parse.enableLocalDatastore()
-        Parse.setApplicationId(parseAppIdKey, clientKey:parseClientKey)
-        PFAnalytics.trackAppOpenedWithLaunchOptions(launchOptions)
-
+        Parse.initializeWithConfiguration(ParseClientConfiguration(block: { (configuration: ParseMutableClientConfiguration) -> Void in
+            configuration.server = parseUrl
+            configuration.clientKey = parseClientKey
+            configuration.applicationId = parseAppIdKey
+        }))
     }
-    
+
     class func getNearUserInfomation(myLocation: CLLocationCoordinate2D, completion:((withError: NSError?, result:[PFObject]?)->Void)?) {
         //25km圏内、近くから100件取得
         let myGeoPoint = PFGeoPoint(latitude: myLocation.latitude, longitude: myLocation.longitude)
@@ -33,6 +43,7 @@ class ParseHelper {
         query.whereKey("GPS", nearGeoPoint: myGeoPoint, withinKilometers: 25.0)
         query.limit = 300
         query.includeKey("CreatedBy")
+        query.orderByAscending("updatedAt")
         query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
             if let resultNearUser = objects {
                 completion?(withError: error, result: resultNearUser)
@@ -42,7 +53,7 @@ class ParseHelper {
     
     class func getMyGoNow(loginUser: String, completion:((withError: NSError?, result: PFObject?)->Void)?) {
         let query = PFQuery(className: "GoNow")
-        query.whereKey("UserID", containsString: loginUser)
+        query.whereKey("UserID", equalTo: loginUser)
         query.includeKey("TargetUser.CreatedBy")//ActionのPointerからUserInfoへリレーション
         query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
             
@@ -54,8 +65,9 @@ class ParseHelper {
     
     class func getGoNowMeList(loginUser: String, completion:((withError: NSError?, result:[AnyObject]?)->Void)?) {
         let query = PFQuery(className: "GoNow")
-        query.whereKey("TargetUserID", containsString: loginUser)
+        query.whereKey("TargetUserID", equalTo: loginUser)
         query.includeKey("User")//UserInfoのPointerから情報を取得
+        query.orderByAscending("createdAt")
         query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
             if error == nil {
                 completion?(withError: error, result: objects)
@@ -65,7 +77,7 @@ class ParseHelper {
     
     class func getUserInfomation(userID: String, completion:((withError: NSError?, result: PFObject?)->Void)?) {
         let query = PFQuery(className: "UserInfo")
-        query.whereKey("UserID", containsString: userID)
+        query.whereKey("UserID", equalTo: userID)
         query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
             
             if error == nil {
@@ -77,7 +89,7 @@ class ParseHelper {
     class func getActionInfomation(userID: String, completion:((withError: NSError?, result: PFObject?)->Void)?) {
         
         let userInfoQuery = PFQuery(className: "UserInfo")
-        userInfoQuery.whereKey("UserID", containsString: userID)
+        userInfoQuery.whereKey("UserID", equalTo: userID)
         
         let actionQuery = PFQuery(className: "Action")
         actionQuery.includeKey("CreatedBy")
@@ -114,6 +126,7 @@ class ParseHelper {
         info.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
             if success {
                 NSLog("ユーザー初期登録成功")
+                UIAlertView.showAlertView("", message: "ユーザ登録が完了しました")
             }
         }
     }

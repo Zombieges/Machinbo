@@ -11,8 +11,11 @@ import GoogleMaps
 import CoreLocation
 import Parse
 import MBProgressHUD
+import GoogleMobileAds
 
-class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManagerDelegate {
+extension MapViewController: TransisionProtocol {}
+
+class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManagerDelegate, GADBannerViewDelegate {
     
     var profileSettingButton: UIBarButtonItem!
     
@@ -41,15 +44,21 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         do{
             let reachability = try AMReachability.reachabilityForInternetConnection()
             if reachability.isReachable() {
-                print("インターネット接続あり")
-                startBackgroundLocationUpdates()
                 
+                defer {
+                    startBackgroundLocationUpdates()
+                }
+                
+                print("インターネット接続あり")
             
             } else {
+                
+                defer {
+                    createRefreshButton()
+                }
+                
                 print("インターネット接続なし")
                 UIAlertView.showAlertView("", message: "接続に失敗しました。通信状況を確認の上、再接続してくだささい。")
-                createRefreshButton()
-                return
             }
             
         } catch _ as ReachabilityError {
@@ -61,7 +70,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         }
     }
     
-    func startBackgroundLocationUpdates() {
+    func startBackgroundLocationUpdates() {        
         lm = CLLocationManager()
         lm.delegate = self
         lm.requestWhenInUseAuthorization()
@@ -146,6 +155,8 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
+        //MBProgressHUDHelper.show("Loading...")
+        
         latitude = locations.first!.coordinate.latitude
         longitude = locations.first!.coordinate.longitude
         
@@ -165,7 +176,14 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         self.view = self.gmaps
 
         FeedData.mainData().refreshMapFeed(myPosition) { () -> () in
+            defer {
+                MBProgressHUDHelper.hide()
+            }
+            
+            //ユーザマーカーを表示
             GoogleMapsHelper.setUserMarker(self.gmaps!, userObjects: FeedData.mainData().feedItems)
+            //広告表示
+            self.showAdmob()
         }
         
         //manager.stopUpdatingLocation()
@@ -283,30 +301,23 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     }
     
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
-        manager.stopUpdatingLocation()
+        
+        defer {
+            manager.stopUpdatingLocation()
+            createRefreshButton()
+        }
         
         NSLog("位置情報取得失敗")
         UIAlertView.showAlertView("エラー", message:"位置情報の取得が失敗しました。アプリを再起動してください。")
     }
     
-   /* func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return kAnimationController
-    }*/
-    
     func onClickProfileView() {
         let profileView = ProfileViewController()
-        //profileView.userInfo =
         self.navigationController?.pushViewController(profileView, animated: true)
         
     }
 
     func onClickImakoko(){
-        /*
-        let vc = PickerViewController()
-        vc.palKind = "imakoko"
-        vc.palGeoPoint = PFGeoPoint(latitude: latitude, longitude: longitude)
-        */
-        
         let vc = ImakokoViewController()
         //vc.palKind = "imakoko"
         vc.palGeoPoint = PFGeoPoint(latitude: latitude, longitude: longitude)
@@ -318,17 +329,18 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         MBProgressHUDHelper.show("Loading...")
         
         ParseHelper.getGoNowMeList(PersistentData.User().userID) { (error: NSError?, result) -> Void in
-            if error == nil {
-                
-                let vc = GoNowListViewController()
-                vc.goNowList = result!
-                self.navigationController!.pushViewController(vc, animated: true)
-                
-            } else {
-                print(error)
+            
+            defer {
+                MBProgressHUDHelper.hide()
             }
             
-            MBProgressHUDHelper.hide()
+            guard error == nil else {
+                return
+            }
+            
+            let vc = GoNowListViewController()
+            vc.goNowList = result!
+            self.navigationController!.pushViewController(vc, animated: true)
         }
     }
     
@@ -336,38 +348,57 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         MBProgressHUDHelper.show("Loading...")
         
         ParseHelper.getMyGoNow(PersistentData.User().userID) { (error: NSError?, result) -> Void in
-            if error == nil {
-                let vc = TargetProfileViewController(type: ProfileType.ImaikuTargetProfile)
-                
-                if let goNowObj: AnyObject = result {
-                    let targetAction: AnyObject? = goNowObj.objectForKey("TargetUser")
-                    //let targetUser: AnyObject? = targetAction?.objectForKey("CreatedBy")
-                    
-                    vc.targetObjectID = goNowObj.objectId
-                    vc.actionInfo = targetAction!
-                    self.navigationController!.pushViewController(vc, animated: true)
-                    
-                } else {
-                    
-                    UIAlertView.showAlertDismiss("", message: "いまから行く人が登録されていません") { () -> () in
-                        //self.navigationController!.popToRootViewControllerAnimated(true)
-                    }
-                }
+            
+            defer {
+                MBProgressHUDHelper.hide()
             }
             
-            MBProgressHUDHelper.hide()
+            guard error == nil else {
+                return
+            }
+
+            if let goNowObj: AnyObject = result {
+                let targetAction: AnyObject? = goNowObj.objectForKey("TargetUser")
+                
+                //いまから行く人がいなくなっていた場合、データを削除する
+                guard targetAction != nil else {
+                    
+                    goNowObj.deleteInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+                        defer {
+                            MBProgressHUDHelper.hide()
+                        }
+                        
+                        guard success else {
+                            return
+                        }
+                        
+                        PersistentData.deleteUserIDForKey("imaikuFlag")
+                        UIAlertView.showAlertDismiss("", message: "いまから行く人のアカウントが削除されています") { () -> () in }
+                    }
+                    
+                    return
+                }
+                
+                
+                let vc = TargetProfileViewController(type: ProfileType.ImaikuTargetProfile)
+                vc.targetObjectID = goNowObj.objectId
+                vc.actionInfo = targetAction!
+                self.navigationController!.pushViewController(vc, animated: true)
+                
+            } else {
+                
+                UIAlertView.showAlertDismiss("", message: "いまから行く人が登録されていません") { () -> () in }
+            }
         }
     }
     
     //更新
     func onClickReload() {
         lm.startUpdatingLocation()
-        UIAlertView.showAlertDismiss("", message: "マップを更新しました") { () -> () in
-        }
+        //UIAlertView.showAlertDismiss("", message: "マップを更新しました") { () -> () in }
     }
     
     func onClickViewRefresh() {
-        loadView()
         viewDidLoad()
     }
     

@@ -184,50 +184,57 @@ class PickerViewController: UIViewController,
             }
             
             var userInfo = PersistentData.User()
-            
-            if PersistentData.User().userID == "" {
+            if userInfo.userID == "" {
                 self.delegate!.setName(self.inputTextField.text!)
                 self.navigationController!.popViewControllerAnimated(true)
                 
-            } else {
-                ParseHelper.getUserInfomation(PersistentData.User().userID) { (error: NSError?, result: PFObject?) -> Void in
-                    if let result = result {
-                        result["Name"] = self.inputTextField.text
-                        result.saveInBackground()
-                        
-                        userInfo.name = self.inputTextField.text!
-                        
-                        self.delegate!.setName(self.inputTextField.text!)
-                        self.navigationController!.popViewControllerAnimated(true)
-                    }
-                }
+                return
+                
             }
             
+            ParseHelper.getUserInfomation(PersistentData.User().userID) { (error: NSError?, result: PFObject?) -> Void in
+                guard let result = result else {
+                    return
+                }
+                
+                result["Name"] = self.inputTextField.text
+                result.saveInBackground()
+                
+                userInfo.name = self.inputTextField.text!
+                
+                self.delegate!.setName(self.inputTextField.text!)
+                self.navigationController!.popViewControllerAnimated(true)
+            }
+            
+
         } else if (self.kind == "comment") {
             
             if self.inputTextView.text.isEmpty {
                 UIAlertView.showAlertView("", message: "コメントを入力してください")
                 return
             }
-            
+
             var userInfo = PersistentData.User()
-            
-            if PersistentData.User().userID == "" {
+            if userInfo.userID == "" {
                 self.delegate!.setComment(self.inputTextView.text)
                 self.navigationController!.popViewControllerAnimated(true)
                 
-            } else {
-                ParseHelper.getUserInfomation(PersistentData.User().userID) { (error: NSError?, result: PFObject?) -> Void in
-                    if let result = result {
-                        result["Comment"] = self.inputTextView.text
-                        result.saveInBackground()
-                        
-                        userInfo.comment = self.inputTextView.text
-                        
-                        self.delegate!.setComment(self.inputTextView.text)
-                        self.navigationController!.popViewControllerAnimated(true)
-                    }
+                return
+            }
+            
+            //local db に値が格納されている場合、それを元にユーザ情報を検索してコメントを更新
+            ParseHelper.getUserInfomation(PersistentData.User().userID) { (error: NSError?, result: PFObject?) -> Void in
+                guard let result = result else {
+                    return
                 }
+                
+                result["Comment"] = self.inputTextView.text
+                result.saveInBackground()
+                
+                userInfo.comment = self.inputTextView.text
+                
+                self.delegate!.setComment(self.inputTextView.text)
+                self.navigationController!.popViewControllerAnimated(true)
             }
             
         } else if self.kind == "imakoko" {
@@ -259,7 +266,6 @@ class PickerViewController: UIViewController,
             
             if let selected = myItems[indexPath.row] as? String {
                 
-                //ここでDBに登録{
                 MBProgressHUDHelper.show("Loading...")
                 
                 ParseHelper.getUserInfomation(PersistentData.User().userID) { (error: NSError?, result) -> Void in
@@ -269,29 +275,30 @@ class PickerViewController: UIViewController,
                         return
                     }
                     
-                    let query = PFObject(className: "GoNow")
-                    
                     let userID = result?.objectForKey("UserID") as? String
                     let targetUserID = self.palTargetUser?.objectForKey("CreatedBy")!.objectForKey("UserID") as? String
                     
+                    let query = PFObject(className: "GoNow")
                     query["UserID"] = userID
                     query["TargetUserID"] = targetUserID
-                    
                     query["User"] = result
-                    
-                    //TODO: TargetUser が拾えていない　＞　PFObjectではないから？
                     query["TargetUser"] = self.palTargetUser
-                    
-                    
                     query["GotoTime"] = selected
+                    
                     query.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+                        
+                        defer {
+                            MBProgressHUDHelper.hide()
+                        }
                         
                         guard error == nil else {
                             self.errorAction()
                             return
                         }
-                            
-                        MBProgressHUDHelper.hide()
+                        
+                        //imaiku flag on
+                        var userInfo = PersistentData.User()
+                        userInfo.imaikuFlag = true
                         
                         UIAlertView.showAlertDismiss("", message: "いまから行くことを送信しました") { () -> () in
                             self.navigationController!.popToRootViewControllerAnimated(true)
@@ -343,7 +350,6 @@ class PickerViewController: UIViewController,
             if indexPath.row == (self.palInput as? Int) {
                 cell?.accessoryType = .Checkmark
             }
-            
             
             cell?.textLabel!.text = "\(self.myItems[indexPath.row])"
         }

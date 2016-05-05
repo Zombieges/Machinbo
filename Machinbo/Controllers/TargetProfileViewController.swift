@@ -65,7 +65,6 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate {
 
         view.addSubview(tableView)
         
-        
         if type == ProfileType.ImaikuTargetProfile {
             self.navigationItem.title = "いまから行く人のプロフィール"
             targetButton.setTitle("取り消し", forState: .Normal)
@@ -97,7 +96,7 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate {
         }
         
         // 不要行の削除
-        let v:UIView = UIView(frame: CGRectZero)
+        let v: UIView = UIView(frame: CGRectZero)
         v.backgroundColor = UIColor.clearColor()
         tableView.tableFooterView = v
         tableView.tableHeaderView = v
@@ -130,8 +129,10 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate {
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return self.targetProfileItems.count
+            
         } else if section == 1 {
             return self.otherItems.count
+            
         } else {
             return 0
         }
@@ -240,20 +241,14 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate {
     
     @IBAction func clickImaikuButton(sender: AnyObject) {
         
-        MBProgressHUDHelper.show("Loading...")
-        
         var userInfo = PersistentData.User()
         
         if type == ProfileType.TargetProfile {
-            
+
             if userInfo.imaikuFlag {
-                UIAlertView.showAlertDismiss("", message: "既にいまから行く対象の人がいます", completion: { () -> () in
-                    //self.navigationController!.popToRootViewControllerAnimated(true)
-                    MBProgressHUDHelper.hide()
-                })
+                UIAlertView.showAlertDismiss("", message: "既にいまから行く対象の人がいます", completion: { () -> () in })
+                return
             }
-            //imaiku flag on
-            userInfo.imaikuFlag = true
             
             let vc = PickerViewController()
             vc.palTargetUser = self.actionInfo as? PFObject
@@ -261,27 +256,28 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate {
             vc.palmItems = ["5分","10分", "15分", "20分", "25分", "30分", "35分", "40分", "45分", "50分", "55分", "60分"]
             
             self.navigationController!.pushViewController(vc, animated: true)
-            MBProgressHUDHelper.hide()
 
         } else if type == ProfileType.ImaikuTargetProfile {
             
-            //imaiku flag on
-            userInfo.imaikuFlag = false
-            
-            //imaiku削除
+            //imaiku delete
             UIAlertView.showAlertOKCancel("", message: "いまから行くを取り消しますか？") { action in
                 
-                if action == UIAlertView.ActionButton.OK {
+                if action == UIAlertView.ActionButton.Cancel {
+                    return
+                }
+                
+                MBProgressHUDHelper.show("Loading...")
+                
+                ParseHelper.deleteGoNow(self.targetObjectID!) { () -> () in
                     
-                    UIAlertView.showAlertDismiss("", message: "取り消しました", completion: { () -> () in
-                        ParseHelper.deleteGoNow(self.targetObjectID!) { () -> () in
-                            self.navigationController!.popToRootViewControllerAnimated(true)
-                            MBProgressHUDHelper.hide()
-                        }
-                    })
+                    //imaiku flag delete
+                    PersistentData.deleteUserIDForKey("imaikuFlag")
                     
-                } else {
+                    self.navigationController!.popToRootViewControllerAnimated(true)
+                    
                     MBProgressHUDHelper.hide()
+                    
+                    UIAlertView.showAlertDismiss("", message: "取り消しました", completion: { () -> () in })
                 }
             }
             

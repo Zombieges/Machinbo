@@ -47,6 +47,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
     var cell: UITableViewCell? // nilになることがあるので、Optionalで宣言
     let detailTableViewCellIdentifier: String = "DetailCell"
     
+    
     //var userInfo: PFObject?
     
     override func viewDidLoad() {
@@ -85,7 +86,8 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
         } else {
             self.navigationItem.title = "プロフィール"
             
-            startButton.hidden = true
+            //startButton.hidden = true
+            startButton.setTitle("アカウント削除", forState: .Normal)
             
             // 通常の画面遷移
             profilePicture.image = userData.profileImage
@@ -349,54 +351,99 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
     
     
     @IBAction func pushStart(sender: AnyObject) {
-        // 必須チェック
-        if inputName.isEmpty {
-            UIAlertView.showAlertView("", message: "名前を入力してください")
-            return
-        }
-        
-        if selectedGender.isEmpty {
-            UIAlertView.showAlertView("", message: "性別を選択してください")
-            return
-        }
-        
-        if selectedAge.isEmpty {
-            UIAlertView.showAlertView("", message: "年齢を選択してください")
-            return
-        }
         
         MBProgressHUDHelper.show("Loading...")
         
-        let imageData = UIImagePNGRepresentation(profilePicture.image!)
-        let imageFile = PFFile(name:"image.png", data:imageData!)
-        let uuid = NSUUID().UUIDString
-        
-        NSLog("UUID" + uuid)
-        
-        // 登録
-        ParseHelper.setUserInfomation(
-            uuid,
-            name: inputName,
-            gender: gender!,
-            age: selectedAge,
-            comment: inputComment,
-            photo: imageFile!
-        )
-        
-        var userInfo = PersistentData.User()
-        userInfo.userID = uuid
-        userInfo.name = inputName
-        userInfo.gender = selectedGender
-        userInfo.age = selectedAge
-        userInfo.comment = inputComment
-        
-        let newRootVC = MapViewController()
-        let navigationController = UINavigationController(rootViewController: newRootVC)
-        navigationController.navigationBar.barTintColor = LayoutManager.getUIColorFromRGB(0x3949AB)
-        navigationController.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
-        UIApplication.sharedApplication().keyWindow?.rootViewController = navigationController
-        
-        MBProgressHUDHelper.hide()
+        let userData = PersistentData.User()
+        if userData.userID != "" {
+            //アカウント削除処理
+            UIAlertView.showAlertOKCancel("", message: "アカウントを削除してもよろしいですか？") { action in
+                
+                if action == UIAlertView.ActionButton.Cancel {
+                    MBProgressHUDHelper.hide()
+                    return
+                }
+                
+                ParseHelper.getUserInfomation(userData.userID) { (error: NSError?, result: PFObject?) -> Void in
+                    
+                    guard let result = result else {
+                        return
+                    }
+                
+                    //Action, Gonow を削除する？
+                    
+                    //UserInfoの削除
+                    result.deleteInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+                        if (success) {
+                            //ローカルDBの削除
+                            PersistentData.deleteUserID()
+                            
+                            UIAlertView.showAlertDismiss("", message: "アカウントを削除しました") {}
+                            
+                            let newRootVC = ProfileViewController()
+                            let navigationController = UINavigationController(rootViewController: newRootVC)
+                            navigationController.navigationBar.barTintColor = LayoutManager.getUIColorFromRGB(0x3949AB)
+                            navigationController.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
+                            UIApplication.sharedApplication().keyWindow?.rootViewController = navigationController
+                            
+                            self.viewDidLoad()
+                        }
+                    
+                        MBProgressHUDHelper.hide()
+                    }
+                }
+            }
+            
+        } else {
+            // 必須チェック
+            if inputName.isEmpty {
+                UIAlertView.showAlertView("", message: "名前を入力してください")
+                return
+            }
+            
+            if selectedGender.isEmpty {
+                UIAlertView.showAlertView("", message: "性別を選択してください")
+                return
+            }
+            
+            if selectedAge.isEmpty {
+                UIAlertView.showAlertView("", message: "年齢を選択してください")
+                return
+            }
+            
+            MBProgressHUDHelper.show("Loading...")
+            
+            let imageData = UIImagePNGRepresentation(profilePicture.image!)
+            let imageFile = PFFile(name:"image.png", data:imageData!)
+            let uuid = NSUUID().UUIDString
+            
+            NSLog("UUID" + uuid)
+            
+            // 登録
+            ParseHelper.setUserInfomation(
+                uuid,
+                name: inputName,
+                gender: gender!,
+                age: selectedAge,
+                comment: inputComment,
+                photo: imageFile!
+            )
+            
+            var userInfo = PersistentData.User()
+            userInfo.userID = uuid
+            userInfo.name = inputName
+            userInfo.gender = selectedGender
+            userInfo.age = selectedAge
+            userInfo.comment = inputComment
+            
+            let newRootVC = MapViewController()
+            let navigationController = UINavigationController(rootViewController: newRootVC)
+            navigationController.navigationBar.barTintColor = LayoutManager.getUIColorFromRGB(0x3949AB)
+            navigationController.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
+            UIApplication.sharedApplication().keyWindow?.rootViewController = navigationController
+            
+            MBProgressHUDHelper.hide()
+        }
     }
     
     private func imageMolding(target : UIImageView){

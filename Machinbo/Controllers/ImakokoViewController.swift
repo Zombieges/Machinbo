@@ -24,7 +24,7 @@ class ImakokoViewController: UIViewController, UINavigationControllerDelegate,
     var palGeoPoint: PFGeoPoint?
     
     let detailTableViewCellIdentifier: String = "DetailCell"
-    var targetProfileItems: [String] = ["待ち合わせ場所", "自分の特徴"]
+    var targetProfileItems = ["待ち合わせ場所", "自分の特徴"]
     
     var selectedRow: Int = 0
     
@@ -38,14 +38,13 @@ class ImakokoViewController: UIViewController, UINavigationControllerDelegate,
         
         let nibName = UINib(nibName: "DetailProfileTableViewCell", bundle:nil)
         tableView.registerNib(nibName, forCellReuseIdentifier: detailTableViewCellIdentifier)
-        tableView.estimatedRowHeight = 100.0
-        tableView.rowHeight = UITableViewAutomaticDimension
         
         // 不要行の削除
         let noCreateView:UIView = UIView(frame: CGRectZero)
         noCreateView.backgroundColor = UIColor.clearColor()
         tableView.tableFooterView = noCreateView
         tableView.tableHeaderView = noCreateView
+        
         
         view.addSubview(tableView)
     }
@@ -149,25 +148,31 @@ class ImakokoViewController: UIViewController, UINavigationControllerDelegate,
         
         if userInfo.imakokoFlag {
             ParseHelper.getActionInfomation(userInfo.userID) { (error: NSError?, result: PFObject?) -> Void in
-                if error == nil {
-                    let query = result! as PFObject
-                    let gpsMark = PFObject(className: "Action")
-                    gpsMark["CreatedBy"] = query.objectForKey("CreatedBy")
-                    gpsMark["GPS"] = self.palGeoPoint
-                    gpsMark["MarkTime"] = NSDate()
-                    //場所詳細
-                    gpsMark["PlaceDetail"] = self.inputPlace
-                    gpsMark["MyChar"] = self.inputChar
-                    //登録処理
-                    gpsMark.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
-                        if error == nil {
-                            MBProgressHUDHelper.hide()
-                            
-                            //Alert
-                            UIAlertView.showAlertDismiss("", message: "現在位置を登録しました") { () -> () in
-                                self.navigationController!.popToRootViewControllerAnimated(true)
-                            }
-                        }
+                guard error == nil else {
+                    return
+                }
+            
+                let query = result! as PFObject
+                let gpsMark = PFObject(className: "Action")
+                gpsMark["CreatedBy"] = query.objectForKey("CreatedBy")
+                gpsMark["GPS"] = self.palGeoPoint
+                gpsMark["MarkTime"] = NSDate()
+                //場所詳細
+                gpsMark["PlaceDetail"] = self.inputPlace
+                gpsMark["MyChar"] = self.inputChar
+                //登録処理
+                gpsMark.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+                    defer {
+                        MBProgressHUDHelper.hide()
+                    }
+                    
+                    guard error == nil else {
+                        return
+                    }
+                        
+                    //Alert
+                    UIAlertView.showAlertDismiss("", message: "現在位置を登録しました") { () -> () in
+                        self.navigationController!.popToRootViewControllerAnimated(true)
                     }
                 }
             }
@@ -175,29 +180,33 @@ class ImakokoViewController: UIViewController, UINavigationControllerDelegate,
         } else {
             
             ParseHelper.getUserInfomation(userInfo.userID) { (error: NSError?, result: PFObject?) -> Void in
-                if error == nil {
-                    let query = result! as PFObject
-                    
-                    let gpsMark = PFObject(className: "Action")
-                    gpsMark["CreatedBy"] = query
-                    gpsMark["GPS"] = self.palGeoPoint
-                    gpsMark["MarkTime"] = NSDate()
-                    //場所詳細
-                    gpsMark["PlaceDetail"] = self.inputPlace
-                    gpsMark["MyChar"] = self.inputChar
-                    //登録処理
-                    gpsMark.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
-                        if error == nil {
-                            MBProgressHUDHelper.hide()
-                            
-                            //Alert
-                            UIAlertView.showAlertDismiss("", message: "現在位置を登録しました") { () -> () in
-                                self.navigationController!.popToRootViewControllerAnimated(true)
-                            }
-                        }
-                    }
+                guard error == nil else {
+                    return
                 }
                 
+                let gpsMark = PFObject(className: "Action")
+                gpsMark["CreatedBy"] = result! as PFObject
+                gpsMark["GPS"] = self.palGeoPoint
+                gpsMark["MarkTime"] = NSDate()
+                //場所詳細
+                gpsMark["PlaceDetail"] = self.inputPlace
+                gpsMark["MyChar"] = self.inputChar
+                //登録処理
+                gpsMark.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+                    
+                    defer {
+                        MBProgressHUDHelper.hide()
+                    }
+                    
+                    guard error == nil else {
+                        return
+                    }
+                    
+                    //Alert
+                    UIAlertView.showAlertDismiss("", message: "現在位置を登録しました") { () -> () in
+                        self.navigationController!.popToRootViewControllerAnimated(true)
+                    }
+                }
             }
             
             //一回登録したいとは常にフラグを立てる

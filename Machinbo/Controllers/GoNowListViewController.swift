@@ -9,8 +9,11 @@
 import Foundation
 import UIKit
 import Parse
+import GoogleMobileAds
 
-class GoNowListViewController: UIViewController, UITableViewDelegate {
+extension GoNowListViewController: TransisionProtocol {}
+
+class GoNowListViewController: UIViewController, UITableViewDelegate, GADBannerViewDelegate {
 
     var goNowList: AnyObject = []
     
@@ -32,6 +35,11 @@ class GoNowListViewController: UIViewController, UITableViewDelegate {
         self.tableView.rowHeight = UITableViewAutomaticDimension
         
         self.view.addSubview(tableView)
+        
+        if self.isInternetConnect() {
+            //広告を表示
+            self.showAdmob()
+        }
     }
     
     /*

@@ -19,8 +19,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     
     var profileSettingButton: UIBarButtonItem!
     
-    var myPosition: CLLocationCoordinate2D = CLLocationCoordinate2D()
-    
     var lm : CLLocationManager!
     var longitude: CLLocationDegrees!
     var latitude: CLLocationDegrees!
@@ -29,48 +27,24 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     var markWindow : MarkWindow = MarkWindow()
     
     @IBOutlet weak var mapViewContainer: UIView!
-
+    
     var mainNavigationCtrl: UINavigationController?
     
-    var gmaps : GMSMapView!
+//    var gmaps : GMSMapView!
     
     override func viewDidLoad() {
-        super.viewDidLoad()
+        //super.viewDidLoad()
         
         if let view = UINib(nibName: "MapView", bundle: nil).instantiateWithOwner(self, options: nil).first as? UIView {
             self.view = view
         }
         
-        do{
-            let reachability = try AMReachability.reachabilityForInternetConnection()
-            if reachability.isReachable() {
-                
-                defer {
-                    startBackgroundLocationUpdates()
-                }
-                
-                print("インターネット接続あり")
-            
-            } else {
-                
-                defer {
-                    createRefreshButton()
-                }
-                
-                print("インターネット接続なし")
-                UIAlertView.showAlertView("", message: "接続に失敗しました。通信状況を確認の上、再接続してくだささい。")
-            }
-            
-        } catch _ as ReachabilityError {
-        // エラー処理
-        } catch _ as NSError {
-        // NSErrorが投げられた場合
-        } catch {
-        // その他ハンドル出来なかったもの
+        if self.isInternetConnect() {
+            startBackgroundLocationUpdates()
         }
     }
     
-    func startBackgroundLocationUpdates() {        
+    func startBackgroundLocationUpdates() {
         lm = CLLocationManager()
         lm.delegate = self
         lm.requestWhenInUseAuthorization()
@@ -91,7 +65,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         
         lm.startUpdatingLocation()
     }
-
+    
     func createupdateGeoPointButton() {
         //GeoPoint 更新ボタン
         let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 150, height: 40))
@@ -101,21 +75,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         btn.rippleColor = LayoutManager.getUIColorFromRGB(0xB54241)
         btn.setTitle("現在位置登録", forState: .Normal)
         btn.addTarget(self, action: #selector(MapViewController.onClickImakoko), forControlEvents: UIControlEvents.TouchUpInside)
-        btn.layer.cornerRadius = 5.0
-        btn.layer.masksToBounds = true
-        btn.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height - self.view.bounds.height/8.3)
-        self.view.addSubview(btn)
-    }
-    
-    func createRefreshButton() {
-        //画面リフレッシュボタン
-        let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 150, height: 40))
-        btn.trackTouchLocation = true
-        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
-        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
-        btn.rippleColor = LayoutManager.getUIColorFromRGB(0xB54241)
-        btn.setTitle("再表示", forState: .Normal)
-        btn.addTarget(self, action: #selector(MapViewController.onClickViewRefresh), forControlEvents: UIControlEvents.TouchUpInside)
         btn.layer.cornerRadius = 5.0
         btn.layer.masksToBounds = true
         btn.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height - self.view.bounds.height/8.3)
@@ -142,10 +101,10 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         }
         
         NSLog(" CLAuthorizationStatus: \(statusStr)")
-
+        
         /*else if status == .AuthorizedWhenInUse {
-            manager.startUpdatingLocation()
-        }*/
+         manager.startUpdatingLocation()
+         }*/
     }
     
     override func didReceiveMemoryWarning() {
@@ -163,25 +122,25 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         NSLog("位置情報取得成功！-> latiitude: \(latitude) , longitude: \(longitude)")
         
         //現在位置
-        self.myPosition = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-        let camera = GMSCameraPosition(target: self.myPosition, zoom: 13, bearing: 0, viewingAngle: 0)
+        let myPosition = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        let camera = GMSCameraPosition(target: myPosition, zoom: 13, bearing: 0, viewingAngle: 0)
         
-        self.gmaps = GMSMapView()
-        self.gmaps.frame = CGRectMake(0, 20, self.view.frame.width, self.view.frame.height/2)
-        self.gmaps.myLocationEnabled = true
-        self.gmaps.settings.myLocationButton = true
-        self.gmaps.camera = camera
-        self.gmaps.delegate = self
+        var gmaps = GMSMapView()
+        gmaps.frame = CGRectMake(0, 20, self.view.frame.width, self.view.frame.height/2)
+        gmaps.myLocationEnabled = true
+        gmaps.settings.myLocationButton = true
+        gmaps.camera = camera
+        gmaps.delegate = self
         
-        self.view = self.gmaps
-
+        self.view = gmaps
+        
         FeedData.mainData().refreshMapFeed(myPosition) { () -> () in
             defer {
                 MBProgressHUDHelper.hide()
             }
             
             //ユーザマーカーを表示
-            GoogleMapsHelper.setUserMarker(self.gmaps!, userObjects: FeedData.mainData().feedItems)
+            GoogleMapsHelper.setUserMarker(gmaps, userObjects: FeedData.mainData().feedItems)
             //広告表示
             self.showAdmob()
         }
@@ -304,7 +263,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         
         defer {
             manager.stopUpdatingLocation()
-            createRefreshButton()
+            self.createRefreshButton()
         }
         
         NSLog("位置情報取得失敗")
@@ -316,7 +275,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         self.navigationController?.pushViewController(profileView, animated: true)
         
     }
-
+    
     func onClickImakoko(){
         let vc = ImakokoViewController()
         //vc.palKind = "imakoko"
@@ -356,7 +315,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
             guard error == nil else {
                 return
             }
-
+            
             if let goNowObj: AnyObject = result {
                 let targetAction: AnyObject? = goNowObj.objectForKey("TargetUser")
                 
@@ -396,10 +355,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     func onClickReload() {
         lm.startUpdatingLocation()
         //UIAlertView.showAlertDismiss("", message: "マップを更新しました") { () -> () in }
-    }
-    
-    func onClickViewRefresh() {
-        viewDidLoad()
     }
     
 }

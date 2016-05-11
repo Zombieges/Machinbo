@@ -65,6 +65,11 @@
 		BBC3A4001B3E7C37002CBBE9 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBC3A3FF1B3E7C37002CBBE9 /* OpenGLES.framework */; };
 		BBC3A4021B3E7C40002CBBE9 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBC3A4011B3E7C40002CBBE9 /* QuartzCore.framework */; };
 		BBC3A4041B3E7C49002CBBE9 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBC3A4031B3E7C49002CBBE9 /* SystemConfiguration.framework */; };
+		BBD353541CDCF8F0007B1A1C /* santen.png in Resources */ = {isa = PBXBuildFile; fileRef = BBD353531CDCF8F0007B1A1C /* santen.png */; };
+		BBD353561CDCFDD0007B1A1C /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD353551CDCFDD0007B1A1C /* SettingsViewController.swift */; };
+		BBD353581CDDCCB1007B1A1C /* SettingsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBD353571CDDCCB1007B1A1C /* SettingsView.xib */; };
+		BBD3535A1CDDD4E2007B1A1C /* logo_twitter.png in Resources */ = {isa = PBXBuildFile; fileRef = BBD353591CDDD4E2007B1A1C /* logo_twitter.png */; };
+		BBD3535C1CDDD517007B1A1C /* logo_fb.png in Resources */ = {isa = PBXBuildFile; fileRef = BBD3535B1CDDD517007B1A1C /* logo_fb.png */; };
 		BBEFA89B1B57BE99002EFC7A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBEFA89A1B57BE99002EFC7A /* AppDelegate.swift */; };
 		BBEFA8A91B59E603002EFC7A /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBEFA8A81B59E603002EFC7A /* AudioToolbox.framework */; };
 		BBEFA8AB1B59E60C002EFC7A /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBEFA8AA1B59E60C002EFC7A /* CFNetwork.framework */; };
@@ -150,6 +155,11 @@
 		BBC3A3FF1B3E7C37002CBBE9 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BBC3A4011B3E7C40002CBBE9 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		BBC3A4031B3E7C49002CBBE9 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		BBD353531CDCF8F0007B1A1C /* santen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = santen.png; sourceTree = "<group>"; };
+		BBD353551CDCFDD0007B1A1C /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		BBD353571CDDCCB1007B1A1C /* SettingsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsView.xib; sourceTree = "<group>"; };
+		BBD353591CDDD4E2007B1A1C /* logo_twitter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_twitter.png; sourceTree = "<group>"; };
+		BBD3535B1CDDD517007B1A1C /* logo_fb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_fb.png; sourceTree = "<group>"; };
 		BBDB23431B929C700035EE1A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		BBEFA89A1B57BE99002EFC7A /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BBEFA8A81B59E603002EFC7A /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -348,6 +358,7 @@
 				BB6FDDE11C3E97E100C366A2 /* PickerView.xib */,
 				BB6FDDE21C3E97E100C366A2 /* ProfileView.xib */,
 				BB6FDDE51C3E97E100C366A2 /* TargetProfileView.xib */,
+				BBD353571CDDCCB1007B1A1C /* SettingsView.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -355,13 +366,14 @@
 		BB6FDDF31C3E998000C366A2 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				BB6FDDF41C3E998000C366A2 /* GoNowListViewController.swift */,
+				BB87AD911CDB30B7003973D7 /* TransisionProtocol.swift */,
 				BB6FDDF51C3E998000C366A2 /* MapViewController.swift */,
+				BB6FDDF41C3E998000C366A2 /* GoNowListViewController.swift */,
 				9484EBD71CC38B0300DEC7A4 /* ImakokoViewController.swift */,
 				BB6FDDF71C3E998000C366A2 /* PickerViewController.swift */,
 				BB6FDDF81C3E998000C366A2 /* ProfileViewController.swift */,
 				BB6FDDF91C3E998000C366A2 /* TargetProfileViewController.swift */,
-				BB87AD911CDB30B7003973D7 /* TransisionProtocol.swift */,
+				BBD353551CDCFDD0007B1A1C /* SettingsViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -369,6 +381,9 @@
 		BB6FDE001C3E9D0D00C366A2 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				BBD3535B1CDDD517007B1A1C /* logo_fb.png */,
+				BBD353591CDDD4E2007B1A1C /* logo_twitter.png */,
+				BBD353531CDCF8F0007B1A1C /* santen.png */,
 				BB6FDE121C43C1F200C366A2 /* reload.png */,
 				BB6FDE011C3E9D0D00C366A2 /* fukidashi.png */,
 				BB6FDE021C3E9D0D00C366A2 /* imaiku.png */,
@@ -491,7 +506,9 @@
 				BB6FDE071C3E9D0D00C366A2 /* imaiku.png in Resources */,
 				BB6FDDEA1C3E97E100C366A2 /* GoNowTableViewCell.xib in Resources */,
 				BB6FDE0A1C3E9D0D00C366A2 /* profile_icon.png in Resources */,
+				BBD353541CDCF8F0007B1A1C /* santen.png in Resources */,
 				BB6FDDF21C3E97E100C366A2 /* TargetProfileView.xib in Resources */,
+				BBD3535C1CDDD517007B1A1C /* logo_fb.png in Resources */,
 				BBFEC6D91B92B7D90069137A /* Main.storyboard in Resources */,
 				BB8474FA1CCEDC110001FFB8 /* ImakokoView.xib in Resources */,
 				BB6FDE091C3E9D0D00C366A2 /* photo.png in Resources */,
@@ -499,8 +516,10 @@
 				BB6FDE061C3E9D0D00C366A2 /* fukidashi.png in Resources */,
 				BB6FDDE71C3E97E100C366A2 /* DetailProfileTableViewCell.xib in Resources */,
 				BB6FDDEE1C3E97E100C366A2 /* PickerView.xib in Resources */,
+				BBD353581CDDCCB1007B1A1C /* SettingsView.xib in Resources */,
 				9409F7961B2D994D0069DAE8 /* LaunchScreen.xib in Resources */,
 				BB6FDE131C43C1F200C366A2 /* reload.png in Resources */,
+				BBD3535A1CDDD4E2007B1A1C /* logo_twitter.png in Resources */,
 				BB6FDDE81C3E97E100C366A2 /* GoNowListView.xib in Resources */,
 				94755CFB1B5A1084004FDEBC /* Info.plist in Resources */,
 				9409F7931B2D994D0069DAE8 /* Images.xcassets in Resources */,
@@ -587,6 +606,7 @@
 				BB6FDDFB1C3E998000C366A2 /* MapViewController.swift in Sources */,
 				BB87AD921CDB30B7003973D7 /* TransisionProtocol.swift in Sources */,
 				BB6FDDFA1C3E998000C366A2 /* GoNowListViewController.swift in Sources */,
+				BBD353561CDCFDD0007B1A1C /* SettingsViewController.swift in Sources */,
 				BB6FDDEC1C3E97E100C366A2 /* MarkWindow.swift in Sources */,
 				BB6FDDC71C3E92FD00C366A2 /* ZFRippleButton.swift in Sources */,
 				9484EBD81CC38B0300DEC7A4 /* ImakokoViewController.swift in Sources */,

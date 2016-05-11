@@ -33,7 +33,7 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate, GADBan
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var ProfileImage: UIImageView!
-    @IBOutlet weak var targetButton: ZFRippleButton!
+    //@IBOutlet weak var targetButton: ZFRippleButton!
     
     var targetProfileItems: [String] = ["名前", "性別", "年齢", "プロフィール"]
     var otherItems: [String] = ["登録時間", "場所", "特徴"]
@@ -70,15 +70,45 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate, GADBan
         
         if type == ProfileType.ImaikuTargetProfile {
             self.navigationItem.title = "いまから行く人のプロフィール"
-            targetButton.setTitle("取り消し", forState: .Normal)
+            //targetButton.setTitle("取り消し", forState: .Normal)
+            
+//            //画面リフレッシュボタン
+//            let tableHeight = self.view.bounds.height - self.view.bounds.height/8.3
+//            let width = UIScreen.mainScreen().bounds.size.width - 40
+//            let btn = ZFRippleButton(frame: CGRect(x: 20, y: tableHeight, width: width, height: 40))
+//            btn.trackTouchLocation = true
+//            btn.backgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
+//            btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
+//            btn.rippleColor = LayoutManager.getUIColorFromRGB(0xB54241)
+//            btn.setTitle("取り消し", forState: .Normal)
+//            btn.addTarget(self, action: #selector(TargetProfileViewController.clickImaikuButton), forControlEvents: UIControlEvents.TouchUpInside)
+//            btn.layer.cornerRadius = 5.0
+//            btn.layer.masksToBounds = true
+//            btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Center
+//            tableView.addSubview(btn)
+//            
+//            //画面リフレッシュボタン
+//            let tableHeight2 = self.view.bounds.height - self.view.bounds.height/8.3
+//            let width2 = UIScreen.mainScreen().bounds.size.width - 40
+//            let btn2 = ZFRippleButton(frame: CGRect(x: 20, y: tableHeight2, width: width2, height: 40))
+//            btn2.trackTouchLocation = true
+//            btn2.backgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
+//            btn2.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
+//            btn2.rippleColor = LayoutManager.getUIColorFromRGB(0xB54241)
+//            btn2.setTitle("報告", forState: .Normal)
+//            btn2.addTarget(self, action: #selector(TargetProfileViewController.clickImaikuButton), forControlEvents: UIControlEvents.TouchUpInside)
+//            btn2.layer.cornerRadius = 5.0
+//            btn2.layer.masksToBounds = true
+//            btn2.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Center
+//            tableView.addSubview(btn2)
         }
         
         if type == ProfileType.ImakuruTargetProfile {
-            sections = ["プロフィール"]
-            targetButton.hidden = true
+            sections = ["プロフィール", " "]
+            //targetButton.hidden = true
             
         } else {
-            sections = ["プロフィール", "待ち合わせ情報"]
+            sections = ["プロフィール", "待ち合わせ情報", " "]
             
             if let actionInfo: AnyObject = self.actionInfo {
                 userInfo = actionInfo.objectForKey("CreatedBy") as! PFObject
@@ -98,14 +128,12 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate, GADBan
             }
         }
         
-        // 不要行の削除
-        let v: UIView = UIView(frame: CGRectZero)
-        v.backgroundColor = UIColor.clearColor()
-        tableView.tableFooterView = v
-        tableView.tableHeaderView = v
+        tableView.tableFooterView = UIView()
         
-        //広告を表示
-        self.showAdmob()
+        if self.isInternetConnect() {
+            //広告を表示
+            self.showAdmob()
+        }
     }
     
     /*
@@ -140,7 +168,7 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate, GADBan
             return self.otherItems.count
             
         } else {
-            return 0
+            return 2
         }
     }
     
@@ -192,12 +220,13 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate, GADBan
             
         } else if indexPath.section == 1 {
             
+            var normalCell = tableView.dequeueReusableCellWithIdentifier(tableViewCellIdentifier)
+            if normalCell == nil { // 再利用するセルがなかったら（不足していたら）
+                // セルを新規に作成する。
+                normalCell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: tableViewCellIdentifier)
+            }
+            
             if indexPath.row == 0 {
-                var normalCell = tableView.dequeueReusableCellWithIdentifier(tableViewCellIdentifier)
-                if normalCell == nil { // 再利用するセルがなかったら（不足していたら）
-                    // セルを新規に作成する。
-                    normalCell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: tableViewCellIdentifier)
-                }
                 
                 normalCell?.textLabel?.text = otherItems[indexPath.row]
                 
@@ -225,7 +254,60 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate, GADBan
                 
                 cell = detailCell
             }
+
+        } else if indexPath.section == 2 {
             
+            var normalCell = tableView.dequeueReusableCellWithIdentifier(tableViewCellIdentifier)
+            if normalCell == nil { // 再利用するセルがなかったら（不足していたら）
+                // セルを新規に作成する。
+                normalCell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: tableViewCellIdentifier)
+
+            }
+            
+            normalCell!.separatorInset = UIEdgeInsetsMake(0, UIScreen.mainScreen().bounds.size.width, 0, 0);
+            
+            if indexPath.row == 0 {
+                //画面リフレッシュボタン
+                let tableHeight = self.view.bounds.height - self.view.bounds.height/8.3
+                let width = UIScreen.mainScreen().bounds.size.width - 40
+                let btn = ZFRippleButton(frame: CGRect(x: 20, y: tableHeight, width: width, height: 40))
+                btn.trackTouchLocation = true
+                btn.backgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
+                btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
+                btn.rippleColor = LayoutManager.getUIColorFromRGB(0xB54241)
+                btn.setTitle("取り消し", forState: .Normal)
+                btn.addTarget(self, action: #selector(TargetProfileViewController.clickImaikuButton), forControlEvents: UIControlEvents.TouchUpInside)
+//                btn.layer.cornerRadius = 5.0
+                btn.layer.masksToBounds = true
+                btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Center
+                
+                normalCell?.accessoryView = btn
+                
+                //self.tableView.separatorColor = UIColor.clearColor()
+                
+                cell = normalCell
+                
+            } else if indexPath.row == 1 {
+                
+                let tableHeight = self.view.bounds.height - self.view.bounds.height/8.3
+                let width = UIScreen.mainScreen().bounds.size.width - 40
+                let btn = ZFRippleButton(frame: CGRect(x: 20, y: tableHeight, width: width, height: 40))
+                btn.trackTouchLocation = true
+                btn.backgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
+                btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
+                btn.rippleColor = LayoutManager.getUIColorFromRGB(0xB54241)
+                btn.setTitle("報告", forState: .Normal)
+                btn.addTarget(self, action: #selector(TargetProfileViewController.reportManager), forControlEvents: UIControlEvents.TouchUpInside)
+//                btn.layer.cornerRadius = 5.0
+                btn.layer.masksToBounds = true
+                btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Center
+                
+                normalCell?.accessoryView = btn
+                
+                //self.tableView.separatorColor = UIColor.clearColor()
+                
+                cell = normalCell
+            }
         }
         
         return cell!
@@ -291,4 +373,7 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate, GADBan
         
     }
     
+    func reportManager() {
+        
+    }
 }

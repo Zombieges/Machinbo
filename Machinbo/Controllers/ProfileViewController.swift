@@ -28,7 +28,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
     @IBOutlet weak var TableView: UITableView!
     
     let photoItems: [String] = ["フォト"]
-    let otherItems: [String] = ["名前", "性別", "年齢", "プロフィール"]
+    let otherItems: [String] = ["名前", "性別", "生まれた年", "プロフィール"]
     
     let sections: NSArray = ["プロフィール"]
     
@@ -55,12 +55,10 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         if let view = UINib(nibName: "ProfileView", bundle: nil).instantiateWithOwner(self, options: nil).first as? UIView {
             self.view = view
         }
-        
-        navigationController!.navigationBar.tintColor = UIColor.whiteColor()
         
         // profilePicture をタップできるように設定
         profilePicture.userInteractionEnabled = true
@@ -72,15 +70,14 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
         TableView.estimatedRowHeight = 200.0
         TableView.rowHeight = UITableViewAutomaticDimension
         
-        // 不要行の削除
-        let v:UIView = UIView(frame: CGRectZero)
-        v.backgroundColor = UIColor.clearColor()
-        TableView.tableFooterView = v
-        TableView.tableHeaderView = v
+        // 余分な境界線を消す
+        TableView.tableFooterView = UIView()
+        
         view.addSubview(TableView)
         
-        let userData = PersistentData.User()
+        navigationController!.navigationBar.tintColor = UIColor.whiteColor()
         
+        let userData = PersistentData.User()
         if userData.userID == "" {
             self.navigationItem.title = "プロフィールを登録してください"
             // 初期画像
@@ -88,9 +85,16 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
             
         } else {
             self.navigationItem.title = "プロフィール"
+            //スタートボタンは非表示
+            startButton.hidden = true
             
-            //startButton.hidden = true
-            startButton.setTitle("アカウント削除", forState: .Normal)
+            /* 設定ボタンを付与 */
+            let settingsButton: UIButton = UIButton(type: UIButtonType.Custom)
+            settingsButton.setImage(UIImage(named: "santen.png"), forState: UIControlState.Normal)
+            settingsButton.addTarget(self, action: #selector(ProfileViewController.onClickSettingView), forControlEvents: UIControlEvents.TouchUpInside)
+            settingsButton.frame = CGRectMake(0, 0, 22, 22)
+            
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: settingsButton)
             
             // 通常の画面遷移
             profilePicture.image = userData.profileImage
@@ -101,12 +105,13 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
             selectedGender = String(userData.gender)
             inputComment = userData.comment
         }
-        
 
         imageMolding(profilePicture)
         
-        //広告表示
-        self.showAdmob()
+        if self.isInternetConnect() {
+            //広告を表示
+            self.showAdmob()
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -293,7 +298,12 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
         let vc = PickerViewController()
         
         if PersistentData.User().userID != "" {
-            if indexPath.row == 1 || indexPath.row == 2 {
+            if indexPath.row == 1 {
+                UIAlertView.showAlertDismiss("", message: "性別は変更することができません") {}
+                return
+                
+            } else if indexPath.row == 2 {
+                UIAlertView.showAlertDismiss("", message: "生まれた年は変更することができません") {}
                 return
             }
         }
@@ -359,97 +369,56 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
     @IBAction func pushStart(sender: AnyObject) {
         
         MBProgressHUDHelper.show("Loading...")
-        
-        let userData = PersistentData.User()
-        if userData.userID != "" {
-            //アカウント削除処理
-            UIAlertView.showAlertOKCancel("", message: "アカウントを削除してもよろしいですか？") { action in
-                
-                if action == UIAlertView.ActionButton.Cancel {
-                    MBProgressHUDHelper.hide()
-                    return
-                }
-                
-                ParseHelper.getUserInfomation(userData.userID) { (error: NSError?, result: PFObject?) -> Void in
-                    
-                    guard let result = result else {
-                        return
-                    }
-                
-                    //Action, Gonow を削除する？
-                    
-                    //UserInfoの削除
-                    result.deleteInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
-                        if (success) {
-                            //ローカルDBの削除
-                            PersistentData.deleteUserID()
-                            
-                            UIAlertView.showAlertDismiss("", message: "アカウントを削除しました") {}
-                            
-                            let newRootVC = ProfileViewController()
-                            let navigationController = UINavigationController(rootViewController: newRootVC)
-                            navigationController.navigationBar.barTintColor = LayoutManager.getUIColorFromRGB(0x3949AB)
-                            navigationController.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
-                            UIApplication.sharedApplication().keyWindow?.rootViewController = navigationController
-                            
-                            self.viewDidLoad()
-                        }
-                    
-                        MBProgressHUDHelper.hide()
-                    }
-                }
-            }
-            
-        } else {
-            // 必須チェック
-            if inputName.isEmpty {
-                UIAlertView.showAlertView("", message: "名前を入力してください")
-                return
-            }
-            
-            if selectedGender.isEmpty {
-                UIAlertView.showAlertView("", message: "性別を選択してください")
-                return
-            }
-            
-            if selectedAge.isEmpty {
-                UIAlertView.showAlertView("", message: "年齢を選択してください")
-                return
-            }
-            
-            MBProgressHUDHelper.show("Loading...")
-            
-            let imageData = UIImagePNGRepresentation(profilePicture.image!)
-            let imageFile = PFFile(name:"image.png", data:imageData!)
-            let uuid = NSUUID().UUIDString
-            
-            NSLog("UUID" + uuid)
-            
-            // 登録
-            ParseHelper.setUserInfomation(
-                uuid,
-                name: inputName,
-                gender: gender!,
-                age: selectedAge,
-                comment: inputComment,
-                photo: imageFile!
-            )
-            
-            var userInfo = PersistentData.User()
-            userInfo.userID = uuid
-            userInfo.name = inputName
-            userInfo.gender = selectedGender
-            userInfo.age = selectedAge
-            userInfo.comment = inputComment
-            
-            let newRootVC = MapViewController()
-            let navigationController = UINavigationController(rootViewController: newRootVC)
-            navigationController.navigationBar.barTintColor = LayoutManager.getUIColorFromRGB(0x3949AB)
-            navigationController.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
-            UIApplication.sharedApplication().keyWindow?.rootViewController = navigationController
-            
-            MBProgressHUDHelper.hide()
+
+        // 必須チェック
+        if inputName.isEmpty {
+            UIAlertView.showAlertView("", message: "名前を入力してください")
+            return
         }
+        
+        if selectedGender.isEmpty {
+            UIAlertView.showAlertView("", message: "性別を選択してください")
+            return
+        }
+        
+        if selectedAge.isEmpty {
+            UIAlertView.showAlertView("", message: "生まれた年を選択してください")
+            return
+        }
+        
+        MBProgressHUDHelper.show("Loading...")
+        
+        let imageData = UIImagePNGRepresentation(profilePicture.image!)
+        let imageFile = PFFile(name:"image.png", data:imageData!)
+        let uuid = NSUUID().UUIDString
+        
+        NSLog("UUID" + uuid)
+        
+        // 登録
+        ParseHelper.setUserInfomation(
+            uuid,
+            name: inputName,
+            gender: gender!,
+            age: selectedAge,
+            comment: inputComment,
+            photo: imageFile!
+        )
+        
+        var userInfo = PersistentData.User()
+        userInfo.userID = uuid
+        userInfo.name = inputName
+        userInfo.gender = selectedGender
+        userInfo.age = selectedAge
+        userInfo.comment = inputComment
+        
+        let newRootVC = MapViewController()
+        let navigationController = UINavigationController(rootViewController: newRootVC)
+        navigationController.navigationBar.barTintColor = LayoutManager.getUIColorFromRGB(0x3949AB)
+        navigationController.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
+        UIApplication.sharedApplication().keyWindow?.rootViewController = navigationController
+        
+        MBProgressHUDHelper.hide()
+        
     }
     
     private func imageMolding(target : UIImageView){
@@ -457,5 +426,10 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
         target.layer.borderWidth = 3
         target.layer.cornerRadius = 10
         target.layer.masksToBounds = true
+    }
+    
+    func onClickSettingView() {
+        let vc = SettingsViewController()
+        self.navigationController!.pushViewController(vc, animated: true)
     }
 }

@@ -52,8 +52,10 @@ class ImakokoViewController: UIViewController, UINavigationControllerDelegate,
         
         view.addSubview(tableView)
         
-        //広告を表示
-        self.showAdmob()
+        if self.isInternetConnect() {
+            //広告を表示
+            self.showAdmob()
+        }
     }
     
     /*

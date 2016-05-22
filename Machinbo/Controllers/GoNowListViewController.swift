@@ -13,7 +13,10 @@ import GoogleMobileAds
 
 extension GoNowListViewController: TransisionProtocol {}
 
-class GoNowListViewController: UIViewController, UITableViewDelegate, GADBannerViewDelegate {
+class GoNowListViewController: UIViewController,
+    UITableViewDelegate,
+    GADBannerViewDelegate,
+    GADInterstitialDelegate {
 
     var goNowList: AnyObject = []
     
@@ -38,7 +41,7 @@ class GoNowListViewController: UIViewController, UITableViewDelegate, GADBannerV
         
         if self.isInternetConnect() {
             //広告を表示
-            self.showAdmob()
+            self.showAdmob(AdmobType.standard)
         }
     }
     

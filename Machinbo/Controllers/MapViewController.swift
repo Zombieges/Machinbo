@@ -15,7 +15,7 @@ import GoogleMobileAds
 
 extension MapViewController: TransisionProtocol {}
 
-class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManagerDelegate, GADBannerViewDelegate {
+class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManagerDelegate, GADBannerViewDelegate, GADInterstitialDelegate {
     
     var profileSettingButton: UIBarButtonItem!
     
@@ -77,7 +77,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         btn.addTarget(self, action: #selector(MapViewController.onClickImakoko), forControlEvents: UIControlEvents.TouchUpInside)
         btn.layer.cornerRadius = 5.0
         btn.layer.masksToBounds = true
-        btn.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height - self.view.bounds.height/8.3)
+        btn.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height - self.view.bounds.height/7.3)
         self.view.addSubview(btn)
     }
     
@@ -142,7 +142,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
             //ユーザマーカーを表示
             GoogleMapsHelper.setUserMarker(gmaps, userObjects: FeedData.mainData().feedItems)
             //広告表示
-            self.showAdmob()
+            self.showAdmob(AdmobType.Full)
         }
         
         //manager.stopUpdatingLocation()
@@ -317,9 +317,11 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
             }
             
             if let goNowObj: AnyObject = result {
-                let targetAction: AnyObject? = goNowObj.objectForKey("TargetUser")
                 
+                let targetAction = goNowObj.objectForKey("TargetUser") as? PFObject
                 //いまから行く人がいなくなっていた場合、データを削除する
+                
+                //Actionが存在しない場合、GoNowを削除
                 guard targetAction != nil else {
                     
                     goNowObj.deleteInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
@@ -332,12 +334,41 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
                         }
                         
                         PersistentData.deleteUserIDForKey("imaikuFlag")
-                        UIAlertView.showAlertDismiss("", message: "いまから行く人のアカウントが削除されています") { () -> () in }
+                        UIAlertView.showAlertDismiss("", message: "いまから行く人の位置情報が削除されています") { () -> () in }
+                    }
+                    
+                    return
+                    
+                }
+                
+                let userInfo: PFObject? = targetAction!.objectForKey("CreatedBy") as? PFObject
+                
+                //UserInfoが存在しない場合、ActionとGoNowを削除
+                guard userInfo != nil else {
+                    targetAction!.deleteInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+                        
+                        guard success else {
+                            print("削除エラー")
+                            return
+                        }
+                        
+                        goNowObj.deleteInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+                            defer {
+                                MBProgressHUDHelper.hide()
+                            }
+                            
+                            guard success else {
+                                print("削除エラー")
+                                return
+                            }
+                            
+                            PersistentData.deleteUserIDForKey("imaikuFlag")
+                            UIAlertView.showAlertDismiss("", message: "いまから行く人のアカウントが削除されています") { () -> () in }
+                        }
                     }
                     
                     return
                 }
-                
                 
                 let vc = TargetProfileViewController(type: ProfileType.ImaikuTargetProfile)
                 vc.targetObjectID = goNowObj.objectId

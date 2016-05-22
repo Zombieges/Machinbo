@@ -11,6 +11,7 @@ import UIKit
 import Parse
 import MBProgressHUD
 import GoogleMobileAds
+import MessageUI
 
 enum ProfileType {
     case TargetProfile, ImaikuTargetProfile, ImakuruTargetProfile
@@ -18,7 +19,9 @@ enum ProfileType {
 
 extension TargetProfileViewController: TransisionProtocol {}
 
-class TargetProfileViewController: UIViewController, UITableViewDelegate, GADBannerViewDelegate {
+class TargetProfileViewController: UIViewController, UITableViewDelegate, GADBannerViewDelegate, GADInterstitialDelegate,MFMailComposeViewControllerDelegate {
+    
+    var _interstitial: GADInterstitial?
     
     let mapView: MapViewController = MapViewController()
     let modalTextLabel = UILabel()
@@ -132,7 +135,17 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate, GADBan
         
         if self.isInternetConnect() {
             //広告を表示
-            self.showAdmob()
+            self.showAdmob(AdmobType.standard)
+            
+            let adMobID = ConfigHelper.getPlistKey("ADMOB_ID") as String
+            _interstitial = GADInterstitial(adUnitID: adMobID)
+            _interstitial!.delegate = self
+            
+            //TODOTEST：Admob ヘリクエスト
+            let admobRequest:GADRequest = GADRequest()
+            admobRequest.testDevices = [kGADSimulatorID]
+            
+            _interstitial!.loadRequest(admobRequest)
         }
     }
     
@@ -165,7 +178,14 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate, GADBan
             return self.targetProfileItems.count
             
         } else if section == 1 {
-            return self.otherItems.count
+            var tableCellCount = 0
+            if type == ProfileType.ImakuruTargetProfile {
+                tableCellCount = 1
+            } else {
+                tableCellCount = self.otherItems.count
+            }
+            
+            return tableCellCount
             
         } else {
             return 2
@@ -226,6 +246,21 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate, GADBan
                 normalCell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: tableViewCellIdentifier)
             }
             
+            if type == ProfileType.ImakuruTargetProfile {
+                //いまから来る画面用の処理
+                
+                //セルの線を消す
+                normalCell!.separatorInset = UIEdgeInsetsMake(0, UIScreen.mainScreen().bounds.size.width, 0, 0);
+                
+                if indexPath.row == 0 {
+                    normalCell?.accessoryView = reportButton()
+                    cell = normalCell
+                    
+                }
+                
+                return cell!
+            }
+            
             if indexPath.row == 0 {
                 
                 normalCell?.textLabel?.text = otherItems[indexPath.row]
@@ -266,51 +301,87 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate, GADBan
             
             normalCell!.separatorInset = UIEdgeInsetsMake(0, UIScreen.mainScreen().bounds.size.width, 0, 0);
             
-            if indexPath.row == 0 {
-                //画面リフレッシュボタン
-                let tableHeight = self.view.bounds.height - self.view.bounds.height/8.3
-                let width = UIScreen.mainScreen().bounds.size.width - 40
-                let btn = ZFRippleButton(frame: CGRect(x: 20, y: tableHeight, width: width, height: 40))
-                btn.trackTouchLocation = true
-                btn.backgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
-                btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
-                btn.rippleColor = LayoutManager.getUIColorFromRGB(0xB54241)
-                btn.setTitle("取り消し", forState: .Normal)
-                btn.addTarget(self, action: #selector(TargetProfileViewController.clickImaikuButton), forControlEvents: UIControlEvents.TouchUpInside)
-//                btn.layer.cornerRadius = 5.0
-                btn.layer.masksToBounds = true
-                btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Center
+            
+            if type == ProfileType.TargetProfile {
+                // いまココ照会画面用処理
                 
-                normalCell?.accessoryView = btn
+                if indexPath.row == 0 {
+                    normalCell?.accessoryView = imaikuButton()
+                    cell = normalCell
+                    
+                } else if indexPath.row == 1 {
+                    normalCell?.accessoryView = reportButton()
+                    cell = normalCell
+                }
                 
-                //self.tableView.separatorColor = UIColor.clearColor()
+            } else if type == ProfileType.ImaikuTargetProfile {
+                //いまから行く画面用処理
                 
-                cell = normalCell
-                
-            } else if indexPath.row == 1 {
-                
-                let tableHeight = self.view.bounds.height - self.view.bounds.height/8.3
-                let width = UIScreen.mainScreen().bounds.size.width - 40
-                let btn = ZFRippleButton(frame: CGRect(x: 20, y: tableHeight, width: width, height: 40))
-                btn.trackTouchLocation = true
-                btn.backgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
-                btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
-                btn.rippleColor = LayoutManager.getUIColorFromRGB(0xB54241)
-                btn.setTitle("報告", forState: .Normal)
-                btn.addTarget(self, action: #selector(TargetProfileViewController.reportManager), forControlEvents: UIControlEvents.TouchUpInside)
-//                btn.layer.cornerRadius = 5.0
-                btn.layer.masksToBounds = true
-                btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Center
-                
-                normalCell?.accessoryView = btn
-                
-                //self.tableView.separatorColor = UIColor.clearColor()
-                
-                cell = normalCell
+                if indexPath.row == 0 {
+                    normalCell?.accessoryView = torikesiButton()
+                    cell = normalCell
+                    
+                } else if indexPath.row == 1 {
+                    normalCell?.accessoryView = reportButton()
+                    cell = normalCell
+                }
             }
+
+
         }
         
         return cell!
+    }
+    
+    func imaikuButton() -> ZFRippleButton {
+        let tableHeight = self.view.bounds.height - self.view.bounds.height/8.3
+        let width = UIScreen.mainScreen().bounds.size.width - 40
+        let btn = ZFRippleButton(frame: CGRect(x: 15, y: tableHeight, width: width, height: 38))
+        btn.trackTouchLocation = true
+        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
+        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
+        btn.rippleColor = LayoutManager.getUIColorFromRGB(0xB54241)
+        btn.setTitle("いまから行く", forState: .Normal)
+        btn.addTarget(self, action: #selector(TargetProfileViewController.clickImaikuButton), forControlEvents: UIControlEvents.TouchUpInside)
+        //                btn.layer.cornerRadius = 5.0
+        btn.layer.masksToBounds = true
+        btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Center
+        
+        return btn
+    }
+    
+    func torikesiButton() -> ZFRippleButton {
+        let tableHeight = self.view.bounds.height - self.view.bounds.height/8.3
+        let width = UIScreen.mainScreen().bounds.size.width - 40
+        let btn = ZFRippleButton(frame: CGRect(x: 15, y: tableHeight, width: width, height: 38))
+        btn.trackTouchLocation = true
+        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
+        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
+        btn.rippleColor = LayoutManager.getUIColorFromRGB(0xB54241)
+        btn.setTitle("取り消し", forState: .Normal)
+        btn.addTarget(self, action: #selector(TargetProfileViewController.clickTorikesiButton), forControlEvents: UIControlEvents.TouchUpInside)
+        //                btn.layer.cornerRadius = 5.0
+        btn.layer.masksToBounds = true
+        btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Center
+        
+        return btn
+    }
+    
+    func reportButton() -> ZFRippleButton {
+        let tableHeight = self.view.bounds.height - self.view.bounds.height/8.3
+        let width = UIScreen.mainScreen().bounds.size.width - 40
+        let btn = ZFRippleButton(frame: CGRect(x: 15, y: tableHeight, width: width, height: 38))
+        btn.trackTouchLocation = true
+        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
+        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
+        btn.rippleColor = LayoutManager.getUIColorFromRGB(0xB54241)
+        btn.setTitle("報告", forState: .Normal)
+        btn.addTarget(self, action: #selector(TargetProfileViewController.reportManager), forControlEvents: UIControlEvents.TouchUpInside)
+        //                btn.layer.cornerRadius = 5.0
+        btn.layer.masksToBounds = true
+        btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Center
+        
+        return btn
     }
     
     /*
@@ -327,53 +398,92 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate, GADBan
         self.presentViewController(self.mapView, animated: true, completion: nil)
     }
     
-    @IBAction func clickImaikuButton(sender: AnyObject) {
+    func clickImaikuButton(sender: AnyObject) {
         
         var userInfo = PersistentData.User()
+        if userInfo.imaikuFlag {
+            UIAlertView.showAlertDismiss("", message: "既にいまから行く対象の人がいます", completion: { () -> () in })
+            return
+        }
         
-        if type == ProfileType.TargetProfile {
+        let vc = PickerViewController()
+        vc.palTargetUser = self.actionInfo as? PFObject
+        vc.palKind = "imaiku"
+        vc.palmItems = ["5分","10分", "15分", "20分", "25分", "30分", "35分", "40分", "45分", "50分", "55分", "60分"]
+        
+        self.navigationController!.pushViewController(vc, animated: true)
+        
+        if _interstitial!.isReady {
+            _interstitial!.presentFromRootViewController(self)
+        }
 
-            if userInfo.imaikuFlag {
-                UIAlertView.showAlertDismiss("", message: "既にいまから行く対象の人がいます", completion: { () -> () in })
+    }
+    
+    func clickTorikesiButton(sender: AnyObject) {
+    
+        //imaiku delete
+        UIAlertView.showAlertOKCancel("", message: "いまから行くを取り消しますか？") { action in
+            
+            if action == UIAlertView.ActionButton.Cancel {
                 return
             }
             
-            let vc = PickerViewController()
-            vc.palTargetUser = self.actionInfo as? PFObject
-            vc.palKind = "imaiku"
-            vc.palmItems = ["5分","10分", "15分", "20分", "25分", "30分", "35分", "40分", "45分", "50分", "55分", "60分"]
+            MBProgressHUDHelper.show("Loading...")
             
-            self.navigationController!.pushViewController(vc, animated: true)
-
-        } else if type == ProfileType.ImaikuTargetProfile {
-            
-            //imaiku delete
-            UIAlertView.showAlertOKCancel("", message: "いまから行くを取り消しますか？") { action in
+            ParseHelper.deleteGoNow(self.targetObjectID!) { () -> () in
                 
-                if action == UIAlertView.ActionButton.Cancel {
-                    return
-                }
+                //imaiku flag delete
+                PersistentData.deleteUserIDForKey("imaikuFlag")
                 
-                MBProgressHUDHelper.show("Loading...")
+                self.navigationController!.popToRootViewControllerAnimated(true)
                 
-                ParseHelper.deleteGoNow(self.targetObjectID!) { () -> () in
-                    
-                    //imaiku flag delete
-                    PersistentData.deleteUserIDForKey("imaikuFlag")
-                    
-                    self.navigationController!.popToRootViewControllerAnimated(true)
-                    
-                    MBProgressHUDHelper.hide()
-                    
-                    UIAlertView.showAlertDismiss("", message: "取り消しました", completion: { () -> () in })
-                }
+                MBProgressHUDHelper.hide()
+                
+                UIAlertView.showAlertDismiss("", message: "取り消しました", completion: { () -> () in })
             }
-            
         }
-        
     }
+
     
     func reportManager() {
+        //メールを送信できるかチェック
+        if !MFMailComposeViewController.canSendMail() {
+            print("Email Send Failed")
+            return
+        }
         
+        let mail = MFMailComposeViewController()
+        let address = ConfigHelper.getPlistKey("ZOMBIEGES_MAIL") as String
+        let toRecipients = [address]
+        let userObjectId = userInfo.objectId as String!
+        let mailBody = "報告" + "¥r¥n" + "報告者：" + userObjectId
+        
+        mail.mailComposeDelegate = self
+        mail.setSubject("報告")
+        mail.setToRecipients(toRecipients) //Toアドレスの表示
+        mail.setMessageBody(mailBody, isHTML: false)
+        
+        self.presentViewController(mail, animated: true, completion: nil)
+    }
+    
+    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
+        switch result {
+        case MFMailComposeResultCancelled:
+            print("Mail cancelled")
+            break
+        case MFMailComposeResultSaved:
+            print("Mail saved")
+            break
+        case MFMailComposeResultSent:
+            print("Mail sent")
+            break
+        case MFMailComposeResultFailed:
+            print("Mail sent failure: \(error!.localizedDescription)")
+            break
+        default:
+            break
+        }
+        
+        controller.dismissViewControllerAnimated(true, completion: nil)
     }
 }

@@ -19,7 +19,8 @@ class ImakokoViewController: UIViewController, UINavigationControllerDelegate,
     UIPickerViewDelegate,
     PickerViewControllerDelegate,
     GADBannerViewDelegate,
-    UITableViewDelegate{
+    GADInterstitialDelegate,
+    UITableViewDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -54,7 +55,7 @@ class ImakokoViewController: UIViewController, UINavigationControllerDelegate,
         
         if self.isInternetConnect() {
             //広告を表示
-            self.showAdmob()
+            self.showAdmob(AdmobType.standard)
         }
     }
     

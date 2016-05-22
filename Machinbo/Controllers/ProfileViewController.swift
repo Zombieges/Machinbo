@@ -21,7 +21,8 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
     UIPickerViewDelegate,
     PickerViewControllerDelegate ,
     UITableViewDelegate,
-    GADBannerViewDelegate{
+    GADBannerViewDelegate,
+    GADInterstitialDelegate{
     
     @IBOutlet weak var profilePicture: UIImageView!
     @IBOutlet weak var startButton: ZFRippleButton!
@@ -110,7 +111,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
         
         if self.isInternetConnect() {
             //広告を表示
-            self.showAdmob()
+            self.showAdmob(AdmobType.Full)
         }
     }
     

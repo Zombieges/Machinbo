@@ -33,6 +33,7 @@
         /*
         登録済みか否かをチェック
         */
+        //PersistentData.deleteUserID()
         let firstViewController: UIViewController
         if PersistentData.User().userID == "" {
             firstViewController = storyboard.instantiateViewControllerWithIdentifier("profile") as! ProfileViewController
@@ -53,6 +54,10 @@
         self.window?.makeKeyAndVisible()
         
         return true
+    }
+    
+    func cycleTheGlobalMailComposer() {
+        
     }
     
     func applicationWillResignActive(application: UIApplication) {

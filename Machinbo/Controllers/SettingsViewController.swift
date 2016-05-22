@@ -17,7 +17,8 @@ extension SettingsViewController: TransisionProtocol {}
 
 class SettingsViewController: UIViewController, UINavigationControllerDelegate,
     GADBannerViewDelegate,
-    UITableViewDelegate{
+    GADInterstitialDelegate,
+    UITableViewDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -55,7 +56,7 @@ class SettingsViewController: UIViewController, UINavigationControllerDelegate,
         
         if self.isInternetConnect() {
             //広告を表示
-            self.showAdmob()
+            self.showAdmob(AdmobType.standard)
         }
     }
     
@@ -146,7 +147,15 @@ class SettingsViewController: UIViewController, UINavigationControllerDelegate,
     
     // セルがタップされた時
     internal func tableView(table: UITableView, didSelectRowAtIndexPath indexPath:NSIndexPath) {
-        if indexPath.section == 2 {
+        if indexPath.section == 0 {
+            if indexPath.row == 0 {
+                let url = NSURL(string: ConfigHelper.getPlistKey("FACEBOOK_LINK"))
+                if UIApplication.sharedApplication().canOpenURL(url!){
+                    UIApplication.sharedApplication().openURL(url!)
+                }
+            }
+
+        } else if indexPath.section == 2 {
             if indexPath.row == 0 {
                 deleteAccount()
             }

@@ -13,12 +13,17 @@ import GoogleMobileAds
 protocol TransisionProtocol {
     func isInternetConnect() -> Bool
     func createRefreshButton()
-    func showAdmob()
+    func showAdmob(type: AdmobType)
+}
+
+enum AdmobType {
+    case standard, Full
 }
 
 extension TransisionProtocol where
     Self: UIViewController,
-    Self: GADBannerViewDelegate {
+    Self: GADBannerViewDelegate,
+    Self: GADInterstitialDelegate {
     
     /**
      * インターネット接続がされているかを確認する
@@ -61,7 +66,7 @@ extension TransisionProtocol where
     /**
      * 広告を表示
      */
-    func showAdmob() {
+    func showAdmob(type: AdmobType) {
         
         // AdMob Sample Start
         let AdMobID = ConfigHelper.getPlistKey("ADMOB_ID") as String    //ID をInfoPlist より取得
@@ -70,28 +75,50 @@ extension TransisionProtocol where
         let SimulatorTest:Bool = true
         
         // Admob のビューを生成
-        var admobView: GADBannerView = GADBannerView()
-        admobView = GADBannerView(adSize:kGADAdSizeBanner)
-        admobView.frame.origin = CGPointMake(0, UIScreen.mainScreen().bounds.size.height - 50)
-        admobView.frame.size = CGSizeMake(self.view.frame.width, admobView.frame.height)
-        admobView.adUnitID = AdMobID
-        admobView.delegate = self
-        admobView.rootViewController = self
+        //var admobView: GADBannerView = GADBannerView()
         
-        // Admob ヘリクエスト
-        let admobRequest:GADRequest = GADRequest()
-        
-        if AdMobTest {
-            if SimulatorTest {
-                admobRequest.testDevices = [kGADSimulatorID]
-            }
-            else {
-                //admobRequest.testDevices = [TEST_DEVICE_ID]
+        if type == AdmobType.standard {
+            let admobView = GADBannerView(adSize:kGADAdSizeBanner)
+            admobView.frame.origin = CGPointMake(0, UIScreen.mainScreen().bounds.size.height - 50)
+            admobView.frame.size = CGSizeMake(UIScreen.mainScreen().bounds.size.width, admobView.frame.height)
+            
+            admobView.adUnitID = AdMobID
+            admobView.delegate = self
+            admobView.rootViewController = self
+            
+            // Admob ヘリクエスト
+            let admobRequest:GADRequest = GADRequest()
+            
+            if AdMobTest {
+                if SimulatorTest {
+                    admobRequest.testDevices = [kGADSimulatorID]
+                }
             }
             
+            admobView.loadRequest(admobRequest)
+            self.view.addSubview(admobView)
+            
+        } else if type == AdmobType.Full {
+            let interstitial = GADInterstitial(adUnitID: AdMobID)
+            interstitial.delegate = self
+            
+            // Admob ヘリクエスト
+            let admobRequest:GADRequest = GADRequest()
+            
+            if AdMobTest {
+                if SimulatorTest {
+                    admobRequest.testDevices = [kGADSimulatorID]
+                }
+            }
+            
+            interstitial.loadRequest(admobRequest)
+            
+            if interstitial.isReady {
+                interstitial.presentFromRootViewController(self)
+            }
         }
-        admobView.loadRequest(admobRequest)
-        self.view.addSubview(admobView)
+
+
     }
     
 }

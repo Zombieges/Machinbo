@@ -1,4 +1,4 @@
-//
+    //
 //  ParseHelper.swift
 //  Machinbo
 //
@@ -38,11 +38,10 @@ class ParseHelper {
         //25km圏内、近くから100件取得
         let myGeoPoint = PFGeoPoint(latitude: myLocation.latitude, longitude: myLocation.longitude)
         
-        let query = PFQuery(className: "Action")
+        let query = PFQuery(className: "UserInfo")
         query.whereKey("GPS", nearGeoPoint: myGeoPoint, withinKilometers: 25.0)
         query.limit = 300
-        query.includeKey("CreatedBy")
-        query.orderByAscending("updatedAt")
+        query.orderByAscending("MarkTime")
         query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
             if let resultNearUser = objects {
                 completion?(withError: error, result: resultNearUser)
@@ -53,7 +52,7 @@ class ParseHelper {
     class func getMyGoNow(loginUser: String, completion:((withError: NSError?, result: PFObject?)->Void)?) {
         let query = PFQuery(className: "GoNow")
         query.whereKey("UserID", equalTo: loginUser)
-        query.includeKey("TargetUser.CreatedBy")//ActionのPointerからUserInfoへリレーション
+        query.includeKey("TargetUser")//PointerからUserInfoへリレーション
         query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
             
             if error == nil {
@@ -97,18 +96,11 @@ class ParseHelper {
         actionQuery.getFirstObjectInBackgroundWithBlock { (object, error) -> Void in
             if error == nil {
                 //既存のレコードを削除
-                object!.deleteInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
-                    if (success) {
-                        //
-                        NSLog("削除しました！")
-                        
-                    } else {
-                        // handle error
-                    }
-                }
+                object!.deleteInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in }
                 
-                completion?(withError: error, result: object)
             }
+            
+            completion?(withError: error, result: object)
         }
     }
     
@@ -153,6 +145,28 @@ class ParseHelper {
                 }
             }
         })
+    }
+    
+    class func deleteUserInfo(userID: String, completion: () -> ()) {
+        
+        ParseHelper.getUserInfomation(userID) { (error: NSError?, result: PFObject?) -> Void in
+            
+            guard let theResult = result else {
+                MBProgressHUDHelper.hide()
+                return
+            }
+            
+            //UserInfoの削除
+            theResult.deleteInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+                guard success else {
+                    return
+                }
+                
+                //ローカルDBの削除
+                PersistentData.deleteUserID()
+                completion()
+            }
+        }
     }
     
     func getErrorMessage(error:NSError?) -> String {

@@ -163,7 +163,9 @@ class SettingsViewController: UIViewController, UINavigationControllerDelegate,
     }
     
     func deleteAccount() {
+        
         MBProgressHUDHelper.show("Loading...")
+        
         //アカウント削除処理
         UIAlertView.showAlertOKCancel("", message: "アカウントを削除しますと、いままでの履歴が削除されてしまいます。本当にアカウントを削除してもよろしいですか？") { action in
             
@@ -174,35 +176,24 @@ class SettingsViewController: UIViewController, UINavigationControllerDelegate,
             
             let userData = PersistentData.User()
             
-            ParseHelper.getUserInfomation(userData.userID) { (error: NSError?, result: PFObject?) -> Void in
-                
-                guard let theResult = result else {
-                    MBProgressHUDHelper.hide()
-                    return
-                }
-                
-                //Action, Gonow を削除する？
-                
-                //UserInfoの削除
-                theResult.deleteInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
-                    if (success) {
-                        //ローカルDBの削除
-                        PersistentData.deleteUserID()
-                        
-                        UIAlertView.showAlertDismiss("", message: "アカウントを削除しました") {}
-                        
-                        let newRootVC = ProfileViewController()
-                        let navigationController = UINavigationController(rootViewController: newRootVC)
-                        navigationController.navigationBar.barTintColor = LayoutManager.getUIColorFromRGB(0x3949AB)
-                        navigationController.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
-                        UIApplication.sharedApplication().keyWindow?.rootViewController = navigationController
-                        
-                        self.viewDidLoad()
-                    }
-                    
-                    MBProgressHUDHelper.hide()
-                }
-            }
+            //ActionオブジェクトがNilの場合は、UserInfoオブジェクトのみ削除する
+            self.deleteUserInfo(userData.userID)
+        }
+    }
+    
+    func deleteUserInfo(userID: String) {
+        
+        ParseHelper.deleteUserInfo(userID) { () -> () in
+            
+            UIAlertView.showAlertDismiss("", message: "アカウントを削除しました") {}
+            
+            let newRootVC = ProfileViewController()
+            let navigationController = UINavigationController(rootViewController: newRootVC)
+            navigationController.navigationBar.barTintColor = LayoutManager.getUIColorFromRGB(0x3949AB)
+            navigationController.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
+            UIApplication.sharedApplication().keyWindow?.rootViewController = navigationController
+            
+            self.viewDidLoad()
         }
     }
     

@@ -276,7 +276,7 @@ class PickerViewController: UIViewController,
                     }
                     
                     let userID = result?.objectForKey("UserID") as? String
-                    let targetUserID = self.palTargetUser?.objectForKey("CreatedBy")!.objectForKey("UserID") as? String
+                    let targetUserID = self.palTargetUser?.objectForKey("UserID") as? String
                     
                     let query = PFObject(className: "GoNow")
                     query["UserID"] = userID
@@ -284,6 +284,7 @@ class PickerViewController: UIViewController,
                     query["User"] = result
                     query["TargetUser"] = self.palTargetUser
                     query["GotoTime"] = selected
+                    query["TargetGPS"] = self.palTargetUser?.objectForKey("GPS")
                     
                     query.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
                         

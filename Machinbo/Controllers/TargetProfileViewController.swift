@@ -27,7 +27,7 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate, GADBan
     let modalTextLabel = UILabel()
     let lblName: String = ""
     
-    var actionInfo: AnyObject?
+    //var actionInfo: AnyObject?
     var userInfo: AnyObject = []
     var targetObjectID: String?
     //遷移元の画面IDを指定
@@ -112,10 +112,6 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate, GADBan
             
         } else {
             sections = ["プロフィール", "待ち合わせ情報", " "]
-            
-            if let actionInfo: AnyObject = self.actionInfo {
-                userInfo = actionInfo.objectForKey("CreatedBy") as! PFObject
-            }
         }
         
         
@@ -267,7 +263,7 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate, GADBan
                 
                 let dateFormatter = NSDateFormatter();
                 dateFormatter.dateFormat = "yyyy年M月d日 H:m"
-                let formatDateString = dateFormatter.stringFromDate(self.actionInfo!.objectForKey("MarkTime") as! NSDate)
+                let formatDateString = dateFormatter.stringFromDate(self.userInfo.objectForKey("MarkTime") as! NSDate)
                 
                 normalCell?.detailTextLabel?.text = formatDateString
                 
@@ -277,7 +273,7 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate, GADBan
                 let detailCell = tableView.dequeueReusableCellWithIdentifier(detailTableViewCellIdentifier, forIndexPath: indexPath) as? DetailProfileTableViewCell
                 
                 detailCell?.titleLabel.text = otherItems[indexPath.row]
-                detailCell?.valueLabel.text = self.actionInfo!.objectForKey("PlaceDetail") as? String
+                detailCell?.valueLabel.text = self.userInfo.objectForKey("PlaceDetail") as? String
                 
                 cell = detailCell
                 
@@ -285,7 +281,7 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate, GADBan
                 let detailCell = tableView.dequeueReusableCellWithIdentifier(detailTableViewCellIdentifier, forIndexPath: indexPath) as? DetailProfileTableViewCell
                 
                 detailCell?.titleLabel.text = otherItems[indexPath.row]
-                detailCell?.valueLabel.text = self.actionInfo!.objectForKey("MyChar") as? String
+                detailCell?.valueLabel.text = self.userInfo.objectForKey("MyChar") as? String
                 
                 cell = detailCell
             }
@@ -407,7 +403,7 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate, GADBan
         }
         
         let vc = PickerViewController()
-        vc.palTargetUser = self.actionInfo as? PFObject
+        vc.palTargetUser = self.userInfo as? PFObject
         vc.palKind = "imaiku"
         vc.palmItems = ["5分","10分", "15分", "20分", "25分", "30分", "35分", "40分", "45分", "50分", "55分", "60分"]
         

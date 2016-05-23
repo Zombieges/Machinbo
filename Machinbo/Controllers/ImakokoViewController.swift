@@ -152,76 +152,37 @@ class ImakokoViewController: UIViewController, UINavigationControllerDelegate,
     }
     
     @IBAction func imaikuButton(sender: AnyObject) {
+        
         MBProgressHUDHelper.show("Loading...")
         
         var userInfo = PersistentData.User()
         
-        if userInfo.imakokoFlag {
-            ParseHelper.getActionInfomation(userInfo.userID) { (error: NSError?, result: PFObject?) -> Void in
-                guard error == nil else {
-                    return
-                }
+        ParseHelper.getUserInfomation(userInfo.userID) { (error: NSError?, result: PFObject?) -> Void in
             
-                let query = result! as PFObject
-                let gpsMark = PFObject(className: "Action")
-                gpsMark["CreatedBy"] = query.objectForKey("CreatedBy")
-                gpsMark["GPS"] = self.palGeoPoint
-                gpsMark["MarkTime"] = NSDate()
-                //場所詳細
-                gpsMark["PlaceDetail"] = self.inputPlace
-                gpsMark["MyChar"] = self.inputChar
-                //登録処理
-                gpsMark.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
-                    defer {
-                        MBProgressHUDHelper.hide()
-                    }
-                    
-                    guard error == nil else {
-                        return
-                    }
-                        
-                    //Alert
-                    UIAlertView.showAlertDismiss("", message: "現在位置を登録しました") { () -> () in
-                        self.navigationController!.popToRootViewControllerAnimated(true)
-                    }
-                }
+            guard error == nil else {
+                return
             }
             
-        } else {
+            let query = result! as PFObject
+            query["GPS"] = self.palGeoPoint
+            query["MarkTime"] = NSDate()
+            query["PlaceDetail"] = self.inputPlace
+            query["MyChar"] = self.inputChar
             
-            ParseHelper.getUserInfomation(userInfo.userID) { (error: NSError?, result: PFObject?) -> Void in
+            query.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+                defer {
+                    MBProgressHUDHelper.hide()
+                }
+                
                 guard error == nil else {
                     return
                 }
                 
-                let gpsMark = PFObject(className: "Action")
-                gpsMark["CreatedBy"] = result! as PFObject
-                gpsMark["GPS"] = self.palGeoPoint
-                gpsMark["MarkTime"] = NSDate()
-                //場所詳細
-                gpsMark["PlaceDetail"] = self.inputPlace
-                gpsMark["MyChar"] = self.inputChar
-                //登録処理
-                gpsMark.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
-                    
-                    defer {
-                        MBProgressHUDHelper.hide()
-                    }
-                    
-                    guard error == nil else {
-                        return
-                    }
-                    
-                    //Alert
-                    UIAlertView.showAlertDismiss("", message: "現在位置を登録しました") { () -> () in
-                        self.navigationController!.popToRootViewControllerAnimated(true)
-                    }
+                //Alert
+                UIAlertView.showAlertDismiss("", message: "現在位置を登録しました") { () -> () in
+                    self.navigationController!.popToRootViewControllerAnimated(true)
                 }
             }
-            
-            //一回登録したいとは常にフラグを立てる
-            userInfo.imakokoFlag = true
-            
         }
 
     }

@@ -221,7 +221,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         //MarkDownWindow生成
         self.markWindow = NSBundle.mainBundle().loadNibNamed("MarkWindow", owner: self, options: nil).first! as! MarkWindow
         
-        let createdBy: AnyObject? = marker.userData!.objectForKey("CreatedBy")
+        let createdBy: AnyObject? = marker.userData
         
         if let createdBy: AnyObject = createdBy {
             if let imageFile = createdBy.valueForKey("ProfilePicture") as? PFFile {
@@ -249,7 +249,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     func mapView(mapView: GMSMapView, didTapInfoWindowOfMarker marker: GMSMarker) {
         
         let vc = TargetProfileViewController(type: ProfileType.TargetProfile)
-        vc.actionInfo = marker.userData
+        vc.userInfo = marker.userData!
         
         self.navigationController!.pushViewController(vc, animated: true)
         
@@ -318,45 +318,21 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
             
             if let goNowObj: AnyObject = result {
                 
-                let targetAction = goNowObj.objectForKey("TargetUser") as? PFObject
-                //いまから行く人がいなくなっていた場合、データを削除する
+                let targetUserInfo = goNowObj.objectForKey("TargetUser") as? PFObject
                 
-                //Actionが存在しない場合、GoNowを削除
-                guard targetAction != nil else {
-                    
-                    goNowObj.deleteInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
-                        defer {
-                            MBProgressHUDHelper.hide()
-                        }
-                        
-                        guard success else {
-                            return
-                        }
-                        
-                        PersistentData.deleteUserIDForKey("imaikuFlag")
-                        UIAlertView.showAlertDismiss("", message: "いまから行く人の位置情報が削除されています") { () -> () in }
-                    }
-                    
-                    return
-                    
-                }
-                
-                let userInfo: PFObject? = targetAction!.objectForKey("CreatedBy") as? PFObject
-                
-                //UserInfoが存在しない場合、ActionとGoNowを削除
-                guard userInfo != nil else {
-                    targetAction!.deleteInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
-                        
+                guard targetUserInfo != nil else {
+                    targetUserInfo!.deleteInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+
                         guard success else {
                             print("削除エラー")
                             return
                         }
-                        
+
                         goNowObj.deleteInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
                             defer {
                                 MBProgressHUDHelper.hide()
                             }
-                            
+
                             guard success else {
                                 print("削除エラー")
                                 return
@@ -370,9 +346,30 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
                     return
                 }
                 
+                let targetGPS = goNowObj.objectForKey("TargetGPS") as? PFGeoPoint
+                let targetNowGPS = targetUserInfo?.objectForKey("GPS") as? PFGeoPoint
+                
+                guard targetGPS == targetNowGPS else {
+                    print("GPS一致しません！")
+                    goNowObj.deleteInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+                        defer {
+                            MBProgressHUDHelper.hide()
+                        }
+
+                        guard success else {
+                            return
+                        }
+
+                        PersistentData.deleteUserIDForKey("imaikuFlag")
+                        UIAlertView.showAlertDismiss("", message: "いまから行く人の位置情報が削除されています") { () -> () in }
+                    }
+                    
+                    return
+                }
+                
                 let vc = TargetProfileViewController(type: ProfileType.ImaikuTargetProfile)
                 vc.targetObjectID = goNowObj.objectId
-                vc.actionInfo = targetAction!
+                vc.userInfo = targetUserInfo!
                 self.navigationController!.pushViewController(vc, animated: true)
                 
             } else {

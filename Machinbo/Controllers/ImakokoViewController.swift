@@ -31,6 +31,8 @@ class ImakokoViewController: UIViewController, UINavigationControllerDelegate,
     let detailTableViewCellIdentifier: String = "DetailCell"
     var targetProfileItems = ["待ち合わせ場所", "自分の特徴"]
     
+    var _interstitial: GADInterstitial?
+    
     var selectedRow: Int = 0
     
     override func loadView() {
@@ -56,6 +58,7 @@ class ImakokoViewController: UIViewController, UINavigationControllerDelegate,
         if self.isInternetConnect() {
             //広告を表示
             self.showAdmob(AdmobType.standard)
+            _interstitial = self.showFullAdmob()
         }
     }
     
@@ -180,6 +183,11 @@ class ImakokoViewController: UIViewController, UINavigationControllerDelegate,
                 
                 //Alert
                 UIAlertView.showAlertDismiss("", message: "現在位置を登録しました") { () -> () in
+                    
+                    if self._interstitial!.isReady {
+                        self._interstitial!.presentFromRootViewController(self)
+                    }
+                    
                     self.navigationController!.popToRootViewControllerAnimated(true)
                 }
             }

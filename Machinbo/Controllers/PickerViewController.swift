@@ -11,6 +11,9 @@ import UIKit
 import SpriteKit
 import Parse
 import MBProgressHUD
+import GoogleMobileAds
+
+extension PickerViewController: TransisionProtocol {}
 
 protocol PickerViewControllerDelegate{
     func setGender(selectedIndex: Int,selected: String)
@@ -22,9 +25,13 @@ protocol PickerViewControllerDelegate{
 
 class PickerViewController: UIViewController,
     UITableViewDelegate,
-    UITableViewDataSource{
+    UITableViewDataSource,
+    GADBannerViewDelegate,
+    GADInterstitialDelegate {
     
     var delegate: PickerViewControllerDelegate?
+    
+    var _interstitial: GADInterstitial?
     
     let saveButton = UIButton()
     
@@ -60,11 +67,15 @@ class PickerViewController: UIViewController,
             self.view = view
         }
         
+        //フル画面広告を取得
+        _interstitial = showFullAdmob()
+        
         // palmater set
         self.myItems = []
         self.myItems = palmItems
         self.kind = palKind
         self.Input = palInput
+        
         
         let navBarHeight = self.navigationController?.navigationBar.frame.size.height
         
@@ -302,6 +313,10 @@ class PickerViewController: UIViewController,
                         userInfo.imaikuFlag = true
                         
                         UIAlertView.showAlertDismiss("", message: "いまから行くことを送信しました") { () -> () in
+                            if self._interstitial!.isReady {
+                                self._interstitial!.presentFromRootViewController(self)
+                            }
+
                             self.navigationController!.popToRootViewControllerAnimated(true)
                         }
                     }
@@ -357,4 +372,5 @@ class PickerViewController: UIViewController,
         
         return cell!
     }
+
 }

@@ -154,6 +154,23 @@ class SettingsViewController: UIViewController, UINavigationControllerDelegate,
                     UIApplication.sharedApplication().openURL(url!)
                 }
             }
+            
+        } else if indexPath.section == 1 {
+            
+            if indexPath.row == 0 {
+                let path = NSBundle.mainBundle().pathForResource("UserPolicy", ofType: "txt")!
+//                if let data = NSData(contentsOfFile: path){
+//                    label.text = String(NSString(data: data, encoding: NSUTF8StringEncoding)!)
+//                }else{
+//                    label.text = "データなし"
+//                }
+                
+                let vc = PickerViewController()
+                //vc.palTargetUser = self.userInfo as? PFObject
+                vc.palKind = "yakkan"
+                
+                self.navigationController!.pushViewController(vc, animated: true)
+            }
 
         } else if indexPath.section == 2 {
             if indexPath.row == 0 {

@@ -21,8 +21,6 @@ extension TargetProfileViewController: TransisionProtocol {}
 
 class TargetProfileViewController: UIViewController, UITableViewDelegate, GADBannerViewDelegate, GADInterstitialDelegate,MFMailComposeViewControllerDelegate {
     
-    var _interstitial: GADInterstitial?
-    
     let mapView: MapViewController = MapViewController()
     let modalTextLabel = UILabel()
     let lblName: String = ""
@@ -132,16 +130,6 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate, GADBan
         if self.isInternetConnect() {
             //広告を表示
             self.showAdmob(AdmobType.standard)
-            
-            let adMobID = ConfigHelper.getPlistKey("ADMOB_ID") as String
-            _interstitial = GADInterstitial(adUnitID: adMobID)
-            _interstitial!.delegate = self
-            
-            //TODOTEST：Admob ヘリクエスト
-            let admobRequest:GADRequest = GADRequest()
-            admobRequest.testDevices = [kGADSimulatorID]
-            
-            _interstitial!.loadRequest(admobRequest)
         }
     }
     
@@ -408,11 +396,6 @@ class TargetProfileViewController: UIViewController, UITableViewDelegate, GADBan
         vc.palmItems = ["5分","10分", "15分", "20分", "25分", "30分", "35分", "40分", "45分", "50分", "55分", "60分"]
         
         self.navigationController!.pushViewController(vc, animated: true)
-        
-        if _interstitial!.isReady {
-            _interstitial!.presentFromRootViewController(self)
-        }
-
     }
     
     func clickTorikesiButton(sender: AnyObject) {

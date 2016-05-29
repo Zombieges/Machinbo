@@ -121,4 +121,18 @@ extension TransisionProtocol where
 
     }
     
+    func showFullAdmob() -> GADInterstitial {
+        let adMobID = ConfigHelper.getPlistKey("ADMOB_ID") as String
+        let interstitial = GADInterstitial(adUnitID: adMobID)
+        interstitial.delegate = self
+        
+        //TODOTEST：Admob ヘリクエスト
+        let admobRequest:GADRequest = GADRequest()
+        admobRequest.testDevices = [kGADSimulatorID]
+        
+        interstitial.loadRequest(admobRequest)
+        
+        return interstitial
+    }
+    
 }

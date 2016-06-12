@@ -19,6 +19,7 @@ class GoNowListViewController: UIViewController,
     GADInterstitialDelegate {
 
     var goNowList: AnyObject = []
+    var refreshControl:UIRefreshControl!
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -36,6 +37,18 @@ class GoNowListViewController: UIViewController,
         self.tableView.registerNib(nibName, forCellReuseIdentifier: detailTableViewCellIdentifier)
         self.tableView.estimatedRowHeight = 100.0
         self.tableView.rowHeight = UITableViewAutomaticDimension
+        
+        // 不要行の削除
+        let noUseCell: UIView = UIView(frame: CGRectZero)
+        noUseCell.backgroundColor = UIColor.clearColor()
+        tableView.tableFooterView = noUseCell
+        tableView.tableHeaderView = noUseCell
+        
+        // set up the refresh control
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl.attributedTitle = NSAttributedString(string: "Loading...")
+        self.refreshControl.addTarget(self, action: #selector(GoNowListViewController.refresh), forControlEvents: UIControlEvents.ValueChanged)
+        self.tableView.addSubview(refreshControl)
         
         self.view.addSubview(tableView)
         
@@ -105,6 +118,39 @@ class GoNowListViewController: UIViewController,
         vc.userInfo = goNowList[indexPath.row].objectForKey("User")!
         
         self.navigationController!.pushViewController(vc, animated: true)
+    }
+    
+    /*
+     画面を下に引っ張った際に呼び出される.
+     */
+    func refresh()
+    {
+        // Parse よりデータ取得し、 tableView 再描画
+        getGoNowMeList()
+        refreshControl.endRefreshing()
+        tableView.reloadData()
+        
+    }
+    
+    /*
+     Parse より、イマクルした人を取得する
+     */
+    func getGoNowMeList(){
+        
+        ParseHelper.getGoNowMeList(PersistentData.User().userID) { (error: NSError?, result) -> Void in
+            
+            defer {
+                MBProgressHUDHelper.hide()
+            }
+            
+            guard error == nil else {
+                return
+            }
+            self.goNowList = result!
+            
+            // このタイミングで reloadData() を行わないと、引っ張って更新時に画面に反映されない
+            self.tableView.reloadData()
+        }
     }
     
 }

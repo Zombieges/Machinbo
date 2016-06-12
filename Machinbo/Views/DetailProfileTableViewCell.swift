@@ -29,7 +29,7 @@ class DetailProfileTableViewCell : UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        titleLabel.textColor = UIColor.darkGrayColor()
+        titleLabel.textColor = UIColor.blackColor()
         valueLabel.textColor = UIColor.grayColor()
     }
     

@@ -3,13 +3,10 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TargetProfileViewController" customModule="Machinbo" customModuleProvider="target">
             <connections>
-                <outlet property="ProfileImage" destination="u4u-VW-GhD" id="Fnz-6g-zp1"/>
-                <outlet property="headerView" destination="MH4-Eb-qle" id="X7H-N6-Kxn"/>
                 <outlet property="tableView" destination="3WK-ds-zQ9" id="aEd-h6-Qt5"/>
             </connections>
         </placeholder>
@@ -18,33 +15,17 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MH4-Eb-qle">
-                    <rect key="frame" x="0.0" y="8" width="600" height="184"/>
-                    <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="u4u-VW-GhD">
-                            <rect key="frame" x="8" y="74" width="93" height="93"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="93" id="9Xj-xP-VGV"/>
-                                <constraint firstAttribute="width" constant="93" id="BTH-eg-Mbf"/>
-                            </constraints>
-                        </imageView>
-                    </subviews>
-                    <color key="backgroundColor" red="0.91224608214497915" green="0.91224608214497915" blue="0.91224608214497915" alpha="1" colorSpace="calibratedRGB"/>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="55" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="3WK-ds-zQ9">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="528"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstItem="u4u-VW-GhD" firstAttribute="top" secondItem="MH4-Eb-qle" secondAttribute="top" constant="74" id="GSS-7D-2AP"/>
-                        <constraint firstAttribute="height" constant="184" id="RYa-Vb-5dl"/>
-                        <constraint firstAttribute="bottom" secondItem="u4u-VW-GhD" secondAttribute="bottom" constant="17" id="iwr-Yu-bTU"/>
-                        <constraint firstItem="u4u-VW-GhD" firstAttribute="leading" secondItem="MH4-Eb-qle" secondAttribute="leading" constant="8" id="qD0-mN-5YH"/>
+                        <constraint firstAttribute="height" constant="260" id="Coo-GM-orc"/>
                     </constraints>
                     <variation key="default">
                         <mask key="constraints">
-                            <exclude reference="RYa-Vb-5dl"/>
+                            <exclude reference="Coo-GM-orc"/>
                         </mask>
                     </variation>
-                </view>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="55" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="3WK-ds-zQ9">
-                    <rect key="frame" x="0.0" y="192" width="600" height="348"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="Zwv-Td-3z6"/>
                         <outlet property="delegate" destination="-1" id="d33-Hy-Voj"/>
@@ -53,15 +34,12 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="3WK-ds-zQ9" secondAttribute="trailing" id="2KB-ex-ELR"/>
-                <constraint firstItem="3WK-ds-zQ9" firstAttribute="leading" secondItem="MH4-Eb-qle" secondAttribute="leading" id="U5S-yH-K1H"/>
-                <constraint firstAttribute="bottom" secondItem="3WK-ds-zQ9" secondAttribute="bottom" constant="60" id="VMs-mN-PnF"/>
-                <constraint firstItem="3WK-ds-zQ9" firstAttribute="trailing" secondItem="MH4-Eb-qle" secondAttribute="trailing" id="X4o-aH-fSI"/>
-                <constraint firstItem="MH4-Eb-qle" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="topMargin" id="YzZ-vq-DRd"/>
-                <constraint firstItem="3WK-ds-zQ9" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="jzg-pq-ZUY"/>
-                <constraint firstItem="3WK-ds-zQ9" firstAttribute="top" secondItem="MH4-Eb-qle" secondAttribute="bottom" id="rZG-Tb-7XR"/>
+                <constraint firstItem="3WK-ds-zQ9" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Knz-je-8PU"/>
+                <constraint firstAttribute="bottom" secondItem="3WK-ds-zQ9" secondAttribute="bottom" constant="60" id="PDV-bN-fQI"/>
+                <constraint firstItem="3WK-ds-zQ9" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="nQ0-13-sVI"/>
+                <constraint firstAttribute="trailing" secondItem="3WK-ds-zQ9" secondAttribute="trailing" id="tPE-mh-wbK"/>
             </constraints>
-            <point key="canvasLocation" x="242" y="177"/>
+            <point key="canvasLocation" x="462" y="554"/>
         </view>
     </objects>
 </document>

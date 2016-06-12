@@ -28,7 +28,7 @@ class SettingsViewController: UIViewController, UINavigationControllerDelegate,
     var palGeoPoint: PFGeoPoint?
     
     let sections = ["サポート", "Machinboいついて", " "]
-    let supportLabels = ["Machinboサポートサイト", "Twitter"]
+    let supportLabels = ["Twitter公式アカウント"]
     let appRuleLabels = ["サービス規約"]
     let otherLabels = ["アカウント削除"]
     
@@ -116,9 +116,6 @@ class SettingsViewController: UIViewController, UINavigationControllerDelegate,
             cell?.textLabel?.text = supportLabels[indexPath.row] as String
             
             if indexPath.row == 0 {
-                cell?.imageView?.image = UIImage(named: "logo_fb.png")
-                
-            } else if indexPath.row == 1 {
                 cell?.imageView?.image = UIImage(named: "logo_twitter.png")
             }
             
@@ -149,7 +146,7 @@ class SettingsViewController: UIViewController, UINavigationControllerDelegate,
     internal func tableView(table: UITableView, didSelectRowAtIndexPath indexPath:NSIndexPath) {
         if indexPath.section == 0 {
             if indexPath.row == 0 {
-                let url = NSURL(string: ConfigHelper.getPlistKey("FACEBOOK_LINK"))
+                let url = NSURL(string: ConfigHelper.getPlistKey("TWITTER_LINK"))
                 if UIApplication.sharedApplication().canOpenURL(url!){
                     UIApplication.sharedApplication().openURL(url!)
                 }

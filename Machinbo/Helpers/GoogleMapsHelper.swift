@@ -12,23 +12,35 @@ import GoogleMaps
 
 class GoogleMapsHelper {
 
-    class func setUserMarker(map: GMSMapView, userObjects: [PFObject]) {
+    class func setAnyUserMarker(map: GMSMapView, userObjects: [PFObject]) {
         
         for users in userObjects {
+            setUserMarker(map, user: users, isSelect: false)
+        }
+    }
+    
+    class func setUserMarker(map: GMSMapView, user: PFObject, isSelect: Bool) {
+        
+        let geoPoint : PFGeoPoint
+        if let tempGeopoint = (user.objectForKey("GPS") as? PFGeoPoint) {
+            geoPoint = tempGeopoint
             
-            let geoPoint : PFGeoPoint
-            if let tempGeopoint = (users.objectForKey("GPS") as? PFGeoPoint) {
-                geoPoint = tempGeopoint
-                
-            } else {
-                geoPoint = PFGeoPoint(latitude: 0, longitude: 0)
-            }
-
-            let marker = GMSMarker()
-            marker.position = CLLocationCoordinate2DMake(geoPoint.latitude, geoPoint.longitude)
-            marker.appearAnimation = kGMSMarkerAnimationPop
-            marker.map = map
-            marker.userData = users
+        } else {
+            geoPoint = PFGeoPoint(latitude: 0, longitude: 0)
+        }
+        
+        let marker = GMSMarker()
+        marker.position = CLLocationCoordinate2DMake(geoPoint.latitude, geoPoint.longitude)
+        marker.appearAnimation = kGMSMarkerAnimationPop
+        marker.map = map
+        marker.userData = user
+        
+        if isSelect {
+            let position = CLLocationCoordinate2D(latitude: geoPoint.latitude, longitude: geoPoint.longitude)
+            let camera = GMSCameraPosition(target: position, zoom: 13, bearing: 0, viewingAngle: 0)
+            
+            map.camera = camera
+//            map.selectedMarker = marker
         }
     }
 }

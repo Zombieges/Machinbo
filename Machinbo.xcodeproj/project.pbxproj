@@ -15,6 +15,12 @@
 		9484EBD81CC38B0300DEC7A4 /* ImakokoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9484EBD71CC38B0300DEC7A4 /* ImakokoViewController.swift */; };
 		9484EBDA1CC38BC800DEC7A4 /* AMReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9484EBD91CC38BC800DEC7A4 /* AMReachability.swift */; };
 		94A91D401CC448B1004E7652 /* MBProgressHUDHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A91D3F1CC448B1004E7652 /* MBProgressHUDHelper.swift */; };
+		BB1A1E5B1CE93B190090E72D /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB1A1E5A1CE93B190090E72D /* MessageUI.framework */; };
+		BB1A1E5D1CF515A90090E72D /* UserPolicy.txt in Resources */ = {isa = PBXBuildFile; fileRef = BB1A1E5C1CF515A90090E72D /* UserPolicy.txt */; };
+		BB1A1E631D0BD9A90090E72D /* pin.png in Resources */ = {isa = PBXBuildFile; fileRef = BB1A1E621D0BD9A90090E72D /* pin.png */; };
+		BB1A1E651D0D04530090E72D /* imaiku.png in Resources */ = {isa = PBXBuildFile; fileRef = BB1A1E641D0D04530090E72D /* imaiku.png */; };
+		BB36D8DB1D0D184E00266BB6 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB36D8DA1D0D184E00266BB6 /* LocationManager.swift */; };
+		BB36D8DD1D0D484B00266BB6 /* imadoko.png in Resources */ = {isa = PBXBuildFile; fileRef = BB36D8DC1D0D484B00266BB6 /* imadoko.png */; };
 		BB4B3E6F1B5A001200183F62 /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BB4B3E6E1B5A001200183F62 /* libstdc++.6.dylib */; };
 		BB4B3E701B5A009500183F62 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BBC3A3FD1B3E7C2B002CBBE9 /* libz.dylib */; };
 		BB4B3E721B5A009F00183F62 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB4B3E711B5A009F00183F62 /* Accounts.framework */; };
@@ -44,7 +50,6 @@
 		BB6FDDFE1C3E998000C366A2 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6FDDF81C3E998000C366A2 /* ProfileViewController.swift */; };
 		BB6FDDFF1C3E998000C366A2 /* TargetProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6FDDF91C3E998000C366A2 /* TargetProfileViewController.swift */; };
 		BB6FDE061C3E9D0D00C366A2 /* fukidashi.png in Resources */ = {isa = PBXBuildFile; fileRef = BB6FDE011C3E9D0D00C366A2 /* fukidashi.png */; };
-		BB6FDE071C3E9D0D00C366A2 /* imaiku.png in Resources */ = {isa = PBXBuildFile; fileRef = BB6FDE021C3E9D0D00C366A2 /* imaiku.png */; };
 		BB6FDE081C3E9D0D00C366A2 /* imakoko.png in Resources */ = {isa = PBXBuildFile; fileRef = BB6FDE031C3E9D0D00C366A2 /* imakoko.png */; };
 		BB6FDE091C3E9D0D00C366A2 /* photo.png in Resources */ = {isa = PBXBuildFile; fileRef = BB6FDE041C3E9D0D00C366A2 /* photo.png */; };
 		BB6FDE0A1C3E9D0D00C366A2 /* profile_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = BB6FDE051C3E9D0D00C366A2 /* profile_icon.png */; };
@@ -103,6 +108,13 @@
 		9484EBD71CC38B0300DEC7A4 /* ImakokoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImakokoViewController.swift; sourceTree = "<group>"; };
 		9484EBD91CC38BC800DEC7A4 /* AMReachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AMReachability.swift; sourceTree = "<group>"; };
 		94A91D3F1CC448B1004E7652 /* MBProgressHUDHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MBProgressHUDHelper.swift; sourceTree = "<group>"; };
+		BB1A1E5A1CE93B190090E72D /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		BB1A1E5C1CF515A90090E72D /* UserPolicy.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = UserPolicy.txt; sourceTree = "<group>"; };
+		BB1A1E621D0BD9A90090E72D /* pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pin.png; sourceTree = "<group>"; };
+		BB1A1E641D0D04530090E72D /* imaiku.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imaiku.png; sourceTree = "<group>"; };
+		BB36D8DA1D0D184E00266BB6 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		BB36D8DC1D0D484B00266BB6 /* imadoko.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imadoko.png; sourceTree = "<group>"; };
+		BB36D8DE1D0D57A100266BB6 /* Bridging_Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bridging_Header.h; sourceTree = "<group>"; };
 		BB4B3E6E1B5A001200183F62 /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
 		BB4B3E711B5A009F00183F62 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		BB4B3E731B5A00A600183F62 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
@@ -132,7 +144,6 @@
 		BB6FDDF81C3E998000C366A2 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		BB6FDDF91C3E998000C366A2 /* TargetProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TargetProfileViewController.swift; sourceTree = "<group>"; };
 		BB6FDE011C3E9D0D00C366A2 /* fukidashi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fukidashi.png; sourceTree = "<group>"; };
-		BB6FDE021C3E9D0D00C366A2 /* imaiku.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imaiku.png; sourceTree = "<group>"; };
 		BB6FDE031C3E9D0D00C366A2 /* imakoko.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imakoko.png; sourceTree = "<group>"; };
 		BB6FDE041C3E9D0D00C366A2 /* photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = photo.png; sourceTree = "<group>"; };
 		BB6FDE051C3E9D0D00C366A2 /* profile_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profile_icon.png; sourceTree = "<group>"; };
@@ -178,6 +189,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BB1A1E5B1CE93B190090E72D /* MessageUI.framework in Frameworks */,
 				BB87AD901CDB14C5003973D7 /* SafariServices.framework in Frameworks */,
 				BB4B3E741B5A00A600183F62 /* Social.framework in Frameworks */,
 				BB4B3E721B5A009F00183F62 /* Accounts.framework in Frameworks */,
@@ -217,6 +229,7 @@
 		69873D646BC5E4EA93DB1322 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BB1A1E5A1CE93B190090E72D /* MessageUI.framework */,
 				BB87AD8F1CDB14C5003973D7 /* SafariServices.framework */,
 				BB6BE7B21C4B8407004BD903 /* SCLAlertView.framework */,
 				BB4B3E731B5A00A600183F62 /* Social.framework */,
@@ -290,7 +303,9 @@
 		9409F7871B2D994D0069DAE8 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				BB36D8DE1D0D57A100266BB6 /* Bridging_Header.h */,
 				94755CFA1B5A1084004FDEBC /* Info.plist */,
+				BB1A1E5C1CF515A90090E72D /* UserPolicy.txt */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -339,6 +354,7 @@
 				BB6FDDD01C3E952700C366A2 /* ParseHelper.swift */,
 				BB6FDDD11C3E952700C366A2 /* PersistentData.swift */,
 				BB6FDDD21C3E952700C366A2 /* UIAlertView+Custom.swift */,
+				BB36D8DA1D0D184E00266BB6 /* LocationManager.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -381,12 +397,14 @@
 		BB6FDE001C3E9D0D00C366A2 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				BB1A1E621D0BD9A90090E72D /* pin.png */,
+				BB36D8DC1D0D484B00266BB6 /* imadoko.png */,
 				BBD3535B1CDDD517007B1A1C /* logo_fb.png */,
 				BBD353591CDDD4E2007B1A1C /* logo_twitter.png */,
+				BB1A1E641D0D04530090E72D /* imaiku.png */,
 				BBD353531CDCF8F0007B1A1C /* santen.png */,
 				BB6FDE121C43C1F200C366A2 /* reload.png */,
 				BB6FDE011C3E9D0D00C366A2 /* fukidashi.png */,
-				BB6FDE021C3E9D0D00C366A2 /* imaiku.png */,
 				BB6FDE031C3E9D0D00C366A2 /* imakoko.png */,
 				BB6FDE041C3E9D0D00C366A2 /* photo.png */,
 				BB6FDE051C3E9D0D00C366A2 /* profile_icon.png */,
@@ -503,9 +521,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				BB6FDDED1C3E97E100C366A2 /* MarkWindow.xib in Resources */,
-				BB6FDE071C3E9D0D00C366A2 /* imaiku.png in Resources */,
+				BB1A1E5D1CF515A90090E72D /* UserPolicy.txt in Resources */,
 				BB6FDDEA1C3E97E100C366A2 /* GoNowTableViewCell.xib in Resources */,
+				BB1A1E651D0D04530090E72D /* imaiku.png in Resources */,
 				BB6FDE0A1C3E9D0D00C366A2 /* profile_icon.png in Resources */,
+				BB36D8DD1D0D484B00266BB6 /* imadoko.png in Resources */,
 				BBD353541CDCF8F0007B1A1C /* santen.png in Resources */,
 				BB6FDDF21C3E97E100C366A2 /* TargetProfileView.xib in Resources */,
 				BBD3535C1CDDD517007B1A1C /* logo_fb.png in Resources */,
@@ -526,6 +546,7 @@
 				BBA5C4961B3545D4005D062B /* GoogleMaps.bundle in Resources */,
 				BB6FDDEF1C3E97E100C366A2 /* ProfileView.xib in Resources */,
 				BB6FDDEB1C3E97E100C366A2 /* MapView.xib in Resources */,
+				BB1A1E631D0BD9A90090E72D /* pin.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -611,6 +632,7 @@
 				BB6FDDC71C3E92FD00C366A2 /* ZFRippleButton.swift in Sources */,
 				9484EBD81CC38B0300DEC7A4 /* ImakokoViewController.swift in Sources */,
 				BB6FDDCB1C3E934F00C366A2 /* LayoutManager.swift in Sources */,
+				BB36D8DB1D0D184E00266BB6 /* LocationManager.swift in Sources */,
 				BB6FDDD51C3E952700C366A2 /* ParseHelper.swift in Sources */,
 				BB6FDDD61C3E952700C366A2 /* PersistentData.swift in Sources */,
 				94A91D401CC448B1004E7652 /* MBProgressHUDHelper.swift in Sources */,
@@ -790,6 +812,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "$(SRCROOT)/$(PRODUCT)Machinbo/Bridging_Header.h";
 			};
 			name = Debug;
 		};

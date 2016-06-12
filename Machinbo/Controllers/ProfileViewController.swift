@@ -28,10 +28,11 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
     @IBOutlet weak var startButton: ZFRippleButton!
     @IBOutlet weak var TableView: UITableView!
     
-    let photoItems: [String] = ["フォト"]
-    let otherItems: [String] = ["名前", "性別", "生まれた年", "プロフィール"]
+    let photoItems = ["フォト"]
+    let profileItems = ["名前", "性別", "生まれた年", "プロフィール"]
+    var otherItems = ["登録時間", "場所", "特徴"]
     
-    let sections: NSArray = ["プロフィール"]
+    let sections = ["プロフィール", "待ち合わせ情報"]
     
     var mainNavigationCtrl: UINavigationController?
     var picker: UIImagePickerController?
@@ -111,7 +112,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
         
         if self.isInternetConnect() {
             //広告を表示
-            self.showAdmob(AdmobType.Full)
+            self.showAdmob(AdmobType.standard)
         }
     }
     
@@ -217,13 +218,25 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
     */
     internal func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return otherItems.count
+        if section == 0 {
+            return profileItems.count
+            
+        } else if section == 1 {
+            return otherItems.count
+        }
+        
+        return 0
     }
     
     /*
     セクションの数を返す.
     */
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        
+        if PersistentData.User().userID == "" {
+            return 1
+        }
+        
         return sections.count
     }
     
@@ -231,7 +244,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
     セクションのタイトルを返す.
     */
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sections[section] as? String
+        return sections[section]
     }
     /*
     Cellに値を設定する.
@@ -258,15 +271,15 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
                 }
                 
                 if indexPath.row == 0 {
-                    normalCell?.textLabel?.text = otherItems[indexPath.row]
+                    normalCell?.textLabel?.text = profileItems[indexPath.row]
                     normalCell?.detailTextLabel?.text = inputName as String
                     
                 } else if indexPath.row == 1 {
-                    normalCell?.textLabel?.text = otherItems[indexPath.row]
+                    normalCell?.textLabel?.text = profileItems[indexPath.row]
                     normalCell?.detailTextLabel?.text = selectedGender as String
                     
                 } else if indexPath.row == 2 {
-                    normalCell?.textLabel?.text = otherItems[indexPath.row]
+                    normalCell?.textLabel?.text = profileItems[indexPath.row]
                     normalCell?.detailTextLabel?.text = selectedAge as String
                     
                 }
@@ -280,10 +293,49 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
                 
                 if indexPath.row == 3 {
                     
-                    detailCell?.titleLabel.text = otherItems[indexPath.row]
+                    detailCell?.titleLabel.text = profileItems[indexPath.row]
                     detailCell?.valueLabel.text = inputComment as String
                     
                 }
+                
+                cell = detailCell
+            }
+        
+        } else if indexPath.section == 1 {
+            
+            var normalCell = tableView.dequeueReusableCellWithIdentifier(tableViewCellIdentifier)
+            if normalCell == nil { // 再利用するセルがなかったら（不足していたら）
+                // セルを新規に作成する。
+                normalCell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: tableViewCellIdentifier)
+            }
+            
+            let userData = PersistentData.User()
+            
+            if indexPath.row == 0 {
+                
+                normalCell?.textLabel?.text = otherItems[indexPath.row]
+                
+                let dateFormatter = NSDateFormatter();
+                dateFormatter.dateFormat = "yyyy年M月d日 H:m"
+                let formatDateString = userData.insertTime
+                
+                normalCell?.detailTextLabel?.text = formatDateString
+                
+                cell = normalCell
+                
+            } else if indexPath.row == 1 {
+                let detailCell = tableView.dequeueReusableCellWithIdentifier(detailTableViewCellIdentifier, forIndexPath: indexPath) as? DetailProfileTableViewCell
+                
+                detailCell?.titleLabel.text = otherItems[indexPath.row]
+                detailCell?.valueLabel.text = userData.place
+                
+                cell = detailCell
+                
+            } else if indexPath.row == 2 {
+                let detailCell = tableView.dequeueReusableCellWithIdentifier(detailTableViewCellIdentifier, forIndexPath: indexPath) as? DetailProfileTableViewCell
+                
+                detailCell?.titleLabel.text = otherItems[indexPath.row]
+                detailCell?.valueLabel.text = userData.mychar
                 
                 cell = detailCell
             }
@@ -299,11 +351,11 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
         let vc = PickerViewController()
         
         if PersistentData.User().userID != "" {
-            if indexPath.row == 1 {
+            if indexPath.section  == 0 && indexPath.row == 1 {
                 UIAlertView.showAlertDismiss("", message: "性別は変更することができません") {}
                 return
                 
-            } else if indexPath.row == 2 {
+            } else if indexPath.section  == 0 && indexPath.row == 2 {
                 UIAlertView.showAlertDismiss("", message: "生まれた年は変更することができません") {}
                 return
             }
@@ -414,8 +466,11 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
         
         let newRootVC = MapViewController()
         let navigationController = UINavigationController(rootViewController: newRootVC)
-        navigationController.navigationBar.barTintColor = LayoutManager.getUIColorFromRGB(0x3949AB)
         navigationController.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
+        navigationController.navigationBar.barTintColor = UIColor.hex("2F469C", alpha: 1)
+        navigationController.navigationBar.translucent = false
+        navigationController.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        navigationController.navigationBar.shadowImage = UIImage()
         UIApplication.sharedApplication().keyWindow?.rootViewController = navigationController
         
         MBProgressHUDHelper.hide()

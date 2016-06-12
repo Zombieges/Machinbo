@@ -40,32 +40,87 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         }
         
         if self.isInternetConnect() {
-            startBackgroundLocationUpdates()
+            let center = NSNotificationCenter.defaultCenter() as NSNotificationCenter
+            
+            LocationManager.sharedInstance.startUpdatingLocation()
+            center.addObserver(self, selector: #selector(MapViewController.foundLocation(_:)), name: LMLocationUpdateNotification as String, object: nil)
         }
     }
     
-    func startBackgroundLocationUpdates() {
-        lm = CLLocationManager()
-        lm.delegate = self
-        lm.requestWhenInUseAuthorization()
-        lm.desiredAccuracy = kCLLocationAccuracyThreeKilometers
-        lm.pausesLocationUpdatesAutomatically = true
-        if #available(iOS 9.0, *) {
-            lm.allowsBackgroundLocationUpdates = true
-        } else {
-            // Fallback on earlier versions
+    func foundLocation(notif: NSNotification) {
+        
+        //MBProgressHUDHelper.show("Loading...")
+        
+        
+        let info = notif.userInfo as NSDictionary!
+        var location = info[LMLocationInfoKey] as! CLLocation
+        
+        latitude = location.coordinate.latitude
+        longitude = location.coordinate.longitude
+        
+        NSLog("位置情報取得成功！-> latiitude: \(latitude) , longitude: \(longitude)")
+        
+        //現在位置
+        let myPosition = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        let camera = GMSCameraPosition(target: myPosition, zoom: 13, bearing: 0, viewingAngle: 0)
+        
+        var gmaps = GMSMapView()
+        gmaps.frame = CGRectMake(0, 20, self.view.frame.width, self.view.frame.height/2)
+        gmaps.myLocationEnabled = true
+        gmaps.settings.myLocationButton = true
+        gmaps.camera = camera
+        gmaps.delegate = self
+        
+        gmaps.animateToLocation(myPosition)
+        
+        self.view = gmaps
+        
+        FeedData.mainData().refreshMapFeed(myPosition) { () -> () in
+            defer {
+                MBProgressHUDHelper.hide()
+            }
+            
+            //ユーザマーカーを表示
+            GoogleMapsHelper.setAnyUserMarker(gmaps, userObjects: FeedData.mainData().feedItems)
+            //広告表示
+            self.showAdmob(AdmobType.Full)
         }
         
-        // セキュリティ認証のステータスを取得
-        let status = CLLocationManager.authorizationStatus()
-        if status == .NotDetermined {
-            // まだ承認が得られていない場合は、認証ダイアログを表示
-            lm.requestWhenInUseAuthorization()
-        }
+        //manager.stopUpdatingLocation()
+        //lm.stopUpdatingLocation()
+//        if #available(iOS 9.0, *) {
+//            lm.allowsBackgroundLocationUpdates = false
+//        } else {
+//            // Fallback on earlier versions
+//        }
         
-        lm.startUpdatingLocation()
+        //button 生成
+        createNavigationItem()
+        createupdateGeoPointButton()
     }
     
+//    func startBackgroundLocationUpdates() {
+//        lm = CLLocationManager()
+//        lm.delegate = self
+//        lm.requestWhenInUseAuthorization()
+//        lm.desiredAccuracy = kCLLocationAccuracyThreeKilometers
+//        lm.pausesLocationUpdatesAutomatically = true
+//        if #available(iOS 9.0, *) {
+//            lm.allowsBackgroundLocationUpdates = true
+//        } else {
+//            // Fallback on earlier versions
+//        }
+//        
+//        // セキュリティ認証のステータスを取得
+//        let status = CLLocationManager.authorizationStatus()
+//        if status == .NotDetermined {
+//            // まだ承認が得られていない場合は、認証ダイアログを表示
+//            lm.requestWhenInUseAuthorization()
+//        }
+//        
+//        lm.startUpdatingLocation()
+//    }
+//    
     func createupdateGeoPointButton() {
         //GeoPoint 更新ボタン
         let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 150, height: 40))
@@ -112,71 +167,76 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     }
     
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        
-        //MBProgressHUDHelper.show("Loading...")
-        
-        latitude = locations.first!.coordinate.latitude
-        longitude = locations.first!.coordinate.longitude
-        
-        NSLog("位置情報取得成功！-> latiitude: \(latitude) , longitude: \(longitude)")
-        
-        //現在位置
-        let myPosition = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-        let camera = GMSCameraPosition(target: myPosition, zoom: 13, bearing: 0, viewingAngle: 0)
-        
-        var gmaps = GMSMapView()
-        gmaps.frame = CGRectMake(0, 20, self.view.frame.width, self.view.frame.height/2)
-        gmaps.myLocationEnabled = true
-        gmaps.settings.myLocationButton = true
-        gmaps.camera = camera
-        gmaps.delegate = self
-        
-        self.view = gmaps
-        
-        FeedData.mainData().refreshMapFeed(myPosition) { () -> () in
-            defer {
-                MBProgressHUDHelper.hide()
-            }
-            
-            //ユーザマーカーを表示
-            GoogleMapsHelper.setUserMarker(gmaps, userObjects: FeedData.mainData().feedItems)
-            //広告表示
-            self.showAdmob(AdmobType.Full)
-        }
-        
-        //manager.stopUpdatingLocation()
-        lm.stopUpdatingLocation()
-        if #available(iOS 9.0, *) {
-            lm.allowsBackgroundLocationUpdates = false
-        } else {
-            // Fallback on earlier versions
-        }
-        
-        //button 生成
-        createNavigationItem()
-        createupdateGeoPointButton()
-    }
-    
+//    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+//        
+//        //MBProgressHUDHelper.show("Loading...")
+//        
+//        latitude = locations.first!.coordinate.latitude
+//        longitude = locations.first!.coordinate.longitude
+//        
+//        NSLog("位置情報取得成功！-> latiitude: \(latitude) , longitude: \(longitude)")
+//        
+//        //現在位置
+//        let myPosition = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+//        let camera = GMSCameraPosition(target: myPosition, zoom: 13, bearing: 0, viewingAngle: 0)
+//        
+//        
+//        var gmaps = GMSMapView()
+//        gmaps.frame = CGRectMake(0, 20, self.view.frame.width, self.view.frame.height/2)
+//        gmaps.myLocationEnabled = true
+//        gmaps.settings.myLocationButton = true
+//        gmaps.camera = camera
+//        gmaps.delegate = self
+//        
+//        gmaps.animateToLocation(myPosition)
+//        
+//        self.view = gmaps
+//        
+//        FeedData.mainData().refreshMapFeed(myPosition) { () -> () in
+//            defer {
+//                MBProgressHUDHelper.hide()
+//            }
+//            
+//            //ユーザマーカーを表示
+//            GoogleMapsHelper.setAnyUserMarker(gmaps, userObjects: FeedData.mainData().feedItems)
+//            //広告表示
+//            self.showAdmob(AdmobType.Full)
+//        }
+//        
+//        //manager.stopUpdatingLocation()
+//        lm.stopUpdatingLocation()
+//        if #available(iOS 9.0, *) {
+//            lm.allowsBackgroundLocationUpdates = false
+//        } else {
+//            // Fallback on earlier versions
+//        }
+//        
+//        //button 生成
+//        createNavigationItem()
+//        createupdateGeoPointButton()
+//    }
+//    
     func createNavigationItem() {
         
         //◆プロフィール画面
         let profileViewButton: UIButton = UIButton(type: UIButtonType.Custom)
         profileViewButton.setImage(UIImage(named: "profile_icon.png"), forState: UIControlState.Normal)
-        profileViewButton.titleLabel?.font = UIFont.systemFontOfSize(11)
+        profileViewButton.titleLabel?.font = UIFont.systemFontOfSize(10)
         profileViewButton.setTitle("設定", forState: UIControlState.Normal)
         profileViewButton.addTarget(self, action: #selector(MapViewController.onClickProfileView), forControlEvents: UIControlEvents.TouchUpInside)
         profileViewButton.frame = CGRectMake(0, 0, 60, 53)
+        profileViewButton.imageView?.contentMode = .ScaleAspectFit
         profileViewButton.imageEdgeInsets = UIEdgeInsetsMake(-25, 17, 0, 0)
         profileViewButton.titleEdgeInsets = UIEdgeInsetsMake(22, -22, 0, 0)
         
         //create a new button
         let imakokoViewButton: UIButton = UIButton(type: UIButtonType.Custom)
         imakokoViewButton.setImage(UIImage(named: "imakoko.png"), forState: UIControlState.Normal)
-        imakokoViewButton.titleLabel?.font = UIFont.systemFontOfSize(11)
-        imakokoViewButton.setTitle("いま来る", forState: UIControlState.Normal)
+        imakokoViewButton.titleLabel?.font = UIFont.systemFontOfSize(10)
+        imakokoViewButton.setTitle("いま来る", forState: .Normal)
         imakokoViewButton.addTarget(self, action: #selector(MapViewController.onClickGoNowListView), forControlEvents: UIControlEvents.TouchUpInside)
         imakokoViewButton.frame = CGRectMake(0, 0, 60, 53)
+        imakokoViewButton.imageView?.contentMode = .ScaleAspectFit
         imakokoViewButton.imageEdgeInsets = UIEdgeInsetsMake(-25, 17, 0, 0)
         imakokoViewButton.titleEdgeInsets = UIEdgeInsetsMake(22, -22, 0, 0)
         
@@ -188,11 +248,12 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         //いまいくボタンを押下したら表示するようにする？
         let imaikuViewButton: UIButton = UIButton(type: UIButtonType.Custom)
         imaikuViewButton.setImage(UIImage(named: "imaiku.png"), forState: UIControlState.Normal)
-        imaikuViewButton.titleLabel?.font = UIFont.systemFontOfSize(11)
+        imaikuViewButton.titleLabel?.font = UIFont.systemFontOfSize(10)
         imaikuViewButton.setTitle("いま行く", forState: UIControlState.Normal)
         imaikuViewButton.sizeToFit()
         imaikuViewButton.addTarget(self, action: #selector(MapViewController.onClickGoNowView), forControlEvents: UIControlEvents.TouchUpInside)
         imaikuViewButton.frame = CGRectMake(0, 0, 60, 53)
+        imaikuViewButton.imageView?.contentMode = .ScaleAspectFit
         imaikuViewButton.imageEdgeInsets = UIEdgeInsetsMake(-25, 17, 0, 0)
         imaikuViewButton.titleEdgeInsets = UIEdgeInsetsMake(22, -22, 0, 0)
         
@@ -205,10 +266,11 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         //リロード
         let reloadButton: UIButton = UIButton(type: UIButtonType.Custom)
         reloadButton.setImage(UIImage(named: "reload.png"), forState: UIControlState.Normal)
-        reloadButton.titleLabel?.font = UIFont.systemFontOfSize(11)
+        reloadButton.titleLabel?.font = UIFont.systemFontOfSize(10)
         reloadButton.setTitle("リロード", forState: UIControlState.Normal)
         reloadButton.addTarget(self, action: #selector(MapViewController.onClickReload), forControlEvents: UIControlEvents.TouchUpInside)
         reloadButton.frame = CGRectMake(0, 0, 60, 53)
+        reloadButton.imageView?.contentMode = .ScaleAspectFit
         reloadButton.imageEdgeInsets = UIEdgeInsetsMake(-25, 17, 0, 0)
         reloadButton.titleEdgeInsets = UIEdgeInsetsMake(22, -22, 0, 0)
         
@@ -312,76 +374,62 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
                 MBProgressHUDHelper.hide()
             }
             
-            guard error == nil else {
+            guard let goNowObj = result else {
+                UIAlertView.showAlertDismiss("", message: "いまから行く人が登録されていません") { () -> () in }
                 return
             }
             
-            if let goNowObj: AnyObject = result {
-                
-                let targetUserInfo = goNowObj.objectForKey("TargetUser") as? PFObject
-                
-                guard targetUserInfo != nil else {
-                    targetUserInfo!.deleteInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+            let targetUserInfo = goNowObj.objectForKey("TargetUser") as? PFObject
+            
+            guard targetUserInfo != nil else {
+                targetUserInfo!.deleteInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
 
-                        guard success else {
-                            print("削除エラー")
-                            return
-                        }
-
-                        goNowObj.deleteInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
-                            defer {
-                                MBProgressHUDHelper.hide()
-                            }
-
-                            guard success else {
-                                print("削除エラー")
-                                return
-                            }
-                            
-                            PersistentData.deleteUserIDForKey("imaikuFlag")
-                            UIAlertView.showAlertDismiss("", message: "いまから行く人のアカウントが削除されています") { () -> () in }
-                        }
+                    guard success else {
+                        print("削除エラー")
+                        return
                     }
-                    
-                    return
-                }
-                
-                let targetGPS = goNowObj.objectForKey("TargetGPS") as? PFGeoPoint
-                let targetNowGPS = targetUserInfo?.objectForKey("GPS") as? PFGeoPoint
-                
-                guard targetGPS == targetNowGPS else {
-                    print("GPS一致しません！")
+
                     goNowObj.deleteInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
                         defer {
                             MBProgressHUDHelper.hide()
                         }
 
                         guard success else {
+                            print("削除エラー")
                             return
                         }
-
+                        
                         PersistentData.deleteUserIDForKey("imaikuFlag")
-                        UIAlertView.showAlertDismiss("", message: "いまから行く人の位置情報が削除されています") { () -> () in }
+                        UIAlertView.showAlertDismiss("", message: "いまから行く人のアカウントが削除されています") { () -> () in }
                     }
-                    
-                    return
                 }
                 
-                let vc = TargetProfileViewController(type: ProfileType.ImaikuTargetProfile)
-                vc.targetObjectID = goNowObj.objectId
-                vc.userInfo = targetUserInfo!
-                self.navigationController!.pushViewController(vc, animated: true)
-                
-            } else {
-                
-                UIAlertView.showAlertDismiss("", message: "いまから行く人が登録されていません") { () -> () in }
+                return
+            }
+            
+            let vc = TargetProfileViewController(type: ProfileType.ImaikuTargetProfile)
+            vc.targetObjectID = goNowObj.objectId
+            vc.userInfo = targetUserInfo!
+            
+            self.navigationController!.pushViewController(vc, animated: true)
+            
+            
+            let userUpdateAt = targetUserInfo?.updatedAt
+            let imakokoAt = goNowObj.objectForKey("imakokoAt") as? NSDate
+            
+            if userUpdateAt != imakokoAt {
+                UIAlertView.showAlertDismiss("", message: "いまから行く人の位置情報が変更されています") { () -> () in }
             }
         }
     }
     
     //更新
     func onClickReload() {
-        lm.startUpdatingLocation()
+        let center = NSNotificationCenter.defaultCenter() as NSNotificationCenter
+        
+        LocationManager.sharedInstance.startUpdatingLocation()
+        center.addObserver(self, selector: #selector(MapViewController.foundLocation(_:)), name: LMLocationUpdateNotification as String, object: nil)
+        
         //UIAlertView.showAlertDismiss("", message: "マップを更新しました") { () -> () in }
     }
     

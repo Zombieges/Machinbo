@@ -10,23 +10,16 @@ import Foundation
 import UIKit
 
 class PersistentData {
-
-    class var firstLaunch : Bool {
-        get {
-            return NSUserDefaults.standardUserDefaults().boolForKey("firstLaunch") ?? false
-        }
-        set {
-            NSUserDefaults.standardUserDefaults().setBool(firstLaunch, forKey: "firstLaunch")
-            NSUserDefaults.standardUserDefaults().synchronize()
-        }
-    }
     
     class func deleteUserID() {
         // 保存データを全削除
         let userDefault = NSUserDefaults.standardUserDefaults()
         userDefault.removeObjectForKey("userID")
-        userDefault.removeObjectForKey("imakokoFlag")
         userDefault.removeObjectForKey("imaikuFlag")
+        
+        userDefault.removeObjectForKey("insertTime")
+        userDefault.removeObjectForKey("place")
+        userDefault.removeObjectForKey("mychar")
         
         userDefault.synchronize()
         
@@ -105,6 +98,33 @@ class PersistentData {
                 NSUserDefaults.standardUserDefaults().synchronize()
             }
         }
+        var insertTime : String {
+            get {
+                return NSUserDefaults.standardUserDefaults().stringForKey("insertTime") ?? ""
+            }
+            set {
+                NSUserDefaults.standardUserDefaults().setObject(newValue , forKey: "insertTime")
+                NSUserDefaults.standardUserDefaults().synchronize() 
+            }
+        }
+        var place : String {
+            get {
+                return NSUserDefaults.standardUserDefaults().stringForKey("place") ?? ""
+            }
+            set {
+                NSUserDefaults.standardUserDefaults().setObject(newValue , forKey: "place")
+                NSUserDefaults.standardUserDefaults().synchronize()
+            }
+        }
+        var mychar : String {
+            get {
+                return NSUserDefaults.standardUserDefaults().stringForKey("mychar") ?? ""
+            }
+            set {
+                NSUserDefaults.standardUserDefaults().setObject(newValue , forKey: "mychar")
+                NSUserDefaults.standardUserDefaults().synchronize()
+            }
+        }
         var imaikuFlag: Bool {
             get {
                 return NSUserDefaults.standardUserDefaults().boolForKey("imaikuFlag") ?? false
@@ -115,12 +135,12 @@ class PersistentData {
             }
         }
         
-        var imakokoFlag: Bool {
+        var location: Bool {
             get {
-                return NSUserDefaults.standardUserDefaults().boolForKey("imakokoFlag") ?? false
+                return NSUserDefaults.standardUserDefaults().boolForKey("location") ?? false
             }
             set {
-                NSUserDefaults.standardUserDefaults().setBool(newValue , forKey: "imakokoFlag")
+                NSUserDefaults.standardUserDefaults().setBool(newValue , forKey: "location")
                 NSUserDefaults.standardUserDefaults().synchronize()
             }
         }

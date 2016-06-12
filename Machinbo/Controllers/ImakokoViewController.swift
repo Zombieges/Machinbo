@@ -181,6 +181,16 @@ class ImakokoViewController: UIViewController, UINavigationControllerDelegate,
                     return
                 }
                 
+                //local db に保存
+                var userData = PersistentData.User()
+                
+                let dateFormatter = NSDateFormatter()
+                dateFormatter.dateFormat = "yyyy年M月d日 H:m"
+                userData.insertTime = dateFormatter.stringFromDate(NSDate())
+                
+                userData.place = self.inputPlace
+                userData.mychar = self.inputChar
+                
                 //Alert
                 UIAlertView.showAlertDismiss("", message: "現在位置を登録しました") { () -> () in
                     

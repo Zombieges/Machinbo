@@ -1,4 +1,4 @@
-    //
+        //
 //  ParseHelper.swift
 //  Machinbo
 //
@@ -65,7 +65,7 @@ class ParseHelper {
         let query = PFQuery(className: "GoNow")
         query.whereKey("TargetUserID", equalTo: loginUser)
         query.includeKey("User")//UserInfoのPointerから情報を取得
-        query.orderByAscending("createdAt")
+        query.orderByAscending("updatedAt")
         query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
             if error == nil {
                 completion?(withError: error, result: objects)
@@ -153,6 +153,8 @@ class ParseHelper {
             
             guard let theResult = result else {
                 MBProgressHUDHelper.hide()
+                //local db の削除
+                PersistentData.deleteUserID()
                 return
             }
             
@@ -162,7 +164,7 @@ class ParseHelper {
                     return
                 }
                 
-                //ローカルDBの削除
+                //local db の削除
                 PersistentData.deleteUserID()
                 completion()
             }

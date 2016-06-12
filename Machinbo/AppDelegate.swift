@@ -10,6 +10,7 @@
  import GoogleMaps
  import Parse
  import Bolts
+ import AWSSNS
  
  @UIApplicationMain
  class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -45,9 +46,14 @@
         
         mainNavigationCtrl = UINavigationController(rootViewController: firstViewController)
         //#303F9F
-        mainNavigationCtrl!.navigationBar.barTintColor = UIColor.hex("303F9F", alpha: 1)
+        
+        //TODO:背景色を白にする
+        mainNavigationCtrl!.navigationBar.barTintColor = UIColor.hex("2F469C", alpha: 1)
         mainNavigationCtrl!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
         mainNavigationCtrl!.navigationBar.tintColor = UIColor.whiteColor()
+        mainNavigationCtrl!.navigationBar.translucent = false
+        mainNavigationCtrl!.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        mainNavigationCtrl!.navigationBar.shadowImage = UIImage()
         
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
         self.window?.rootViewController = mainNavigationCtrl
@@ -58,6 +64,42 @@
     
     func cycleTheGlobalMailComposer() {
         
+    }
+    
+    func application( application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData ){
+        
+        // Sets up the AWS Mobile SDK for iOS
+        let removingCharacterSet:NSCharacterSet = NSCharacterSet(charactersInString: "<>")
+        
+        let deviceTokenAsString:String = (deviceToken.description as NSString).stringByTrimmingCharactersInSet(removingCharacterSet).stringByReplacingOccurrencesOfString(" ", withString: "") as String
+        
+        print("Device token = \(deviceTokenAsString)")
+        
+        //
+        // SET UP AWS CONGNITO
+        //
+        let poolId = ConfigHelper.getPlistKey("AWS_CONGNITO") as String
+        let awsCredentialsProvider = AWSCognitoCredentialsProvider(regionType: .APNortheast1, identityPoolId: poolId)
+        
+        let defaultAwsServiceConfiguration = AWSServiceConfiguration(region: .APNortheast1, credentialsProvider: awsCredentialsProvider)
+        AWSServiceManager.defaultServiceManager().defaultServiceConfiguration = defaultAwsServiceConfiguration
+        
+        //
+        // AWS SNS
+        //
+        let sns = AWSSNS.defaultSNS()
+        let snsRequest = AWSSNSCreatePlatformEndpointInput()
+        snsRequest.token = deviceTokenAsString
+        snsRequest.platformApplicationArn = ConfigHelper.getPlistKey("AWS_SNS") as String
+        sns.createPlatformEndpoint(snsRequest) { (AwsSnsEndPoint:AWSSNSCreateEndpointResponse?, error:NSError?) in
+            if error != nil {
+                print("Failed to create SNS endpoint:\(error?.description)")
+            } else {
+                if let createdSnsEndpoint = AwsSnsEndPoint {
+                    print("created Endpoint is \(createdSnsEndpoint.endpointArn)")
+                }
+            }
+        }
     }
     
     func applicationWillResignActive(application: UIApplication) {

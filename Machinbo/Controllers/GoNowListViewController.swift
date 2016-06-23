@@ -98,11 +98,17 @@ class GoNowListViewController: UIViewController,
         gonowCell?.valueLabel.text = gonow.objectForKey("User")?.objectForKey("Comment") as? String
         
         let dateFormatter = NSDateFormatter();
-        dateFormatter.dateFormat = "yyyy年M月d日 H:m"
-        let formatDateString = dateFormatter.stringFromDate(gonow.createdAt as NSDate!)
-        gonowCell?.entryTime.text = formatDateString
+        dateFormatter.dateFormat = "yyyy年M月d日 H:mm"
         
-        gonowCell?.gonowTime.text = gonow.objectForKey("GotoTime") as! String + "後"
+        //currentCalendarは和暦使用していると困る
+        let calendar = NSCalendar(identifier: NSCalendarIdentifierGregorian)!
+        let gotoAtMinute = Int(gonow.objectForKey("GotoTime") as! String)!
+        let createdAtDate = gonow.createdAt as NSDate!
+        let arriveTime = calendar.dateByAddingUnit(.Minute, value: gotoAtMinute, toDate: createdAtDate, options: NSCalendarOptions())!
+
+        gonowCell?.entryTime.text = dateFormatter.stringFromDate(arriveTime)
+        
+        //gonowCell?.gonowTime.text = gonow.objectForKey("GotoTime") as! String + "分後"
         
         return gonowCell!
     }

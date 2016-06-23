@@ -21,7 +21,7 @@
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="wlD-MU-s9a"/>
                     </constraints>
-                    <state key="normal" title="いまココですボタン">
+                    <state key="normal" title="待ち合わせ場所登録">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -40,8 +40,8 @@
                         <action selector="imaikuButton:" destination="-1" eventType="touchUpInside" id="dCP-4A-8Bp"/>
                     </connections>
                 </button>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" sectionIndexMinimumDisplayRowCount="4" rowHeight="120" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="B2F-vt-9rc">
-                    <rect key="frame" x="0.0" y="62" width="600" height="260"/>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" sectionIndexMinimumDisplayRowCount="4" rowHeight="120" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="B2F-vt-9rc">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="260"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="260" id="lES-Z3-mTz"/>
@@ -59,7 +59,7 @@
                 <constraint firstItem="B2F-vt-9rc" firstAttribute="leading" secondItem="NfN-WM-bC4" secondAttribute="leading" id="Lzb-cn-odO"/>
                 <constraint firstAttribute="trailing" secondItem="B2F-vt-9rc" secondAttribute="trailing" id="RXw-HJ-N0A"/>
                 <constraint firstItem="vRk-kq-rGR" firstAttribute="top" secondItem="B2F-vt-9rc" secondAttribute="bottom" constant="10" id="Xjp-GB-o6w"/>
-                <constraint firstItem="B2F-vt-9rc" firstAttribute="top" secondItem="NfN-WM-bC4" secondAttribute="top" constant="60" id="ec7-Ty-BgP"/>
+                <constraint firstItem="B2F-vt-9rc" firstAttribute="top" secondItem="NfN-WM-bC4" secondAttribute="top" id="ec7-Ty-BgP"/>
             </constraints>
         </view>
     </objects>

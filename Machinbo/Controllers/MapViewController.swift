@@ -301,6 +301,8 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
             self.markWindow.Detail.text = marker.userData!.objectForKey("PlaceDetail") as? String
             self.markWindow.Detail.sizeToFit()
             
+            self.markWindow.timeAgoText.text = marker.userData!.updatedAt!!.relativeDateString
+            
         } else {
             onClickViewRefresh()
         }

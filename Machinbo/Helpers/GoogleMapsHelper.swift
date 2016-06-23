@@ -40,7 +40,6 @@ class GoogleMapsHelper {
             let camera = GMSCameraPosition(target: position, zoom: 13, bearing: 0, viewingAngle: 0)
             
             map.camera = camera
-//            map.selectedMarker = marker
         }
     }
 }

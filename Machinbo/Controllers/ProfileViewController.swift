@@ -265,22 +265,29 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
             if indexPath.row < 3 {
                 
                 var normalCell = tableView.dequeueReusableCellWithIdentifier(tableViewCellIdentifier)
+                
                 if normalCell == nil { // 再利用するセルがなかったら（不足していたら）
+                    
                     // セルを新規に作成する。
                     normalCell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: tableViewCellIdentifier)
+                    normalCell!.textLabel!.font = UIFont(name: "Arial", size: 15)
+                    normalCell!.detailTextLabel!.font = UIFont(name: "Arial", size: 15)
                 }
                 
                 if indexPath.row == 0 {
+                    
                     normalCell?.textLabel?.text = profileItems[indexPath.row]
                     normalCell?.detailTextLabel?.text = inputName as String
                     
                 } else if indexPath.row == 1 {
+                    
                     normalCell?.textLabel?.text = profileItems[indexPath.row]
                     normalCell?.detailTextLabel?.text = selectedGender as String
                     
                 } else if indexPath.row == 2 {
+                    
                     normalCell?.textLabel?.text = profileItems[indexPath.row]
-                    normalCell?.detailTextLabel?.text = selectedAge as String
+                    normalCell?.detailTextLabel?.text = Parser.changeAgeRange(selectedAge) as String
                     
                 }
                 

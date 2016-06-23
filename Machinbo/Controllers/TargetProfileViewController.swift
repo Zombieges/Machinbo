@@ -293,6 +293,8 @@ class TargetProfileViewController:
                 if normalCell == nil { // 再利用するセルがなかったら（不足していたら）
                     // セルを新規に作成する。
                     normalCell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: tableViewCellIdentifier)
+                    normalCell!.textLabel!.font = UIFont(name: "Arial", size: 15)
+                    normalCell!.detailTextLabel!.font = UIFont(name: "Arial", size: 15)
                 }
                 
                 if indexPath.row == 0 {
@@ -329,6 +331,8 @@ class TargetProfileViewController:
             if normalCell == nil { // 再利用するセルがなかったら（不足していたら）
                 // セルを新規に作成する。
                 normalCell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: tableViewCellIdentifier)
+                normalCell!.textLabel!.font = UIFont(name: "Arial", size: 14)
+                normalCell!.detailTextLabel!.font = UIFont(name: "Arial", size: 14)
             }
             
             if type == ProfileType.ImakuruTargetProfile {

@@ -86,7 +86,7 @@ class PickerViewController: UIViewController,
         
         if (self.kind == "gender" || self.kind == "age") {
             // TableViewの生成す
-            myTableView = UITableView(frame: CGRect(x: 0, y: navBarHeight!, width: displayWidth, height: displayHeight - navBarHeight!))
+            myTableView = UITableView(frame: CGRect(x: 0, y: 0, width: displayWidth, height: displayHeight - navBarHeight!))
             
             // Cell名の登録をおこなう.
             myTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
@@ -105,7 +105,7 @@ class PickerViewController: UIViewController,
             
         } else if self.kind == "name" {
             
-            inputTextField.frame = CGRectMake(10, 100, displayWidth - 20 , 30)
+            inputTextField.frame = CGRectMake(10, 20, displayWidth - 20 , 30)
             inputTextField.borderStyle = UITextBorderStyle.RoundedRect
             inputTextField.text = self.Input as? String
             
@@ -144,7 +144,7 @@ class PickerViewController: UIViewController,
     
     func createCommentField(displayWidth: CGFloat, displayHeight: CGFloat) {
 
-        inputTextView.frame = CGRectMake(10, 80, displayWidth - 20 ,80)
+        inputTextView.frame = CGRectMake(10, 20, displayWidth - 20 ,80)
         inputTextView.text = self.Input as? String
         inputTextView.layer.masksToBounds = true
         inputTextView.layer.cornerRadius = 5.0
@@ -295,7 +295,13 @@ class PickerViewController: UIViewController,
                     query["TargetUserID"] = targetUserID
                     query["User"] = result
                     query["TargetUser"] = self.palTargetUser
+                    
+                    let endPoint = selected.characters.count - 1
+                    let selected = (selected as NSString).substringToIndex(endPoint)
+//                    var endPoint = NSMutableString(string: selected)
+//                    endPoint.deleteCharactersInRange(NSRange(location: endPoint.length - 1, length: 1))
                     query["GotoTime"] = selected
+                    
                     query["imakokoAt"] = targetUserUpdatedAt
                     
                     query.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in

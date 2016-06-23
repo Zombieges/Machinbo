@@ -20,4 +20,5 @@ class MarkWindow: UIView {
     //画面遷移View
     @IBOutlet weak var ClickView: UIView!
 
+    @IBOutlet weak var timeAgoText: UILabel!
 }

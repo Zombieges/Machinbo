@@ -65,7 +65,7 @@ class ParseHelper {
         let query = PFQuery(className: "GoNow")
         query.whereKey("TargetUserID", equalTo: loginUser)
         query.includeKey("User")//UserInfoのPointerから情報を取得
-        query.orderByAscending("updatedAt")
+        query.orderByDescending("updatedAt")
         query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
             if error == nil {
                 completion?(withError: error, result: objects)

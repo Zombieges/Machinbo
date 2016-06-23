@@ -46,11 +46,12 @@
                     </label>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="0L2-CB-ydq" firstAttribute="top" secondItem="WcX-1p-nrT" secondAttribute="bottom" constant="2" id="3Xn-Qk-VHx"/>
                     <constraint firstItem="WcX-1p-nrT" firstAttribute="leading" secondItem="g8B-Bk-gNj" secondAttribute="trailing" constant="5" id="5Oi-Wy-XHr"/>
                     <constraint firstItem="Veb-Hf-oQF" firstAttribute="leading" secondItem="WcX-1p-nrT" secondAttribute="trailing" constant="10" id="F1X-0O-vSm"/>
                     <constraint firstItem="0L2-CB-ydq" firstAttribute="leading" secondItem="g8B-Bk-gNj" secondAttribute="trailing" constant="5" id="LO1-L9-aBO"/>
                     <constraint firstAttribute="trailingMargin" secondItem="FMg-FT-Phr" secondAttribute="trailing" constant="2" id="NS3-Zu-hVr"/>
-                    <constraint firstItem="g8B-Bk-gNj" firstAttribute="height" secondItem="oja-qF-p3g" secondAttribute="width" multiplier="0.2" id="Ygj-yg-6cA"/>
+                    <constraint firstItem="g8B-Bk-gNj" firstAttribute="height" secondItem="oja-qF-p3g" secondAttribute="width" multiplier="0.18" id="Ygj-yg-6cA"/>
                     <constraint firstItem="FMg-FT-Phr" firstAttribute="top" secondItem="oja-qF-p3g" secondAttribute="topMargin" constant="2" id="YuO-rE-3vh"/>
                     <constraint firstItem="g8B-Bk-gNj" firstAttribute="leading" secondItem="oja-qF-p3g" secondAttribute="leadingMargin" constant="2" id="gKa-lD-508"/>
                     <constraint firstAttribute="trailingMargin" secondItem="0L2-CB-ydq" secondAttribute="trailing" constant="2" id="gf1-gk-H7P"/>
@@ -58,7 +59,7 @@
                     <constraint firstItem="g8B-Bk-gNj" firstAttribute="top" secondItem="oja-qF-p3g" secondAttribute="topMargin" constant="2" id="n0n-df-XUa"/>
                     <constraint firstAttribute="bottomMargin" secondItem="0L2-CB-ydq" secondAttribute="bottom" constant="2" id="nEl-uo-TdW"/>
                     <constraint firstItem="WcX-1p-nrT" firstAttribute="top" secondItem="FMg-FT-Phr" secondAttribute="bottom" constant="2" id="uc4-Ls-9aD"/>
-                    <constraint firstItem="g8B-Bk-gNj" firstAttribute="width" secondItem="oja-qF-p3g" secondAttribute="width" multiplier="0.2" id="wDG-O3-vhr"/>
+                    <constraint firstItem="g8B-Bk-gNj" firstAttribute="width" secondItem="oja-qF-p3g" secondAttribute="width" multiplier="0.18" id="wDG-O3-vhr"/>
                     <constraint firstItem="Veb-Hf-oQF" firstAttribute="top" secondItem="FMg-FT-Phr" secondAttribute="bottom" constant="2" id="znG-bc-m2s"/>
                 </constraints>
             </tableViewCellContentView>

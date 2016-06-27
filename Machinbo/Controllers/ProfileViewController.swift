@@ -287,7 +287,11 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
                 } else if indexPath.row == 2 {
                     
                     normalCell?.textLabel?.text = profileItems[indexPath.row]
-                    normalCell?.detailTextLabel?.text = Parser.changeAgeRange(selectedAge) as String
+                    
+                    if !selectedAge.isEmpty {
+                        normalCell?.detailTextLabel?.text = Parser.changeAgeRange(selectedAge) as String
+                    }
+                    
                     
                 }
                 
@@ -323,7 +327,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
                 normalCell?.textLabel?.text = otherItems[indexPath.row]
                 
                 let dateFormatter = NSDateFormatter();
-                dateFormatter.dateFormat = "yyyy年M月d日 H:m"
+                dateFormatter.dateFormat = "yyyy年M月d日 H:mm"
                 let formatDateString = userData.insertTime
                 
                 normalCell?.detailTextLabel?.text = formatDateString

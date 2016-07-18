@@ -43,14 +43,15 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
             let center = NSNotificationCenter.defaultCenter() as NSNotificationCenter
             
             LocationManager.sharedInstance.startUpdatingLocation()
-            center.addObserver(self, selector: #selector(MapViewController.foundLocation(_:)), name: LMLocationUpdateNotification as String, object: nil)
+            center.addObserver(self, selector: #selector(self.foundLocation(_:)), name: LMLocationUpdateNotification as String, object: nil)
         }
     }
     
     func foundLocation(notif: NSNotification) {
         
-        //MBProgressHUDHelper.show("Loading...")
-        
+        defer {
+            NSNotificationCenter.defaultCenter().removeObserver(self)
+        }
         
         let info = notif.userInfo as NSDictionary!
         var location = info[LMLocationInfoKey] as! CLLocation
@@ -65,15 +66,14 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         let camera = GMSCameraPosition(target: myPosition, zoom: 13, bearing: 0, viewingAngle: 0)
         
         var gmaps = GMSMapView()
-        gmaps.frame = CGRectMake(0, 20, self.view.frame.width, self.view.frame.height/2)
+        gmaps.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.size.width, UIScreen.mainScreen().bounds.size.height)
         gmaps.myLocationEnabled = true
         gmaps.settings.myLocationButton = true
         gmaps.camera = camera
         gmaps.delegate = self
-        
         gmaps.animateToLocation(myPosition)
         
-        self.view = gmaps
+        self.view.addSubview(gmaps)
         
         FeedData.mainData().refreshMapFeed(myPosition) { () -> () in
             defer {
@@ -99,36 +99,14 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         createupdateGeoPointButton()
     }
     
-//    func startBackgroundLocationUpdates() {
-//        lm = CLLocationManager()
-//        lm.delegate = self
-//        lm.requestWhenInUseAuthorization()
-//        lm.desiredAccuracy = kCLLocationAccuracyThreeKilometers
-//        lm.pausesLocationUpdatesAutomatically = true
-//        if #available(iOS 9.0, *) {
-//            lm.allowsBackgroundLocationUpdates = true
-//        } else {
-//            // Fallback on earlier versions
-//        }
-//        
-//        // セキュリティ認証のステータスを取得
-//        let status = CLLocationManager.authorizationStatus()
-//        if status == .NotDetermined {
-//            // まだ承認が得られていない場合は、認証ダイアログを表示
-//            lm.requestWhenInUseAuthorization()
-//        }
-//        
-//        lm.startUpdatingLocation()
-//    }
-//    
     func createupdateGeoPointButton() {
         //GeoPoint 更新ボタン
-        let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 150, height: 40))
+        let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 200, height: 40))
         btn.trackTouchLocation = true
         btn.backgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
         btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
         btn.rippleColor = LayoutManager.getUIColorFromRGB(0xB54241)
-        btn.setTitle("現在位置登録", forState: .Normal)
+        btn.setTitle("待ち合わせ場所登録", forState: .Normal)
         btn.addTarget(self, action: #selector(MapViewController.onClickImakoko), forControlEvents: UIControlEvents.TouchUpInside)
         btn.layer.cornerRadius = 5.0
         btn.layer.masksToBounds = true
@@ -166,56 +144,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         super.didReceiveMemoryWarning()
     }
     
-    
-//    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-//        
-//        //MBProgressHUDHelper.show("Loading...")
-//        
-//        latitude = locations.first!.coordinate.latitude
-//        longitude = locations.first!.coordinate.longitude
-//        
-//        NSLog("位置情報取得成功！-> latiitude: \(latitude) , longitude: \(longitude)")
-//        
-//        //現在位置
-//        let myPosition = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-//        let camera = GMSCameraPosition(target: myPosition, zoom: 13, bearing: 0, viewingAngle: 0)
-//        
-//        
-//        var gmaps = GMSMapView()
-//        gmaps.frame = CGRectMake(0, 20, self.view.frame.width, self.view.frame.height/2)
-//        gmaps.myLocationEnabled = true
-//        gmaps.settings.myLocationButton = true
-//        gmaps.camera = camera
-//        gmaps.delegate = self
-//        
-//        gmaps.animateToLocation(myPosition)
-//        
-//        self.view = gmaps
-//        
-//        FeedData.mainData().refreshMapFeed(myPosition) { () -> () in
-//            defer {
-//                MBProgressHUDHelper.hide()
-//            }
-//            
-//            //ユーザマーカーを表示
-//            GoogleMapsHelper.setAnyUserMarker(gmaps, userObjects: FeedData.mainData().feedItems)
-//            //広告表示
-//            self.showAdmob(AdmobType.Full)
-//        }
-//        
-//        //manager.stopUpdatingLocation()
-//        lm.stopUpdatingLocation()
-//        if #available(iOS 9.0, *) {
-//            lm.allowsBackgroundLocationUpdates = false
-//        } else {
-//            // Fallback on earlier versions
-//        }
-//        
-//        //button 生成
-//        createNavigationItem()
-//        createupdateGeoPointButton()
-//    }
-//    
     func createNavigationItem() {
         
         //◆プロフィール画面
@@ -341,8 +269,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     }
     
     func onClickImakoko(){
-        let vc = ImakokoViewController()
-        //vc.palKind = "imakoko"
+        let vc = MarkerDraggableViewController()
         vc.palGeoPoint = PFGeoPoint(latitude: latitude, longitude: longitude)
         
         self.navigationController!.pushViewController(vc, animated: true)
@@ -384,6 +311,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
             let targetUserInfo = goNowObj.objectForKey("TargetUser") as? PFObject
             
             guard targetUserInfo != nil else {
+                
                 targetUserInfo!.deleteInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
 
                     guard success else {
@@ -410,7 +338,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
             }
             
             let vc = TargetProfileViewController(type: ProfileType.ImaikuTargetProfile)
-            vc.targetObjectID = goNowObj.objectId
+            vc.targetObjectID = goNowObj.objectId!
             vc.userInfo = targetUserInfo!
             
             self.navigationController!.pushViewController(vc, animated: true)

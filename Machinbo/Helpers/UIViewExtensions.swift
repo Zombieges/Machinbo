@@ -71,3 +71,13 @@ class Parser {
         return returnStr
     }
 }
+
+extension UIView {
+    
+    public func addTapGesture(tapNumber tapNumber: Int, target: AnyObject, action: Selector) {
+        let tap = UITapGestureRecognizer(target: target, action: action)
+        tap.numberOfTapsRequired = tapNumber
+        addGestureRecognizer(tap)
+        userInteractionEnabled = true
+    }
+}

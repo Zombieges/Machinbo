@@ -99,16 +99,7 @@ class GoNowListViewController: UIViewController,
         
         let dateFormatter = NSDateFormatter();
         dateFormatter.dateFormat = "yyyy年M月d日 H:mm"
-        
-        //currentCalendarは和暦使用していると困る
-        let calendar = NSCalendar(identifier: NSCalendarIdentifierGregorian)!
-        let gotoAtMinute = Int(gonow.objectForKey("GotoTime") as! String)!
-        let createdAtDate = gonow.createdAt as NSDate!
-        let arriveTime = calendar.dateByAddingUnit(.Minute, value: gotoAtMinute, toDate: createdAtDate, options: NSCalendarOptions())!
-
-        gonowCell?.entryTime.text = dateFormatter.stringFromDate(arriveTime)
-        
-        //gonowCell?.gonowTime.text = gonow.objectForKey("GotoTime") as! String + "分後"
+        gonowCell?.entryTime.text = dateFormatter.stringFromDate(gonow.objectForKey("gotoAt") as! NSDate)
         
         return gonowCell!
     }
@@ -121,7 +112,13 @@ class GoNowListViewController: UIViewController,
         print("Edeintg: \(tableView.editing)")
         
         let vc = TargetProfileViewController(type: ProfileType.ImakuruTargetProfile)
+        
+        if let tempGeoPoint = goNowList[indexPath.row].objectForKey("userGPS") {
+            vc.targetGeoPoint = tempGeoPoint as! PFGeoPoint
+        }
+        
         vc.userInfo = goNowList[indexPath.row].objectForKey("User")!
+        vc.gonowInfo = goNowList[indexPath.row]
         
         self.navigationController!.pushViewController(vc, animated: true)
     }

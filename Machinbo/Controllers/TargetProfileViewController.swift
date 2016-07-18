@@ -29,52 +29,36 @@ class TargetProfileViewController:
     CLLocationManagerDelegate,
     GMSMapViewDelegate {
     
+    @IBOutlet weak var tableView: UITableView!
     
-    @IBOutlet weak var mapView: GMSMapView!
-    
-    @IBOutlet weak var ImageAreaView: UIView!
-    
-    //let mapView: MapViewController = MapViewController()
     let modalTextLabel = UILabel()
     let lblName: String = ""
     
-    //var actionInfo: AnyObject?
     var userInfo: AnyObject = []
-    var targetObjectID: String?
-    //遷移元の画面IDを指定
-    var kind: String = ""
+    var gonowInfo: AnyObject = []
+    var targetObjectID = ""
+    var targetGeoPoint = PFGeoPoint(latitude: 0, longitude: 0)
 
-    @IBOutlet weak var headerView: UIView!
-    @IBOutlet weak var tableView: UITableView!
-//    @IBOutlet weak var ProfileImage: UIImageView!
-    
-    
-    @IBOutlet weak var scrollView: UIScrollView!
-    
-    var myHeaderView: UIView!
-    var displayWidth: CGFloat!
-    var displayHeight: CGFloat!
-    
+    var myHeaderView = UIView()
+    var displayWidth = CGFloat()
+    var displayHeight = CGFloat()
     var innerViewHeight: CGFloat!
-    
-    
-    //@IBOutlet weak var targetButton: ZFRippleButton!
-    
+
     //Targetの情報
-    var targetProfileItems: [String] = ["名前", "性別", "年齢", "プロフィール"]
+    let targetProfileItems = ["名前", "性別", "年齢", "プロフィール"]
     //いまから来る人の詳細情報
-    var imakuruItems: [String] = ["登録時間", "到達時間", "現在位置"]
+    let imakuruItems = ["到着時間"]
     //
-    var otherItems: [String] = ["登録時間", "場所", "特徴"]
+    let otherItems = ["登録時間", "場所", "特徴"]
     
     // Sectionで使用する配列を定義する.
     private var sections: NSArray = []
 
-    let detailTableViewCellIdentifier: String = "DetailCell"
+    let detailTableViewCellIdentifier = "DetailCell"
     
-    let mapTableViewCellIdentifier: String = "MapCell"
+    let mapTableViewCellIdentifier = "MapCell"
     
-    var type: ProfileType = ProfileType.TargetProfile
+    var type = ProfileType.TargetProfile
     
     init (type: ProfileType) {
         super.init(nibName: nil, bundle: nil)
@@ -90,6 +74,11 @@ class TargetProfileViewController:
             self.view = view
         }
         
+        navigationController!.navigationBar.tintColor = UIColor.whiteColor()
+        navigationController!.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: .Default)
+        navigationController!.navigationBar.shadowImage = UIImage()
+        
+        
         // MAPの高さは端末Heightの1/5
         let mapViewHeight = round(UIScreen.mainScreen().bounds.size.height / 5)
         let imageSize = round(UIScreen.mainScreen().bounds.size.width / 4)
@@ -98,41 +87,63 @@ class TargetProfileViewController:
         let gmapsY = round(mapViewHeight / 2)
         innerViewHeight = mapViewHeight + gmapsY
         
-        navigationController!.navigationBar.tintColor = UIColor.whiteColor()
-        navigationController!.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: .Default)
-        navigationController!.navigationBar.shadowImage = UIImage()
+        do {
+            // UITableView
+            
+            let nibName = UINib(nibName: "DetailProfileTableViewCell", bundle:nil)
+            tableView.registerNib(nibName, forCellReuseIdentifier: detailTableViewCellIdentifier)
+            tableView.estimatedRowHeight = 100.0
+            tableView.rowHeight = UITableViewAutomaticDimension
+            //tableViewの位置を 1 / 端末サイズ 下げる
+            tableView.contentInset.top = innerViewHeight
+            
+            // 不要行の削除
+            let notUserRowView = UIView(frame: CGRectZero)
+            notUserRowView.backgroundColor = UIColor.clearColor()
+            tableView.tableFooterView = notUserRowView
+            tableView.tableHeaderView = notUserRowView
         
-        let nibName = UINib(nibName: "DetailProfileTableViewCell", bundle:nil)
-        tableView.registerNib(nibName, forCellReuseIdentifier: detailTableViewCellIdentifier)
-        tableView.estimatedRowHeight = 100.0
-        tableView.rowHeight = UITableViewAutomaticDimension
-        //tableViewの位置を 1 / 端末サイズ 下げる
-        tableView.contentInset.top = innerViewHeight
-        view.addSubview(tableView)
+            view.addSubview(tableView)
+        }
         
-        displayWidth = UIScreen.mainScreen().bounds.size.width
-        displayHeight = UIScreen.mainScreen().bounds.size.height
+        self.displayWidth = UIScreen.mainScreen().bounds.size.width
+        self.displayHeight = UIScreen.mainScreen().bounds.size.height
         
         //ヘッダー
-        myHeaderView = UIView(frame: CGRect(x: 0, y: -innerViewHeight, width: displayHeight, height: innerViewHeight))
+        myHeaderView = UIView(frame: CGRect(x: 0, y: -innerViewHeight, width: self.self.displayHeight, height: innerViewHeight))
         myHeaderView.backgroundColor = UIColor.whiteColor()
     
         tableView.addSubview(myHeaderView)
         
-        let gmaps = GMSMapView()
-        //gmaps.translatesAutoresizingMaskIntoConstraints = false
-        //gmaps.frame = CGRectMake(0, statusBarHeight + navBarHeight!, UIScreen.mainScreen().bounds.size.width, mapViewHeight)
-        gmaps.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.size.width, mapViewHeight)
-        gmaps.myLocationEnabled = false
-        gmaps.settings.myLocationButton = false
-        //gmaps.camera = camera
-        gmaps.delegate = self
-        GoogleMapsHelper.setUserMarker(gmaps, user: userInfo as! PFObject, isSelect: true)
+        do {
+            //Google Map 登録
+
+            let gmaps = GMSMapView()
+            //gmaps.translatesAutoresizingMaskIntoConstraints = false
+            //gmaps.frame = CGRectMake(0, statusBarHeight + navBarHeight!, UIScreen.mainScreen().bounds.size.width, mapViewHeight)
+            gmaps.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.size.width, mapViewHeight)
+            gmaps.myLocationEnabled = false
+            gmaps.settings.myLocationButton = false
+            //gmaps.camera = camera
+            gmaps.delegate = self
+            
+            if type == ProfileType.ImakuruTargetProfile {
+                GoogleMapsHelper.setUserPin(gmaps, geoPoint: targetGeoPoint)
+            } else {
+                GoogleMapsHelper.setUserMarker(gmaps, user: userInfo as! PFObject, isSelect: true)
+                
+            }
+            
+            myHeaderView.addSubview(gmaps)
+        }
         
-        //let profileImage = UIImageView(frame: CGRectMake(17, statusBarHeight + navBarHeight! + 10 + mapViewHeight, 93, 93))
-        let profileImage = UIImageView(frame: CGRectMake(17, imageY, imageSize, imageSize))
-        //profileImage.translatesAutoresizingMaskIntoConstraints = false
-        if let imageFile = userInfo.valueForKey("ProfilePicture") as? PFFile {
+        do {
+            // 画像表示
+            
+            //let profileImage = UIImageView(frame: CGRectMake(17, statusBarHeight + navBarHeight! + 10 + mapViewHeight, 93, 93))
+            let profileImage = UIImageView(frame: CGRectMake(17, imageY, imageSize, imageSize))
+            //profileImage.translatesAutoresizingMaskIntoConstraints = false
+            if let imageFile = userInfo.valueForKey("ProfilePicture") as? PFFile {
                 imageFile.getDataInBackgroundWithBlock { (imageData, error) -> Void in
                     if(error == nil) {
                         profileImage.image = UIImage(data: imageData!)!
@@ -140,12 +151,16 @@ class TargetProfileViewController:
                         profileImage.layer.borderWidth = 3
                         profileImage.layer.cornerRadius = 10
                         profileImage.layer.masksToBounds = true
+                        
+                        profileImage.userInteractionEnabled = true
+                        let gesture = UITapGestureRecognizer(target:self, action: #selector(self.didClickImageView))
+                        profileImage.addGestureRecognizer(gesture)
                     }
+                }
             }
+            
+            myHeaderView.addSubview(profileImage)
         }
-        
-        myHeaderView.addSubview(gmaps)
-        myHeaderView.addSubview(profileImage)
         
 //        self.myHeaderView.addConstraints([
 ////
@@ -172,9 +187,9 @@ class TargetProfileViewController:
             
             //いまココボタン追加
             let imakokoBtn = imakokoButton()
-            let imakokoBtnX = displayWidth - round(displayWidth / 5)
-            let imakokoBtnWidth = round(displayWidth / 6)
-            let imakokoBtnHeight = round(displayHeight / 17)
+            let imakokoBtnX = self.displayWidth - round(self.displayWidth / 5)
+            let imakokoBtnWidth = round(self.displayWidth / 6)
+            let imakokoBtnHeight = round(self.displayHeight / 17)
             imakokoBtn.frame = CGRect(x: imakokoBtnX, y: mapViewHeight + 10, width: imakokoBtnWidth, height: imakokoBtnHeight)
             imakokoBtn.imageEdgeInsets = UIEdgeInsetsMake(8, 8, 8, 8)
             //button.translatesAutoresizingMaskIntoConstraints = false
@@ -189,11 +204,12 @@ class TargetProfileViewController:
              */
             
             sections = ["プロフィール", "来る情報"]
+            
             //いま何処ボタン追加
             let imadokoBtn = imadokoButton()
-            let imadokoBtnX = displayWidth - round(displayWidth / 5)
-            let imadokoBtnWidth = round(displayWidth / 7)
-            let imadokotnHeight = round(displayHeight / 17)
+            let imadokoBtnX = self.displayWidth - round(self.displayWidth / 5)
+            let imadokoBtnWidth = round(self.displayWidth / 7)
+            let imadokotnHeight = round(self.displayHeight / 17)
             imadokoBtn.frame = CGRect(x: imadokoBtnX, y: mapViewHeight + 10, width: imadokoBtnWidth, height: imadokotnHeight)
             imadokoBtn.imageEdgeInsets = UIEdgeInsetsMake(8, 8, 8, 8)
             //button.translatesAutoresizingMaskIntoConstraints = false
@@ -206,9 +222,9 @@ class TargetProfileViewController:
             sections = ["プロフィール", "待ち合わせ情報"]
             
             let imaikuBtn = imaikuButton()
-            let imaikuBtnX = displayWidth - round(displayWidth / 5)
-            let imaikuBtnWidth = round(displayWidth / 7)
-            let imaikuBtnHeight = round(displayHeight / 17)
+            let imaikuBtnX = self.displayWidth - round(self.displayWidth / 5)
+            let imaikuBtnWidth = round(self.displayWidth / 7)
+            let imaikuBtnHeight = round(self.displayHeight / 17)
             imaikuBtn.frame = CGRect(x: imaikuBtnX, y: mapViewHeight + 10, width: imaikuBtnWidth, height: imaikuBtnHeight)
             imaikuBtn.imageEdgeInsets = UIEdgeInsetsMake(8, 8, 8, 8)
             //button.translatesAutoresizingMaskIntoConstraints = false
@@ -225,10 +241,21 @@ class TargetProfileViewController:
         
 //        tableView.tableHeaderView = UIView()
 //        tableView.tableFooterView = UIView()
+        
 //        
         if self.isInternetConnect() {
             //広告を表示
             self.showAdmob(AdmobType.standard)
+        }
+    }
+    
+    func didClickImageView(recognizer: UIGestureRecognizer) {
+        if let imageView = recognizer.view as? UIImageView {
+            let vc = PickerViewController()
+            vc.palKind = "imageView"
+            vc.palInput = imageView
+            
+            self.navigationController!.pushViewController(vc, animated: true)
         }
     }
     
@@ -307,7 +334,7 @@ class TargetProfileViewController:
                     
                 } else if indexPath.row == 2 {
                     normalCell?.textLabel?.text = targetProfileItems[indexPath.row]
-                    normalCell?.detailTextLabel?.text = self.userInfo.objectForKey("Age") as? String
+                    normalCell?.detailTextLabel?.text = Parser.changeAgeRange((self.userInfo.objectForKey("Age") as? String)!)
                 }
                 
                 cell = normalCell
@@ -343,28 +370,13 @@ class TargetProfileViewController:
                     normalCell?.textLabel?.text = imakuruItems[indexPath.row]
                     
                     let dateFormatter = NSDateFormatter();
-                    dateFormatter.dateFormat = "yyyy年M月d日 H:m"
-                    let formatDateString = dateFormatter.stringFromDate(self.userInfo.objectForKey("MarkTime") as! NSDate)
+                    dateFormatter.dateFormat = "yyyy年M月d日 H:mm"
+                    let formatDateString = dateFormatter.stringFromDate(self.gonowInfo.objectForKey("gotoAt") as! NSDate)
                     
                     normalCell?.detailTextLabel?.text = formatDateString
                     
                     cell = normalCell
                     
-                } else if indexPath.row == 1 {
-                    let detailCell = tableView.dequeueReusableCellWithIdentifier(detailTableViewCellIdentifier, forIndexPath: indexPath) as? DetailProfileTableViewCell
-                    
-                    detailCell?.titleLabel.text = imakuruItems[indexPath.row]
-                    detailCell?.valueLabel.text = self.userInfo.objectForKey("PlaceDetail") as? String
-                    
-                    cell = detailCell
-                    
-                } else if indexPath.row == 2 {
-                    let detailCell = tableView.dequeueReusableCellWithIdentifier(detailTableViewCellIdentifier, forIndexPath: indexPath) as? DetailProfileTableViewCell
-                    
-                    detailCell?.titleLabel.text = imakuruItems[indexPath.row]
-                    detailCell?.valueLabel.text = self.userInfo.objectForKey("MyChar") as? String
-                    
-                    cell = detailCell
                 }
                 
                 return cell!
@@ -376,7 +388,7 @@ class TargetProfileViewController:
                     normalCell?.textLabel?.text = otherItems[indexPath.row]
                     
                     let dateFormatter = NSDateFormatter();
-                    dateFormatter.dateFormat = "yyyy年M月d日 H:m"
+                    dateFormatter.dateFormat = "yyyy年M月d日 H:mm"
                     let formatDateString = dateFormatter.stringFromDate(self.userInfo.objectForKey("MarkTime") as! NSDate)
                     
                     normalCell?.detailTextLabel?.text = formatDateString
@@ -417,7 +429,7 @@ class TargetProfileViewController:
         
         btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x2196F3)
         btn.rippleColor = LayoutManager.getUIColorFromRGB(0xBBDEFB)
-        btn.addTarget(self, action: #selector(TargetProfileViewController.clickImaikuButton), forControlEvents: .TouchUpInside)
+        btn.addTarget(self, action: #selector(clickImaikuButton), forControlEvents: .TouchUpInside)
         btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Center
         btn.setImage(UIImage(named: "imaiku.png"), forState: .Normal)
         btn.imageView?.contentMode = .ScaleAspectFit
@@ -441,7 +453,7 @@ class TargetProfileViewController:
         btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x2196F3)
         btn.rippleColor = LayoutManager.getUIColorFromRGB(0xBBDEFB)
 //        btn.setTitle("いまココ", forState: .Normal)
-        btn.addTarget(self, action: #selector(TargetProfileViewController.clickimakokoButton), forControlEvents: .TouchUpInside)
+        btn.addTarget(self, action: #selector(clickimakokoButton), forControlEvents: .TouchUpInside)
         btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Center
         btn.setImage(UIImage(named: "pin.png"), forState: .Normal)
         btn.imageView?.contentMode = .ScaleAspectFit
@@ -466,7 +478,7 @@ class TargetProfileViewController:
         btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x2196F3)
         btn.rippleColor = LayoutManager.getUIColorFromRGB(0xBBDEFB)
         //        btn.setTitle("いまココ", forState: .Normal)
-        btn.addTarget(self, action: #selector(TargetProfileViewController.clickimadokoButton), forControlEvents: UIControlEvents.TouchUpInside)
+        btn.addTarget(self, action: #selector(clickimadokoButton), forControlEvents: UIControlEvents.TouchUpInside)
         btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Center
         btn.setImage(UIImage(named: "imadoko.png"), forState: .Normal)
         btn.imageView?.contentMode = .ScaleAspectFit
@@ -481,21 +493,23 @@ class TargetProfileViewController:
                 return
             }
             
+            MBProgressHUDHelper.show("Loading...")
+            
             let center = NSNotificationCenter.defaultCenter() as NSNotificationCenter
             
             LocationManager.sharedInstance.startUpdatingLocation()
-            center.addObserver(self, selector: #selector(TargetProfileViewController.foundLocation(_:)), name: LMLocationUpdateNotification as String, object: nil)
+            center.addObserver(self, selector: #selector(self.foundLocation), name: LMLocationUpdateNotification as String, object: nil)
         }
     }
     
     func foundLocation(notif: NSNotification) {
         
+        defer {
+            NSNotificationCenter.defaultCenter().removeObserver(self)
+        }
+        
         ParseHelper.getMyGoNow(PersistentData.User().userID) { (error: NSError?, result) -> Void in
-            
-            defer {
-                MBProgressHUDHelper.hide()
-            }
-            
+
             guard error == nil else {
                 return
             }
@@ -510,6 +524,7 @@ class TargetProfileViewController:
             query["userGPS"] = PFGeoPoint(latitude: latitude, longitude: longitude)
             
             query.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+                
                 defer {
                     MBProgressHUDHelper.hide()
                 }
@@ -517,9 +532,9 @@ class TargetProfileViewController:
                 guard error == nil else {
                     return
                 }
+                
+                UIAlertView.showAlertView("", message: "現在位置を相手に送信しました")
             }
-            
-            
         }
     }
     
@@ -529,6 +544,8 @@ class TargetProfileViewController:
             if action == UIAlertView.ActionButton.Cancel {
                 return
             }
+            
+            MBProgressHUDHelper.show("Loading...")
             
             ParseHelper.getMyGoNow(PersistentData.User().userID) { (error: NSError?, result) -> Void in
                 
@@ -542,6 +559,7 @@ class TargetProfileViewController:
                 
                 //result?.objectForKey("userGPS") =
                 
+
                 
             }
         }
@@ -581,14 +599,16 @@ class TargetProfileViewController:
             
             MBProgressHUDHelper.show("Loading...")
             
-            ParseHelper.deleteGoNow(self.targetObjectID!) { () -> () in
+            ParseHelper.deleteGoNow(self.targetObjectID) { () -> () in
+                
+                defer {
+                    MBProgressHUDHelper.hide()
+                }
                 
                 //imaiku flag delete
                 PersistentData.deleteUserIDForKey("imaikuFlag")
                 
                 self.navigationController!.popToRootViewControllerAnimated(true)
-                
-                MBProgressHUDHelper.hide()
                 
                 UIAlertView.showAlertDismiss("", message: "取り消しました", completion: { () -> () in })
             }
@@ -642,15 +662,6 @@ class TargetProfileViewController:
         
         let myAlert = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
         
-//        if type == ProfileType.TargetProfile {
-//            let imaikuAction: UIAlertAction = UIAlertAction(title: "いまから行く", style: UIAlertActionStyle.Default, handler:{
-//                (action: UIAlertAction!) -> Void in
-//                
-//                self.clickImaikuButton()
-//            })
-//            myAlert.addAction(imaikuAction)
-//        }
-        
         if type == ProfileType.ImaikuTargetProfile {
             // 取り消しボタン
             let destructiveAction_1: UIAlertAction = UIAlertAction(title: "いま行くを取り消し", style: UIAlertActionStyle.Destructive, handler:{
@@ -684,8 +695,26 @@ class TargetProfileViewController:
      */
     func scrollViewDidScroll(scrollView: UIScrollView) {
         
+//        print("scrollView.contentOffset.y = " + String(scrollView.contentOffset.y))
+//        print("self.tableView.sectionHeaderHeight + innerViewHeight = " + String(self.tableView.sectionHeaderHeight + innerViewHeight))
+        
+        let isOutSectionHeaderScroll =
+            scrollView.contentOffset.y >= -innerViewHeight &&
+            scrollView.contentOffset.y <= innerViewHeight
+        
+        let isInSectionHeaderScroll =
+            scrollView.contentOffset.y >= self.tableView.sectionHeaderHeight
+        
+        if isOutSectionHeaderScroll {
+            scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0)
+            
+        } else if isInSectionHeaderScroll {
+            scrollView.contentInset = UIEdgeInsetsMake(-self.tableView.sectionHeaderHeight, 0, 0, 0)
+        }
+        
+        
         if scrollView.contentOffset.y < -innerViewHeight {
-            self.myHeaderView.frame = CGRect(x: 0, y: scrollView.contentOffset.y, width: self.displayWidth, height: innerViewHeight)
+            self.myHeaderView.frame = CGRect(x: 0, y: scrollView.contentOffset.y, width: self.self.displayWidth, height: innerViewHeight)
         }
     }
 }

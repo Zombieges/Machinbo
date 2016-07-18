@@ -15,12 +15,19 @@ import GoogleMobileAds
 
 extension PickerViewController: TransisionProtocol {}
 
+enum SelectPickerType { case Gender, Age }
+enum InputPickerType { case Comment, Name }
+
 protocol PickerViewControllerDelegate{
-    func setGender(selectedIndex: Int,selected: String)
-    func setAge(selectedIndex: Int,selected: String)
-    func setName(name: String)
-    func setComment(comment: String)
     
+//    func setGender(selectedIndex: Int,selected: String)
+//    func setAge(selectedIndex: Int,selected: String)
+//    func setName(name: String)
+//    func setComment(comment: String)
+    
+    func setInputValue(inputValue: String, type: InputPickerType)
+    func setSelectedValue(selectedIndex: Int, selectedValue: String, type: SelectPickerType)
+    func setSelectedDate(SelectedDate: NSDate)
 }
 
 class PickerViewController: UIViewController,
@@ -39,10 +46,13 @@ class PickerViewController: UIViewController,
     var selectedAge:String = ""
     var selectedGenderIndex: Int?
     var selectedGender: String = ""
+    
     var inputTextField = UITextField()
     var inputTextView = UITextView()
     var inputPlace = UITextView()
     var inputMyCodinate = UITextView()
+    var inputMyDatePicker = UIDatePicker()
+    
     var realTextView = UITextView()
     
     // Tableで使用する配列を設定する
@@ -59,6 +69,8 @@ class PickerViewController: UIViewController,
     var myViewController: UIViewController?
     
     var palTargetUser: PFObject?
+    
+    var selectedItem: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -90,15 +102,14 @@ class PickerViewController: UIViewController,
             
             // Cell名の登録をおこなう.
             myTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
-            // DataSourceの設定をする.
-            myTableView.dataSource = self
-            // Delegateを設定する.
-            myTableView.delegate = self
+            myTableView.dataSource = self   // DataSourceの設定をする.
+            myTableView.delegate = self     // Delegateを設定する.
+            
             // 不要行の削除
-            let v:UIView = UIView(frame: CGRectZero)
-            v.backgroundColor = UIColor.clearColor()
-            myTableView.tableFooterView = v
-            myTableView.tableHeaderView = v
+            let notUserRowView = UIView(frame: CGRectZero)
+            notUserRowView.backgroundColor = UIColor.clearColor()
+            myTableView.tableFooterView = notUserRowView
+            myTableView.tableHeaderView = notUserRowView
             
             // Viewに追加する.
             self.view.addSubview(myTableView)
@@ -116,11 +127,14 @@ class PickerViewController: UIViewController,
         } else if self.kind == "comment" {
             createCommentField(displayWidth, displayHeight: 200)
             
+        } else if self.kind == "imakokoDate" {
+            createDatePickerField(displayWidth)
+            
         } else if self.kind == "imakoko" {
             createCommentField(displayWidth, displayHeight: 200)
             
         
-        } else if (self.kind == "imaiku") {
+        } else if self.kind == "imaiku" {
             
             self.navigationItem.title = "待ち合わせまでにかかる時間"
             self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
@@ -135,11 +149,25 @@ class PickerViewController: UIViewController,
             view.backgroundColor = UIColor.clearColor()
             myTableView.tableFooterView = view
             myTableView.tableHeaderView = view
-            
-            // Viewに追加する.
             self.view.addSubview(myTableView)
         
+        } else if self.kind == "imageView" {
+            
+            let displayWidth = UIScreen.mainScreen().bounds.size.width
+            
+            let image = self.palInput as! UIImageView
+            image.frame = CGRectMake(0, 0, displayWidth, displayWidth);
+            self.view.addSubview(image)
         }
+    }
+    
+    func createDatePickerField(displayWidth: CGFloat) {
+        // UIDatePickerの設定
+        self.inputMyDatePicker = UIDatePicker()
+        self.inputMyDatePicker.datePickerMode = UIDatePickerMode.DateAndTime
+        self.view.addSubview(self.inputMyDatePicker)
+        
+        createInsertDataButton(displayWidth, displayHeight: 300)
     }
     
     func createCommentField(displayWidth: CGFloat, displayHeight: CGFloat) {
@@ -196,7 +224,7 @@ class PickerViewController: UIViewController,
             
             var userInfo = PersistentData.User()
             if userInfo.userID == "" {
-                self.delegate!.setName(self.inputTextField.text!)
+                self.delegate!.setInputValue(self.inputTextField.text!, type: .Name)
                 self.navigationController!.popViewControllerAnimated(true)
                 
                 return
@@ -213,7 +241,7 @@ class PickerViewController: UIViewController,
                 
                 userInfo.name = self.inputTextField.text!
                 
-                self.delegate!.setName(self.inputTextField.text!)
+                self.delegate!.setInputValue(self.inputTextField.text!, type: .Name)
                 self.navigationController!.popViewControllerAnimated(true)
             }
             
@@ -227,7 +255,7 @@ class PickerViewController: UIViewController,
 
             var userInfo = PersistentData.User()
             if userInfo.userID == "" {
-                self.delegate!.setComment(self.inputTextView.text)
+                self.delegate!.setInputValue(self.inputTextView.text, type: .Comment)
                 self.navigationController!.popViewControllerAnimated(true)
                 
                 return
@@ -244,12 +272,20 @@ class PickerViewController: UIViewController,
                 
                 userInfo.comment = self.inputTextView.text
                 
-                self.delegate!.setComment(self.inputTextView.text)
+                self.delegate!.setInputValue(self.inputTextView.text, type: .Comment)
                 self.navigationController!.popViewControllerAnimated(true)
             }
             
+        } else if self.kind == "imakokoDate" {
+//            let dateFormatter = NSDateFormatter();
+//            dateFormatter.dateFormat = "yyyy年M月d日 H:mm"
+//            let formatDateString = dateFormatter.stringFromDate(self.inputMyDatePicker.date)
+            
+            self.delegate!.setSelectedDate(self.inputMyDatePicker.date)
+            self.navigationController!.popViewControllerAnimated(true)
+            
         } else if self.kind == "imakoko" {
-            self.delegate!.setComment(self.inputTextView.text)
+            self.delegate!.setInputValue(self.inputTextView.text, type: .Comment)
             self.navigationController!.popViewControllerAnimated(true)
         }
     }
@@ -261,7 +297,7 @@ class PickerViewController: UIViewController,
         
         if (self.kind == "age"){
             if let selected = myItems[indexPath.row] as? String {
-                self.delegate!.setAge(indexPath.row,selected: selected.uppercaseString)
+                self.delegate!.setSelectedValue(indexPath.row, selectedValue: selected.uppercaseString, type: .Age)
                 self.navigationController!.popViewControllerAnimated(true)
                 
             }
@@ -269,7 +305,7 @@ class PickerViewController: UIViewController,
         } else if (self.kind == "gender"){
 
             if let selected = myItems[indexPath.row] as? String {
-                self.delegate!.setGender(indexPath.row,selected: selected.uppercaseString)
+                self.delegate!.setSelectedValue(indexPath.row, selectedValue: selected.uppercaseString, type: .Gender)
                 self.navigationController!.popViewControllerAnimated(true)
             }
             
@@ -277,61 +313,85 @@ class PickerViewController: UIViewController,
             
             if let selected = myItems[indexPath.row] as? String {
                 
+                self.selectedItem = selected
+                
                 MBProgressHUDHelper.show("Loading...")
                 
-                ParseHelper.getUserInfomation(PersistentData.User().userID) { (error: NSError?, result) -> Void in
-                    
-                    guard error == nil else {
-                        self.errorAction()
-                        return
-                    }
-                    
-                    let userID = result?.objectForKey("UserID") as? String
-                    let targetUserID = self.palTargetUser?.objectForKey("UserID") as? String
-                    let targetUserUpdatedAt = self.palTargetUser?.updatedAt
-                    
-                    let query = PFObject(className: "GoNow")
-                    query["UserID"] = userID
-                    query["TargetUserID"] = targetUserID
-                    query["User"] = result
-                    query["TargetUser"] = self.palTargetUser
-                    
-                    let endPoint = selected.characters.count - 1
-                    let selected = (selected as NSString).substringToIndex(endPoint)
-//                    var endPoint = NSMutableString(string: selected)
-//                    endPoint.deleteCharactersInRange(NSRange(location: endPoint.length - 1, length: 1))
-                    query["GotoTime"] = selected
-                    
-                    query["imakokoAt"] = targetUserUpdatedAt
-                    
-                    query.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
-                        
-                        defer {
-                            MBProgressHUDHelper.hide()
-                        }
-                        
-                        guard error == nil else {
-                            self.errorAction()
-                            return
-                        }
-                        
-                        //imaiku flag on
-                        var userInfo = PersistentData.User()
-                        userInfo.imaikuFlag = true
-                        
-                        UIAlertView.showAlertDismiss("", message: "いまから行くことを送信しました") { () -> () in
-                            if self._interstitial!.isReady {
-                                self._interstitial!.presentFromRootViewController(self)
-                            }
-
-                            self.navigationController!.popToRootViewControllerAnimated(true)
-                        }
-                    }
-                }
+                let center = NSNotificationCenter.defaultCenter() as NSNotificationCenter
                 
+                LocationManager.sharedInstance.startUpdatingLocation()
+                center.addObserver(self, selector: #selector(self.foundLocation(_:)), name: LMLocationUpdateNotification as String, object: nil)
             }
             
         }
+    }
+    
+    func foundLocation(notif: NSNotification) {
+        
+        defer {
+            NSNotificationCenter.defaultCenter().removeObserver(self)
+        }
+        
+        ParseHelper.getUserInfomation(PersistentData.User().userID) { (error: NSError?, result) -> Void in
+            
+            guard error == nil else {
+                self.errorAction()
+                return
+            }
+            
+            let userID = result?.objectForKey("UserID") as? String
+            let targetUserID = self.palTargetUser?.objectForKey("UserID") as? String
+            let targetUserUpdatedAt = self.palTargetUser?.updatedAt
+            
+            let query = PFObject(className: "GoNow")
+            query["UserID"] = userID
+            query["TargetUserID"] = targetUserID
+            query["User"] = result
+            query["TargetUser"] = self.palTargetUser
+            
+            let endPoint = self.selectedItem.characters.count - 1
+            let selected = (self.selectedItem as NSString).substringToIndex(endPoint)
+            let calendar = NSCalendar(identifier: NSCalendarIdentifierGregorian)!
+            let gotoAtMinute = Int(selected)
+            let createdAtDate = NSDate()
+            let arriveTime = calendar.dateByAddingUnit(.Minute, value: gotoAtMinute!, toDate: createdAtDate, options: NSCalendarOptions())!
+            
+            query["gotoAt"] = arriveTime
+            query["imakokoAt"] = targetUserUpdatedAt
+            
+            let info = notif.userInfo as NSDictionary!
+            var location = info[LMLocationInfoKey] as! CLLocation
+            
+            let latitude = location.coordinate.latitude
+            let longitude = location.coordinate.longitude
+            
+            query["userGPS"] = PFGeoPoint(latitude: latitude, longitude: longitude)
+            
+            query.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+                
+                defer {
+                    MBProgressHUDHelper.hide()
+                }
+                
+                guard error == nil else {
+                    self.errorAction()
+                    return
+                }
+                
+                //imaiku flag on
+                var userInfo = PersistentData.User()
+                userInfo.imaikuFlag = true
+                
+                UIAlertView.showAlertDismiss("", message: "いまから行くことを送信しました") { () -> () in
+                    if self._interstitial!.isReady {
+                        self._interstitial!.presentFromRootViewController(self)
+                    }
+                    
+                    self.navigationController!.popToRootViewControllerAnimated(true)
+                }
+            }
+        }
+
     }
     
     func errorAction() {

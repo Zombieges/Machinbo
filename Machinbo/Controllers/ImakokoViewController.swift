@@ -24,12 +24,15 @@ class ImakokoViewController: UIViewController, UINavigationControllerDelegate,
 
     @IBOutlet weak var tableView: UITableView!
     
-    var inputPlace: String = ""
-    var inputChar: String = ""
+    var inputDate = NSDate()
+    var inputPlace = ""
+    var inputChar = ""
     var palGeoPoint: PFGeoPoint?
     
-    let detailTableViewCellIdentifier: String = "DetailCell"
-    var targetProfileItems = ["待ち合わせ場所", "自分の特徴"]
+    let normalTableViewCellIdentifier = "NormalCell"
+    let detailTableViewCellIdentifier = "DetailCell"
+    
+    var targetProfileItems = ["待ち合わせ時間", "待ち合わせ場所", "自分の特徴"]
     
     var _interstitial: GADInterstitial?
     
@@ -51,8 +54,6 @@ class ImakokoViewController: UIViewController, UINavigationControllerDelegate,
         noCreateView.backgroundColor = UIColor.clearColor()
         tableView.tableFooterView = noCreateView
         tableView.tableHeaderView = noCreateView
-        
-        
         view.addSubview(tableView)
         
         if self.isInternetConnect() {
@@ -81,52 +82,115 @@ class ImakokoViewController: UIViewController, UINavigationControllerDelegate,
     */
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let detailCell = tableView.dequeueReusableCellWithIdentifier(detailTableViewCellIdentifier, forIndexPath: indexPath) as? DetailProfileTableViewCell
+        var cell: UITableViewCell?
+        var normalCell: UITableViewCell?
+        var detailCell: DetailProfileTableViewCell?
+        
+        let tableViewCellIdentifier = "Cell"
+        
+        if indexPath.row == 0 {
+            
+            normalCell = tableView.dequeueReusableCellWithIdentifier(tableViewCellIdentifier)
+            if normalCell == nil {
+                normalCell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: tableViewCellIdentifier)
+                normalCell!.textLabel!.font = UIFont.systemFontOfSize(16)
+                normalCell!.detailTextLabel!.font = UIFont.systemFontOfSize(16)
+            }
+            
+        } else {
+            detailCell = tableView.dequeueReusableCellWithIdentifier(detailTableViewCellIdentifier, forIndexPath: indexPath) as? DetailProfileTableViewCell
+        }
 
         if indexPath.row == 0 {
-            detailCell?.titleLabel.text = targetProfileItems[indexPath.row]
-            if inputPlace.isEmpty {
-                detailCell?.valueLabel.text = "　"
-            } else {
-                detailCell?.valueLabel.text = inputPlace
-            }
+            normalCell?.textLabel?.text = targetProfileItems[indexPath.row]
+            let dateFormatter = NSDateFormatter();
+            dateFormatter.dateFormat = "yyyy年M月d日 H:mm"
+            let formatDateString = dateFormatter.stringFromDate(self.inputDate)
+            normalCell?.detailTextLabel?.text = formatDateString
+            
+            cell = normalCell
             
         } else if indexPath.row == 1 {
+            
+            detailCell?.titleLabel.text = targetProfileItems[indexPath.row]
+            if inputPlace.isEmpty {
+                detailCell?.valueLabel.text = "待ち合わせする場所を詳細に書いてください。性と関連した内容、金銭関連の内容、その他不適切な内容を作成する場合、アカウントが停止される可能性がありますのでご注意ください"
+            } else {
+                detailCell?.valueLabel.text = self.inputPlace
+            }
+            
+            cell = detailCell
+            
+        } else if indexPath.row == 2 {
             detailCell?.titleLabel.text = targetProfileItems[indexPath.row]
             if inputChar.isEmpty {
-                detailCell?.valueLabel.text = "　"
+                detailCell?.valueLabel.text = "自分の服装など、待ち合わせの際に分かる情報を書いてください。性と関連した内容、金銭関連の内容、その他不適切な内容を作成する場合、アカウントが停止される可能性がありますのでご注意ください"
             } else {
-                detailCell?.valueLabel.text = inputChar
+                detailCell?.valueLabel.text = self.inputChar
             }
-        }
-        
-        return detailCell!
-    }
-    
-    // PickerViewController より性別を選択した際に実行される処理
-    internal func setGender(selectedIndex: Int,selected: String) {
-    }
-    
-    // PickerViewController より年齢を選択した際に実行される処理
-    internal func setAge(selectedIndex: Int,selected: String) {
-    }
-    
-    // PickerViewController よりを保存ボタンを押下した際に実行される処理
-    internal func setName(name: String) {
-    }
-        
-    
-    // PickerViewController よりを保存ボタンを押下した際に実行される処理
-    internal func setComment(comment: String) {
-        if selectedRow == 0 {
-            inputPlace = comment
             
-        } else if selectedRow == 1 {
-            inputChar = comment
+            cell = detailCell
         }
         
-        // テーブル再描画
-        tableView.reloadData()
+        return cell!
+    }
+    
+//    // PickerViewController より性別を選択した際に実行される処理
+//    internal func setGender(selectedIndex: Int,selected: String) {
+//    }
+//    
+//    // PickerViewController より年齢を選択した際に実行される処理
+//    internal func setAge(selectedIndex: Int,selected: String) {
+//    }
+    
+    // PickerViewController よりを保存ボタンを押下した際に実行される処理
+    internal func setSelectedValue(selectedIndex: Int, selectedValue: String, type: SelectPickerType) {
+    }
+    
+    internal func setInputValue(inputValue: String, type: InputPickerType) {
+        if type == InputPickerType.Comment {
+            if selectedRow == 1 {
+                self.inputPlace = inputValue
+
+            } else if selectedRow == 2 {
+                self.inputChar = inputValue
+            }
+            
+            tableView.reloadData()
+        }
+    }
+    
+    internal func setSelectedDate(selectedDate: NSDate) {
+        if selectedRow == 0 {
+            self.inputDate = selectedDate
+        }
+    }
+        
+    
+//    // PickerViewController よりを保存ボタンを押下した際に実行される処理
+//    internal func setComment(comment: String) {
+//        if selectedRow == 0 {
+//            self.inputDate = comment
+//            
+//        } else if selectedRow == 1 {
+//            self.inputPlace = comment
+//            
+//        } else if selectedRow == 2 {
+//            self.inputChar = comment
+//        }
+//        
+//        // テーブル再描画
+//        tableView.reloadData()
+//    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
+    {
+        if indexPath.row == 0 {
+            return 50
+            
+        } else {
+            return 120
+        }
     }
     
     // セルがタップされた時
@@ -135,14 +199,23 @@ class ImakokoViewController: UIViewController, UINavigationControllerDelegate,
         let vc = PickerViewController()
         
         if indexPath.section == 0 {
+            
             if indexPath.row == 0 {
+                vc.palKind = "imakokoDate"
+
+                vc.palInput = inputDate
+                vc.delegate = self
+                
+                navigationController?.pushViewController(vc, animated: true)
+                
+            } else if indexPath.row == 1 {
                 vc.palKind = "imakoko"
                 vc.palInput = inputPlace
                 vc.delegate = self
                 
                 navigationController?.pushViewController(vc, animated: true)
                 
-            } else if indexPath.row == 1 {
+            } else if indexPath.row == 2 {
                 vc.palKind = "imakoko"
                 vc.palInput = inputChar
                 vc.delegate = self
@@ -168,7 +241,7 @@ class ImakokoViewController: UIViewController, UINavigationControllerDelegate,
             
             let query = result! as PFObject
             query["GPS"] = self.palGeoPoint
-            query["MarkTime"] = NSDate()
+            query["MarkTime"] = self.inputDate
             query["PlaceDetail"] = self.inputPlace
             query["MyChar"] = self.inputChar
             
@@ -183,15 +256,10 @@ class ImakokoViewController: UIViewController, UINavigationControllerDelegate,
                 
                 //local db に保存
                 var userData = PersistentData.User()
-                
-                let dateFormatter = NSDateFormatter()
-                dateFormatter.dateFormat = "yyyy年M月d日 H:m"
-                userData.insertTime = dateFormatter.stringFromDate(NSDate())
-                
+                //userData.insertTime = self.inputDate
                 userData.place = self.inputPlace
                 userData.mychar = self.inputChar
                 
-                //Alert
                 UIAlertView.showAlertDismiss("", message: "現在位置を登録しました") { () -> () in
                     
                     if self._interstitial!.isReady {

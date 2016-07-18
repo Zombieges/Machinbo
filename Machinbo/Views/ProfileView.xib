@@ -9,9 +9,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProfileViewController" customModule="Machinbo" customModuleProvider="target">
             <connections>
-                <outlet property="TableView" destination="YmW-wK-9N8" id="v3k-pe-YGe"/>
                 <outlet property="profilePicture" destination="leq-Pp-UA6" id="1G5-Dh-Jvl"/>
                 <outlet property="startButton" destination="Rf5-tc-hSa" id="5A7-x6-S1D"/>
+                <outlet property="tableView" destination="YmW-wK-9N8" id="9FB-A3-nTd"/>
                 <outlet property="view" destination="3iS-eM-Ybb" id="04E-ed-vp4"/>
             </connections>
         </placeholder>
@@ -77,6 +77,7 @@
                 <constraint firstItem="PEC-ux-cxX" firstAttribute="top" secondItem="3iS-eM-Ybb" secondAttribute="top" id="Kpk-BJ-IoY"/>
                 <constraint firstItem="YmW-wK-9N8" firstAttribute="height" secondItem="3iS-eM-Ybb" secondAttribute="height" multiplier="0.65" id="ZtH-7l-m3E"/>
                 <constraint firstItem="Rf5-tc-hSa" firstAttribute="leading" secondItem="3iS-eM-Ybb" secondAttribute="leading" constant="8" id="nyf-m7-5az"/>
+                <constraint firstItem="Rf5-tc-hSa" firstAttribute="height" secondItem="3iS-eM-Ybb" secondAttribute="height" multiplier="0.08" id="uPt-HD-Udk"/>
                 <constraint firstItem="YmW-wK-9N8" firstAttribute="leading" secondItem="3iS-eM-Ybb" secondAttribute="leading" id="ycz-gN-pp4"/>
                 <constraint firstItem="Rf5-tc-hSa" firstAttribute="top" secondItem="YmW-wK-9N8" secondAttribute="bottom" constant="10" id="yet-Rn-85I"/>
             </constraints>

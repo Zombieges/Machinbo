@@ -26,35 +26,31 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
     
     @IBOutlet weak var profilePicture: UIImageView!
     @IBOutlet weak var startButton: ZFRippleButton!
-    @IBOutlet weak var TableView: UITableView!
+    @IBOutlet weak var tableView: UITableView!
     
     let photoItems = ["フォト"]
     let profileItems = ["名前", "性別", "生まれた年", "プロフィール"]
-    var otherItems = ["登録時間", "場所", "特徴"]
-    
+    let otherItems = ["登録時間", "場所", "特徴"]
     let sections = ["プロフィール", "待ち合わせ情報"]
     
-    var mainNavigationCtrl: UINavigationController?
-    var picker: UIImagePickerController?
+//    var mainNavigationCtrl: UINavigationController?
+    let picker = UIImagePickerController()
     var window: UIWindow?
-    var FarstTimeStart : Bool = false
+    var FarstTimeStart = false
     
-    var myItems:[String] = []
+    var myItems = [String]()
     
-    var gender: String?
-    var age: String?
-    var inputName: String = ""
-    var selectedAge: String = ""
-    var selectedGender: String = ""
-    var inputComment: String = ""
+    var gender = ""
+    var age = ""
+    var inputName = ""
+    var selectedAge = ""
+    var selectedGender = ""
+    var inputComment = ""
     
     let identifier = "Cell" // セルのIDを定数identifierにする。
     var cell: UITableViewCell? // nilになることがあるので、Optionalで宣言
     let detailTableViewCellIdentifier: String = "DetailCell"
-    
-    
-    //var userInfo: PFObject?
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -62,33 +58,34 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
             self.view = view
         }
         
-        // profilePicture をタップできるように設定
-        profilePicture.userInteractionEnabled = true
-        let myTap:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ProfileViewController.tapGesture(_:)))
-        profilePicture.addGestureRecognizer(myTap)
+        do {
+            // profilePicture をタップできるようにジェスチャーを設定
+            profilePicture.userInteractionEnabled = true
+            let myTap = UITapGestureRecognizer(target: self, action: #selector(tapGesture))
+            profilePicture.addGestureRecognizer(myTap)
+        }
         
-        let nibName = UINib(nibName: "DetailProfileTableViewCell", bundle:nil)
-        TableView.registerNib(nibName, forCellReuseIdentifier: detailTableViewCellIdentifier)
-        TableView.estimatedRowHeight = 200.0
-        TableView.rowHeight = UITableViewAutomaticDimension
-        
-        // 余分な境界線を消す
-        TableView.tableFooterView = UIView()
-        
-        view.addSubview(TableView)
+        do {
+            let nibName = UINib(nibName: "DetailProfileTableViewCell", bundle:nil)
+            tableView.registerNib(nibName, forCellReuseIdentifier: detailTableViewCellIdentifier)
+            tableView.estimatedRowHeight = 200.0
+            tableView.rowHeight = UITableViewAutomaticDimension
+            tableView.tableFooterView = UIView()
+            view.addSubview(tableView)
+        }
         
         navigationController!.navigationBar.tintColor = UIColor.whiteColor()
         
         let userData = PersistentData.User()
         if userData.userID == "" {
+            //初期登録画面
             self.navigationItem.title = "プロフィールを登録してください"
-            // 初期画像
             profilePicture.image = UIImage(named: "photo.png")
             
         } else {
             self.navigationItem.title = "プロフィール"
             //スタートボタンは非表示
-            startButton.hidden = true
+            self.startButton.hidden = true
             
             /* 設定ボタンを付与 */
             let settingsButton: UIButton = UIButton(type: UIButtonType.Custom)
@@ -118,18 +115,15 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     // profilePicture タップ時の処理
     internal func tapGesture(sender: UITapGestureRecognizer){
+        self.picker.delegate = self
+        self.picker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+        self.picker.allowsEditing = false
         
-        picker = UIImagePickerController()
-        picker?.delegate = self
-        picker?.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
-        picker?.allowsEditing = false
-        
-        presentViewController(picker!, animated: true, completion: nil)
+        presentViewController(self.picker, animated: true, completion: nil)
     }
     
     
@@ -151,21 +145,22 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
         imageMolding(profilePicture)
         
         var userInfo = PersistentData.User()
-        if userInfo.userID != "" {
-
-            ParseHelper.getUserInfomation(userInfo.userID) { (error: NSError?, result: PFObject?) -> Void in
-                if let result = result {
-                    let imageData = UIImagePNGRepresentation(self.profilePicture.image!)
-                    let imageFile = PFFile(name:"image.png", data:imageData!)
+        guard userInfo.userID != "" else {
+            return
+        }
+    
+        ParseHelper.getUserInfomation(userInfo.userID) { (error: NSError?, result: PFObject?) -> Void in
+            if let result = result {
+                let imageData = UIImagePNGRepresentation(self.profilePicture.image!)
+                let imageFile = PFFile(name:"image.png", data:imageData!)
+                
+                result["ProfilePicture"] = imageFile
+                result.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
                     
-                    result["ProfilePicture"] = imageFile
-                    result.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
-                        
-                        userInfo.profileImage = self.profilePicture.image!
-                        //self.navigationController!.popViewControllerAnimated(true)
-                    }
-                    
+                    userInfo.profileImage = self.profilePicture.image!
+                    //self.navigationController!.popViewControllerAnimated(true)
                 }
+                
             }
         }
     }
@@ -176,41 +171,37 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
     }
     
     // PickerViewController より性別を選択した際に実行される処理
-    internal func setGender(selectedIndex: Int,selected: String) {
-        
-        gender = selected
-        selectedGender = selected
-        
-        // テーブル再描画
-        TableView.reloadData()
+    internal func setSelectedValue(selectedindex: Int, selectedValue: String, type: SelectPickerType) {
+        if type == SelectPickerType.Age {
+            self.age = String(selectedindex)
+            self.selectedAge = selectedValue
+            // テーブル再描画
+            tableView.reloadData()
+
+            
+        } else if type == SelectPickerType.Gender {
+            self.gender = selectedValue
+            self.selectedGender = selectedValue
+            // テーブル再描画
+            tableView.reloadData()
+        }
     }
     
-    // PickerViewController より年齢を選択した際に実行される処理
-    internal func setAge(selectedIndex: Int,selected: String) {
-        
-        age = String(selectedIndex)
-        selectedAge = selected
-        
-        // テーブル再描画
-        TableView.reloadData()
+    internal func setInputValue(inputValue: String, type: InputPickerType) {
+        if type == InputPickerType.Name {
+            self.inputName = inputValue
+            // テーブル再描画
+            tableView.reloadData()
+            
+        } else if type == InputPickerType.Comment {
+            self.inputComment = inputValue
+            // テーブル再描画
+            tableView.reloadData()
+        }
     }
     
-    // PickerViewController よりを保存ボタンを押下した際に実行される処理
-    internal func setName(name: String) {
+    internal func setSelectedDate(SelectedDate: NSDate) {
         
-        inputName = name
-        
-        // テーブル再描画
-        TableView.reloadData()
-    }
-    
-    // PickerViewController よりを保存ボタンを押下した際に実行される処理
-    internal func setComment(comment: String) {
-        
-        inputComment = comment
-        
-        // テーブル再描画
-        TableView.reloadData()
     }
     
     /*
@@ -358,7 +349,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
     // セルがタップされた時
     internal func tableView(table: UITableView, didSelectRowAtIndexPath indexPath:NSIndexPath) {
         
-        myItems = []
         let vc = PickerViewController()
         
         if PersistentData.User().userID != "" {
@@ -371,6 +361,8 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
                 return
             }
         }
+        
+        myItems = []
         
         if indexPath.section == 0 {
             if indexPath.row == 0 {
@@ -387,10 +379,10 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
                 myItems = ["男性","女性"]
                 vc.palmItems = myItems
                 vc.palKind = "gender"
-                if let gender = gender{
-                    
-                    vc.palInput = gender
-                }
+//                if let gender = gender{
+//                    
+//                    vc.palInput = gender
+//                }
                 vc.delegate = self
                 
                 navigationController?.pushViewController(vc, animated: true)
@@ -408,10 +400,10 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
                 
                 vc.palmItems = myItems
                 vc.palKind = "age"
-                if let age = age{
-                    
-                    vc.palInput = age
-                }
+//                if let age = age{
+//                    
+//                    vc.palInput = age
+//                }
                 vc.delegate = self
                 
                 navigationController?.pushViewController(vc, animated: true)
@@ -462,7 +454,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
         ParseHelper.setUserInfomation(
             uuid,
             name: inputName,
-            gender: gender!,
+            gender: gender,
             age: selectedAge,
             comment: inputComment,
             photo: imageFile!

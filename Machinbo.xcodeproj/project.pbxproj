@@ -19,8 +19,12 @@
 		BB1A1E5D1CF515A90090E72D /* UserPolicy.txt in Resources */ = {isa = PBXBuildFile; fileRef = BB1A1E5C1CF515A90090E72D /* UserPolicy.txt */; };
 		BB1A1E631D0BD9A90090E72D /* pin.png in Resources */ = {isa = PBXBuildFile; fileRef = BB1A1E621D0BD9A90090E72D /* pin.png */; };
 		BB1A1E651D0D04530090E72D /* imaiku.png in Resources */ = {isa = PBXBuildFile; fileRef = BB1A1E641D0D04530090E72D /* imaiku.png */; };
+		BB2084021D3241430097FDAC /* BlockTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2084011D3241430097FDAC /* BlockTap.swift */; };
+		BB3643111D27B46B00CF1D18 /* MarkerDraggableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3643101D27B46B00CF1D18 /* MarkerDraggableViewController.swift */; };
+		BB3643151D2F166100CF1D18 /* mappin.png in Resources */ = {isa = PBXBuildFile; fileRef = BB3643141D2F166100CF1D18 /* mappin.png */; };
 		BB36D8DB1D0D184E00266BB6 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB36D8DA1D0D184E00266BB6 /* LocationManager.swift */; };
 		BB36D8DD1D0D484B00266BB6 /* imadoko.png in Resources */ = {isa = PBXBuildFile; fileRef = BB36D8DC1D0D484B00266BB6 /* imadoko.png */; };
+		BB36D8E01D0E295000266BB6 /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB36D8DF1D0E295000266BB6 /* UIViewExtensions.swift */; };
 		BB4B3E6F1B5A001200183F62 /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BB4B3E6E1B5A001200183F62 /* libstdc++.6.dylib */; };
 		BB4B3E701B5A009500183F62 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BBC3A3FD1B3E7C2B002CBBE9 /* libz.dylib */; };
 		BB4B3E721B5A009F00183F62 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB4B3E711B5A009F00183F62 /* Accounts.framework */; };
@@ -112,9 +116,13 @@
 		BB1A1E5C1CF515A90090E72D /* UserPolicy.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = UserPolicy.txt; sourceTree = "<group>"; };
 		BB1A1E621D0BD9A90090E72D /* pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pin.png; sourceTree = "<group>"; };
 		BB1A1E641D0D04530090E72D /* imaiku.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imaiku.png; sourceTree = "<group>"; };
+		BB2084011D3241430097FDAC /* BlockTap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockTap.swift; sourceTree = "<group>"; };
+		BB3643101D27B46B00CF1D18 /* MarkerDraggableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkerDraggableViewController.swift; sourceTree = "<group>"; };
+		BB3643141D2F166100CF1D18 /* mappin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mappin.png; sourceTree = "<group>"; };
 		BB36D8DA1D0D184E00266BB6 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		BB36D8DC1D0D484B00266BB6 /* imadoko.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imadoko.png; sourceTree = "<group>"; };
 		BB36D8DE1D0D57A100266BB6 /* Bridging_Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bridging_Header.h; sourceTree = "<group>"; };
+		BB36D8DF1D0E295000266BB6 /* UIViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
 		BB4B3E6E1B5A001200183F62 /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
 		BB4B3E711B5A009F00183F62 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		BB4B3E731B5A00A600183F62 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
@@ -355,6 +363,8 @@
 				BB6FDDD11C3E952700C366A2 /* PersistentData.swift */,
 				BB6FDDD21C3E952700C366A2 /* UIAlertView+Custom.swift */,
 				BB36D8DA1D0D184E00266BB6 /* LocationManager.swift */,
+				BB36D8DF1D0E295000266BB6 /* UIViewExtensions.swift */,
+				BB2084011D3241430097FDAC /* BlockTap.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -382,14 +392,15 @@
 		BB6FDDF31C3E998000C366A2 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				BB6FDDF91C3E998000C366A2 /* TargetProfileViewController.swift */,
 				BB87AD911CDB30B7003973D7 /* TransisionProtocol.swift */,
 				BB6FDDF51C3E998000C366A2 /* MapViewController.swift */,
 				BB6FDDF41C3E998000C366A2 /* GoNowListViewController.swift */,
 				9484EBD71CC38B0300DEC7A4 /* ImakokoViewController.swift */,
 				BB6FDDF71C3E998000C366A2 /* PickerViewController.swift */,
 				BB6FDDF81C3E998000C366A2 /* ProfileViewController.swift */,
-				BB6FDDF91C3E998000C366A2 /* TargetProfileViewController.swift */,
 				BBD353551CDCFDD0007B1A1C /* SettingsViewController.swift */,
+				BB3643101D27B46B00CF1D18 /* MarkerDraggableViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -397,6 +408,7 @@
 		BB6FDE001C3E9D0D00C366A2 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				BB3643141D2F166100CF1D18 /* mappin.png */,
 				BB1A1E621D0BD9A90090E72D /* pin.png */,
 				BB36D8DC1D0D484B00266BB6 /* imadoko.png */,
 				BBD3535B1CDDD517007B1A1C /* logo_fb.png */,
@@ -483,7 +495,7 @@
 				TargetAttributes = {
 					9409F7831B2D994D0069DAE8 = {
 						CreatedOnToolsVersion = 6.3.2;
-						DevelopmentTeam = 4N5PEPYWDK;
+						DevelopmentTeam = PBLDVE7SPT;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -546,6 +558,7 @@
 				BBA5C4961B3545D4005D062B /* GoogleMaps.bundle in Resources */,
 				BB6FDDEF1C3E97E100C366A2 /* ProfileView.xib in Resources */,
 				BB6FDDEB1C3E97E100C366A2 /* MapView.xib in Resources */,
+				BB3643151D2F166100CF1D18 /* mappin.png in Resources */,
 				BB1A1E631D0BD9A90090E72D /* pin.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -612,6 +625,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BB3643111D27B46B00CF1D18 /* MarkerDraggableViewController.swift in Sources */,
+				BB36D8E01D0E295000266BB6 /* UIViewExtensions.swift in Sources */,
 				9484EBDA1CC38BC800DEC7A4 /* AMReachability.swift in Sources */,
 				BB6FDDD71C3E952700C366A2 /* UIAlertView+Custom.swift in Sources */,
 				BB6FDDD41C3E952700C366A2 /* GoogleMapsHelper.swift in Sources */,
@@ -624,6 +639,7 @@
 				BBEFA89B1B57BE99002EFC7A /* AppDelegate.swift in Sources */,
 				BB6FDE0F1C43AC1500C366A2 /* FeedData.swift in Sources */,
 				BB6FDDFF1C3E998000C366A2 /* TargetProfileViewController.swift in Sources */,
+				BB2084021D3241430097FDAC /* BlockTap.swift in Sources */,
 				BB6FDDFB1C3E998000C366A2 /* MapViewController.swift in Sources */,
 				BB87AD921CDB30B7003973D7 /* TransisionProtocol.swift in Sources */,
 				BB6FDDFA1C3E998000C366A2 /* GoNowListViewController.swift in Sources */,

@@ -30,8 +30,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     
     var mainNavigationCtrl: UINavigationController?
     
-//    var gmaps : GMSMapView!
-    
     override func viewDidLoad() {
         //super.viewDidLoad()
         
@@ -76,6 +74,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         self.view.addSubview(gmaps)
         
         FeedData.mainData().refreshMapFeed(myPosition) { () -> () in
+            
             defer {
                 MBProgressHUDHelper.hide()
             }
@@ -288,9 +287,16 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
                 return
             }
             
+            guard result!.count != 0 else {
+                UIAlertView.showAlertDismiss("", message: "いまから来る人が存在しません。相手から待ち合わせ希望があった場合、リストに表示されます。") { () -> () in }
+                
+                return
+            }
+            
             let vc = GoNowListViewController()
             vc.goNowList = result!
             self.navigationController!.pushViewController(vc, animated: true)
+
         }
     }
     
@@ -358,9 +364,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         let center = NSNotificationCenter.defaultCenter() as NSNotificationCenter
         
         LocationManager.sharedInstance.startUpdatingLocation()
-        center.addObserver(self, selector: #selector(MapViewController.foundLocation(_:)), name: LMLocationUpdateNotification as String, object: nil)
-        
-        //UIAlertView.showAlertDismiss("", message: "マップを更新しました") { () -> () in }
+        center.addObserver(self, selector: #selector(self.foundLocation), name: LMLocationUpdateNotification as String, object: nil)
     }
     
 }

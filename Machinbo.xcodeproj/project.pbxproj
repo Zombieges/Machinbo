@@ -17,9 +17,7 @@
 		94A91D401CC448B1004E7652 /* MBProgressHUDHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A91D3F1CC448B1004E7652 /* MBProgressHUDHelper.swift */; };
 		BB1A1E5B1CE93B190090E72D /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB1A1E5A1CE93B190090E72D /* MessageUI.framework */; };
 		BB1A1E5D1CF515A90090E72D /* UserPolicy.txt in Resources */ = {isa = PBXBuildFile; fileRef = BB1A1E5C1CF515A90090E72D /* UserPolicy.txt */; };
-		BB1A1E631D0BD9A90090E72D /* pin.png in Resources */ = {isa = PBXBuildFile; fileRef = BB1A1E621D0BD9A90090E72D /* pin.png */; };
 		BB1A1E651D0D04530090E72D /* imaiku.png in Resources */ = {isa = PBXBuildFile; fileRef = BB1A1E641D0D04530090E72D /* imaiku.png */; };
-		BB2084021D3241430097FDAC /* BlockTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2084011D3241430097FDAC /* BlockTap.swift */; };
 		BB3643111D27B46B00CF1D18 /* MarkerDraggableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3643101D27B46B00CF1D18 /* MarkerDraggableViewController.swift */; };
 		BB3643151D2F166100CF1D18 /* mappin.png in Resources */ = {isa = PBXBuildFile; fileRef = BB3643141D2F166100CF1D18 /* mappin.png */; };
 		BB36D8DB1D0D184E00266BB6 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB36D8DA1D0D184E00266BB6 /* LocationManager.swift */; };
@@ -74,6 +72,8 @@
 		BBC3A4001B3E7C37002CBBE9 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBC3A3FF1B3E7C37002CBBE9 /* OpenGLES.framework */; };
 		BBC3A4021B3E7C40002CBBE9 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBC3A4011B3E7C40002CBBE9 /* QuartzCore.framework */; };
 		BBC3A4041B3E7C49002CBBE9 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBC3A4031B3E7C49002CBBE9 /* SystemConfiguration.framework */; };
+		BBC411661D461D2500D398FC /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = BBC411651D461D2500D398FC /* star.png */; };
+		BBC4116A1D5DF36800D398FC /* pin.png in Resources */ = {isa = PBXBuildFile; fileRef = BBC411691D5DF36800D398FC /* pin.png */; };
 		BBD353541CDCF8F0007B1A1C /* santen.png in Resources */ = {isa = PBXBuildFile; fileRef = BBD353531CDCF8F0007B1A1C /* santen.png */; };
 		BBD353561CDCFDD0007B1A1C /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD353551CDCFDD0007B1A1C /* SettingsViewController.swift */; };
 		BBD353581CDDCCB1007B1A1C /* SettingsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBD353571CDDCCB1007B1A1C /* SettingsView.xib */; };
@@ -114,9 +114,7 @@
 		94A91D3F1CC448B1004E7652 /* MBProgressHUDHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MBProgressHUDHelper.swift; sourceTree = "<group>"; };
 		BB1A1E5A1CE93B190090E72D /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		BB1A1E5C1CF515A90090E72D /* UserPolicy.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = UserPolicy.txt; sourceTree = "<group>"; };
-		BB1A1E621D0BD9A90090E72D /* pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pin.png; sourceTree = "<group>"; };
 		BB1A1E641D0D04530090E72D /* imaiku.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imaiku.png; sourceTree = "<group>"; };
-		BB2084011D3241430097FDAC /* BlockTap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockTap.swift; sourceTree = "<group>"; };
 		BB3643101D27B46B00CF1D18 /* MarkerDraggableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkerDraggableViewController.swift; sourceTree = "<group>"; };
 		BB3643141D2F166100CF1D18 /* mappin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mappin.png; sourceTree = "<group>"; };
 		BB36D8DA1D0D184E00266BB6 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
@@ -174,6 +172,8 @@
 		BBC3A3FF1B3E7C37002CBBE9 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BBC3A4011B3E7C40002CBBE9 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		BBC3A4031B3E7C49002CBBE9 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		BBC411651D461D2500D398FC /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
+		BBC411691D5DF36800D398FC /* pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pin.png; sourceTree = "<group>"; };
 		BBD353531CDCF8F0007B1A1C /* santen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = santen.png; sourceTree = "<group>"; };
 		BBD353551CDCFDD0007B1A1C /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		BBD353571CDDCCB1007B1A1C /* SettingsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsView.xib; sourceTree = "<group>"; };
@@ -364,7 +364,6 @@
 				BB6FDDD21C3E952700C366A2 /* UIAlertView+Custom.swift */,
 				BB36D8DA1D0D184E00266BB6 /* LocationManager.swift */,
 				BB36D8DF1D0E295000266BB6 /* UIViewExtensions.swift */,
-				BB2084011D3241430097FDAC /* BlockTap.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -396,11 +395,11 @@
 				BB87AD911CDB30B7003973D7 /* TransisionProtocol.swift */,
 				BB6FDDF51C3E998000C366A2 /* MapViewController.swift */,
 				BB6FDDF41C3E998000C366A2 /* GoNowListViewController.swift */,
-				9484EBD71CC38B0300DEC7A4 /* ImakokoViewController.swift */,
 				BB6FDDF71C3E998000C366A2 /* PickerViewController.swift */,
 				BB6FDDF81C3E998000C366A2 /* ProfileViewController.swift */,
 				BBD353551CDCFDD0007B1A1C /* SettingsViewController.swift */,
 				BB3643101D27B46B00CF1D18 /* MarkerDraggableViewController.swift */,
+				9484EBD71CC38B0300DEC7A4 /* ImakokoViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -408,12 +407,13 @@
 		BB6FDE001C3E9D0D00C366A2 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				BBC411691D5DF36800D398FC /* pin.png */,
 				BB3643141D2F166100CF1D18 /* mappin.png */,
-				BB1A1E621D0BD9A90090E72D /* pin.png */,
 				BB36D8DC1D0D484B00266BB6 /* imadoko.png */,
 				BBD3535B1CDDD517007B1A1C /* logo_fb.png */,
 				BBD353591CDDD4E2007B1A1C /* logo_twitter.png */,
 				BB1A1E641D0D04530090E72D /* imaiku.png */,
+				BBC411651D461D2500D398FC /* star.png */,
 				BBD353531CDCF8F0007B1A1C /* santen.png */,
 				BB6FDE121C43C1F200C366A2 /* reload.png */,
 				BB6FDE011C3E9D0D00C366A2 /* fukidashi.png */,
@@ -535,6 +535,7 @@
 				BB6FDDED1C3E97E100C366A2 /* MarkWindow.xib in Resources */,
 				BB1A1E5D1CF515A90090E72D /* UserPolicy.txt in Resources */,
 				BB6FDDEA1C3E97E100C366A2 /* GoNowTableViewCell.xib in Resources */,
+				BBC4116A1D5DF36800D398FC /* pin.png in Resources */,
 				BB1A1E651D0D04530090E72D /* imaiku.png in Resources */,
 				BB6FDE0A1C3E9D0D00C366A2 /* profile_icon.png in Resources */,
 				BB36D8DD1D0D484B00266BB6 /* imadoko.png in Resources */,
@@ -556,10 +557,10 @@
 				94755CFB1B5A1084004FDEBC /* Info.plist in Resources */,
 				9409F7931B2D994D0069DAE8 /* Images.xcassets in Resources */,
 				BBA5C4961B3545D4005D062B /* GoogleMaps.bundle in Resources */,
+				BBC411661D461D2500D398FC /* star.png in Resources */,
 				BB6FDDEF1C3E97E100C366A2 /* ProfileView.xib in Resources */,
 				BB6FDDEB1C3E97E100C366A2 /* MapView.xib in Resources */,
 				BB3643151D2F166100CF1D18 /* mappin.png in Resources */,
-				BB1A1E631D0BD9A90090E72D /* pin.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -639,7 +640,6 @@
 				BBEFA89B1B57BE99002EFC7A /* AppDelegate.swift in Sources */,
 				BB6FDE0F1C43AC1500C366A2 /* FeedData.swift in Sources */,
 				BB6FDDFF1C3E998000C366A2 /* TargetProfileViewController.swift in Sources */,
-				BB2084021D3241430097FDAC /* BlockTap.swift in Sources */,
 				BB6FDDFB1C3E998000C366A2 /* MapViewController.swift in Sources */,
 				BB87AD921CDB30B7003973D7 /* TransisionProtocol.swift in Sources */,
 				BB6FDDFA1C3E998000C366A2 /* GoNowListViewController.swift in Sources */,

@@ -19,12 +19,6 @@ enum SelectPickerType { case Gender, Age }
 enum InputPickerType { case Comment, Name }
 
 protocol PickerViewControllerDelegate{
-    
-//    func setGender(selectedIndex: Int,selected: String)
-//    func setAge(selectedIndex: Int,selected: String)
-//    func setName(name: String)
-//    func setComment(comment: String)
-    
     func setInputValue(inputValue: String, type: InputPickerType)
     func setSelectedValue(selectedIndex: Int, selectedValue: String, type: SelectPickerType)
     func setSelectedDate(SelectedDate: NSDate)
@@ -39,9 +33,7 @@ class PickerViewController: UIViewController,
     var delegate: PickerViewControllerDelegate?
     
     var _interstitial: GADInterstitial?
-    
     let saveButton = UIButton()
-    
     var selectedAgeIndex: Int?
     var selectedAge:String = ""
     var selectedGenderIndex: Int?
@@ -52,24 +44,17 @@ class PickerViewController: UIViewController,
     var inputPlace = UITextView()
     var inputMyCodinate = UITextView()
     var inputMyDatePicker = UIDatePicker()
-    
     var realTextView = UITextView()
     
     // Tableで使用する配列を設定する
-    private var myTableView: UITableView!
+    private var tableView: UITableView!
     private var myItems: NSArray = []
     private var kind: String = ""
     private var Input: AnyObject = ""
     var palmItems:[String] = []
     var palKind: String = ""
     var palInput: AnyObject = ""
-    
-    var window: UIWindow?
-    
-    var myViewController: UIViewController?
-    
     var palTargetUser: PFObject?
-    
     var selectedItem: String!
     
     override func viewDidLoad() {
@@ -82,15 +67,12 @@ class PickerViewController: UIViewController,
         //フル画面広告を取得
         _interstitial = showFullAdmob()
         
-        // palmater set
         self.myItems = []
         self.myItems = palmItems
         self.kind = palKind
         self.Input = palInput
         
-        
         let navBarHeight = self.navigationController?.navigationBar.frame.size.height
-        
         
         // Viewの高さと幅を取得する.
         let displayWidth: CGFloat = UIScreen.mainScreen().bounds.size.width
@@ -98,21 +80,19 @@ class PickerViewController: UIViewController,
         
         if (self.kind == "gender" || self.kind == "age") {
             // TableViewの生成す
-            myTableView = UITableView(frame: CGRect(x: 0, y: 0, width: displayWidth, height: displayHeight - navBarHeight!))
+            tableView = UITableView(frame: CGRect(x: 0, y: 0, width: displayWidth, height: displayHeight - navBarHeight!))
             
             // Cell名の登録をおこなう.
-            myTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
-            myTableView.dataSource = self   // DataSourceの設定をする.
-            myTableView.delegate = self     // Delegateを設定する.
+            tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
+            tableView.dataSource = self   // DataSourceの設定をする.
+            tableView.delegate = self     // Delegateを設定する.
             
             // 不要行の削除
             let notUserRowView = UIView(frame: CGRectZero)
             notUserRowView.backgroundColor = UIColor.clearColor()
-            myTableView.tableFooterView = notUserRowView
-            myTableView.tableHeaderView = notUserRowView
-            
-            // Viewに追加する.
-            self.view.addSubview(myTableView)
+            tableView.tableFooterView = notUserRowView
+            tableView.tableHeaderView = notUserRowView
+            self.view.addSubview(tableView)
             
         } else if self.kind == "name" {
             
@@ -139,24 +119,26 @@ class PickerViewController: UIViewController,
             self.navigationItem.title = "待ち合わせまでにかかる時間"
             self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
             
-            myTableView = UITableView(frame: CGRect(x: 0, y: navBarHeight!, width: displayWidth, height: displayHeight - navBarHeight!))
+            tableView = UITableView(frame: CGRect(x: 0, y: navBarHeight!, width: displayWidth, height: displayHeight - navBarHeight!))
             
-            myTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
-            myTableView.dataSource = self
-            myTableView.delegate = self
+            tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
+            tableView.dataSource = self
+            tableView.delegate = self
             
             let view:UIView = UIView(frame: CGRectZero)
             view.backgroundColor = UIColor.clearColor()
-            myTableView.tableFooterView = view
-            myTableView.tableHeaderView = view
-            self.view.addSubview(myTableView)
+            tableView.tableFooterView = view
+            tableView.tableHeaderView = view
+            self.view.addSubview(tableView)
         
         } else if self.kind == "imageView" {
             
-            let displayWidth = UIScreen.mainScreen().bounds.size.width
+            let displaySize = UIScreen.mainScreen().bounds.size.width
             
             let image = self.palInput as! UIImageView
-            image.frame = CGRectMake(0, 0, displayWidth, displayWidth);
+            image.layer.borderWidth = 0
+            image.layer.cornerRadius = 0
+            image.frame = CGRectMake(0, 0, displaySize, displaySize);
             self.view.addSubview(image)
         }
     }
@@ -199,7 +181,7 @@ class PickerViewController: UIViewController,
         btn.layer.cornerRadius = 5.0
         btn.layer.masksToBounds = true
         btn.layer.position = CGPoint(x: displayWidth/2, y: displayHeight)
-        btn.addTarget(self, action: #selector(PickerViewController.onClickSaveButton(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        btn.addTarget(self, action: #selector(onClickSaveButton), forControlEvents: UIControlEvents.TouchUpInside)
         
         self.view.addSubview(btn)
     }
@@ -219,6 +201,7 @@ class PickerViewController: UIViewController,
             
             if self.inputTextField.text!.isEmpty {
                 UIAlertView.showAlertView("", message: "名前を入力してください")
+                
                 return
             }
             
@@ -228,7 +211,6 @@ class PickerViewController: UIViewController,
                 self.navigationController!.popViewControllerAnimated(true)
                 
                 return
-                
             }
             
             ParseHelper.getUserInfomation(PersistentData.User().userID) { (error: NSError?, result: PFObject?) -> Void in
@@ -250,6 +232,7 @@ class PickerViewController: UIViewController,
             
             if self.inputTextView.text.isEmpty {
                 UIAlertView.showAlertView("", message: "コメントを入力してください")
+                
                 return
             }
 
@@ -277,10 +260,6 @@ class PickerViewController: UIViewController,
             }
             
         } else if self.kind == "imakokoDate" {
-//            let dateFormatter = NSDateFormatter();
-//            dateFormatter.dateFormat = "yyyy年M月d日 H:mm"
-//            let formatDateString = dateFormatter.stringFromDate(self.inputMyDatePicker.date)
-            
             self.delegate!.setSelectedDate(self.inputMyDatePicker.date)
             self.navigationController!.popViewControllerAnimated(true)
             
@@ -378,7 +357,6 @@ class PickerViewController: UIViewController,
                     return
                 }
                 
-                //imaiku flag on
                 var userInfo = PersistentData.User()
                 userInfo.imaikuFlag = true
                 

@@ -29,7 +29,7 @@ class TargetProfileViewController:
     CLLocationManagerDelegate,
     GMSMapViewDelegate {
     
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet var tableView: UITableView!
     
     let modalTextLabel = UILabel()
     let lblName: String = ""
@@ -45,18 +45,18 @@ class TargetProfileViewController:
     var innerViewHeight: CGFloat!
 
     //Targetの情報
-    let targetProfileItems = ["名前", "性別", "年齢", "プロフィール"]
+    private let targetProfileItems = ["名前", "性別", "年齢", "プロフィール"]
     //いまから来る人の詳細情報
-    let imakuruItems = ["到着時間"]
+    private let imakuruItems = ["到着時間"]
     //
-    let otherItems = ["登録時間", "場所", "特徴"]
+    private let otherItems = ["登録時間", "場所", "特徴"]
     
     // Sectionで使用する配列を定義する.
     private var sections: NSArray = []
 
-    let detailTableViewCellIdentifier = "DetailCell"
+    private let detailTableViewCellIdentifier = "DetailCell"
     
-    let mapTableViewCellIdentifier = "MapCell"
+    private let mapTableViewCellIdentifier = "MapCell"
     
     var type = ProfileType.TargetProfile
     
@@ -77,7 +77,7 @@ class TargetProfileViewController:
         navigationController!.navigationBar.tintColor = UIColor.whiteColor()
         navigationController!.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: .Default)
         navigationController!.navigationBar.shadowImage = UIImage()
-        
+        PersistentData.deleteUserIDForKey("imaikuFlag")
         
         // MAPの高さは端末Heightの1/5
         let mapViewHeight = round(UIScreen.mainScreen().bounds.size.height / 5)
@@ -140,9 +140,8 @@ class TargetProfileViewController:
         do {
             // 画像表示
             
-            //let profileImage = UIImageView(frame: CGRectMake(17, statusBarHeight + navBarHeight! + 10 + mapViewHeight, 93, 93))
             let profileImage = UIImageView(frame: CGRectMake(17, imageY, imageSize, imageSize))
-            //profileImage.translatesAutoresizingMaskIntoConstraints = false
+            
             if let imageFile = userInfo.valueForKey("ProfilePicture") as? PFFile {
                 imageFile.getDataInBackgroundWithBlock { (imageData, error) -> Void in
                     if(error == nil) {
@@ -153,13 +152,14 @@ class TargetProfileViewController:
                         profileImage.layer.masksToBounds = true
                         
                         profileImage.userInteractionEnabled = true
+                        
                         let gesture = UITapGestureRecognizer(target:self, action: #selector(self.didClickImageView))
                         profileImage.addGestureRecognizer(gesture)
+                        
+                        self.myHeaderView.addSubview(profileImage)
                     }
                 }
             }
-            
-            myHeaderView.addSubview(profileImage)
         }
         
 //        self.myHeaderView.addConstraints([
@@ -215,6 +215,16 @@ class TargetProfileViewController:
             //button.translatesAutoresizingMaskIntoConstraints = false
             myHeaderView.addSubview(imadokoBtn)
             
+//            //お気に入り
+//            let starBtn = imadokoButton()
+//            let starBtnWidth = round(self.displayWidth / 7)
+//            let starBtnX = self.displayWidth - round(self.displayWidth / 5)
+//            let starHeight = round(self.displayHeight / 17)
+//            starBtn.frame = CGRect(x: starBtnX - starBtnWidth - 10, y: mapViewHeight + 10, width: starBtnWidth, height: starHeight)
+//            starBtn.imageEdgeInsets = UIEdgeInsetsMake(8, 8, 8, 8)
+//            //button.translatesAutoresizingMaskIntoConstraints = false
+//            myHeaderView.addSubview(starBtn)
+            
         } else {
             /*
              * MapViewのいまココ一覧から遷移した場合
@@ -238,11 +248,7 @@ class TargetProfileViewController:
         settingsButton.addTarget(self, action: #selector(TargetProfileViewController.onClickSettingAction), forControlEvents: .TouchUpInside)
         settingsButton.frame = CGRectMake(0, 0, 22, 22)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: settingsButton)
-        
-//        tableView.tableHeaderView = UIView()
-//        tableView.tableFooterView = UIView()
-        
-//        
+
         if self.isInternetConnect() {
             //広告を表示
             self.showAdmob(AdmobType.standard)
@@ -250,10 +256,12 @@ class TargetProfileViewController:
     }
     
     func didClickImageView(recognizer: UIGestureRecognizer) {
+        
         if let imageView = recognizer.view as? UIImageView {
+            
             let vc = PickerViewController()
             vc.palKind = "imageView"
-            vc.palInput = imageView
+            vc.palInput = UIImageView(image: imageView.image)
             
             self.navigationController!.pushViewController(vc, animated: true)
         }
@@ -487,6 +495,7 @@ class TargetProfileViewController:
     }
     
     func clickimakokoButton() {
+        
         UIAlertView.showAlertOKCancel("", message: "現在位置を相手だけに送信します") { action in
             
             if action == UIAlertView.ActionButton.Cancel {
@@ -498,6 +507,7 @@ class TargetProfileViewController:
             let center = NSNotificationCenter.defaultCenter() as NSNotificationCenter
             
             LocationManager.sharedInstance.startUpdatingLocation()
+            
             center.addObserver(self, selector: #selector(self.foundLocation), name: LMLocationUpdateNotification as String, object: nil)
         }
     }

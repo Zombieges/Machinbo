@@ -28,12 +28,11 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
     @IBOutlet weak var startButton: ZFRippleButton!
     @IBOutlet weak var tableView: UITableView!
     
-    let photoItems = ["フォト"]
-    let profileItems = ["名前", "性別", "生まれた年", "プロフィール"]
-    let otherItems = ["登録時間", "場所", "特徴"]
-    let sections = ["プロフィール", "待ち合わせ情報"]
+    private let photoItems = ["フォト"]
+    private let profileItems = ["名前", "性別", "生まれた年", "プロフィール"]
+    private let otherItems = ["登録時間", "場所", "特徴"]
+    private let sections = ["プロフィール", "待ち合わせ情報"]
     
-//    var mainNavigationCtrl: UINavigationController?
     let picker = UIImagePickerController()
     var window: UIWindow?
     var FarstTimeStart = false
@@ -133,7 +132,8 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
         
         let image = info[UIImagePickerControllerOriginalImage] as! UIImage
         
-        let resizedSize = CGSize(width: 93, height: 93)
+        let displaySize = UIScreen.mainScreen().bounds.size.width
+        let resizedSize = CGSize(width: displaySize, height: displaySize)
         UIGraphicsBeginImageContext(resizedSize)
         
         image.drawInRect(CGRect(x: 0, y: 0, width: resizedSize.width, height: resizedSize.height))
@@ -350,17 +350,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
     internal func tableView(table: UITableView, didSelectRowAtIndexPath indexPath:NSIndexPath) {
         
         let vc = PickerViewController()
-        
-        if PersistentData.User().userID != "" {
-            if indexPath.section  == 0 && indexPath.row == 1 {
-                UIAlertView.showAlertDismiss("", message: "性別は変更することができません") {}
-                return
-                
-            } else if indexPath.section  == 0 && indexPath.row == 2 {
-                UIAlertView.showAlertDismiss("", message: "生まれた年は変更することができません") {}
-                return
-            }
-        }
         
         myItems = []
         

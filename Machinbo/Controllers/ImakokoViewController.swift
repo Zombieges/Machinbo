@@ -29,10 +29,10 @@ class ImakokoViewController: UIViewController, UINavigationControllerDelegate,
     var inputChar = ""
     var palGeoPoint: PFGeoPoint?
     
-    let normalTableViewCellIdentifier = "NormalCell"
-    let detailTableViewCellIdentifier = "DetailCell"
+    private let normalTableViewCellIdentifier = "NormalCell"
+    private let detailTableViewCellIdentifier = "DetailCell"
     
-    var targetProfileItems = ["待ち合わせ時間", "待ち合わせ場所", "自分の特徴"]
+    private let targetProfileItems = ["待ち合わせ時間", "待ち合わせ場所", "自分の特徴"]
     
     var _interstitial: GADInterstitial?
     

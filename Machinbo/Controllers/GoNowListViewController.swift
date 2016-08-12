@@ -25,36 +25,58 @@ class GoNowListViewController: UIViewController,
     
     let detailTableViewCellIdentifier: String = "GoNowCell"
     
+    override func viewDidLoad() {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(reloadData), name:"reloadData", object: nil)
+    }
+    
     override func loadView() {
-        if let view = UINib(nibName: "GoNowListView", bundle: nil).instantiateWithOwner(self, options: nil).first as? UIView {
-            self.view = view
+        
+        defer {
+            if self.isInternetConnect() {
+                //広告を表示
+                self.showAdmob(AdmobType.standard)
+            }
         }
         
         self.navigationItem.title = "いまから来る人リスト"
         self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
         
-        let nibName = UINib(nibName: "GoNowTableViewCell", bundle:nil)
-        self.tableView.registerNib(nibName, forCellReuseIdentifier: detailTableViewCellIdentifier)
-        self.tableView.estimatedRowHeight = 100.0
-        self.tableView.rowHeight = UITableViewAutomaticDimension
+        if let view = UINib(nibName: "GoNowListView", bundle: nil).instantiateWithOwner(self, options: nil).first as? UIView {
+            self.view = view
+        }
         
-        // 不要行の削除
-        let noUseCell: UIView = UIView(frame: CGRectZero)
-        noUseCell.backgroundColor = UIColor.clearColor()
-        tableView.tableFooterView = noUseCell
-        tableView.tableHeaderView = noUseCell
+//        guard self.goNowList.count != 0 else {
+//            let displayWidth: CGFloat = UIScreen.mainScreen().bounds.size.width
+//            let displayHeight: CGFloat = UIScreen.mainScreen().bounds.size.height
+//            
+//            let label = UILabel(frame: CGRectMake(0, 0, displayWidth, displayHeight));
+//            //label.textAlignment = NSTextAlignment.Natural
+//            label.numberOfLines = 0
+//            label.text = "待ち合わせ要望がまだありません。待ち合わせ要望があった場合、このリストに表示されます。"
+//            self.view.addSubview(label)
+//            self.tableView.hidden = true
+//            
+//            return
+//        }
         
-        // set up the refresh control
-        self.refreshControl = UIRefreshControl()
-        self.refreshControl.attributedTitle = NSAttributedString(string: "Loading...")
-        self.refreshControl.addTarget(self, action: #selector(GoNowListViewController.refresh), forControlEvents: UIControlEvents.ValueChanged)
-        self.tableView.addSubview(refreshControl)
+        do {
+            let nibName = UINib(nibName: "GoNowTableViewCell", bundle:nil)
+            self.tableView.registerNib(nibName, forCellReuseIdentifier: detailTableViewCellIdentifier)
+            self.tableView.estimatedRowHeight = 100.0
+            self.tableView.rowHeight = UITableViewAutomaticDimension
+            
+            let noUseCell: UIView = UIView(frame: CGRectZero)
+            noUseCell.backgroundColor = UIColor.clearColor()
+            tableView.tableFooterView = noUseCell
+            tableView.tableHeaderView = noUseCell
+            self.view.addSubview(tableView)
+        }
         
-        self.view.addSubview(tableView)
-        
-        if self.isInternetConnect() {
-            //広告を表示
-            self.showAdmob(AdmobType.standard)
+        do {
+            self.refreshControl = UIRefreshControl()
+            self.refreshControl.attributedTitle = NSAttributedString(string: "Loading...")
+            self.refreshControl.addTarget(self, action: #selector(refresh), forControlEvents: .ValueChanged)
+            self.tableView.addSubview(refreshControl)
         }
     }
     
@@ -123,15 +145,53 @@ class GoNowListViewController: UIViewController,
         self.navigationController!.pushViewController(vc, animated: true)
     }
     
+    func tableView(tableView: UITableView,canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool
+    {
+        return true
+    }
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == UITableViewCellEditingStyle.Delete {
+            
+            let goNowObj = self.goNowList[indexPath.row] as! PFObject
+            
+            MBProgressHUDHelper.show("Loading...")
+            
+            ParseHelper.deleteGoNow(goNowObj.objectId!) { () -> () in
+                
+                defer {
+                    MBProgressHUDHelper.hide()
+                }
+                
+                NSNotificationCenter.defaultCenter().postNotificationName("reloadData", object: self)
+            }
+        }
+    }
+    
+    func reloadData(notification:NSNotification){
+        
+        self.tableView.reloadData()
+    }
+    
+    func someFunction(success: ((success: Bool) -> Void)) {
+        //Perform some tasks here
+        success(success: true)
+    }
+    
     /*
      画面を下に引っ張った際に呼び出される.
      */
     func refresh()
     {
         // Parse よりデータ取得し、 tableView 再描画
-        getGoNowMeList()
-        refreshControl.endRefreshing()
-        tableView.reloadData()
+        //getGoNowMeList()
+        
+        dispatch_async(dispatch_get_main_queue(), {
+            self.refreshControl.endRefreshing()
+            self.tableView.reloadData()
+        })
+//        refreshControl.endRefreshing()
+//        tableView.reloadData()
         
     }
     
@@ -150,6 +210,12 @@ class GoNowListViewController: UIViewController,
                 return
             }
             self.goNowList = result!
+            
+            if self.goNowList.count == 0 {
+                let label = UILabel(frame: CGRectMake(0, 0, 100, 20));
+                label.textAlignment = NSTextAlignment.Center
+                self.view.addSubview(label)
+            }
             
             // このタイミングで reloadData() を行わないと、引っ張って更新時に画面に反映されない
             self.tableView.reloadData()

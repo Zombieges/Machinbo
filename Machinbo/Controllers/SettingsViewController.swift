@@ -27,9 +27,9 @@ class SettingsViewController: UIViewController, UINavigationControllerDelegate,
     var inputChar: String = ""
     var palGeoPoint: PFGeoPoint?
     
-    let sections = ["サポート", "Machinboいついて", " "]
-    let supportLabels = ["Twitter公式アカウント"]
-    let appRuleLabels = ["サービス規約"]
+    private let sections = ["サポート", "Machinboいついて", " "]
+    private let supportLabels = ["Twitter公式アカウント"]
+    private let appRuleLabels = ["サービス規約"]
     let otherLabels = ["アカウント削除"]
     
     var selectedRow: Int = 0

@@ -18,7 +18,7 @@ class GoNowListViewController: UIViewController,
     GADBannerViewDelegate,
     GADInterstitialDelegate {
 
-    var goNowList: AnyObject = []
+    var goNowList = [AnyObject]()
     var refreshControl:UIRefreshControl!
     
     @IBOutlet weak var tableView: UITableView!
@@ -65,10 +65,10 @@ class GoNowListViewController: UIViewController,
             self.tableView.estimatedRowHeight = 100.0
             self.tableView.rowHeight = UITableViewAutomaticDimension
             
-            let noUseCell: UIView = UIView(frame: CGRectZero)
+            let noUseCell = UIView(frame: CGRectZero)
             noUseCell.backgroundColor = UIColor.clearColor()
-            tableView.tableFooterView = noUseCell
-            tableView.tableHeaderView = noUseCell
+            self.tableView.tableFooterView = noUseCell
+            self.tableView.tableHeaderView = noUseCell
             self.view.addSubview(tableView)
         }
         
@@ -161,9 +161,14 @@ class GoNowListViewController: UIViewController,
                 
                 defer {
                     MBProgressHUDHelper.hide()
+                    
+                    let name = goNowObj.objectForKey("User")?.objectForKey("Name") as! String
+                    UIAlertView.showAlertDismiss("", message: name + "の「いまから行く」を拒否しました", completion: { () -> () in })
                 }
                 
-                NSNotificationCenter.defaultCenter().postNotificationName("reloadData", object: self)
+                self.goNowList.removeAtIndex(indexPath.row)
+                self.loadView()
+                self.tableView.reloadData()
             }
         }
     }
@@ -183,16 +188,9 @@ class GoNowListViewController: UIViewController,
      */
     func refresh()
     {
-        // Parse よりデータ取得し、 tableView 再描画
-        //getGoNowMeList()
-        
-        dispatch_async(dispatch_get_main_queue(), {
-            self.refreshControl.endRefreshing()
-            self.tableView.reloadData()
-        })
-//        refreshControl.endRefreshing()
-//        tableView.reloadData()
-        
+        self.getGoNowMeList()
+        self.loadView()
+        self.tableView.reloadData()
     }
     
     /*

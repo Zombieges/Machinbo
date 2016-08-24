@@ -63,7 +63,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         let myPosition = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         let camera = GMSCameraPosition(target: myPosition, zoom: 13, bearing: 0, viewingAngle: 0)
         
-        var gmaps = GMSMapView()
+        let gmaps = GMSMapView()
         gmaps.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.size.width, UIScreen.mainScreen().bounds.size.height)
         gmaps.myLocationEnabled = true
         gmaps.settings.myLocationButton = true
@@ -74,10 +74,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         self.view.addSubview(gmaps)
         
         FeedData.mainData().refreshMapFeed(myPosition) { () -> () in
-            
-            defer {
-                MBProgressHUDHelper.hide()
-            }
             
             //ユーザマーカーを表示
             GoogleMapsHelper.setAnyUserMarker(gmaps, userObjects: FeedData.mainData().feedItems)

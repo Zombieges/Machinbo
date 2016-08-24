@@ -207,11 +207,11 @@ class TargetProfileViewController:
             
             //いま何処ボタン追加
             let imadokoBtn = imadokoButton()
-            let imadokoBtnX = self.displayWidth - round(self.displayWidth / 5)
-            let imadokoBtnWidth = round(self.displayWidth / 7)
+            let imadokoBtnX = self.displayWidth - round(self.displayWidth / 2.5)
+            let imadokoBtnWidth = round(self.displayWidth / 3)
             let imadokotnHeight = round(self.displayHeight / 17)
             imadokoBtn.frame = CGRect(x: imadokoBtnX, y: mapViewHeight + 10, width: imadokoBtnWidth, height: imadokotnHeight)
-            imadokoBtn.imageEdgeInsets = UIEdgeInsetsMake(8, 8, 8, 8)
+            //imadokoBtn.imageEdgeInsets = UIEdgeInsetsMake(8, 8, 8, 8)
             //button.translatesAutoresizingMaskIntoConstraints = false
             myHeaderView.addSubview(imadokoBtn)
             
@@ -477,19 +477,26 @@ class TargetProfileViewController:
     func imadokoButton() -> ZFRippleButton {
         let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         btn.trackTouchLocation = true
-        btn.backgroundColor = UIColor.hex("55acee", alpha: 1)
-        btn.layer.borderColor = UIColor.whiteColor().CGColor
-        btn.layer.borderWidth = 3
-        btn.layer.cornerRadius = 7
-        btn.layer.masksToBounds = true
+//        btn.backgroundColor = UIColor.hex("55acee", alpha: 1)
+//        btn.layer.borderColor = UIColor.whiteColor().CGColor
+//        btn.layer.borderWidth = 3
+//        btn.layer.cornerRadius = 7
+//        btn.layer.masksToBounds = true
         
-        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x2196F3)
-        btn.rippleColor = LayoutManager.getUIColorFromRGB(0xBBDEFB)
+//        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x2196F3)
+        //btn.rippleColor = UIView().tintColor
+        btn.tintColor = UIView().tintColor
         //        btn.setTitle("いまココ", forState: .Normal)
         btn.addTarget(self, action: #selector(clickimadokoButton), forControlEvents: UIControlEvents.TouchUpInside)
         btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Center
-        btn.setImage(UIImage(named: "imadoko.png"), forState: .Normal)
-        btn.imageView?.contentMode = .ScaleAspectFit
+//        btn.setImage(UIImage(named: "imadoko.png"), forState: .Normal)
+//        btn.imageView?.contentMode = .ScaleAspectFit
+
+        btn.setTitle("現在位置確認", forState: UIControlState.Normal)
+        btn.layer.cornerRadius = 5.0
+        btn.layer.borderColor = UIView().tintColor.CGColor
+        btn.layer.borderWidth = 1.0
+        btn.tintColor = UIView().tintColor
         
         return btn
     }

@@ -28,6 +28,9 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
     @IBOutlet weak var startButton: ZFRippleButton!
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var imakokoButton: UIButton!
+    
+    
     private let photoItems = ["フォト"]
     private let profileItems = ["名前", "性別", "生まれた年", "プロフィール"]
     private let otherItems = ["登録時間", "場所", "特徴"]
@@ -102,6 +105,25 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
             gender = userData.gender
             selectedGender = String(userData.gender)
             inputComment = userData.comment
+            
+            do {
+                if userData.isRecruitment {
+                    //募集中の場合
+                    self.imakokoButton.setTitle("待ち合わせ募集中", forState: UIControlState.Normal)
+                    self.imakokoButton.layer.cornerRadius = 5.0
+                    self.imakokoButton.layer.borderColor = UIView().tintColor.CGColor
+                    self.imakokoButton.layer.borderWidth = 1.0
+                    self.imakokoButton.tintColor = UIView().tintColor
+                    
+                } else {
+                    self.imakokoButton.setTitle("待ち合わせ募集停止中", forState: UIControlState.Normal)
+                    self.imakokoButton.layer.cornerRadius = 5.0
+                    self.imakokoButton.layer.borderColor = UIColor.redColor().CGColor
+                    self.imakokoButton.layer.borderWidth = 1.0
+                    self.imakokoButton.tintColor = UIColor.redColor()
+                }
+
+            }
         }
 
         imageMolding(profilePicture)
@@ -479,5 +501,77 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
     func onClickSettingView() {
         let vc = SettingsViewController()
         self.navigationController!.pushViewController(vc, animated: true)
+    }
+    
+    @IBAction func imakokoAction(sender: AnyObject) {
+        
+        var userData = PersistentData.User()
+        
+        if userData.isRecruitment {
+            
+            UIAlertView.showAlertOKCancel("募集停止", message: "待ち合わせ募集を停止してもよろしいですか？") { action in
+                if action == UIAlertView.ActionButton.Cancel {
+                    return
+                }
+                
+                self.recruitmentStop()
+            }
+            
+        } else {
+            
+            UIAlertView.showAlertOKCancel("募集再開", message: "待ち合わせ募集を再開してもよろしいですか？") { action in
+                if action == UIAlertView.ActionButton.Cancel {
+                    return
+                }
+                
+                self.recruitmentStart()
+            }
+        }
+    }
+    
+    func recruitmentStart() {
+        self.recruitmentAction(true)
+    }
+    
+    func recruitmentStop() {
+        self.recruitmentAction(false)
+    }
+    
+    func recruitmentAction(isRecruitment: Bool) {
+        
+        var userData = PersistentData.User()
+        
+        MBProgressHUDHelper.show("Loading...")
+        
+        ParseHelper.getUserInfomation(userData.userID) { (error: NSError?, result: PFObject?) -> Void in
+            
+            defer {
+                MBProgressHUDHelper.hide()
+            }
+            
+            guard let result = result else {
+                return
+            }
+            
+            result["IsRecruitment"] = isRecruitment
+            result.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+                
+                defer {
+                    //画面再描画
+                    self.viewDidLoad()
+                    
+                    var message = ""
+                    if isRecruitment {
+                        message = "募集を開始しました"
+                    } else {
+                        message = "募集を停止しました"
+                    }
+                    
+                    UIAlertView.showAlertDismiss("", message: message, completion: { () -> () in })
+                }
+                
+                userData.isRecruitment = isRecruitment
+            }
+        }
     }
 }

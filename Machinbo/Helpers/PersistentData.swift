@@ -144,5 +144,15 @@ class PersistentData {
                 NSUserDefaults.standardUserDefaults().synchronize()
             }
         }
+        
+        var isRecruitment: Bool {
+            get {
+                return NSUserDefaults.standardUserDefaults().boolForKey("isRecruitment") ?? false
+            }
+            set {
+                NSUserDefaults.standardUserDefaults().setBool(newValue , forKey: "isRecruitment")
+                NSUserDefaults.standardUserDefaults().synchronize()
+            }
+        }
     }
 }

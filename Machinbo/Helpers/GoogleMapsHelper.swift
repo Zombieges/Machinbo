@@ -15,9 +15,13 @@ class GoogleMapsHelper {
 
     class func setAnyUserMarker(map: GMSMapView, userObjects: [PFObject]) {
         
+        MBProgressHUDHelper.show("Loading...")
+        
         for users in userObjects {
             setUserMarker(map, user: users, isSelect: false)
         }
+        
+        MBProgressHUDHelper.hide()
     }
     
     class func setUserMarker(map: GMSMapView, user: PFObject, isSelect: Bool) {

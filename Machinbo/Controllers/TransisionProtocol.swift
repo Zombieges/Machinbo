@@ -9,6 +9,9 @@
 import UIKit
 import Foundation
 import GoogleMobileAds
+import AWSSNS
+import AWSCore
+import AWSCognito
 
 protocol TransisionProtocol {
     func isInternetConnect() -> Bool
@@ -134,5 +137,90 @@ extension TransisionProtocol where
         
         return interstitial
     }
+    
+    //　to do nabe 共通化
+    //  Send Notification
+    //
+    func sendNotification(message : String, deviceTokenAsString : String,
+                          type : String = "alert", sound : String = "default", badges : Int = 1,
+                          ompletionHandler : ((NSError?) -> ())? = nil)
+    {
+        
+        // 別スレッドにて実行
+        let grobalQueue = dispatch_get_global_queue(QOS_CLASS_USER_INTERACTIVE, 0)
+        dispatch_async(grobalQueue, {
+            
+            //
+            // SET UP AWS CONGNITO
+            //
+            let poolId = ConfigHelper.getPlistKey("AWS_CONGNITO_TEST") as String
+            let awsCredentialsProvider = AWSCognitoCredentialsProvider(
+                regionType: .APNortheast1,
+                identityPoolId: poolId
+            )
+            
+            let defaultAwsServiceConfiguration = AWSServiceConfiguration(region: .APNortheast1, credentialsProvider: awsCredentialsProvider)
+            AWSServiceManager.defaultServiceManager().defaultServiceConfiguration = defaultAwsServiceConfiguration
+            
+            //
+            // AWS SNS
+            //
+            let sns = AWSSNS.defaultSNS()
+            let snsRequest = AWSSNSCreatePlatformEndpointInput()
+            snsRequest.token = deviceTokenAsString
+            snsRequest.platformApplicationArn = ConfigHelper.getPlistKey("AWS_SNS_TEST") as String
+            
+            
+            //
+            // SEND NOTIFICATION TO PARTICULAR PARSON
+            //
+            sns.createPlatformEndpoint(snsRequest) { (AwsSnsEndPoint:AWSSNSCreateEndpointResponse?, error:NSError?) in
+                if error != nil {
+                    print("Failed to create SNS endpoint:\(error?.description)")
+                } else {
+                    if let endpointArn = AwsSnsEndPoint?.endpointArn {
+                        print("created Endpoint is \(endpointArn)")
+                        
+                        
+                        let request = AWSSNSPublishInput()
+                        request.messageStructure = "json"
+                        
+                        
+                        //let dict = ["default": message, "APNS_SANDBOX": "{\"aps\":{\"\(type)\": \"\(message)\", \"badge\":\"\(badges)\"},\"sound\":\"\(sound)\" }"]
+                        //let dict = [ "APNS_SANDBOX": "{\"aps\":{\"\(type)\": \"\(message)\", \"badge\":\"\(badges)\"},\"sound\":\"\(sound),\"content-available\":1\" }"]
+                        
+                        let dict = [ "APNS_SANDBOX": "{\"aps\":{\"\(type)\": \"\(message)\", \"badge\":\"\(badges)\"},\"sound\":\"\(sound)\" }"]
+                        
+                        do
+                        {
+                            let jsonData = try NSJSONSerialization.dataWithJSONObject(dict, options: NSJSONWritingOptions.PrettyPrinted)
+                            request.message = NSString(data: jsonData, encoding: NSUTF8StringEncoding) as? String
+                            request.targetArn = "\(endpointArn)"
+                            
+                            // sending
+                            sns.publish(request).continueWithBlock
+                                {
+                                    (task) -> AnyObject! in
+                                    if task.error != nil
+                                    {
+                                        print("Error sending mesage: \(task.error)")
+                                    }
+                                    else
+                                    {
+                                        print("Success sending message")
+                                    }
+                                    return nil
+                            }
+                        }
+                        catch
+                        {
+                            print("Error on json serialization: \(error)")
+                        }
+                    }
+                }
+            }
+        })
+    }
+
     
 }

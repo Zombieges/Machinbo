@@ -40,6 +40,7 @@ class ParseHelper {
         
         let query = PFQuery(className: "UserInfo")
         query.whereKey("GPS", nearGeoPoint: myGeoPoint, withinKilometers: 25.0)
+        query.whereKey("IsRecruitment", equalTo: true)
         query.limit = 300
         query.orderByAscending("MarkTime")
         query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in

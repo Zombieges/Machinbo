@@ -244,6 +244,7 @@ class ImakokoViewController: UIViewController, UINavigationControllerDelegate,
             query["MarkTime"] = self.inputDate
             query["PlaceDetail"] = self.inputPlace
             query["MyChar"] = self.inputChar
+            query["IsRecruitment"] = true
             
             query.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
                 defer {
@@ -256,9 +257,15 @@ class ImakokoViewController: UIViewController, UINavigationControllerDelegate,
                 
                 //local db に保存
                 var userData = PersistentData.User()
-                //userData.insertTime = self.inputDate
+                
+                let dateFormatter = NSDateFormatter()
+                dateFormatter.dateFormat = "yyyy年M月d日 H:mm"
+                let formatDateString = dateFormatter.stringFromDate(self.inputDate)
+                userData.insertTime = formatDateString
+                
                 userData.place = self.inputPlace
                 userData.mychar = self.inputChar
+                userData.isRecruitment = true //募集中フラグ
                 
                 UIAlertView.showAlertDismiss("", message: "現在位置を登録しました") { () -> () in
                     

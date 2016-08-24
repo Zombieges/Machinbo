@@ -9,6 +9,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProfileViewController" customModule="Machinbo" customModuleProvider="target">
             <connections>
+                <outlet property="imakokoButton" destination="4KK-1b-J7V" id="YgK-WC-yt6"/>
                 <outlet property="profilePicture" destination="leq-Pp-UA6" id="1G5-Dh-Jvl"/>
                 <outlet property="startButton" destination="Rf5-tc-hSa" id="5A7-x6-S1D"/>
                 <outlet property="tableView" destination="YmW-wK-9N8" id="9FB-A3-nTd"/>
@@ -20,20 +21,6 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PEC-ux-cxX">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="130"/>
-                    <subviews>
-                        <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" restorationIdentifier="picture" translatesAutoresizingMaskIntoConstraints="NO" id="leq-Pp-UA6">
-                            <rect key="frame" x="15" y="13" width="93" height="93"/>
-                        </imageView>
-                    </subviews>
-                    <constraints>
-                        <constraint firstItem="leq-Pp-UA6" firstAttribute="leading" secondItem="PEC-ux-cxX" secondAttribute="leading" constant="17" id="2nV-ky-D1D"/>
-                        <constraint firstItem="leq-Pp-UA6" firstAttribute="height" secondItem="PEC-ux-cxX" secondAttribute="width" multiplier="0.3" id="AbT-NK-drC"/>
-                        <constraint firstItem="leq-Pp-UA6" firstAttribute="top" secondItem="PEC-ux-cxX" secondAttribute="top" constant="10" id="JJ3-nN-Jij"/>
-                        <constraint firstItem="leq-Pp-UA6" firstAttribute="width" secondItem="PEC-ux-cxX" secondAttribute="width" multiplier="0.3" id="LfE-3b-h2g"/>
-                    </constraints>
-                </view>
                 <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rf5-tc-hSa" customClass="ZFRippleButton" customModule="Machinbo" customModuleProvider="target">
                     <rect key="frame" x="8" y="457" width="584" height="40"/>
                     <color key="backgroundColor" red="0.70980392160000005" green="0.25882352939999997" blue="0.25490196079999999" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
@@ -65,6 +52,31 @@
                         <outlet property="delegate" destination="-1" id="xtW-vq-gEY"/>
                     </connections>
                 </tableView>
+                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PEC-ux-cxX">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="130"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" restorationIdentifier="picture" translatesAutoresizingMaskIntoConstraints="NO" id="leq-Pp-UA6">
+                            <rect key="frame" x="15" y="13" width="93" height="93"/>
+                        </imageView>
+                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4KK-1b-J7V">
+                            <rect key="frame" x="464" y="100" width="128" height="30"/>
+                            <state key="normal" title="Button"/>
+                            <connections>
+                                <action selector="imakokoAction:" destination="-1" eventType="touchUpInside" id="u05-2Q-RdP"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="4KK-1b-J7V" firstAttribute="height" secondItem="PEC-ux-cxX" secondAttribute="height" multiplier="0.3" id="0FZ-NK-urs"/>
+                        <constraint firstItem="leq-Pp-UA6" firstAttribute="leading" secondItem="PEC-ux-cxX" secondAttribute="leading" constant="17" id="2nV-ky-D1D"/>
+                        <constraint firstItem="leq-Pp-UA6" firstAttribute="height" secondItem="PEC-ux-cxX" secondAttribute="width" multiplier="0.3" id="AbT-NK-drC"/>
+                        <constraint firstItem="leq-Pp-UA6" firstAttribute="top" secondItem="PEC-ux-cxX" secondAttribute="top" constant="10" id="JJ3-nN-Jij"/>
+                        <constraint firstItem="leq-Pp-UA6" firstAttribute="width" secondItem="PEC-ux-cxX" secondAttribute="width" multiplier="0.3" id="LfE-3b-h2g"/>
+                        <constraint firstAttribute="trailing" secondItem="4KK-1b-J7V" secondAttribute="trailing" constant="10" id="aMr-3F-u3I"/>
+                        <constraint firstItem="4KK-1b-J7V" firstAttribute="width" secondItem="PEC-ux-cxX" secondAttribute="width" multiplier="0.4" id="kev-0d-kWD"/>
+                        <constraint firstAttribute="bottom" secondItem="4KK-1b-J7V" secondAttribute="bottom" constant="10" id="xpl-Jk-Pez"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>

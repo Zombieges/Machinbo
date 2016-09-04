@@ -109,14 +109,14 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
             do {
                 if userData.isRecruitment {
                     //募集中の場合
-                    self.imakokoButton.setTitle("待ち合わせ募集中", forState: UIControlState.Normal)
+                    self.imakokoButton.setTitle("待ち合わせ募集中", forState: .Normal)
                     self.imakokoButton.layer.cornerRadius = 5.0
                     self.imakokoButton.layer.borderColor = UIView().tintColor.CGColor
                     self.imakokoButton.layer.borderWidth = 1.0
                     self.imakokoButton.tintColor = UIView().tintColor
                     
                 } else {
-                    self.imakokoButton.setTitle("待ち合わせ募集停止中", forState: UIControlState.Normal)
+                    self.imakokoButton.setTitle("待ち合わせ募集停止中", forState: .Normal)
                     self.imakokoButton.layer.cornerRadius = 5.0
                     self.imakokoButton.layer.borderColor = UIColor.redColor().CGColor
                     self.imakokoButton.layer.borderWidth = 1.0

@@ -162,21 +162,6 @@ class TargetProfileViewController:
             }
         }
         
-//        self.myHeaderView.addConstraints([
-////
-////            /* GoogleMap AutoLayout */
-//            NSLayoutConstraint(item: gmaps, attribute: .Top, relatedBy: .Equal, toItem: self.myHeaderView, attribute: .Top, multiplier: 1, constant: 0),
-//            NSLayoutConstraint(item: gmaps, attribute: .Left, relatedBy: .Equal, toItem: self.myHeaderView, attribute: .Left, multiplier: 1, constant: 0),
-//            NSLayoutConstraint(item: gmaps, attribute: .Width, relatedBy: .Equal, toItem: self.myHeaderView, attribute: .Width, multiplier: 1, constant: 0),
-//            NSLayoutConstraint(item: gmaps, attribute: .Height, relatedBy: .Equal, toItem: self.myHeaderView, attribute: .Height, multiplier: 0.5, constant: 0),
-////
-//            /* Imakoko Button AutoLayout */
-//            NSLayoutConstraint(item: button, attribute: .Top,    relatedBy: .Equal, toItem: self.myHeaderView,   attribute: .Top, multiplier: 1, constant: mapViewHeight + 5),
-//            NSLayoutConstraint(item: button, attribute: .Right,   relatedBy: .Equal, toItem: self.myHeaderView, attribute: .Right,   multiplier: 1, constant: -10),
-//            NSLayoutConstraint(item: button, attribute: .Width, relatedBy: .Equal, toItem: self.myHeaderView, attribute: .Width, multiplier: 0.15, constant: 0),
-//            NSLayoutConstraint(item: button, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1, constant: 34)
-//        ])
-        
         if type == ProfileType.ImaikuTargetProfile {
             self.navigationItem.title = "いまから行く人のプロフィール"
             sections = ["プロフィール", "待ち合わせ情報"]
@@ -211,19 +196,7 @@ class TargetProfileViewController:
             let imadokoBtnWidth = round(self.displayWidth / 3)
             let imadokotnHeight = round(self.displayHeight / 17)
             imadokoBtn.frame = CGRect(x: imadokoBtnX, y: mapViewHeight + 10, width: imadokoBtnWidth, height: imadokotnHeight)
-            //imadokoBtn.imageEdgeInsets = UIEdgeInsetsMake(8, 8, 8, 8)
-            //button.translatesAutoresizingMaskIntoConstraints = false
             myHeaderView.addSubview(imadokoBtn)
-            
-//            //お気に入り
-//            let starBtn = imadokoButton()
-//            let starBtnWidth = round(self.displayWidth / 7)
-//            let starBtnX = self.displayWidth - round(self.displayWidth / 5)
-//            let starHeight = round(self.displayHeight / 17)
-//            starBtn.frame = CGRect(x: starBtnX - starBtnWidth - 10, y: mapViewHeight + 10, width: starBtnWidth, height: starHeight)
-//            starBtn.imageEdgeInsets = UIEdgeInsetsMake(8, 8, 8, 8)
-//            //button.translatesAutoresizingMaskIntoConstraints = false
-//            myHeaderView.addSubview(starBtn)
             
         } else {
             /*
@@ -474,29 +447,18 @@ class TargetProfileViewController:
     /**
      * いま何処ボタン
      */
-    func imadokoButton() -> ZFRippleButton {
-        let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        btn.trackTouchLocation = true
-//        btn.backgroundColor = UIColor.hex("55acee", alpha: 1)
-//        btn.layer.borderColor = UIColor.whiteColor().CGColor
-//        btn.layer.borderWidth = 3
-//        btn.layer.cornerRadius = 7
-//        btn.layer.masksToBounds = true
-        
-//        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x2196F3)
-        //btn.rippleColor = UIView().tintColor
-        btn.tintColor = UIView().tintColor
-        //        btn.setTitle("いまココ", forState: .Normal)
+    func imadokoButton() -> UIButton {
+        let btn = UIButton()
         btn.addTarget(self, action: #selector(clickimadokoButton), forControlEvents: UIControlEvents.TouchUpInside)
         btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Center
-//        btn.setImage(UIImage(named: "imadoko.png"), forState: .Normal)
-//        btn.imageView?.contentMode = .ScaleAspectFit
-
-        btn.setTitle("現在位置確認", forState: UIControlState.Normal)
+        
+        btn.setTitle("現在位置確認", forState: .Normal)
+        btn.titleLabel!.font = UIFont.systemFontOfSize(15)
         btn.layer.cornerRadius = 5.0
         btn.layer.borderColor = UIView().tintColor.CGColor
         btn.layer.borderWidth = 1.0
         btn.tintColor = UIView().tintColor
+        btn.setTitleColor(UIView().tintColor, forState: .Normal)
         
         return btn
     }
@@ -556,7 +518,7 @@ class TargetProfileViewController:
     }
     
     func clickimadokoButton() {
-        UIAlertView.showAlertOKCancel("", message: "相手が、いまドコにいるのかを確認する通知を送信します") { action in
+        UIAlertView.showAlertOKCancel("現在位置確認", message: "相手が、いまドコにいるのかを確認する通知を送信します") { action in
             
             if action == UIAlertView.ActionButton.Cancel {
                 return
@@ -711,9 +673,6 @@ class TargetProfileViewController:
      スクロール時
      */
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        
-//        print("scrollView.contentOffset.y = " + String(scrollView.contentOffset.y))
-//        print("self.tableView.sectionHeaderHeight + innerViewHeight = " + String(self.tableView.sectionHeaderHeight + innerViewHeight))
         
         let isOutSectionHeaderScroll =
             scrollView.contentOffset.y >= -innerViewHeight &&

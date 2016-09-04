@@ -17,9 +17,26 @@
     
     var window: UIWindow?
     var mainNavigationCtrl: UINavigationController?
+    let registrationKey = "onRegistrationCompleted"
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
+        //
+        // REGISTER DEVICE TOKEN FOR SNS
+        //
+        if #available(iOS 8.0, *) {
+            let settings: UIUserNotificationSettings =
+                UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil)
+            application.registerUserNotificationSettings(settings)
+            application.registerForRemoteNotifications()
+        } else {
+            // Fallback
+            let types: UIRemoteNotificationType = [.Alert, .Badge, .Sound]
+            application.registerForRemoteNotificationTypes(types)
+        }
+        
+        // Notification Ready
+        NotificationHelper.launch()
         ParseHelper.launch(launchOptions)
         
         let googleMapsKey = ConfigHelper.getPlistKey("GOOGLE_MAPS_API_KEY") as String
@@ -66,42 +83,48 @@
         
     }
     
-    func application( application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData ){
+    // REGISTER DEVICE TOKEN
+    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         
-        // Sets up the AWS Mobile SDK for iOS
+        
+        // remove "<>" and space from deviceToken
         let removingCharacterSet:NSCharacterSet = NSCharacterSet(charactersInString: "<>")
         
-        let deviceTokenAsString:String = (deviceToken.description as NSString).stringByTrimmingCharactersInSet(removingCharacterSet).stringByReplacingOccurrencesOfString(" ", withString: "") as String
+        // get device token
+        let deviceTokenAsString = (deviceToken.description as NSString).stringByTrimmingCharactersInSet(removingCharacterSet).stringByReplacingOccurrencesOfString(" ", withString: "") as String
         
         print("Device token = \(deviceTokenAsString)")
         
-        //
-        // SET UP AWS CONGNITO
-        //
-        let poolId = ConfigHelper.getPlistKey("AWS_CONGNITO") as String
-        let awsCredentialsProvider = AWSCognitoCredentialsProvider(regionType: .APNortheast1, identityPoolId: poolId)
+        // save device token to local db
+        var userData = PersistentData.User()
+        userData.deviceToken = deviceTokenAsString
         
-        let defaultAwsServiceConfiguration = AWSServiceConfiguration(region: .APNortheast1, credentialsProvider: awsCredentialsProvider)
-        AWSServiceManager.defaultServiceManager().defaultServiceConfiguration = defaultAwsServiceConfiguration
-        
-        //
-        // AWS SNS
-        //
-        let sns = AWSSNS.defaultSNS()
-        let snsRequest = AWSSNSCreatePlatformEndpointInput()
-        snsRequest.token = deviceTokenAsString
-        snsRequest.platformApplicationArn = ConfigHelper.getPlistKey("AWS_SNS") as String
-        sns.createPlatformEndpoint(snsRequest) { (AwsSnsEndPoint:AWSSNSCreateEndpointResponse?, error:NSError?) in
-            if error != nil {
-                print("Failed to create SNS endpoint:\(error?.description)")
-            } else {
-                if let createdSnsEndpoint = AwsSnsEndPoint {
-                    print("created Endpoint is \(createdSnsEndpoint.endpointArn)")
-                }
-            }
-        }
     }
     
+    // FAILED TO REGISTER DEVICE TOKEN
+    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+        //print("couldn't register: \(error)")
+        print("Registration for remote notification failed with error: \(error.localizedDescription)")
+        // [END receive_apns_token_error]
+        let userInfo = ["error": error.localizedDescription]
+        NSNotificationCenter.defaultCenter().postNotificationName(
+            registrationKey, object: nil, userInfo: userInfo)
+    }
+    
+    
+    func application( application: UIApplication,
+                      didReceiveRemoteNotification userInfo: [NSObject : AnyObject],
+                                                   fetchCompletionHandler handler: (UIBackgroundFetchResult) -> Void) {
+        print("Notification receiveda: \(userInfo)")
+        
+        
+        // to do notification off 時の処理を追記
+        NSNotificationCenter.defaultCenter().postNotificationName("CognitoPushNotification", object: userInfo)
+        handler(UIBackgroundFetchResult.NoData);
+        
+        // [END_EXCLUDE]
+    }
+
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.

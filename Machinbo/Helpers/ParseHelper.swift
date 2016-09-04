@@ -105,7 +105,7 @@ class ParseHelper {
         }
     }
     
-    class func setUserInfomation(userID: String, name: String, gender: String, age: String, comment: String, photo: PFFile) {
+    class func setUserInfomation(userID: String, name: String, gender: String, age: String, comment: String, photo: PFFile, deviceToken: String) {
         //新規ユーザー登録
         let info = PFObject(className: "UserInfo")
         info["UserID"] = userID
@@ -114,6 +114,7 @@ class ParseHelper {
         info["Age"] = age
         info["Comment"] = comment
         info["ProfilePicture"] = photo
+        info["DeviceToken"] = deviceToken
         
         info.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
             if success {
@@ -168,6 +169,19 @@ class ParseHelper {
                 //local db の削除
                 PersistentData.deleteUserID()
                 completion()
+            }
+        }
+    }
+    
+    class func countUnRead(targetObjectID: String, completion:((withError: NSError?, result: Int?)->Void)?) {
+        let query = PFQuery(className: "GoNow")
+        query.whereKey("TargetUserID", equalTo: targetObjectID)
+        query.whereKey("unReadFlag", equalTo: true)
+        query.countObjectsInBackgroundWithBlock {
+            (number, error) in
+            
+            if error == nil {
+                completion?(withError: error, result: Int(number))
             }
         }
     }

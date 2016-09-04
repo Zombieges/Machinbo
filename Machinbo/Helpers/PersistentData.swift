@@ -154,5 +154,24 @@ class PersistentData {
                 NSUserDefaults.standardUserDefaults().synchronize()
             }
         }
+        
+        var deviceToken: String {
+            get {
+                return NSUserDefaults.standardUserDefaults().stringForKey("deviceToken") ?? ""
+            }
+            set {
+                NSUserDefaults.standardUserDefaults().setObject(newValue , forKey: "deviceToken")
+                NSUserDefaults.standardUserDefaults().synchronize()
+            }
+        }
+        var targetUserID : String {
+            get {
+                return NSUserDefaults.standardUserDefaults().stringForKey("targetUserID") ?? ""
+            }
+            set {
+                NSUserDefaults.standardUserDefaults().setObject(newValue , forKey: "targetUserID")
+                NSUserDefaults.standardUserDefaults().synchronize()
+            }
+        }
     }
 }

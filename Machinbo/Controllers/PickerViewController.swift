@@ -321,12 +321,15 @@ class PickerViewController: UIViewController,
             let userID = result?.objectForKey("UserID") as? String
             let targetUserID = self.palTargetUser?.objectForKey("UserID") as? String
             let targetUserUpdatedAt = self.palTargetUser?.updatedAt
+            let targetDeviceToken = self.palTargetUser?.objectForKey("DeviceToken") as? String
+            let name = result?.objectForKey("Name") as? String
             
             let query = PFObject(className: "GoNow")
             query["UserID"] = userID
             query["TargetUserID"] = targetUserID
             query["User"] = result
             query["TargetUser"] = self.palTargetUser
+            query["unReadFlag"] = true
             
             let endPoint = self.selectedItem.characters.count - 1
             let selected = (self.selectedItem as NSString).substringToIndex(endPoint)
@@ -350,6 +353,22 @@ class PickerViewController: UIViewController,
                 
                 defer {
                     MBProgressHUDHelper.hide()
+                    
+                    // user_info の未読数を取得しpush
+                    ParseHelper.countUnRead(targetUserID!){ (error: NSError?, result: Int?) -> Void in
+                        
+                        guard error == nil else {
+                            return
+                        }
+                        
+                        // イマ行く対象のIDを local DB へセット
+                        var userInfo = PersistentData.User()
+                        userInfo.targetUserID = targetUserID!
+                        
+                        // Send Notification
+                        NotificationHelper.sendSpecificDevice(name! + "さんより「いまから行く」されました。", deviceTokenAsString: targetDeviceToken!, badges: result! as Int)
+                    }
+
                 }
                 
                 guard error == nil else {

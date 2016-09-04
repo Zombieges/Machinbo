@@ -461,6 +461,14 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
         
         NSLog("UUID" + uuid)
         
+        // save to local db
+        var userInfo = PersistentData.User()
+        userInfo.userID = uuid
+        userInfo.name = inputName
+        userInfo.gender = selectedGender
+        userInfo.age = selectedAge
+        userInfo.comment = inputComment
+        
         // 登録
         ParseHelper.setUserInfomation(
             uuid,
@@ -468,15 +476,10 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
             gender: gender,
             age: selectedAge,
             comment: inputComment,
-            photo: imageFile!
+            photo: imageFile!,
+            deviceToken: userInfo.deviceToken
         )
         
-        var userInfo = PersistentData.User()
-        userInfo.userID = uuid
-        userInfo.name = inputName
-        userInfo.gender = selectedGender
-        userInfo.age = selectedAge
-        userInfo.comment = inputComment
         
         let newRootVC = MapViewController()
         let navigationController = UINavigationController(rootViewController: newRootVC)

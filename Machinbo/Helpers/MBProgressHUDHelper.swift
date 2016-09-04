@@ -15,7 +15,7 @@ class MBProgressHUDHelper {
     //
     static func show(label: String) {
         let view = (UIApplication.sharedApplication().delegate as! AppDelegate).window?.rootViewController?.view
-        let hud = MBProgressHUD.showHUDAddedTo(view, animated: true)
+        let hud = MBProgressHUD.showHUDAddedTo(view!, animated: true)
         hud.labelText = label
         hud.WSStyle()
     }
@@ -31,7 +31,7 @@ class MBProgressHUDHelper {
     static func hide() {
         let view = (UIApplication.sharedApplication().delegate as! AppDelegate).window?.rootViewController?.view
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
-            MBProgressHUD.hideHUDForView(view, animated: true)
+            MBProgressHUD.hideHUDForView(view!, animated: true)
         })
     }
     

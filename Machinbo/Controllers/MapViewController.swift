@@ -273,7 +273,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     func onClickGoNowListView() {
         MBProgressHUDHelper.show("Loading...")
         
-        ParseHelper.getGoNowMeList(PersistentData.User().userID) { (error: NSError?, result) -> Void in
+        ParseHelper.getGoNowMeList(PersistentData.User().targetUserID) { (error: NSError?, result) -> Void in
             
             defer {
                 MBProgressHUDHelper.hide()

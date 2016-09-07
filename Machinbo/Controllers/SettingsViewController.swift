@@ -18,7 +18,7 @@ extension SettingsViewController: TransisionProtocol {}
 class SettingsViewController: UIViewController, UINavigationControllerDelegate,
     GADBannerViewDelegate,
     GADInterstitialDelegate,
-    UITableViewDelegate {
+UITableViewDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -42,8 +42,8 @@ class SettingsViewController: UIViewController, UINavigationControllerDelegate,
         self.navigationItem.title = "オプション"
         self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
         
-//        let nibName = UINib(nibName: "DetailProfileTableViewCell", bundle:nil)
-//        tableView.registerNib(nibName, forCellReuseIdentifier: detailTableViewCellIdentifier)
+        //        let nibName = UINib(nibName: "DetailProfileTableViewCell", bundle:nil)
+        //        tableView.registerNib(nibName, forCellReuseIdentifier: detailTableViewCellIdentifier)
         
         // 不要行の削除
         let noCreateView:UIView = UIView(frame: CGRectZero)
@@ -103,7 +103,7 @@ class SettingsViewController: UIViewController, UINavigationControllerDelegate,
      Cellに値を設定する.
      */
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-
+        
         let tableViewCellIdentifier = "Cell"
         
         var cell = tableView.dequeueReusableCellWithIdentifier(tableViewCellIdentifier)
@@ -156,11 +156,11 @@ class SettingsViewController: UIViewController, UINavigationControllerDelegate,
             
             if indexPath.row == 0 {
                 let path = NSBundle.mainBundle().pathForResource("UserPolicy", ofType: "txt")!
-//                if let data = NSData(contentsOfFile: path){
-//                    label.text = String(NSString(data: data, encoding: NSUTF8StringEncoding)!)
-//                }else{
-//                    label.text = "データなし"
-//                }
+                //                if let data = NSData(contentsOfFile: path){
+                //                    label.text = String(NSString(data: data, encoding: NSUTF8StringEncoding)!)
+                //                }else{
+                //                    label.text = "データなし"
+                //                }
                 
                 let vc = PickerViewController()
                 //vc.palTargetUser = self.userInfo as? PFObject
@@ -168,7 +168,7 @@ class SettingsViewController: UIViewController, UINavigationControllerDelegate,
                 
                 self.navigationController!.pushViewController(vc, animated: true)
             }
-
+            
         } else if indexPath.section == 2 {
             if indexPath.row == 0 {
                 deleteAccount()
@@ -203,8 +203,11 @@ class SettingsViewController: UIViewController, UINavigationControllerDelegate,
             
             let newRootVC = ProfileViewController()
             let navigationController = UINavigationController(rootViewController: newRootVC)
-            navigationController.navigationBar.barTintColor = LayoutManager.getUIColorFromRGB(0x3949AB)
             navigationController.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
+            navigationController.navigationBar.barTintColor = UIColor.hex("2F469C", alpha: 1)
+            navigationController.navigationBar.translucent = false
+            navigationController.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+            navigationController.navigationBar.shadowImage = UIImage()
             UIApplication.sharedApplication().keyWindow?.rootViewController = navigationController
             
             self.viewDidLoad()

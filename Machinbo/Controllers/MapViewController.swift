@@ -83,11 +83,11 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         
         //manager.stopUpdatingLocation()
         //lm.stopUpdatingLocation()
-//        if #available(iOS 9.0, *) {
-//            lm.allowsBackgroundLocationUpdates = false
-//        } else {
-//            // Fallback on earlier versions
-//        }
+        //        if #available(iOS 9.0, *) {
+        //            lm.allowsBackgroundLocationUpdates = false
+        //        } else {
+        //            // Fallback on earlier versions
+        //        }
         
         //button 生成
         createNavigationItem()
@@ -227,7 +227,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
             self.markWindow.timeAgoText.text = marker.userData!.updatedAt!!.relativeDateString
             
         } else {
-            onClickViewRefresh()
+            self.refresh()
         }
         
         return self.markWindow
@@ -273,7 +273,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     func onClickGoNowListView() {
         MBProgressHUDHelper.show("Loading...")
         
-        ParseHelper.getGoNowMeList(PersistentData.User().targetUserID) { (error: NSError?, result) -> Void in
+        ParseHelper.getGoNowMeList(PersistentData.User().userID) { (error: NSError?, result) -> Void in
             
             defer {
                 MBProgressHUDHelper.hide()
@@ -292,14 +292,14 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
             let vc = GoNowListViewController()
             vc.goNowList = result!
             self.navigationController!.pushViewController(vc, animated: true)
-
+            
         }
     }
     
     func onClickGoNowView() {
         MBProgressHUDHelper.show("Loading...")
         
-        ParseHelper.getMyGoNow(PersistentData.User().userID) { (error: NSError?, result) -> Void in
+        ParseHelper.getMyGoNow(PersistentData.User().targetUserID) { (error: NSError?, result) -> Void in
             
             defer {
                 MBProgressHUDHelper.hide()
@@ -315,17 +315,17 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
             guard targetUserInfo != nil else {
                 
                 targetUserInfo!.deleteInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
-
+                    
                     guard success else {
                         print("削除エラー")
                         return
                     }
-
+                    
                     goNowObj.deleteInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
                         defer {
                             MBProgressHUDHelper.hide()
                         }
-
+                        
                         guard success else {
                             print("削除エラー")
                             return
@@ -361,6 +361,25 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         
         LocationManager.sharedInstance.startUpdatingLocation()
         center.addObserver(self, selector: #selector(self.foundLocation), name: LMLocationUpdateNotification as String, object: nil)
+    }
+    
+    func createRefreshButton() {
+        //画面リフレッシュボタン
+        let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 150, height: 40))
+        btn.trackTouchLocation = true
+        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
+        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
+        btn.rippleColor = LayoutManager.getUIColorFromRGB(0xB54241)
+        btn.setTitle("再表示", forState: .Normal)
+        btn.addTarget(self, action: #selector(self.refresh), forControlEvents: .TouchUpInside)
+        btn.layer.cornerRadius = 5.0
+        btn.layer.masksToBounds = true
+        btn.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height - self.view.bounds.height/8.3)
+        self.view.addSubview(btn)
+    }
+    
+    func refresh() {
+        self.viewDidLoad()
     }
     
 }

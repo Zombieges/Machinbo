@@ -16,13 +16,7 @@ import GoogleMobileAds
 
 extension ProfileViewController: TransisionProtocol {}
 
-class ProfileViewController: UIViewController, UINavigationControllerDelegate,
-    UIImagePickerControllerDelegate,
-    UIPickerViewDelegate,
-    PickerViewControllerDelegate ,
-    UITableViewDelegate,
-    GADBannerViewDelegate,
-    GADInterstitialDelegate{
+class ProfileViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIPickerViewDelegate, PickerViewControllerDelegate, UITableViewDelegate, GADBannerViewDelegate, GADInterstitialDelegate{
     
     @IBOutlet weak var profilePicture: UIImageView!
     @IBOutlet weak var startButton: ZFRippleButton!
@@ -52,86 +46,94 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
     let identifier = "Cell" // セルのIDを定数identifierにする。
     var cell: UITableViewCell? // nilになることがあるので、Optionalで宣言
     let detailTableViewCellIdentifier: String = "DetailCell"
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
         if let view = UINib(nibName: "ProfileView", bundle: nil).instantiateWithOwner(self, options: nil).first as? UIView {
             self.view = view
         }
         
-        do {
-            // profilePicture をタップできるようにジェスチャーを設定
-            profilePicture.userInteractionEnabled = true
-            let myTap = UITapGestureRecognizer(target: self, action: #selector(tapGesture))
-            profilePicture.addGestureRecognizer(myTap)
-        }
-        
-        do {
-            let nibName = UINib(nibName: "DetailProfileTableViewCell", bundle:nil)
-            tableView.registerNib(nibName, forCellReuseIdentifier: detailTableViewCellIdentifier)
-            tableView.estimatedRowHeight = 200.0
-            tableView.rowHeight = UITableViewAutomaticDimension
-            tableView.tableFooterView = UIView()
-            view.addSubview(tableView)
-        }
+        setProfileGesture()
+        initTableView()
         
         navigationController!.navigationBar.tintColor = UIColor.whiteColor()
         
         let userData = PersistentData.User()
-        if userData.userID == "" {
+        guard userData.userID != "" else {
             //初期登録画面
             self.navigationItem.title = "プロフィールを登録してください"
+            self.imakokoButton.hidden = false
             profilePicture.image = UIImage(named: "photo.png")
-            
-        } else {
-            self.navigationItem.title = "プロフィール"
-            //スタートボタンは非表示
-            self.startButton.hidden = true
-            
-            /* 設定ボタンを付与 */
-            let settingsButton: UIButton = UIButton(type: UIButtonType.Custom)
-            settingsButton.setImage(UIImage(named: "santen.png"), forState: UIControlState.Normal)
-            settingsButton.addTarget(self, action: #selector(ProfileViewController.onClickSettingView), forControlEvents: UIControlEvents.TouchUpInside)
-            settingsButton.frame = CGRectMake(0, 0, 22, 22)
-            
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: settingsButton)
-            
-            // 通常の画面遷移
-            profilePicture.image = userData.profileImage
-            inputName = userData.name
-            age = userData.age
-            selectedAge = userData.age
-            gender = userData.gender
-            selectedGender = String(userData.gender)
-            inputComment = userData.comment
-            
-            do {
-                if userData.isRecruitment {
-                    //募集中の場合
-                    self.imakokoButton.setTitle("待ち合わせ募集中", forState: .Normal)
-                    self.imakokoButton.layer.cornerRadius = 5.0
-                    self.imakokoButton.layer.borderColor = UIView().tintColor.CGColor
-                    self.imakokoButton.layer.borderWidth = 1.0
-                    self.imakokoButton.tintColor = UIView().tintColor
-                    
-                } else {
-                    self.imakokoButton.setTitle("待ち合わせ募集停止中", forState: .Normal)
-                    self.imakokoButton.layer.cornerRadius = 5.0
-                    self.imakokoButton.layer.borderColor = UIColor.redColor().CGColor
-                    self.imakokoButton.layer.borderWidth = 1.0
-                    self.imakokoButton.tintColor = UIColor.redColor()
-                }
-
-            }
+            return
         }
-
-        imageMolding(profilePicture)
         
+        self.navigationItem.title = "プロフィール"
+        self.startButton.hidden = true
+        
+        setNavigationItemSettingButton()
+        
+        // 通常の画面遷移
+        profilePicture.image = userData.profileImage
+        inputName = userData.name
+        age = userData.age
+        selectedAge = userData.age
+        gender = userData.gender
+        selectedGender = String(userData.gender)
+        inputComment = userData.comment
+        
+        if userData.isRecruitment {
+            //募集中の場合
+            self.imakokoButton.setTitle("待ち合わせ募集中", forState: .Normal)
+            self.imakokoButton.layer.cornerRadius = 5.0
+            self.imakokoButton.layer.borderColor = UIView().tintColor.CGColor
+            self.imakokoButton.layer.borderWidth = 1.0
+            self.imakokoButton.tintColor = UIView().tintColor
+        } else {
+            self.imakokoButton.setTitle("待ち合わせ募集停止中", forState: .Normal)
+            self.imakokoButton.layer.cornerRadius = 5.0
+            self.imakokoButton.layer.borderColor = UIColor.redColor().CGColor
+            self.imakokoButton.layer.borderWidth = 1.0
+            self.imakokoButton.tintColor = UIColor.redColor()
+        }
+        
+        imageMolding(profilePicture)
+        showAdmob()
+    }
+    
+    private func showAdmob() {
         if self.isInternetConnect() {
             //広告を表示
             self.showAdmob(AdmobType.standard)
+            
+        } else {
+            self.createRefreshButton()
         }
+    }
+    
+    private func setProfileGesture() {
+        // profilePicture をタップできるようにジェスチャーを設定
+        profilePicture.userInteractionEnabled = true
+        let myTap = UITapGestureRecognizer(target: self, action: #selector(tapGesture))
+        profilePicture.addGestureRecognizer(myTap)
+    }
+    
+    private func initTableView() {
+        let nibName = UINib(nibName: "DetailProfileTableViewCell", bundle:nil)
+        tableView.registerNib(nibName, forCellReuseIdentifier: detailTableViewCellIdentifier)
+        tableView.estimatedRowHeight = 200.0
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.tableFooterView = UIView()
+        view.addSubview(tableView)
+    }
+    
+    private func setNavigationItemSettingButton() {
+        /* 設定ボタンを付与 */
+        let settingsButton: UIButton = UIButton(type: UIButtonType.Custom)
+        settingsButton.setImage(UIImage(named: "santen.png"), forState: UIControlState.Normal)
+        settingsButton.addTarget(self, action: #selector(ProfileViewController.onClickSettingView), forControlEvents: UIControlEvents.TouchUpInside)
+        settingsButton.frame = CGRectMake(0, 0, 22, 22)
+        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: settingsButton)
     }
     
     override func didReceiveMemoryWarning() {
@@ -170,7 +172,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
         guard userInfo.userID != "" else {
             return
         }
-    
+        
         ParseHelper.getUserInfomation(userInfo.userID) { (error: NSError?, result: PFObject?) -> Void in
             if let result = result {
                 let imageData = UIImagePNGRepresentation(self.profilePicture.image!)
@@ -199,7 +201,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
             self.selectedAge = selectedValue
             // テーブル再描画
             tableView.reloadData()
-
+            
             
         } else if type == SelectPickerType.Gender {
             self.gender = selectedValue
@@ -227,8 +229,8 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
     }
     
     /*
-    テーブルに表示する配列の総数を返す.
-    */
+     テーブルに表示する配列の総数を返す.
+     */
     internal func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if section == 0 {
@@ -242,8 +244,8 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
     }
     
     /*
-    セクションの数を返す.
-    */
+     セクションの数を返す.
+     */
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
         if PersistentData.User().userID == "" {
@@ -254,14 +256,14 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
     }
     
     /*
-    セクションのタイトルを返す.
-    */
+     セクションのタイトルを返す.
+     */
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return sections[section]
     }
     /*
-    Cellに値を設定する.
-    */
+     Cellに値を設定する.
+     */
     internal func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let tableViewCellIdentifier = "Cell"
@@ -324,7 +326,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
                 
                 cell = detailCell
             }
-        
+            
         } else if indexPath.section == 1 {
             
             var normalCell = tableView.dequeueReusableCellWithIdentifier(tableViewCellIdentifier)
@@ -390,10 +392,10 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
                 myItems = ["男性","女性"]
                 vc.palmItems = myItems
                 vc.palKind = "gender"
-//                if let gender = gender{
-//                    
-//                    vc.palInput = gender
-//                }
+                //                if let gender = gender{
+                //
+                //                    vc.palInput = gender
+                //                }
                 vc.delegate = self
                 
                 navigationController?.pushViewController(vc, animated: true)
@@ -411,10 +413,10 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
                 
                 vc.palmItems = myItems
                 vc.palKind = "age"
-//                if let age = age{
-//                    
-//                    vc.palInput = age
-//                }
+                //                if let age = age{
+                //
+                //                    vc.palInput = age
+                //                }
                 vc.delegate = self
                 
                 navigationController?.pushViewController(vc, animated: true)
@@ -434,20 +436,15 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
     
     
     @IBAction func pushStart(sender: AnyObject) {
-        
-        MBProgressHUDHelper.show("Loading...")
-
         // 必須チェック
         if inputName.isEmpty {
             UIAlertView.showAlertView("", message: "名前を入力してください")
             return
         }
-        
         if selectedGender.isEmpty {
             UIAlertView.showAlertView("", message: "性別を選択してください")
             return
         }
-        
         if selectedAge.isEmpty {
             UIAlertView.showAlertView("", message: "生まれた年を選択してください")
             return
@@ -479,7 +476,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
             photo: imageFile!,
             deviceToken: userInfo.deviceToken
         )
-        
         
         let newRootVC = MapViewController()
         let navigationController = UINavigationController(rootViewController: newRootVC)
@@ -577,4 +573,24 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate,
             }
         }
     }
+    
+    func createRefreshButton() {
+        //画面リフレッシュボタン
+        let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 150, height: 40))
+        btn.trackTouchLocation = true
+        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
+        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
+        btn.rippleColor = LayoutManager.getUIColorFromRGB(0xB54241)
+        btn.setTitle("再表示", forState: .Normal)
+        btn.addTarget(self, action: #selector(self.refresh), forControlEvents: .TouchUpInside)
+        btn.layer.cornerRadius = 5.0
+        btn.layer.masksToBounds = true
+        btn.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height - self.view.bounds.height/8.3)
+        self.view.addSubview(btn)
+    }
+    
+    func refresh() {
+        self.viewDidLoad()
+    }
+    
 }

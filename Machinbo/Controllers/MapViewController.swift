@@ -52,7 +52,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         }
         
         let info = notif.userInfo as NSDictionary!
-        var location = info[LMLocationInfoKey] as! CLLocation
+        let location = info[LMLocationInfoKey] as! CLLocation
         
         latitude = location.coordinate.latitude
         longitude = location.coordinate.longitude
@@ -74,7 +74,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         self.view.addSubview(gmaps)
         
         FeedData.mainData().refreshMapFeed(myPosition) { () -> () in
-            
             //ユーザマーカーを表示
             GoogleMapsHelper.setAnyUserMarker(gmaps, userObjects: FeedData.mainData().feedItems)
             //広告表示
@@ -92,6 +91,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         //button 生成
         createNavigationItem()
         createupdateGeoPointButton()
+
     }
     
     func createupdateGeoPointButton() {
@@ -145,44 +145,46 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         let profileViewButton: UIButton = UIButton(type: UIButtonType.Custom)
         profileViewButton.setImage(UIImage(named: "profile_icon.png"), forState: UIControlState.Normal)
         profileViewButton.titleLabel?.font = UIFont.systemFontOfSize(10)
-        profileViewButton.setTitle("設定", forState: UIControlState.Normal)
-        profileViewButton.addTarget(self, action: #selector(MapViewController.onClickProfileView), forControlEvents: UIControlEvents.TouchUpInside)
+        profileViewButton.setTitleColor(UIColor.darkGrayColor(), forState: .Normal)
+        profileViewButton.setTitle("プロフィール", forState: .Normal)
+        profileViewButton.addTarget(self, action: #selector(onClickProfileView), forControlEvents: UIControlEvents.TouchUpInside)
         profileViewButton.frame = CGRectMake(0, 0, 60, 53)
         profileViewButton.imageView?.contentMode = .ScaleAspectFit
-        profileViewButton.imageEdgeInsets = UIEdgeInsetsMake(-25, 17, 0, 0)
+        profileViewButton.imageEdgeInsets = UIEdgeInsetsMake(-23, 13, 0, 0)
         profileViewButton.titleEdgeInsets = UIEdgeInsetsMake(22, -22, 0, 0)
         
         //create a new button
         let imakokoViewButton: UIButton = UIButton(type: UIButtonType.Custom)
         imakokoViewButton.setImage(UIImage(named: "imakoko.png"), forState: UIControlState.Normal)
         imakokoViewButton.titleLabel?.font = UIFont.systemFontOfSize(10)
-        imakokoViewButton.setTitle("いま来る", forState: .Normal)
-        imakokoViewButton.addTarget(self, action: #selector(MapViewController.onClickGoNowListView), forControlEvents: UIControlEvents.TouchUpInside)
+        imakokoViewButton.setTitle("待ち合わせ", forState: .Normal)
+        imakokoViewButton.setTitleColor(UIColor.darkGrayColor(), forState: .Normal)
+        imakokoViewButton.addTarget(self, action: #selector(onClickGoNowListView), forControlEvents: UIControlEvents.TouchUpInside)
         imakokoViewButton.frame = CGRectMake(0, 0, 60, 53)
         imakokoViewButton.imageView?.contentMode = .ScaleAspectFit
-        imakokoViewButton.imageEdgeInsets = UIEdgeInsetsMake(-25, 17, 0, 0)
+        imakokoViewButton.imageEdgeInsets = UIEdgeInsetsMake(-23, 13, 0, 0)
         imakokoViewButton.titleEdgeInsets = UIEdgeInsetsMake(22, -22, 0, 0)
         
-        self.navigationItem.rightBarButtonItems =
-            [UIBarButtonItem(customView: profileViewButton), UIBarButtonItem(customView: imakokoViewButton)]
+//        self.navigationItem.rightBarButtonItems =
+//            [UIBarButtonItem(customView: profileViewButton), UIBarButtonItem(customView: imakokoViewButton)]
+//        
         
-        //通知があったら表示
-        //◆いま行く画面
-        //いまいくボタンを押下したら表示するようにする？
-        let imaikuViewButton: UIButton = UIButton(type: UIButtonType.Custom)
-        imaikuViewButton.setImage(UIImage(named: "imaiku.png"), forState: UIControlState.Normal)
-        imaikuViewButton.titleLabel?.font = UIFont.systemFontOfSize(10)
-        imaikuViewButton.setTitle("いま行く", forState: UIControlState.Normal)
-        imaikuViewButton.sizeToFit()
-        imaikuViewButton.addTarget(self, action: #selector(MapViewController.onClickGoNowView), forControlEvents: UIControlEvents.TouchUpInside)
-        imaikuViewButton.frame = CGRectMake(0, 0, 60, 53)
-        imaikuViewButton.imageView?.contentMode = .ScaleAspectFit
-        imaikuViewButton.imageEdgeInsets = UIEdgeInsetsMake(-25, 17, 0, 0)
-        imaikuViewButton.titleEdgeInsets = UIEdgeInsetsMake(22, -22, 0, 0)
+        //検索ボタン
+        let searchViewButton: UIButton = UIButton(type: UIButtonType.Custom)
+        searchViewButton.setImage(UIImage(named: "search.png"), forState: UIControlState.Normal)
+        searchViewButton.titleLabel?.font = UIFont.systemFontOfSize(10)
+        searchViewButton.setTitle("検索", forState: UIControlState.Normal)
+        searchViewButton.setTitleColor(UIColor.darkGrayColor(), forState: .Normal)
+        searchViewButton.sizeToFit()
+        searchViewButton.addTarget(self, action: #selector(MapViewController.onClickSearch), forControlEvents: UIControlEvents.TouchUpInside)
+        searchViewButton.frame = CGRectMake(0, 0, 60, 53)
+        searchViewButton.imageView?.contentMode = .ScaleAspectFit
+        searchViewButton.imageEdgeInsets = UIEdgeInsetsMake(-23, 13, 0, 0)
+        searchViewButton.titleEdgeInsets = UIEdgeInsetsMake(22, -22, 0, 0)
         
-        self.navigationItem.rightBarButtonItems =
-            [UIBarButtonItem(customView: profileViewButton), UIBarButtonItem(customView: imakokoViewButton), UIBarButtonItem(customView: imaikuViewButton)]
-        
+//        self.navigationItem.rightBarButtonItems =
+//            [UIBarButtonItem(customView: profileViewButton), UIBarButtonItem(customView: imakokoViewButton), UIBarButtonItem(customView: searchViewButton)]
+//        
         //いま行くボタンと、いまココボタンは両立できないため、どちらかを表示する
         //いずれもParseに登録した値を引っ張ってくる必要がある
         
@@ -191,13 +193,25 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         reloadButton.setImage(UIImage(named: "reload.png"), forState: UIControlState.Normal)
         reloadButton.titleLabel?.font = UIFont.systemFontOfSize(10)
         reloadButton.setTitle("リロード", forState: UIControlState.Normal)
+        reloadButton.setTitleColor(UIColor.darkGrayColor(), forState: .Normal)
         reloadButton.addTarget(self, action: #selector(MapViewController.onClickReload), forControlEvents: UIControlEvents.TouchUpInside)
         reloadButton.frame = CGRectMake(0, 0, 60, 53)
         reloadButton.imageView?.contentMode = .ScaleAspectFit
-        reloadButton.imageEdgeInsets = UIEdgeInsetsMake(-25, 17, 0, 0)
+        reloadButton.imageEdgeInsets = UIEdgeInsetsMake(-23, 13, 0, 0)
         reloadButton.titleEdgeInsets = UIEdgeInsetsMake(22, -22, 0, 0)
         
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: reloadButton)
+//        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: reloadButton)
+        
+        
+        let myToolbar = UIToolbar(frame: CGRectMake(0, self.view.bounds.size.height - 44, self.view.bounds.size.width, 60.0))
+        myToolbar.layer.position = CGPoint(x: self.view.bounds.width/2, y: self.view.bounds.height-20.0)
+        myToolbar.barStyle = .Default
+        myToolbar.tintColor = UIColor.whiteColor()
+        myToolbar.backgroundColor = UIColor.whiteColor()
+        
+        myToolbar.items = [UIBarButtonItem(customView: profileViewButton), UIBarButtonItem(customView: imakokoViewButton), UIBarButtonItem(customView: searchViewButton)]
+        
+        self.view.addSubview(myToolbar)
         
     }
     
@@ -238,7 +252,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         let vc = TargetProfileViewController(type: ProfileType.TargetProfile)
         vc.userInfo = marker.userData!
         
-        self.navigationController!.pushViewController(vc, animated: true)
+        self.navigationController!.pushViewController(vc, animated: false)
         
     }
     
@@ -259,7 +273,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     
     func onClickProfileView() {
         let profileView = ProfileViewController()
-        self.navigationController?.pushViewController(profileView, animated: true)
+        self.navigationController?.pushViewController(profileView, animated: false)
         
     }
     
@@ -267,7 +281,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         let vc = MarkerDraggableViewController()
         vc.palGeoPoint = PFGeoPoint(latitude: latitude, longitude: longitude)
         
-        self.navigationController!.pushViewController(vc, animated: true)
+        self.navigationController!.pushViewController(vc, animated: false)
     }
     
     func onClickGoNowListView() {
@@ -284,76 +298,83 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
             }
             
             guard result!.count != 0 else {
-                UIAlertView.showAlertDismiss("", message: "いまから来る人が存在しません。相手から待ち合わせ希望があった場合、リストに表示されます。") { () -> () in }
+                UIAlertView.showAlertView("", message: "いまから来る人が存在しません。相手から待ち合わせ希望があった場合、リストに表示されます。")
                 
                 return
             }
             
             let vc = GoNowListViewController()
             vc.goNowList = result!
-            self.navigationController!.pushViewController(vc, animated: true)
+            self.navigationController!.pushViewController(vc, animated: false)
             
         }
+    }
+
+    func onClickSearch() {
+        let vc = PickerViewController()
+        vc.palKind = "search"
+        self.navigationController!.pushViewController(vc, animated: false)
     }
     
-    func onClickGoNowView() {
-        MBProgressHUDHelper.show("Loading...")
-        
-        ParseHelper.getMyGoNow(PersistentData.User().targetUserID) { (error: NSError?, result) -> Void in
-            
-            defer {
-                MBProgressHUDHelper.hide()
-            }
-            
-            guard let goNowObj = result else {
-                UIAlertView.showAlertDismiss("", message: "いまから行く人が登録されていません") { () -> () in }
-                return
-            }
-            
-            let targetUserInfo = goNowObj.objectForKey("TargetUser") as? PFObject
-            
-            guard targetUserInfo != nil else {
-                
-                targetUserInfo!.deleteInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
-                    
-                    guard success else {
-                        print("削除エラー")
-                        return
-                    }
-                    
-                    goNowObj.deleteInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
-                        defer {
-                            MBProgressHUDHelper.hide()
-                        }
-                        
-                        guard success else {
-                            print("削除エラー")
-                            return
-                        }
-                        
-                        PersistentData.deleteUserIDForKey("imaikuFlag")
-                        UIAlertView.showAlertDismiss("", message: "いまから行く人のアカウントが削除されています") { () -> () in }
-                    }
-                }
-                
-                return
-            }
-            
-            let vc = TargetProfileViewController(type: ProfileType.ImaikuTargetProfile)
-            vc.targetObjectID = goNowObj.objectId!
-            vc.userInfo = targetUserInfo!
-            
-            self.navigationController!.pushViewController(vc, animated: true)
-            
-            
-            let userUpdateAt = targetUserInfo?.updatedAt
-            let imakokoAt = goNowObj.objectForKey("imakokoAt") as? NSDate
-            
-            if userUpdateAt != imakokoAt {
-                UIAlertView.showAlertDismiss("", message: "いまから行く人の位置情報が変更されています") { () -> () in }
-            }
-        }
-    }
+//    
+//    func onClickGoNowView() {
+//        MBProgressHUDHelper.show("Loading...")
+//        
+//        ParseHelper.getMyGoNow(PersistentData.User().targetUserID) { (error: NSError?, result) -> Void in
+//            
+//            defer {
+//                MBProgressHUDHelper.hide()
+//            }
+//            
+//            guard let goNowObj = result else {
+//                UIAlertView.showAlertDismiss("", message: "いまから行く人が登録されていません") { () -> () in }
+//                return
+//            }
+//            
+//            let targetUserInfo = goNowObj.objectForKey("TargetUser") as? PFObject
+//            
+//            guard targetUserInfo != nil else {
+//                
+//                targetUserInfo!.deleteInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+//                    
+//                    guard success else {
+//                        print("削除エラー")
+//                        return
+//                    }
+//                    
+//                    goNowObj.deleteInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+//                        defer {
+//                            MBProgressHUDHelper.hide()
+//                        }
+//                        
+//                        guard success else {
+//                            print("削除エラー")
+//                            return
+//                        }
+//                        
+//                        PersistentData.deleteUserIDForKey("imaikuFlag")
+//                        UIAlertView.showAlertDismiss("", message: "いまから行く人のアカウントが削除されています") { () -> () in }
+//                    }
+//                }
+//                
+//                return
+//            }
+//            
+//            let vc = TargetProfileViewController(type: ProfileType.ImaikuTargetProfile)
+//            vc.targetObjectID = goNowObj.objectId!
+//            vc.userInfo = targetUserInfo!
+//            
+//            self.navigationController!.pushViewController(vc, animated: true)
+//            
+//            
+//            let userUpdateAt = targetUserInfo?.updatedAt
+//            let imakokoAt = goNowObj.objectForKey("imakokoAt") as? NSDate
+//            
+//            if userUpdateAt != imakokoAt {
+//                UIAlertView.showAlertDismiss("", message: "いまから行く人の位置情報が変更されています") { () -> () in }
+//            }
+//        }
+//    }
     
     //更新
     func onClickReload() {

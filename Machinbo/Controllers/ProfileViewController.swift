@@ -13,6 +13,7 @@ import Parse
 import SpriteKit
 import MBProgressHUD
 import GoogleMobileAds
+import TwitterKit
 
 extension ProfileViewController: TransisionProtocol {}
 
@@ -26,7 +27,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     
     
     private let photoItems = ["フォト"]
-    private let profileItems = ["名前", "性別", "生まれた年", "プロフィール"]
+    private let profileItems = ["名前", "性別", "生まれた年", "Twitter", "プロフィール"]
     private let otherItems = ["登録時間", "場所", "特徴"]
     private let sections = ["プロフィール", "待ち合わせ情報"]
     
@@ -42,6 +43,8 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     var selectedAge = ""
     var selectedGender = ""
     var inputComment = ""
+    
+    var twitterID = ""
     
     let identifier = "Cell" // セルのIDを定数identifierにする。
     var cell: UITableViewCell? // nilになることがあるので、Optionalで宣言
@@ -62,7 +65,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         guard userData.userID != "" else {
             //初期登録画面
             self.navigationItem.title = "プロフィールを登録してください"
-            self.imakokoButton.hidden = false
+            self.imakokoButton.hidden = true
             profilePicture.image = UIImage(named: "photo.png")
             return
         }
@@ -277,68 +280,68 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         
         
         if indexPath.section == 0 {
-            if indexPath.row < 3 {
-                
+            if indexPath.row < 4 {
                 var normalCell = tableView.dequeueReusableCellWithIdentifier(tableViewCellIdentifier)
-                
-                if normalCell == nil { // 再利用するセルがなかったら（不足していたら）
-                    
-                    // セルを新規に作成する。
-                    normalCell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: tableViewCellIdentifier)
-                    normalCell!.textLabel!.font = UIFont(name: "Arial", size: 15)
-                    normalCell!.detailTextLabel!.font = UIFont(name: "Arial", size: 15)
-                }
+                normalCell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: tableViewCellIdentifier)
+                normalCell!.textLabel!.font = UIFont(name: "Arial", size: 15)
+                normalCell!.detailTextLabel!.font = UIFont(name: "Arial", size: 15)
                 
                 if indexPath.row == 0 {
-                    
                     normalCell?.textLabel?.text = profileItems[indexPath.row]
+                    normalCell?.accessoryType = .DisclosureIndicator
                     normalCell?.detailTextLabel?.text = inputName as String
                     
                 } else if indexPath.row == 1 {
-                    
                     normalCell?.textLabel?.text = profileItems[indexPath.row]
+                    normalCell?.accessoryType = .DisclosureIndicator
                     normalCell?.detailTextLabel?.text = selectedGender as String
                     
                 } else if indexPath.row == 2 {
-                    
                     normalCell?.textLabel?.text = profileItems[indexPath.row]
-                    
                     if !selectedAge.isEmpty {
+                        normalCell?.accessoryType = .DisclosureIndicator
                         normalCell?.detailTextLabel?.text = Parser.changeAgeRange(selectedAge) as String
                     }
                     
+                } else if indexPath.row == 3 {
+                    normalCell?.textLabel?.text = profileItems[indexPath.row] as String
+                    normalCell?.imageView?.image = UIImage(named: "logo_twitter.png")
+                    normalCell?.accessoryType = .DisclosureIndicator
+                    normalCell?.detailTextLabel?.text = twitterID as String
                     
+                    let logInButton = TWTRLogInButton(logInCompletion:
+                        { (session, error) in
+                            if (session != nil) {
+                                print("signed in as \(session!.userName)");
+                            } else {
+                                print("error: \(error!.localizedDescription)");
+                            }
+                    })
+                    logInButton.center = self.view.center
+                    self.view.addSubview(logInButton)
                 }
-                
                 
                 cell = normalCell
                 
             } else {
-                
                 let detailCell = tableView.dequeueReusableCellWithIdentifier(detailTableViewCellIdentifier, forIndexPath: indexPath) as? DetailProfileTableViewCell
                 
-                if indexPath.row == 3 {
-                    
+                if indexPath.row == 4 {
                     detailCell?.titleLabel.text = profileItems[indexPath.row]
                     detailCell?.valueLabel.text = inputComment as String
-                    
                 }
                 
                 cell = detailCell
             }
             
         } else if indexPath.section == 1 {
-            
             var normalCell = tableView.dequeueReusableCellWithIdentifier(tableViewCellIdentifier)
-            if normalCell == nil { // 再利用するセルがなかったら（不足していたら）
-                // セルを新規に作成する。
+            if normalCell == nil {
                 normalCell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: tableViewCellIdentifier)
             }
             
             let userData = PersistentData.User()
-            
             if indexPath.row == 0 {
-                
                 normalCell?.textLabel?.text = otherItems[indexPath.row]
                 
                 let dateFormatter = NSDateFormatter();
@@ -422,8 +425,29 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
                 navigationController?.pushViewController(vc, animated: true)
                 
             } else if indexPath.row == 3 {
+                //Twitter認証
+                
+                let sessionStore = Twitter.sharedInstance().sessionStore
+                guard let userId = sessionStore.session()?.userID else {
+                    Twitter.sharedInstance().logInWithCompletion { session, error in
+                        if (session != nil) {
+                            print("signed in as \(session!.userName)");
+                            
+                            self.twitterID = session!.userID
+                            
+                        } else {
+                            print("error: \(error!.localizedDescription)");
+                        }
+                    }
+                    
+                    return
+                }
+                
+                //TODO: 認証解除
+                sessionStore.logOutUserID(userId)
                 
                 
+            } else if indexPath.row == 4 {
                 vc.palmItems = myItems
                 vc.palKind = "comment"
                 vc.palInput = inputComment
@@ -592,5 +616,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     func refresh() {
         self.viewDidLoad()
     }
+    
     
 }

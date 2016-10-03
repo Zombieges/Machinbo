@@ -46,6 +46,8 @@ class PickerViewController: UIViewController,
     var inputMyDatePicker = UIDatePicker()
     var realTextView = UITextView()
     
+    var searchBarField = UISearchBar()
+    
     // Tableで使用する配列を設定する
     private var tableView: UITableView!
     private var myItems: NSArray = []
@@ -99,7 +101,6 @@ class PickerViewController: UIViewController,
             inputTextField.frame = CGRectMake(10, 20, displayWidth - 20 , 30)
             inputTextField.borderStyle = UITextBorderStyle.RoundedRect
             inputTextField.text = self.Input as? String
-            
             self.view.addSubview(inputTextField)
             
             createInsertDataButton(displayWidth, displayHeight: 200)
@@ -132,7 +133,6 @@ class PickerViewController: UIViewController,
             self.view.addSubview(tableView)
         
         } else if self.kind == "imageView" {
-            
             let displaySize = UIScreen.mainScreen().bounds.size.width
             
             let image = self.palInput as! UIImageView
@@ -140,6 +140,18 @@ class PickerViewController: UIViewController,
             image.layer.cornerRadius = 0
             image.frame = CGRectMake(0, 0, displaySize, displaySize);
             self.view.addSubview(image)
+            
+        } else if self.kind == "search" {
+            searchBarField = UISearchBar()
+//            searchBarField.delegate = self
+            searchBarField.frame = CGRectMake(10, 30, displayWidth - 20 , 30)
+            searchBarField.searchBarStyle = .Minimal
+//            searchBarField.layer.position = CGPoint(x: self.view.bounds.width/2, y: 50)
+//            searchBarField.showsCancelButton = true
+            searchBarField.enablesReturnKeyAutomatically = true
+            searchBarField.placeholder = "Twitter ID を入力してください"
+            self.view.addSubview(searchBarField)
+            
         }
     }
     
@@ -268,6 +280,11 @@ class PickerViewController: UIViewController,
             self.navigationController!.popViewControllerAnimated(true)
         }
     }
+    
+    internal func onClickSearchButton(sender: UIButton){
+        
+    }
+    
     
     /*
     Cellが選択された際に呼び出されるデリゲートメソッド.
@@ -417,14 +434,11 @@ class PickerViewController: UIViewController,
         var cell: UITableViewCell? // nilになることがあるので、Optionalで宣言
         
         cell = tableView.dequeueReusableCellWithIdentifier(identifier)
-        if cell == nil { // 再利用するセルがなかったら（不足していたら）
-            // セルを新規に作成する。
+        if cell == nil {
             cell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: identifier)
         }
         
-        
         if indexPath.section == 0 {
-            
             cell?.accessoryType = .None
             
             if indexPath.row == (self.palInput as? Int) {

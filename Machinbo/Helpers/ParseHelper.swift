@@ -119,7 +119,7 @@ class ParseHelper {
         info.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
             if success {
                 NSLog("ユーザー初期登録成功")
-                UIAlertView.showAlertView("", message: "ユーザ登録が完了しました")
+                //UIAlertView.showAlertView("", message: "ユーザ登録が完了しました")
             }
         }
     }

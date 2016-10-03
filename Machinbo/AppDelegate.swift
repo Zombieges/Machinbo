@@ -11,6 +11,8 @@
  import Parse
  import Bolts
  import AWSSNS
+ import Fabric
+ import TwitterKit
  
  @UIApplicationMain
  class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -46,6 +48,9 @@
         //GoogleMaps
         GMSServices.provideAPIKey(googleMapsKey)
         
+        Fabric.with([Twitter()])
+        
+        
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
         /*
@@ -65,11 +70,14 @@
         //#303F9F
         
         //TODO:背景色を白にする
-        mainNavigationCtrl!.navigationBar.barTintColor = UIColor.hex("2F469C", alpha: 1)
+//        mainNavigationCtrl!.navigationBar.barTintColor = UIColor.hex("2F469C", alpha: 1)
+        mainNavigationCtrl!.navigationBar.barTintColor = UIColor.hex("fffffff", alpha: 1)
         mainNavigationCtrl!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
         mainNavigationCtrl!.navigationBar.tintColor = UIColor.whiteColor()
         mainNavigationCtrl!.navigationBar.translucent = false
         mainNavigationCtrl!.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        mainNavigationCtrl!.navigationBar.setBackgroundImage(UIImage(named: "BarBackground"),
+                                         forBarMetrics: .Default)
         mainNavigationCtrl!.navigationBar.shadowImage = UIImage()
         
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)

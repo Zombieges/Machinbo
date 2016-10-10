@@ -74,9 +74,6 @@ class TargetProfileViewController:
             self.view = view
         }
         
-        navigationController!.navigationBar.tintColor = UIColor.whiteColor()
-        navigationController!.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: .Default)
-        navigationController!.navigationBar.shadowImage = UIImage()
         PersistentData.deleteUserIDForKey("imaikuFlag")
         
         // MAPの高さは端末Heightの1/5

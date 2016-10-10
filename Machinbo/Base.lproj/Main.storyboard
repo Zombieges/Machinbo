@@ -1,30 +1,52 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="9pv-A4-QxB">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="9pv-A4-QxB">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <scenes>
         <!--First-->
         <scene sceneID="hNz-n2-bh7">
             <objects>
-                <viewController storyboardIdentifier="map" id="9pv-A4-QxB" customClass="MapViewController" customModule="Machinbo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="first" id="9pv-A4-QxB" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="First" image="first" id="acW-dT-cKf"/>
                     <connections>
-                        <segue destination="jOX-xQ-4Hb" kind="presentation" identifier="next" id="mT7-m3-oNR"/>
                         <segue destination="eWK-e7-jlI" kind="presentation" identifier="profile" id="Kmr-a6-7U0"/>
+                        <segue destination="Dga-88-Fra" kind="presentation" identifier="map" id="nDJ-9i-Rze"/>
+                        <segue destination="sf1-lx-3Bo" kind="presentation" identifier="meetup" id="mDd-bq-u1U"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="732" y="0.0"/>
+            <point key="canvasLocation" x="-316" y="-104"/>
+        </scene>
+        <!--Meetup View Controller-->
+        <scene sceneID="oV9-Xs-4sM">
+            <objects>
+                <viewController storyboardIdentifier="meetup" id="sf1-lx-3Bo" customClass="MeetupViewController" customModule="Machinbo" customModuleProvider="target" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yIK-6b-xnQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="577" y="826"/>
+        </scene>
+        <!--Map View Controller-->
+        <scene sceneID="qED-Em-GFO">
+            <objects>
+                <viewController storyboardIdentifier="map" id="Dga-88-Fra" customClass="MapViewController" customModule="Machinbo" customModuleProvider="target" sceneMemberID="viewController">
+                    <connections>
+                        <segue destination="jOX-xQ-4Hb" kind="presentation" id="vKM-9U-gu5"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tCU-pe-Pwd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="585" y="-670"/>
         </scene>
         <!--Target Profile View Controller-->
         <scene sceneID="tDf-Om-94M">
             <objects>
-                <viewController storyboardIdentifier="TargetProfileView" id="jOX-xQ-4Hb" customClass="TargetProfileViewController" customModule="Machinbo" customModuleProvider="target" sceneMemberID="viewController"/>
+                <viewController storyboardIdentifier="target" id="jOX-xQ-4Hb" customClass="TargetProfileViewController" customModule="Machinbo" customModuleProvider="target" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cax-5K-748" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1489" y="-469"/>
+            <point key="canvasLocation" x="1441" y="-661"/>
         </scene>
         <!--Profile View Controller-->
         <scene sceneID="z9v-h4-asw">
@@ -38,7 +60,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aaw-4H-x8t" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1376.5" y="287.5"/>
+            <point key="canvasLocation" x="464.5" y="47.5"/>
         </scene>
         <!--Picker View Controller-->
         <scene sceneID="tYF-cD-neJ">
@@ -49,7 +71,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fJ4-qL-emH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1908.5" y="287.5"/>
+            <point key="canvasLocation" x="1180.5" y="55.5"/>
         </scene>
     </scenes>
     <resources>

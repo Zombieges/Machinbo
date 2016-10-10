@@ -97,7 +97,7 @@ class MarkerDraggableViewController: UIViewController, GMSMapViewDelegate, CLLoc
 
         let mapViewCenter = getMapCenterPosition(self.gmaps)
         
-        let vc = ImakokoViewController()
+        let vc = GoNowViewController()
         vc.palGeoPoint = PFGeoPoint(latitude: mapViewCenter.latitude, longitude: mapViewCenter.longitude)
         
         self.navigationController!.pushViewController(vc, animated: true)

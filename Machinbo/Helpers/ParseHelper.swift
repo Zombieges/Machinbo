@@ -62,7 +62,7 @@ class ParseHelper {
         }
     }
     
-    class func getGoNowMeList(loginUser: String, completion:((withError: NSError?, result:[AnyObject]?)->Void)?) {
+    class func getMeetupList(loginUser: String, completion:((withError: NSError?, result:[AnyObject]?)->Void)?) {
         let query = PFQuery(className: "GoNow")
         query.whereKey("TargetUserID", equalTo: loginUser)
         query.includeKey("User")//UserInfoのPointerから情報を取得

@@ -40,11 +40,6 @@ UITableViewDelegate {
         }
         
         self.navigationItem.title = "オプション"
-        self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
-        
-        //        let nibName = UINib(nibName: "DetailProfileTableViewCell", bundle:nil)
-        //        tableView.registerNib(nibName, forCellReuseIdentifier: detailTableViewCellIdentifier)
-        
         // 不要行の削除
         let noCreateView:UIView = UIView(frame: CGRectZero)
         noCreateView.backgroundColor = UIColor.clearColor()
@@ -203,10 +198,12 @@ UITableViewDelegate {
             
             let newRootVC = ProfileViewController()
             let navigationController = UINavigationController(rootViewController: newRootVC)
-            navigationController.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
-            navigationController.navigationBar.barTintColor = UIColor.hex("2F469C", alpha: 1)
+            navigationController.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.darkGrayColor()]
+            navigationController.navigationBar.tintColor = UIColor.darkGrayColor()
             navigationController.navigationBar.translucent = false
             navigationController.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+            navigationController.navigationBar.setBackgroundImage(UIImage(named: "BarBackground"),
+                                                                forBarMetrics: .Default)
             navigationController.navigationBar.shadowImage = UIImage()
             UIApplication.sharedApplication().keyWindow?.rootViewController = navigationController
             

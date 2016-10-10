@@ -13,9 +13,9 @@ import SpriteKit
 import MBProgressHUD
 import GoogleMobileAds
 
-extension ImakokoViewController: TransisionProtocol {}
+extension GoNowViewController: TransisionProtocol {}
 
-class ImakokoViewController: UIViewController, UINavigationControllerDelegate,
+class GoNowViewController: UIViewController, UINavigationControllerDelegate,
     UIPickerViewDelegate,
     PickerViewControllerDelegate,
     GADBannerViewDelegate,

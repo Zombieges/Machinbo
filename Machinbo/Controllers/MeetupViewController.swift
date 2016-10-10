@@ -11,9 +11,9 @@ import UIKit
 import Parse
 import GoogleMobileAds
 
-extension GoNowListViewController: TransisionProtocol {}
+extension MeetupViewController: TransisionProtocol {}
 
-class GoNowListViewController: UIViewController,
+class MeetupViewController: UIViewController,
     UITableViewDelegate,
     GADBannerViewDelegate,
     GADInterstitialDelegate {
@@ -39,26 +39,24 @@ class GoNowListViewController: UIViewController,
         }
         
         self.navigationItem.title = "いまから来る人リスト"
-        self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
+        self.navigationController!.navigationBar.tintColor = UIColor.darkGrayColor()
         
         if let view = UINib(nibName: "GoNowListView", bundle: nil).instantiateWithOwner(self, options: nil).first as? UIView {
             self.view = view
         }
         
-//        guard self.goNowList.count != 0 else {
-//            let displayWidth: CGFloat = UIScreen.mainScreen().bounds.size.width
-//            let displayHeight: CGFloat = UIScreen.mainScreen().bounds.size.height
-//            
-//            let label = UILabel(frame: CGRectMake(0, 0, displayWidth, displayHeight));
-//            //label.textAlignment = NSTextAlignment.Natural
-//            label.numberOfLines = 0
-//            label.text = "待ち合わせ要望がまだありません。待ち合わせ要望があった場合、このリストに表示されます。"
-//            self.view.addSubview(label)
-//            self.tableView.hidden = true
-//            
-//            return
-//        }
-        
+        ParseHelper.getMeetupList(PersistentData.User().userID) { (error: NSError?, result) -> Void in
+            defer {
+                MBProgressHUDHelper.hide()
+            }
+            
+            guard error == nil else { return }
+            
+            guard result!.count != 0 else {
+                UIAlertView.showAlertView("", message: "いまから来る人が存在しません。相手から待ち合わせ希望があった場合、リストに表示されます。")
+                return
+            }
+        }
         do {
             let nibName = UINib(nibName: "GoNowTableViewCell", bundle:nil)
             self.tableView.registerNib(nibName, forCellReuseIdentifier: detailTableViewCellIdentifier)
@@ -198,7 +196,7 @@ class GoNowListViewController: UIViewController,
      */
     func getGoNowMeList(){
         
-        ParseHelper.getGoNowMeList(PersistentData.User().userID) { (error: NSError?, result) -> Void in
+        ParseHelper.getMeetupList(PersistentData.User().userID) { (error: NSError?, result) -> Void in
             
             defer {
                 MBProgressHUDHelper.hide()
@@ -219,5 +217,4 @@ class GoNowListViewController: UIViewController,
             self.tableView.reloadData()
         }
     }
-    
 }

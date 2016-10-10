@@ -59,18 +59,20 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         setProfileGesture()
         initTableView()
         
-        navigationController!.navigationBar.tintColor = UIColor.whiteColor()
+        navigationController?.navigationBar.tintColor = UIColor.darkGrayColor()
         
         let userData = PersistentData.User()
         guard userData.userID != "" else {
             //初期登録画面
             self.navigationItem.title = "プロフィールを登録してください"
+            self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.darkGrayColor()]
             self.imakokoButton.hidden = true
             profilePicture.image = UIImage(named: "photo.png")
             return
         }
         
         self.navigationItem.title = "プロフィール"
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.darkGrayColor()]
         self.startButton.hidden = true
         
         setNavigationItemSettingButton()
@@ -501,14 +503,15 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             deviceToken: userInfo.deviceToken
         )
         
-        let newRootVC = MapViewController()
-        let navigationController = UINavigationController(rootViewController: newRootVC)
-        navigationController.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
-        navigationController.navigationBar.barTintColor = UIColor.hex("2F469C", alpha: 1)
-        navigationController.navigationBar.translucent = false
-        navigationController.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
-        navigationController.navigationBar.shadowImage = UIImage()
-        UIApplication.sharedApplication().keyWindow?.rootViewController = navigationController
+//        let newRootVC = MapViewController()
+//        let navigationController = UINavigationController(rootViewController: newRootVC)
+//        navigationController.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
+//        navigationController.navigationBar.barTintColor = UIColor.hex("2F469C", alpha: 1)
+//        navigationController.navigationBar.translucent = false
+//        navigationController.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+//        navigationController.navigationBar.shadowImage = UIImage()
+//        UIApplication.sharedApplication().keyWindow?.rootViewController = navigationController
+        LayoutManager.createNavigationAndTabItems()
         
         MBProgressHUDHelper.hide()
         

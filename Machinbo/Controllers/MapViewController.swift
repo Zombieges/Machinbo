@@ -15,7 +15,7 @@ import GoogleMobileAds
 
 extension MapViewController: TransisionProtocol {}
 
-class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManagerDelegate, GADBannerViewDelegate, GADInterstitialDelegate {
+class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManagerDelegate, GADBannerViewDelegate, GADInterstitialDelegate, UITabBarDelegate {
     
     var profileSettingButton: UIBarButtonItem!
     
@@ -30,13 +30,13 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     
     var mainNavigationCtrl: UINavigationController?
     
-    override func viewDidLoad() {
-        //super.viewDidLoad()
-        
+    override func loadView() {
         if let view = UINib(nibName: "MapView", bundle: nil).instantiateWithOwner(self, options: nil).first as? UIView {
             self.view = view
         }
-        
+    }
+    
+    override func viewDidLoad() {
         if self.isInternetConnect() {
             let center = NSNotificationCenter.defaultCenter() as NSNotificationCenter
             
@@ -91,7 +91,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         //button 生成
         createNavigationItem()
         createupdateGeoPointButton()
-
     }
     
     func createupdateGeoPointButton() {
@@ -129,10 +128,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         }
         
         NSLog(" CLAuthorizationStatus: \(statusStr)")
-        
-        /*else if status == .AuthorizedWhenInUse {
-         manager.startUpdatingLocation()
-         }*/
     }
     
     override func didReceiveMemoryWarning() {
@@ -140,84 +135,25 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     }
     
     func createNavigationItem() {
-        
-        //◆プロフィール画面
-        let profileViewButton: UIButton = UIButton(type: UIButtonType.Custom)
-        profileViewButton.setImage(UIImage(named: "profile_icon.png"), forState: UIControlState.Normal)
-        profileViewButton.titleLabel?.font = UIFont.systemFontOfSize(10)
-        profileViewButton.setTitleColor(UIColor.darkGrayColor(), forState: .Normal)
-        profileViewButton.setTitle("プロフィール", forState: .Normal)
-        profileViewButton.addTarget(self, action: #selector(onClickProfileView), forControlEvents: UIControlEvents.TouchUpInside)
-        profileViewButton.frame = CGRectMake(0, 0, 60, 53)
-        profileViewButton.imageView?.contentMode = .ScaleAspectFit
-        profileViewButton.imageEdgeInsets = UIEdgeInsetsMake(-23, 13, 0, 0)
-        profileViewButton.titleEdgeInsets = UIEdgeInsetsMake(22, -22, 0, 0)
-        
-        //create a new button
-        let imakokoViewButton: UIButton = UIButton(type: UIButtonType.Custom)
-        imakokoViewButton.setImage(UIImage(named: "imakoko.png"), forState: UIControlState.Normal)
-        imakokoViewButton.titleLabel?.font = UIFont.systemFontOfSize(10)
-        imakokoViewButton.setTitle("待ち合わせ", forState: .Normal)
-        imakokoViewButton.setTitleColor(UIColor.darkGrayColor(), forState: .Normal)
-        imakokoViewButton.addTarget(self, action: #selector(onClickGoNowListView), forControlEvents: UIControlEvents.TouchUpInside)
-        imakokoViewButton.frame = CGRectMake(0, 0, 60, 53)
-        imakokoViewButton.imageView?.contentMode = .ScaleAspectFit
-        imakokoViewButton.imageEdgeInsets = UIEdgeInsetsMake(-23, 13, 0, 0)
-        imakokoViewButton.titleEdgeInsets = UIEdgeInsetsMake(22, -22, 0, 0)
-        
-//        self.navigationItem.rightBarButtonItems =
-//            [UIBarButtonItem(customView: profileViewButton), UIBarButtonItem(customView: imakokoViewButton)]
-//        
-        
-        //検索ボタン
-        let searchViewButton: UIButton = UIButton(type: UIButtonType.Custom)
-        searchViewButton.setImage(UIImage(named: "search.png"), forState: UIControlState.Normal)
-        searchViewButton.titleLabel?.font = UIFont.systemFontOfSize(10)
-        searchViewButton.setTitle("検索", forState: UIControlState.Normal)
-        searchViewButton.setTitleColor(UIColor.darkGrayColor(), forState: .Normal)
-        searchViewButton.sizeToFit()
-        searchViewButton.addTarget(self, action: #selector(MapViewController.onClickSearch), forControlEvents: UIControlEvents.TouchUpInside)
-        searchViewButton.frame = CGRectMake(0, 0, 60, 53)
-        searchViewButton.imageView?.contentMode = .ScaleAspectFit
-        searchViewButton.imageEdgeInsets = UIEdgeInsetsMake(-23, 13, 0, 0)
-        searchViewButton.titleEdgeInsets = UIEdgeInsetsMake(22, -22, 0, 0)
-        
-//        self.navigationItem.rightBarButtonItems =
-//            [UIBarButtonItem(customView: profileViewButton), UIBarButtonItem(customView: imakokoViewButton), UIBarButtonItem(customView: searchViewButton)]
-//        
-        //いま行くボタンと、いまココボタンは両立できないため、どちらかを表示する
-        //いずれもParseに登録した値を引っ張ってくる必要がある
-        
-        //リロード
-        let reloadButton: UIButton = UIButton(type: UIButtonType.Custom)
+        let reloadButton = UIButton(type: UIButtonType.Custom)
         reloadButton.setImage(UIImage(named: "reload.png"), forState: UIControlState.Normal)
-        reloadButton.titleLabel?.font = UIFont.systemFontOfSize(10)
-        reloadButton.setTitle("リロード", forState: UIControlState.Normal)
         reloadButton.setTitleColor(UIColor.darkGrayColor(), forState: .Normal)
-        reloadButton.addTarget(self, action: #selector(MapViewController.onClickReload), forControlEvents: UIControlEvents.TouchUpInside)
-        reloadButton.frame = CGRectMake(0, 0, 60, 53)
+        reloadButton.addTarget(self, action: #selector(onClickReload), forControlEvents: UIControlEvents.TouchUpInside)
+        reloadButton.frame = CGRectMake(0, 0, 22, 22)
         reloadButton.imageView?.contentMode = .ScaleAspectFit
-        reloadButton.imageEdgeInsets = UIEdgeInsetsMake(-23, 13, 0, 0)
-        reloadButton.titleEdgeInsets = UIEdgeInsetsMake(22, -22, 0, 0)
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: reloadButton)
         
-//        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: reloadButton)
+        let seachButton = UIButton(type: UIButtonType.Custom)
+        seachButton.setImage(UIImage(named: "search.png"), forState: UIControlState.Normal)
+        seachButton.setTitleColor(UIColor.darkGrayColor(), forState: .Normal)
+        seachButton.addTarget(self, action: #selector(onClickSearch), forControlEvents: UIControlEvents.TouchUpInside)
+        seachButton.frame = CGRectMake(0, 0, 22, 22)
+        seachButton.imageView?.contentMode = .ScaleAspectFit
         
-        
-        let myToolbar = UIToolbar(frame: CGRectMake(0, self.view.bounds.size.height - 44, self.view.bounds.size.width, 60.0))
-        myToolbar.layer.position = CGPoint(x: self.view.bounds.width/2, y: self.view.bounds.height-20.0)
-        myToolbar.barStyle = .Default
-        myToolbar.tintColor = UIColor.whiteColor()
-        myToolbar.backgroundColor = UIColor.whiteColor()
-        
-        myToolbar.items = [UIBarButtonItem(customView: profileViewButton), UIBarButtonItem(customView: imakokoViewButton), UIBarButtonItem(customView: searchViewButton)]
-        
-        self.view.addSubview(myToolbar)
-        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: seachButton)
     }
     
     func mapView(mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView? {
-        
-        //MarkDownWindow生成
         self.markWindow = NSBundle.mainBundle().loadNibNamed("MarkWindow", owner: self, options: nil).first! as! MarkWindow
         
         let createdBy: AnyObject? = marker.userData
@@ -248,7 +184,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     }
     
     func mapView(mapView: GMSMapView, didTapInfoWindowOfMarker marker: GMSMarker) {
-        
         let vc = TargetProfileViewController(type: ProfileType.TargetProfile)
         vc.userInfo = marker.userData!
         
@@ -261,7 +196,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     }
     
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
-        
         defer {
             manager.stopUpdatingLocation()
             self.createRefreshButton()
@@ -271,43 +205,11 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         UIAlertView.showAlertView("エラー", message:"位置情報の取得が失敗しました。アプリを再起動してください。")
     }
     
-    func onClickProfileView() {
-        let profileView = ProfileViewController()
-        self.navigationController?.pushViewController(profileView, animated: false)
-        
-    }
-    
     func onClickImakoko(){
         let vc = MarkerDraggableViewController()
         vc.palGeoPoint = PFGeoPoint(latitude: latitude, longitude: longitude)
         
         self.navigationController!.pushViewController(vc, animated: false)
-    }
-    
-    func onClickGoNowListView() {
-        MBProgressHUDHelper.show("Loading...")
-        
-        ParseHelper.getGoNowMeList(PersistentData.User().userID) { (error: NSError?, result) -> Void in
-            
-            defer {
-                MBProgressHUDHelper.hide()
-            }
-            
-            guard error == nil else {
-                return
-            }
-            
-            guard result!.count != 0 else {
-                UIAlertView.showAlertView("", message: "いまから来る人が存在しません。相手から待ち合わせ希望があった場合、リストに表示されます。")
-                
-                return
-            }
-            
-            let vc = GoNowListViewController()
-            vc.goNowList = result!
-            self.navigationController!.pushViewController(vc, animated: false)
-            
-        }
     }
 
     func onClickSearch() {
@@ -403,5 +305,9 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         self.viewDidLoad()
     }
     
+    func onClickSeachView() {
+        let vc = SettingsViewController()
+        self.navigationController!.pushViewController(vc, animated: true)
+    }
 }
 

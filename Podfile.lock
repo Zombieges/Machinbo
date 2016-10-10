@@ -1,13 +1,46 @@
 PODS:
-  - GoogleMaps (1.11.1)
-  - MBProgressHUD (0.9.2)
+  - AWSCognito (2.4.6):
+    - AWSCore (= 2.4.6)
+  - AWSCore (2.4.6)
+  - AWSSNS (2.4.6):
+    - AWSCore (= 2.4.6)
+  - Bolts/Tasks (1.8.4)
+  - Fabric (1.6.9)
+  - Google-Mobile-Ads-SDK (7.11.0)
+  - GoogleMaps (1.13.2)
+  - MBProgressHUD (1.0.0)
+  - Parse (1.14.2):
+    - Bolts/Tasks (~> 1.8)
+  - RKNotificationHub (2.0.4)
+  - TwitterCore (2.4.0):
+    - Fabric
+  - TwitterKit (2.4.0):
+    - TwitterCore (= 2.4.0)
 
 DEPENDENCIES:
-  - GoogleMaps
+  - AWSCognito (= 2.4.6)
+  - AWSCore (= 2.4.6)
+  - AWSSNS (= 2.4.6)
+  - Fabric
+  - Google-Mobile-Ads-SDK
+  - GoogleMaps (= 1.13.2)
   - MBProgressHUD
+  - Parse
+  - RKNotificationHub
+  - TwitterKit
 
 SPEC CHECKSUMS:
-  GoogleMaps: c947160008f414c66707a5ea60f35e92055c7670
-  MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
+  AWSCognito: 761e811df8ec3d418274ad4248b4ac2e4727e65b
+  AWSCore: 402048153597591f2ec54b0f650b88dfb3a1b6ef
+  AWSSNS: 7f7e2f79358bfa03cf0178257812cce10a6ef42b
+  Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
+  Fabric: bc5bec42cef4bcf1ee3ce0e218fc518e4b44dfbb
+  Google-Mobile-Ads-SDK: 0e864ab93ba1ff8afe92e16de0e4e883f581ed33
+  GoogleMaps: b20a103ff307f58392e603cf142e59d7e30374c1
+  MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
+  Parse: 4335d65f40cb3d43190d723144bbe1afb9c38230
+  RKNotificationHub: 3765424499139c3d3885b681bb0837f072d12ae6
+  TwitterCore: a139904c80805ad3dde9eef1100704f96f646d1d
+  TwitterKit: 1cf9742edf9d182c1518cfdd6aaac0dfe313b38b
 
 COCOAPODS: 0.39.0

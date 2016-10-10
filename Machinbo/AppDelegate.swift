@@ -18,7 +18,7 @@
  class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
-    var mainNavigationCtrl: UINavigationController?
+    
     let registrationKey = "onRegistrationCompleted"
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
@@ -42,53 +42,89 @@
         ParseHelper.launch(launchOptions)
         
         let googleMapsKey = ConfigHelper.getPlistKey("GOOGLE_MAPS_API_KEY") as String
-        
         NSLog("★google maps api key = " + googleMapsKey)
         
         //GoogleMaps
         GMSServices.provideAPIKey(googleMapsKey)
         
+        //Fabric認証
         Fabric.with([Twitter()])
         
-        
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        
-        /*
-        登録済みか否かをチェック
-        */
-        //PersistentData.deleteUserID()
-        let firstViewController: UIViewController
-        if PersistentData.User().userID == "" {
-            firstViewController = storyboard.instantiateViewControllerWithIdentifier("profile") as! ProfileViewController
-            
-        } else {
-            let storyboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
-            firstViewController = storyboard.instantiateInitialViewController() as UIViewController!
-        }
-        
-        mainNavigationCtrl = UINavigationController(rootViewController: firstViewController)
-        //#303F9F
-        
-        //TODO:背景色を白にする
-//        mainNavigationCtrl!.navigationBar.barTintColor = UIColor.hex("2F469C", alpha: 1)
-        mainNavigationCtrl!.navigationBar.barTintColor = UIColor.hex("fffffff", alpha: 1)
-        mainNavigationCtrl!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
-        mainNavigationCtrl!.navigationBar.tintColor = UIColor.whiteColor()
-        mainNavigationCtrl!.navigationBar.translucent = false
-        mainNavigationCtrl!.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
-        mainNavigationCtrl!.navigationBar.setBackgroundImage(UIImage(named: "BarBackground"),
-                                         forBarMetrics: .Default)
-        mainNavigationCtrl!.navigationBar.shadowImage = UIImage()
-        
-        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        self.window?.rootViewController = mainNavigationCtrl
-        self.window?.makeKeyAndVisible()
+        //Navgation & Tab
+        //LayoutManager.createNavigationAndTabItems()
+        createNavigationItem()
         
         return true
     }
     
-    func cycleTheGlobalMailComposer() {
+    func createNavigationItem() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+
+        guard PersistentData.User().userID != "" else {
+            let firstViewController = storyboard.instantiateViewControllerWithIdentifier("profile") as! ProfileViewController
+            let mainNavigationCtrl = UINavigationController(rootViewController: firstViewController)
+            mainNavigationCtrl.navigationBar.barTintColor = UIColor.hex("fffffff", alpha: 1)
+            mainNavigationCtrl.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.darkGrayColor()]
+            mainNavigationCtrl.navigationBar.tintColor = UIColor.darkGrayColor()
+            mainNavigationCtrl.navigationBar.translucent = false
+            mainNavigationCtrl.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+            mainNavigationCtrl.navigationBar.setBackgroundImage(UIImage(named: "BarBackground"),
+                                                                forBarMetrics: .Default)
+            mainNavigationCtrl.navigationBar.shadowImage = UIImage()
+            
+            self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+            self.window?.rootViewController = mainNavigationCtrl
+            self.window?.makeKeyAndVisible()
+            return
+        }
+ 
+        let mapViewController = storyboard.instantiateViewControllerWithIdentifier("map") as! MapViewController
+
+        let mainNavigationCtrl = UINavigationController(rootViewController: mapViewController)
+        mainNavigationCtrl.navigationBar.barTintColor = UIColor.hex("fffffff", alpha: 1)
+        mainNavigationCtrl.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.darkGrayColor()]
+        mainNavigationCtrl.navigationBar.tintColor = UIColor.darkGrayColor()
+        mainNavigationCtrl.navigationBar.translucent = false
+        mainNavigationCtrl.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        mainNavigationCtrl.navigationBar.setBackgroundImage(UIImage(named: "BarBackground"),
+                                                             forBarMetrics: .Default)
+        mainNavigationCtrl.navigationBar.shadowImage = UIImage()
+        mainNavigationCtrl.tabBarItem = UITabBarItem(title: "ホーム", image: UIImage(named: "home.png"), tag: 1)
+   
+        let meetupViewController = storyboard.instantiateViewControllerWithIdentifier("meetup") as! MeetupViewController
         
+        let meetupNavigationCtrl = UINavigationController(rootViewController: meetupViewController)
+        meetupNavigationCtrl.navigationBar.barTintColor = UIColor.hex("fffffff", alpha: 1)
+        meetupNavigationCtrl.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.darkGrayColor()]
+        meetupNavigationCtrl.navigationBar.tintColor = UIColor.darkGrayColor()
+        meetupNavigationCtrl.navigationBar.translucent = false
+        meetupNavigationCtrl.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        meetupNavigationCtrl.navigationBar.setBackgroundImage(UIImage(named: "BarBackground"),
+                                                                forBarMetrics: .Default)
+        meetupNavigationCtrl.navigationBar.shadowImage = UIImage()
+        meetupNavigationCtrl.tabBarItem = UITabBarItem(title: "待ち合わせ", image: UIImage(named: "meetup.png"), tag: 2)
+        
+        let profileViewController = storyboard.instantiateViewControllerWithIdentifier("profile") as! ProfileViewController
+        
+        let profileNavigationCtrl = UINavigationController(rootViewController: profileViewController)
+        profileNavigationCtrl.navigationBar.barTintColor = UIColor.hex("fffffff", alpha: 1)
+        profileNavigationCtrl.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.darkGrayColor()]
+        profileNavigationCtrl.navigationBar.tintColor = UIColor.darkGrayColor()
+        profileNavigationCtrl.navigationBar.translucent = false
+        profileNavigationCtrl.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        profileNavigationCtrl.navigationBar.setBackgroundImage(UIImage(named: "BarBackground"),
+                                                                forBarMetrics: .Default)
+        profileNavigationCtrl.navigationBar.shadowImage = UIImage()
+        profileNavigationCtrl.tabBarItem = UITabBarItem(title: "プロフィール", image: UIImage(named: "profile_icon.png"), tag: 3)
+        
+        
+        let tabBarController = UITabBarController()
+        tabBarController.setViewControllers([mainNavigationCtrl, meetupNavigationCtrl, profileNavigationCtrl], animated: false)
+        
+        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        self.window?.addSubview(tabBarController.view)
+        self.window?.rootViewController = tabBarController
+        self.window?.makeKeyAndVisible()
     }
     
     // REGISTER DEVICE TOKEN

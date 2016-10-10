@@ -21,6 +21,75 @@ class LayoutManager {
         )
     }
     
+    class func createNavigationAndTabItems() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        guard PersistentData.User().userID != "" else {
+            let firstViewController = storyboard.instantiateViewControllerWithIdentifier("profile") as! ProfileViewController
+            let mainNavigationCtrl = UINavigationController(rootViewController: firstViewController)
+            mainNavigationCtrl.navigationBar.barTintColor = UIColor.hex("fffffff", alpha: 1)
+            mainNavigationCtrl.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
+            mainNavigationCtrl.navigationBar.tintColor = UIColor.darkGrayColor()
+            mainNavigationCtrl.navigationBar.translucent = false
+            mainNavigationCtrl.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+            mainNavigationCtrl.navigationBar.setBackgroundImage(UIImage(named: "BarBackground"),
+                                                                forBarMetrics: .Default)
+            mainNavigationCtrl.navigationBar.shadowImage = UIImage()
+            //UIApplication.sharedApplication().keyWindow = UIWindow(frame: UIScreen.mainScreen().bounds)
+            //self.window?.addSubview(tabBarController.view)
+            UIApplication.sharedApplication().keyWindow?.rootViewController = mainNavigationCtrl
+            UIApplication.sharedApplication().keyWindow?.makeKeyAndVisible()
+            return
+        }
+        
+        let mapViewController = storyboard.instantiateViewControllerWithIdentifier("map") as! MapViewController
+        
+        let mainNavigationCtrl = UINavigationController(rootViewController: mapViewController)
+        mainNavigationCtrl.navigationBar.barTintColor = UIColor.hex("fffffff", alpha: 1)
+        mainNavigationCtrl.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
+        mainNavigationCtrl.navigationBar.tintColor = UIColor.darkGrayColor()
+        mainNavigationCtrl.navigationBar.translucent = false
+        mainNavigationCtrl.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        mainNavigationCtrl.navigationBar.setBackgroundImage(UIImage(named: "BarBackground"),
+                                                            forBarMetrics: .Default)
+        mainNavigationCtrl.navigationBar.shadowImage = UIImage()
+        mainNavigationCtrl.tabBarItem = UITabBarItem(title: "ホーム", image: UIImage(named: "home.png"), tag: 1)
+        
+        let meetupViewController = storyboard.instantiateViewControllerWithIdentifier("meetup") as! MeetupViewController
+        
+        let meetupNavigationCtrl = UINavigationController(rootViewController: meetupViewController)
+        meetupNavigationCtrl.navigationBar.barTintColor = UIColor.hex("fffffff", alpha: 1)
+        meetupNavigationCtrl.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
+        meetupNavigationCtrl.navigationBar.tintColor = UIColor.darkGrayColor()
+        meetupNavigationCtrl.navigationBar.translucent = false
+        meetupNavigationCtrl.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        meetupNavigationCtrl.navigationBar.setBackgroundImage(UIImage(named: "BarBackground"),
+                                                              forBarMetrics: .Default)
+        meetupNavigationCtrl.navigationBar.shadowImage = UIImage()
+        meetupNavigationCtrl.tabBarItem = UITabBarItem(title: "待ち合わせ", image: UIImage(named: "meetup.png"), tag: 2)
+        
+        let profileViewController = storyboard.instantiateViewControllerWithIdentifier("profile") as! ProfileViewController
+        
+        let profileNavigationCtrl = UINavigationController(rootViewController: profileViewController)
+        profileNavigationCtrl.navigationBar.barTintColor = UIColor.hex("fffffff", alpha: 1)
+        profileNavigationCtrl.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
+        profileNavigationCtrl.navigationBar.tintColor = UIColor.darkGrayColor()
+        profileNavigationCtrl.navigationBar.translucent = false
+        profileNavigationCtrl.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        profileNavigationCtrl.navigationBar.setBackgroundImage(UIImage(named: "BarBackground"),
+                                                               forBarMetrics: .Default)
+        profileNavigationCtrl.navigationBar.shadowImage = UIImage()
+        profileNavigationCtrl.tabBarItem = UITabBarItem(title: "プロフィール", image: UIImage(named: "profile_icon.png"), tag: 3)
+        
+        
+        let tabBarController = UITabBarController()
+        tabBarController.setViewControllers([mainNavigationCtrl, meetupNavigationCtrl, profileNavigationCtrl], animated: false)
+        
+        //self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        UIApplication.sharedApplication().keyWindow?.addSubview(tabBarController.view)
+        UIApplication.sharedApplication().keyWindow?.rootViewController = tabBarController
+        UIApplication.sharedApplication().keyWindow?.makeKeyAndVisible()
+    }
 }
 
 //UIColorのextensionとして登録しておく

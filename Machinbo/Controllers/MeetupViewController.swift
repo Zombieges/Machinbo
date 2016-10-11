@@ -16,7 +16,8 @@ extension MeetupViewController: TransisionProtocol {}
 class MeetupViewController: UIViewController,
     UITableViewDelegate,
     GADBannerViewDelegate,
-    GADInterstitialDelegate {
+    GADInterstitialDelegate,
+    UITabBarDelegate {
 
     var goNowList = [AnyObject]()
     var refreshControl:UIRefreshControl!

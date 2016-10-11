@@ -367,9 +367,10 @@ class TargetProfileViewController:
                     
                     let dateFormatter = NSDateFormatter();
                     dateFormatter.dateFormat = "yyyy年M月d日 H:mm"
-                    let formatDateString = dateFormatter.stringFromDate(self.userInfo.objectForKey("MarkTime") as! NSDate)
-                    
-                    normalCell?.detailTextLabel?.text = formatDateString
+                    if let mark = self.userInfo.objectForKey("MarkTime") {
+                        let formatDateString = dateFormatter.stringFromDate(mark as! NSDate)
+                        normalCell?.detailTextLabel?.text = formatDateString
+                    }
                     
                     cell = normalCell
                     

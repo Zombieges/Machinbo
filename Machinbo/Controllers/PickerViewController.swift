@@ -28,7 +28,8 @@ class PickerViewController: UIViewController,
     UITableViewDelegate,
     UITableViewDataSource,
     GADBannerViewDelegate,
-    GADInterstitialDelegate {
+    GADInterstitialDelegate,
+    UISearchBarDelegate {
     
     var delegate: PickerViewControllerDelegate?
     
@@ -143,7 +144,7 @@ class PickerViewController: UIViewController,
             
         } else if self.kind == "search" {
             searchBarField = UISearchBar()
-//            searchBarField.delegate = self
+            searchBarField.delegate = self
             searchBarField.frame = CGRectMake(10, 30, displayWidth - 20 , 30)
             searchBarField.searchBarStyle = .Minimal
 //            searchBarField.layer.position = CGPoint(x: self.view.bounds.width/2, y: 50)
@@ -449,6 +450,28 @@ class PickerViewController: UIViewController,
         }
         
         return cell!
+    }
+    
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        
+        guard let searchStr = searchBarField.text else {
+            return
+        }
+        
+        MBProgressHUDHelper.show("Loading...")
+        
+        ParseHelper.getUserInfomationFromTwitter(searchStr) { (error: NSError?, result: PFObject?) -> Void in
+            defer {
+                MBProgressHUDHelper.hide()
+            }
+            
+            let vc = TargetProfileViewController(type: ProfileType.TargetProfile)
+            vc.userInfo = result!
+            
+            self.navigationController!.pushViewController(vc, animated: false)
+        }
+        
+        self.view.endEditing(true)
     }
 
 }

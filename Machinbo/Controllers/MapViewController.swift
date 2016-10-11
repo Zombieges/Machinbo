@@ -34,6 +34,12 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         if let view = UINib(nibName: "MapView", bundle: nil).instantiateWithOwner(self, options: nil).first as? UIView {
             self.view = view
         }
+        
+        self.navigationItem.title = "ホーム"
+        self.navigationController!.navigationBar.tintColor = UIColor.darkGrayColor()
+        
+        //button 生成
+        createNavigationItem()
     }
     
     override func viewDidLoad() {
@@ -88,8 +94,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         //            // Fallback on earlier versions
         //        }
         
-        //button 生成
-        createNavigationItem()
         createupdateGeoPointButton()
     }
     
@@ -281,7 +285,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     //更新
     func onClickReload() {
         let center = NSNotificationCenter.defaultCenter() as NSNotificationCenter
-        
         LocationManager.sharedInstance.startUpdatingLocation()
         center.addObserver(self, selector: #selector(self.foundLocation), name: LMLocationUpdateNotification as String, object: nil)
     }

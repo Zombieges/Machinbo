@@ -44,7 +44,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     var selectedGender = ""
     var inputComment = ""
     
-    var twitterID = ""
+    var twitterName = ""
     
     let identifier = "Cell" // セルのIDを定数identifierにする。
     var cell: UITableViewCell? // nilになることがあるので、Optionalで宣言
@@ -309,18 +309,18 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
                     normalCell?.textLabel?.text = profileItems[indexPath.row] as String
                     normalCell?.imageView?.image = UIImage(named: "logo_twitter.png")
                     normalCell?.accessoryType = .DisclosureIndicator
-                    normalCell?.detailTextLabel?.text = twitterID as String
+                    normalCell?.detailTextLabel?.text = twitterName as String
                     
-                    let logInButton = TWTRLogInButton(logInCompletion:
-                        { (session, error) in
-                            if (session != nil) {
-                                print("signed in as \(session!.userName)");
-                            } else {
-                                print("error: \(error!.localizedDescription)");
-                            }
-                    })
-                    logInButton.center = self.view.center
-                    self.view.addSubview(logInButton)
+//                    let logInButton = TWTRLogInButton(logInCompletion:
+//                        { (session, error) in
+//                            if (session != nil) {
+//                                print("signed in as \(session!.userName)");
+//                            } else {
+//                                print("error: \(error!.localizedDescription)");
+//                            }
+//                    })
+//                    logInButton.center = self.view.center
+//                    self.view.addSubview(logInButton)
                 }
                 
                 cell = normalCell
@@ -428,26 +428,8 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
                 
             } else if indexPath.row == 3 {
                 //Twitter認証
-                
-                let sessionStore = Twitter.sharedInstance().sessionStore
-                guard let userId = sessionStore.session()?.userID else {
-                    Twitter.sharedInstance().logInWithCompletion { session, error in
-                        if (session != nil) {
-                            print("signed in as \(session!.userName)");
-                            
-                            self.twitterID = session!.userID
-                            
-                        } else {
-                            print("error: \(error!.localizedDescription)");
-                        }
-                    }
-                    
-                    return
-                }
-                
-                //TODO: 認証解除
-                sessionStore.logOutUserID(userId)
-                
+                loginTwitter()
+
                 
             } else if indexPath.row == 4 {
                 vc.palmItems = myItems
@@ -498,23 +480,16 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             name: inputName,
             gender: gender,
             age: selectedAge,
+            twitter: twitterName,
             comment: inputComment,
             photo: imageFile!,
             deviceToken: userInfo.deviceToken
         )
         
-//        let newRootVC = MapViewController()
-//        let navigationController = UINavigationController(rootViewController: newRootVC)
-//        navigationController.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
-//        navigationController.navigationBar.barTintColor = UIColor.hex("2F469C", alpha: 1)
-//        navigationController.navigationBar.translucent = false
-//        navigationController.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
-//        navigationController.navigationBar.shadowImage = UIImage()
-//        UIApplication.sharedApplication().keyWindow?.rootViewController = navigationController
+        //NavigationControllerを初期化
         LayoutManager.createNavigationAndTabItems()
         
         MBProgressHUDHelper.hide()
-        
     }
     
     private func imageMolding(target : UIImageView){
@@ -620,5 +595,71 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         self.viewDidLoad()
     }
     
+    func loginTwitter() {
+        let sessionStore = Twitter.sharedInstance().sessionStore
+        
+        guard let userId = sessionStore.session()?.userID else {
+            Twitter.sharedInstance().logInWithCompletion { session, error in
+                guard session != nil else {
+                    print("error: \(error!.localizedDescription)")
+                    UIAlertView.showAlertView("", message: "Twitterへの接続に失敗しました。再接続してください")
+                    return
+                }
+                
+                UIAlertView.showAlertOKCancel("Twitterログイン", message: "Twitterに認証しますか？") { action in
+                    if action == UIAlertView.ActionButton.Cancel { return }
+                    
+                    
+                    self.setTwitterName()
+                    
+                    sessionStore.logOutUserID(session!.userName)
+                    self.twitterName = session!.userName
+                    print("signed in as \(session!.userName)");
+                }
+                
+                
+                self.twitterName = session!.userID
+            }
+            
+            return
+        }
+        
+        UIAlertView.showAlertOKCancel("Twitterログアウト", message: "Twitterからログアウトをしますか？") { action in
+            defer {
+                self.viewDidLoad()
+                UIAlertView.showAlertView("", message: "Twitterからログアウトしました")
+            }
+            
+            if action == UIAlertView.ActionButton.Cancel { return }
+            
+            self.setTwitterName()
+            
+            sessionStore.logOutUserID(userId)
+            self.twitterName = ""
+        }
+    }
+    
+    func setTwitterName() {
+        MBProgressHUDHelper.show("Loading...")
+        ParseHelper.getUserInfomation(PersistentData.User().userID) { (error: NSError?, result: PFObject?) -> Void in
+            defer {
+                MBProgressHUDHelper.hide()
+            }
+            
+            guard let result = result else {
+                return
+            }
+            
+            result["Twitter"] = self.twitterName
+            result.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+                
+                defer {
+                    self.viewDidLoad()
+                    UIAlertView.showAlertView("", message: "Twitterに認証しました")
+                }
+                
+            }
+        }
+    }
     
 }

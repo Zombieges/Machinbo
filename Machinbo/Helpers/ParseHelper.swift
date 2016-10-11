@@ -85,33 +85,45 @@ class ParseHelper {
         }
     }
     
-    class func getActionInfomation(userID: String, completion:((withError: NSError?, result: PFObject?)->Void)?) {
-        
-        let userInfoQuery = PFQuery(className: "UserInfo")
-        userInfoQuery.whereKey("UserID", equalTo: userID)
-        
-        let actionQuery = PFQuery(className: "Action")
-        actionQuery.includeKey("CreatedBy")
-        actionQuery.whereKey("CreatedBy", matchesQuery: userInfoQuery)
-        
-        actionQuery.getFirstObjectInBackgroundWithBlock { (object, error) -> Void in
-            if error == nil {
-                //既存のレコードを削除
-                object!.deleteInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in }
-                
-            }
+    class func getUserInfomationFromTwitter(twitterName: String, completion:((withError: NSError?, result: PFObject?)->Void)?) {
+        let query = PFQuery(className: "UserInfo")
+        query.whereKey("Twitter", equalTo: twitterName)
+        query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
             
-            completion?(withError: error, result: object)
+            if error == nil {
+                completion?(withError: error, result: objects!.first)
+            }
         }
     }
     
-    class func setUserInfomation(userID: String, name: String, gender: String, age: String, comment: String, photo: PFFile, deviceToken: String) {
+//    class func getActionInfomation(userID: String, completion:((withError: NSError?, result: PFObject?)->Void)?) {
+//        
+//        let userInfoQuery = PFQuery(className: "UserInfo")
+//        userInfoQuery.whereKey("UserID", equalTo: userID)
+//        
+//        let actionQuery = PFQuery(className: "Action")
+//        actionQuery.includeKey("CreatedBy")
+//        actionQuery.whereKey("CreatedBy", matchesQuery: userInfoQuery)
+//        
+//        actionQuery.getFirstObjectInBackgroundWithBlock { (object, error) -> Void in
+//            if error == nil {
+//                //既存のレコードを削除
+//                object!.deleteInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in }
+//                
+//            }
+//            
+//            completion?(withError: error, result: object)
+//        }
+//    }
+    
+    class func setUserInfomation(userID: String, name: String, gender: String, age: String, twitter: String, comment: String, photo: PFFile, deviceToken: String) {
         //新規ユーザー登録
         let info = PFObject(className: "UserInfo")
         info["UserID"] = userID
         info["Name"] = name
         info["Gender"] = gender
         info["Age"] = age
+        info["Twitter"] = twitter
         info["Comment"] = comment
         info["ProfilePicture"] = photo
         info["DeviceToken"] = deviceToken

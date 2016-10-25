@@ -21,6 +21,8 @@ class PersistentData {
         userDefault.removeObjectForKey("place")
         userDefault.removeObjectForKey("mychar")
         
+        userDefault.removeObjectForKey("isRecruitment")
+        
         userDefault.synchronize()
         
     }
@@ -145,12 +147,12 @@ class PersistentData {
             }
         }
         
-        var isRecruitment: Bool {
+        var isRecruitment: Bool? {
             get {
-                return NSUserDefaults.standardUserDefaults().boolForKey("isRecruitment") ?? false
+                return NSUserDefaults.standardUserDefaults().boolForKey("isRecruitment")
             }
             set {
-                NSUserDefaults.standardUserDefaults().setBool(newValue , forKey: "isRecruitment")
+                NSUserDefaults.standardUserDefaults().setBool(newValue!, forKey: "isRecruitment")
                 NSUserDefaults.standardUserDefaults().synchronize()
             }
         }
@@ -170,6 +172,15 @@ class PersistentData {
             }
             set {
                 NSUserDefaults.standardUserDefaults().setObject(newValue , forKey: "targetUserID")
+                NSUserDefaults.standardUserDefaults().synchronize()
+            }
+        }
+        var twitterName : String {
+            get {
+                return NSUserDefaults.standardUserDefaults().stringForKey("twitterName") ?? ""
+            }
+            set {
+                NSUserDefaults.standardUserDefaults().setObject(newValue , forKey: "twitterName")
                 NSUserDefaults.standardUserDefaults().synchronize()
             }
         }

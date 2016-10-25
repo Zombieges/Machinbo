@@ -51,6 +51,7 @@ class GoNowViewController: UIViewController, UINavigationControllerDelegate,
         
         // 不要行の削除
         let noCreateView:UIView = UIView(frame: CGRectZero)
+        
         noCreateView.backgroundColor = UIColor.clearColor()
         tableView.tableFooterView = noCreateView
         tableView.tableHeaderView = noCreateView

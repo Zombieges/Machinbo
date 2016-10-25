@@ -148,17 +148,8 @@ UITableViewDelegate {
             }
             
         } else if indexPath.section == 1 {
-            
             if indexPath.row == 0 {
-                let path = NSBundle.mainBundle().pathForResource("UserPolicy", ofType: "txt")!
-                //                if let data = NSData(contentsOfFile: path){
-                //                    label.text = String(NSString(data: data, encoding: NSUTF8StringEncoding)!)
-                //                }else{
-                //                    label.text = "データなし"
-                //                }
-                
                 let vc = PickerViewController()
-                //vc.palTargetUser = self.userInfo as? PFObject
                 vc.palKind = "yakkan"
                 
                 self.navigationController!.pushViewController(vc, animated: true)
@@ -187,6 +178,7 @@ UITableViewDelegate {
             
             //ActionオブジェクトがNilの場合は、UserInfoオブジェクトのみ削除する
             self.deleteUserInfo(userData.userID)
+            PersistentData.deleteUserID()
         }
     }
     

@@ -43,11 +43,10 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     var selectedAge = ""
     var selectedGender = ""
     var inputComment = ""
-    
     var twitterName = ""
     
-    let identifier = "Cell" // セルのIDを定数identifierにする。
-    var cell: UITableViewCell? // nilになることがあるので、Optionalで宣言
+    let identifier = "Cell"
+    var cell: UITableViewCell?
     let detailTableViewCellIdentifier: String = "DetailCell"
     
     override func viewDidLoad() {
@@ -58,7 +57,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         
         setProfileGesture()
         initTableView()
-        
         navigationController?.navigationBar.tintColor = UIColor.darkGrayColor()
         
         let userData = PersistentData.User()
@@ -85,8 +83,23 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         gender = userData.gender
         selectedGender = String(userData.gender)
         inputComment = userData.comment
+        twitterName = userData.twitterName
         
-        if userData.isRecruitment {
+        setRecruitment()
+        imageMolding(profilePicture)
+        showAdmob()
+    }
+    
+    private func setRecruitment() {
+        let userData = PersistentData.User()
+        
+        guard !userData.insertTime.isEmpty else {
+            //待ち合わせ募集をしていない場合
+             self.imakokoButton.hidden = true
+            return
+        }
+        
+        if userData.isRecruitment! {
             //募集中の場合
             self.imakokoButton.setTitle("待ち合わせ募集中", forState: .Normal)
             self.imakokoButton.layer.cornerRadius = 5.0
@@ -100,9 +113,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             self.imakokoButton.layer.borderWidth = 1.0
             self.imakokoButton.tintColor = UIColor.redColor()
         }
-        
-        imageMolding(profilePicture)
-        showAdmob()
     }
     
     private func showAdmob() {
@@ -175,6 +185,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         
         var userInfo = PersistentData.User()
         guard userInfo.userID != "" else {
+            userInfo.profileImage = self.profilePicture.image!
             return
         }
         
@@ -284,9 +295,11 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         if indexPath.section == 0 {
             if indexPath.row < 4 {
                 var normalCell = tableView.dequeueReusableCellWithIdentifier(tableViewCellIdentifier)
-                normalCell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: tableViewCellIdentifier)
-                normalCell!.textLabel!.font = UIFont(name: "Arial", size: 15)
-                normalCell!.detailTextLabel!.font = UIFont(name: "Arial", size: 15)
+                if normalCell == nil {
+                    normalCell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: tableViewCellIdentifier)
+                }
+                normalCell?.textLabel!.font = UIFont(name: "Arial", size: 15)
+                normalCell?.detailTextLabel!.font = UIFont(name: "Arial", size: 15)
                 
                 if indexPath.row == 0 {
                     normalCell?.textLabel?.text = profileItems[indexPath.row]
@@ -310,17 +323,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
                     normalCell?.imageView?.image = UIImage(named: "logo_twitter.png")
                     normalCell?.accessoryType = .DisclosureIndicator
                     normalCell?.detailTextLabel?.text = twitterName as String
-                    
-//                    let logInButton = TWTRLogInButton(logInCompletion:
-//                        { (session, error) in
-//                            if (session != nil) {
-//                                print("signed in as \(session!.userName)");
-//                            } else {
-//                                print("error: \(error!.localizedDescription)");
-//                            }
-//                    })
-//                    logInButton.center = self.view.center
-//                    self.view.addSubview(logInButton)
                 }
                 
                 cell = normalCell
@@ -473,8 +475,9 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         userInfo.gender = selectedGender
         userInfo.age = selectedAge
         userInfo.comment = inputComment
+        userInfo.twitterName = twitterName
+        userInfo.profileImage = profilePicture.image!
         
-        // 登録
         ParseHelper.setUserInfomation(
             uuid,
             name: inputName,
@@ -486,7 +489,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             deviceToken: userInfo.deviceToken
         )
         
-        //NavigationControllerを初期化
         LayoutManager.createNavigationAndTabItems()
         
         MBProgressHUDHelper.hide()
@@ -506,9 +508,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     
     @IBAction func imakokoAction(sender: AnyObject) {
         
-        var userData = PersistentData.User()
-        
-        if userData.isRecruitment {
+        if PersistentData.User().isRecruitment! {
             
             UIAlertView.showAlertOKCancel("募集停止", message: "待ち合わせ募集を停止してもよろしいですか？") { action in
                 if action == UIAlertView.ActionButton.Cancel {
@@ -538,7 +538,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         self.recruitmentAction(false)
     }
     
-    func recruitmentAction(isRecruitment: Bool) {
+    private func recruitmentAction(isRecruitment: Bool) {
         
         var userData = PersistentData.User()
         
@@ -561,13 +561,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
                     //画面再描画
                     self.viewDidLoad()
                     
-                    var message = ""
-                    if isRecruitment {
-                        message = "募集を開始しました"
-                    } else {
-                        message = "募集を停止しました"
-                    }
-                    
+                    let message = isRecruitment ? "募集を開始しました" : "募集を停止しました"
                     UIAlertView.showAlertDismiss("", message: message, completion: { () -> () in })
                 }
                 
@@ -595,52 +589,56 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         self.viewDidLoad()
     }
     
-    func loginTwitter() {
-        let sessionStore = Twitter.sharedInstance().sessionStore
-        
-        guard let userId = sessionStore.session()?.userID else {
-            Twitter.sharedInstance().logInWithCompletion { session, error in
-                guard session != nil else {
-                    print("error: \(error!.localizedDescription)")
-                    UIAlertView.showAlertView("", message: "Twitterへの接続に失敗しました。再接続してください")
-                    return
-                }
-                
-                UIAlertView.showAlertOKCancel("Twitterログイン", message: "Twitterに認証しますか？") { action in
-                    if action == UIAlertView.ActionButton.Cancel { return }
-                    
-                    
-                    self.setTwitterName()
-                    
-                    sessionStore.logOutUserID(session!.userName)
-                    self.twitterName = session!.userName
-                    print("signed in as \(session!.userName)");
-                }
-                
-                
-                self.twitterName = session!.userID
-            }
+    private func loginTwitter() {
+        guard self.twitterName.isEmpty else {
+            let sessionStore = Twitter.sharedInstance().sessionStore
+            onClickSettingAction(sessionStore)
             
             return
         }
         
-        UIAlertView.showAlertOKCancel("Twitterログアウト", message: "Twitterからログアウトをしますか？") { action in
-            defer {
-                self.viewDidLoad()
-                UIAlertView.showAlertView("", message: "Twitterからログアウトしました")
+        Twitter.sharedInstance().logInWithCompletion { session, error in
+            guard session != nil else {
+                print("error: \(error!.localizedDescription)")
+                UIAlertView.showAlertView("", message: "Twitterへの接続に失敗しました。再接続してください")
+                return
             }
             
-            if action == UIAlertView.ActionButton.Cancel { return }
-            
+            self.twitterName = session!.userName
             self.setTwitterName()
-            
-            sessionStore.logOutUserID(userId)
-            self.twitterName = ""
+            print("signed in as \(session!.userName)");
         }
     }
     
-    func setTwitterName() {
+    private func onClickSettingAction(sessionStore: TWTRSessionStore) {
+        let myAlert = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
+        let destructiveAction_1: UIAlertAction = UIAlertAction(title: "認証を解除", style: UIAlertActionStyle.Destructive, handler:{
+            (action: UIAlertAction!) -> Void in
+            
+            self.twitterName = ""
+            self.setTwitterName()
+            sessionStore.logOutUserID((sessionStore.session()?.userID)!)
+            
+        })
+        myAlert.addAction(destructiveAction_1)
+
+        let cancelAction: UIAlertAction = UIAlertAction(title: "cancel", style: UIAlertActionStyle.Cancel, handler:{
+            (action: UIAlertAction!) -> Void in
+            print("cancelAction")
+        })
+        myAlert.addAction(cancelAction)
+        
+        self.presentViewController(myAlert, animated: true, completion: nil)
+    }
+    
+    private func setTwitterName() {
+        guard PersistentData.User().userID != "" else {
+            self.viewDidLoad()
+            return
+        }
+        
         MBProgressHUDHelper.show("Loading...")
+        
         ParseHelper.getUserInfomation(PersistentData.User().userID) { (error: NSError?, result: PFObject?) -> Void in
             defer {
                 MBProgressHUDHelper.hide()
@@ -652,14 +650,12 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             
             result["Twitter"] = self.twitterName
             result.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+                self.viewDidLoad()
                 
-                defer {
-                    self.viewDidLoad()
-                    UIAlertView.showAlertView("", message: "Twitterに認証しました")
-                }
+                let alertMessage = self.twitterName == "" ? "認証を解除しました" : "連携が完了しました"
+                UIAlertView.showAlertView("", message: alertMessage)
                 
             }
         }
     }
-    
 }

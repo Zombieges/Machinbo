@@ -604,6 +604,17 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
                 return
             }
             
+//            guard session!.userName != "" else {
+//                if let url = NSURL(string:"app-prefs:root=TWITTER") {
+//                    if #available(iOS 10.0, *) {
+//                        //UIApplication.sharedApplication().open(url, options: [:], completionHandler: nil)
+//                    } else {
+//                        UIApplication.sharedApplication().openURL(url)
+//                    }
+//                }
+//                
+//                return
+//            }
             self.twitterName = session!.userName
             self.setTwitterName()
             print("signed in as \(session!.userName)");
@@ -640,21 +651,23 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         MBProgressHUDHelper.show("Loading...")
         
         ParseHelper.getUserInfomation(PersistentData.User().userID) { (error: NSError?, result: PFObject?) -> Void in
-            defer {
-                MBProgressHUDHelper.hide()
-            }
-            
             guard let result = result else {
+                 MBProgressHUDHelper.hide()
                 return
             }
             
             result["Twitter"] = self.twitterName
             result.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
-                self.viewDidLoad()
+                defer {
+                    MBProgressHUDHelper.hide()
+                    self.viewDidLoad()
+                }
+                
+                var userInfo = PersistentData.User()
+                userInfo.twitterName = self.twitterName
                 
                 let alertMessage = self.twitterName == "" ? "認証を解除しました" : "連携が完了しました"
                 UIAlertView.showAlertView("", message: alertMessage)
-                
             }
         }
     }

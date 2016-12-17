@@ -31,12 +31,12 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     var mainNavigationCtrl: UINavigationController?
     
     override func loadView() {
-        if let view = UINib(nibName: "MapView", bundle: nil).instantiateWithOwner(self, options: nil).first as? UIView {
+        if let view = UINib(nibName: "MapView", bundle: nil).instantiate(withOwner: self, options: nil).first as? UIView {
             self.view = view
         }
         
         self.navigationItem.title = "ホーム"
-        self.navigationController!.navigationBar.tintColor = UIColor.darkGrayColor()
+        self.navigationController!.navigationBar.tintColor = UIColor.darkGray
         
         //button 生成
         createNavigationItem()
@@ -44,21 +44,21 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     
     override func viewDidLoad() {
         if self.isInternetConnect() {
-            let center = NSNotificationCenter.defaultCenter() as NSNotificationCenter
+            let center = NotificationCenter.default as NotificationCenter
             
             LocationManager.sharedInstance.startUpdatingLocation()
-            center.addObserver(self, selector: #selector(self.foundLocation(_:)), name: LMLocationUpdateNotification as String, object: nil)
+            center.addObserver(self, selector: #selector(self.foundLocation(_:)), name: NSNotification.Name(rawValue: LMLocationUpdateNotification as String as String), object: nil)
         }
     }
     
-    func foundLocation(notif: NSNotification) {
+    func foundLocation(_ notif: Notification) {
         
         defer {
-            NSNotificationCenter.defaultCenter().removeObserver(self)
+            NotificationCenter.default.removeObserver(self)
         }
         
         let info = notif.userInfo as NSDictionary!
-        let location = info[LMLocationInfoKey] as! CLLocation
+        let location = info?[LMLocationInfoKey] as! CLLocation
         
         latitude = location.coordinate.latitude
         longitude = location.coordinate.longitude
@@ -70,12 +70,12 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         let camera = GMSCameraPosition(target: myPosition, zoom: 13, bearing: 0, viewingAngle: 0)
         
         let gmaps = GMSMapView()
-        gmaps.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.size.width, UIScreen.mainScreen().bounds.size.height)
-        gmaps.myLocationEnabled = true
+        gmaps.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
+        gmaps.isMyLocationEnabled = true
         gmaps.settings.myLocationButton = true
         gmaps.camera = camera
         gmaps.delegate = self
-        gmaps.animateToLocation(myPosition)
+        gmaps.animate(toLocation: myPosition)
         
         self.view.addSubview(gmaps)
         
@@ -83,7 +83,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
             //ユーザマーカーを表示
             GoogleMapsHelper.setAnyUserMarker(gmaps, userObjects: FeedData.mainData().feedItems)
             //広告表示
-            self.showAdmob(AdmobType.Full)
+            self.showAdmob(AdmobType.full)
         }
         
         //manager.stopUpdatingLocation()
@@ -104,30 +104,30 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         btn.backgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
         btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
         btn.rippleColor = LayoutManager.getUIColorFromRGB(0xB54241)
-        btn.setTitle("待ち合わせ場所登録", forState: .Normal)
-        btn.addTarget(self, action: #selector(MapViewController.onClickImakoko), forControlEvents: UIControlEvents.TouchUpInside)
+        btn.setTitle("待ち合わせ場所登録", for: UIControlState())
+        btn.addTarget(self, action: #selector(MapViewController.onClickImakoko), for: UIControlEvents.touchUpInside)
         btn.layer.cornerRadius = 5.0
         btn.layer.masksToBounds = true
         btn.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height - self.view.bounds.height/7.3)
         self.view.addSubview(btn)
     }
     
-    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         
         NSLog("didChangeAuthorizationStatus");
         
         // 認証のステータスをログで表示.
         var statusStr = "";
         switch (status) {
-        case .NotDetermined:
+        case .notDetermined:
             statusStr = "NotDetermined"
-        case .Restricted:
+        case .restricted:
             statusStr = "Restricted"
-        case .Denied:
+        case .denied:
             statusStr = "Denied"
-        case .AuthorizedAlways:
+        case .authorizedAlways:
             statusStr = "AuthorizedAlways"
-        case .AuthorizedWhenInUse:
+        case .authorizedWhenInUse:
             statusStr = "AuthorizedWhenInUse"
         }
         
@@ -139,46 +139,46 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     }
     
     func createNavigationItem() {
-        let reloadButton = UIButton(type: UIButtonType.Custom)
-        reloadButton.setImage(UIImage(named: "reload.png"), forState: UIControlState.Normal)
-        reloadButton.setTitleColor(UIColor.darkGrayColor(), forState: .Normal)
-        reloadButton.addTarget(self, action: #selector(onClickReload), forControlEvents: UIControlEvents.TouchUpInside)
-        reloadButton.frame = CGRectMake(0, 0, 22, 22)
-        reloadButton.imageView?.contentMode = .ScaleAspectFit
+        let reloadButton = UIButton(type: UIButtonType.custom)
+        reloadButton.setImage(UIImage(named: "reload.png"), for: UIControlState())
+        reloadButton.setTitleColor(UIColor.darkGray, for: UIControlState())
+        reloadButton.addTarget(self, action: #selector(onClickReload), for: UIControlEvents.touchUpInside)
+        reloadButton.frame = CGRect(x: 0, y: 0, width: 22, height: 22)
+        reloadButton.imageView?.contentMode = .scaleAspectFit
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: reloadButton)
         
-        let seachButton = UIButton(type: UIButtonType.Custom)
-        seachButton.setImage(UIImage(named: "search.png"), forState: UIControlState.Normal)
-        seachButton.setTitleColor(UIColor.darkGrayColor(), forState: .Normal)
-        seachButton.addTarget(self, action: #selector(onClickSearch), forControlEvents: UIControlEvents.TouchUpInside)
-        seachButton.frame = CGRectMake(0, 0, 22, 22)
-        seachButton.imageView?.contentMode = .ScaleAspectFit
+        let seachButton = UIButton(type: UIButtonType.custom)
+        seachButton.setImage(UIImage(named: "search.png"), for: UIControlState())
+        seachButton.setTitleColor(UIColor.darkGray, for: UIControlState())
+        seachButton.addTarget(self, action: #selector(onClickSearch), for: UIControlEvents.touchUpInside)
+        seachButton.frame = CGRect(x: 0, y: 0, width: 22, height: 22)
+        seachButton.imageView?.contentMode = .scaleAspectFit
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: seachButton)
     }
     
-    func mapView(mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView? {
-        self.markWindow = NSBundle.mainBundle().loadNibNamed("MarkWindow", owner: self, options: nil).first! as! MarkWindow
+    func mapView(_ mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView? {
+        self.markWindow = Bundle.main.loadNibNamed("MarkWindow", owner: self, options: nil)?.first! as! MarkWindow
         
-        let createdBy: AnyObject? = marker.userData
+        let createdBy: AnyObject? = marker.userData as AnyObject?
         
         if let createdBy: AnyObject = createdBy {
-            if let imageFile = createdBy.valueForKey("ProfilePicture") as? PFFile {
-                let imageData: NSData = try! imageFile.getData()
+            if let imageFile = createdBy.value(forKey: "ProfilePicture") as? PFFile {
+                let imageData: Data = try! imageFile.getData()
                 self.markWindow.ProfileImage.image = UIImage(data: imageData)!
-                self.markWindow.ProfileImage.layer.borderColor = UIColor.whiteColor().CGColor
+                self.markWindow.ProfileImage.layer.borderColor = UIColor.white.cgColor
                 self.markWindow.ProfileImage.layer.borderWidth = 3
                 self.markWindow.ProfileImage.layer.cornerRadius = 10
                 self.markWindow.ProfileImage.layer.masksToBounds = true
             }
             
-            self.markWindow.Name.text = createdBy.objectForKey("Name") as? String
+            self.markWindow.Name.text = createdBy.object(forKey: "Name") as? String
             self.markWindow.Name.sizeToFit()
             
-            self.markWindow.Detail.text = marker.userData!.objectForKey("PlaceDetail") as? String
+            self.markWindow.Detail.text = (marker.userData! as AnyObject).object(forKey: "PlaceDetail") as? String
             self.markWindow.Detail.sizeToFit()
             
-            self.markWindow.timeAgoText.text = marker.userData!.updatedAt!!.relativeDateString
+            self.markWindow.timeAgoText.text = (marker.userData! as AnyObject).updatedAt!!.relativeDateString
             
         } else {
             self.refresh()
@@ -187,19 +187,19 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         return self.markWindow
     }
     
-    func mapView(mapView: GMSMapView, didTapInfoWindowOfMarker marker: GMSMarker) {
-        let vc = TargetProfileViewController(type: ProfileType.TargetProfile)
-        vc.userInfo = marker.userData!
+    func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
+        let vc = TargetProfileViewController(type: ProfileType.targetProfile)
+        vc.userInfo = marker.userData! as AnyObject
         
         self.navigationController!.pushViewController(vc, animated: false)
         
     }
     
-    func mapView(mapView: GMSMapView, didTapMarker marker: GMSMarker) -> Bool {
+    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         return false
     }
     
-    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         defer {
             manager.stopUpdatingLocation()
             self.createRefreshButton()
@@ -284,9 +284,9 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     
     //更新
     func onClickReload() {
-        let center = NSNotificationCenter.defaultCenter() as NSNotificationCenter
+        let center = NotificationCenter.default as NotificationCenter
         LocationManager.sharedInstance.startUpdatingLocation()
-        center.addObserver(self, selector: #selector(self.foundLocation), name: LMLocationUpdateNotification as String, object: nil)
+        center.addObserver(self, selector: #selector(self.foundLocation), name: NSNotification.Name(rawValue: LMLocationUpdateNotification as String as String), object: nil)
     }
     
     func createRefreshButton() {
@@ -296,8 +296,8 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         btn.backgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
         btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
         btn.rippleColor = LayoutManager.getUIColorFromRGB(0xB54241)
-        btn.setTitle("再表示", forState: .Normal)
-        btn.addTarget(self, action: #selector(self.refresh), forControlEvents: .TouchUpInside)
+        btn.setTitle("再表示", for: UIControlState())
+        btn.addTarget(self, action: #selector(self.refresh), for: .touchUpInside)
         btn.layer.cornerRadius = 5.0
         btn.layer.masksToBounds = true
         btn.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height - self.view.bounds.height/8.3)

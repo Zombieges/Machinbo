@@ -20,70 +20,69 @@ class NotificationHelper{
         //
         let poolId = ConfigHelper.getPlistKey("AWS_CONGNITO_TEST") as String
         let awsCredentialsProvider = AWSCognitoCredentialsProvider(
-            regionType: .APNortheast1,
+            regionType: .apNortheast1,
             identityPoolId: poolId
         )
         
-        let defaultAwsServiceConfiguration = AWSServiceConfiguration(region: .APNortheast1, credentialsProvider: awsCredentialsProvider)
-        AWSServiceManager.defaultServiceManager().defaultServiceConfiguration = defaultAwsServiceConfiguration
+        let defaultAwsServiceConfiguration = AWSServiceConfiguration(region: .apNortheast1, credentialsProvider: awsCredentialsProvider)
+        AWSServiceManager.default().defaultServiceConfiguration = defaultAwsServiceConfiguration
     }
     
-    class func sendSpecificDevice(message : String, deviceTokenAsString : String, badges : Int,
+    class func sendSpecificDevice(_ message : String, deviceTokenAsString : String, badges : Int,
                               type : String = "alert", sound : String = "default",
                               ompletionHandler : ((NSError?) -> ())? = nil)
     {
         
         // 別スレッドにて実行
-        let grobalQueue = dispatch_get_global_queue(QOS_CLASS_USER_INTERACTIVE, 0)
-        dispatch_async(grobalQueue, {
+        let grobalQueue = DispatchQueue.global(qos: DispatchQoS.QoSClass.userInteractive)
+        grobalQueue.async(execute: {
             
             
             //
             // GET READY TO SEND TO SPECIFIC DEVICE
             //
-            let sns = AWSSNS.defaultSNS()
+            let sns = AWSSNS.default()
             let snsRequest = AWSSNSCreatePlatformEndpointInput()
-            snsRequest.token = deviceTokenAsString
-            snsRequest.platformApplicationArn = ConfigHelper.getPlistKey("AWS_SNS_TEST") as String
+            snsRequest?.token = deviceTokenAsString
+            snsRequest?.platformApplicationArn = ConfigHelper.getPlistKey("AWS_SNS_TEST") as String
             
             
             //
             // SEND NOTIFICATION TO SPECIFIC DEVICE
             //
-            sns.createPlatformEndpoint(snsRequest) { (AwsSnsEndPoint:AWSSNSCreateEndpointResponse?, error:NSError?) in
+            sns.createPlatformEndpoint(snsRequest!) { (AwsSnsEndPoint:AWSSNSCreateEndpointResponse?, error:Error?) in
                 if error != nil {
-                    print("Failed to create SNS endpoint:\(error?.description)")
+                    print("Failed to create SNS endpoint:\(error?.localizedDescription)")
                 } else {
                     if let endpointArn = AwsSnsEndPoint?.endpointArn {
                         print("created Endpoint is \(endpointArn)")
                         
                         
                         let request = AWSSNSPublishInput()
-                        request.messageStructure = "json"
+                        request?.messageStructure = "json"
                         
                         
                         let dict = ["APNS_SANDBOX": "{\"aps\":{\"\(type)\": \"\(message)\",\"sound\":\"\(sound)\", \"badge\":\(badges)} }"]
                         
                         do
                         {
-                            let jsonData = try NSJSONSerialization.dataWithJSONObject(dict, options: NSJSONWritingOptions.PrettyPrinted)
-                            request.message = NSString(data: jsonData, encoding: NSUTF8StringEncoding) as? String
-                            request.targetArn = "\(endpointArn)"
+                            let jsonData = try JSONSerialization.data(withJSONObject: dict, options: JSONSerialization.WritingOptions.prettyPrinted)
+                            request?.message = NSString(data: jsonData, encoding: String.Encoding.utf8.rawValue) as? String
+                            request?.targetArn = "\(endpointArn)"
                             
                             // sending
-                            sns.publish(request).continueWithBlock
+                            sns.publish(request!).continue(successBlock: {
+                                (task) -> AnyObject! in
+                                if task.error != nil
                                 {
-                                    (task) -> AnyObject! in
-                                    if task.error != nil
-                                    {
-                                        print("Error sending mesage: \(task.error)")
-                                    }
-                                    else
-                                    {
-                                        print("Success sending message")
-                                    }
-                                    return nil
-                            }
+                                    print("Error sending mesage: \(task.error)")
+                                }
+                                else
+                                {
+                                    print("Success sending message")
+                                }
+                                return nil
+                            })
                         }
                         catch
                         {

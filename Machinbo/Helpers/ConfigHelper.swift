@@ -9,15 +9,15 @@
 import Foundation
 
 class ConfigHelper {
-    class func getPlistKey(key: String) -> String {
+    class func getPlistKey(_ key: String) -> String {
         var dict: NSDictionary?
         var result = ""
         
-        if let path = NSBundle.mainBundle().pathForResource("Info", ofType: "plist") {
+        if let path = Bundle.main.path(forResource: "Info", ofType: "plist") {
             dict = NSDictionary(contentsOfFile: path)
         }
         
-        if let value: AnyObject = dict?.valueForKey(key){
+        if let value: AnyObject = dict?.value(forKey: key) as AnyObject?{
             result = value as! String
         }
         

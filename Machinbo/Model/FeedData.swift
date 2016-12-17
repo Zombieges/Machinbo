@@ -20,7 +20,7 @@ class FeedData: NSObject {
         return _mainData
     }
     
-    func refreshMapFeed(myLocation: CLLocationCoordinate2D, completion: () -> ()) {
+    func refreshMapFeed(_ myLocation: CLLocationCoordinate2D, completion: @escaping () -> ()) {
 
         ParseHelper.getNearUserInfomation(myLocation) { (error: NSError?, result) -> Void in
             if error == nil {

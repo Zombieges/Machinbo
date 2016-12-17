@@ -8,9 +8,9 @@
 
 import Foundation
 
-extension NSDate {
+extension Date {
     public var relativeDateString: String {
-        let timeDelta = NSDate().timeIntervalSince1970 - self.timeIntervalSince1970
+        let timeDelta = Date().timeIntervalSince1970 - self.timeIntervalSince1970
         if timeDelta < 3600 * 24 {
             let hours = Int(timeDelta/3600)
             if hours >= 0 {
@@ -29,17 +29,17 @@ extension NSDate {
 
 class Parser {
     
-    class func changeAgeRange(ageStr: String) -> String {
+    class func changeAgeRange(_ ageStr: String) -> String {
         
-        let calendar = NSCalendar.currentCalendar()
-        let now = NSDate()
+        let calendar = Calendar.current
+        let now = Date()
         
-        let dateFormatter = NSDateFormatter();
+        let dateFormatter = DateFormatter();
         dateFormatter.dateFormat = "Y/M/d"
-        let birthday = dateFormatter.dateFromString(ageStr + "/1/1")!
-        let components = calendar.components([.Year, .Month, .Day], fromDate: birthday, toDate: now, options: NSCalendarOptions())
+        let birthday = dateFormatter.date(from: ageStr + "/1/1")!
+        let components = (calendar as NSCalendar).components([.year, .month, .day], from: birthday, to: now, options: NSCalendar.Options())
         
-        let age = components.year
+        let age = Int(components.year!)
         var returnStr = ""
         
         if 0...19 ~= age {
@@ -74,10 +74,10 @@ class Parser {
 
 extension UIView {
     
-    public func addTapGesture(tapNumber tapNumber: Int, target: AnyObject, action: Selector) {
+    public func addTapGesture(tapNumber: Int, target: AnyObject, action: Selector) {
         let tap = UITapGestureRecognizer(target: target, action: action)
         tap.numberOfTapsRequired = tapNumber
         addGestureRecognizer(tap)
-        userInteractionEnabled = true
+        isUserInteractionEnabled = true
     }
 }

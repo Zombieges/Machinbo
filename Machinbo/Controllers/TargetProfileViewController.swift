@@ -13,9 +13,33 @@ import MBProgressHUD
 import GoogleMobileAds
 import MessageUI
 import GoogleMaps
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l <= r
+  default:
+    return !(rhs < lhs)
+  }
+}
+
 
 enum ProfileType {
-    case TargetProfile, ImaikuTargetProfile, ImakuruTargetProfile
+    case targetProfile, imaikuTargetProfile, imakuruTargetProfile
 }
 
 extension TargetProfileViewController: TransisionProtocol {}
@@ -34,8 +58,8 @@ class TargetProfileViewController:
     let modalTextLabel = UILabel()
     let lblName: String = ""
     
-    var userInfo: AnyObject = []
-    var gonowInfo: AnyObject = []
+    var userInfo: Any = []
+    var gonowInfo: Any = []
     var targetObjectID = ""
     var targetGeoPoint = PFGeoPoint(latitude: 0, longitude: 0)
 
@@ -45,20 +69,20 @@ class TargetProfileViewController:
     var innerViewHeight: CGFloat!
 
     //Targetの情報
-    private let targetProfileItems = ["名前", "性別", "年齢", "プロフィール"]
+    fileprivate let targetProfileItems = ["名前", "性別", "年齢", "プロフィール"]
     //いまから来る人の詳細情報
-    private let imakuruItems = ["到着時間"]
+    fileprivate let imakuruItems = ["到着時間"]
     //
-    private let otherItems = ["登録時間", "場所", "特徴"]
+    fileprivate let otherItems = ["登録時間", "場所", "特徴"]
     
     // Sectionで使用する配列を定義する.
-    private var sections: NSArray = []
+    fileprivate var sections: NSArray = []
 
-    private let detailTableViewCellIdentifier = "DetailCell"
+    fileprivate let detailTableViewCellIdentifier = "DetailCell"
     
-    private let mapTableViewCellIdentifier = "MapCell"
+    fileprivate let mapTableViewCellIdentifier = "MapCell"
     
-    var type = ProfileType.TargetProfile
+    var type = ProfileType.targetProfile
     
     init (type: ProfileType) {
         super.init(nibName: nil, bundle: nil)
@@ -70,15 +94,15 @@ class TargetProfileViewController:
     }
     
     override func loadView() {
-        if let view = UINib(nibName: "TargetProfileView", bundle: nil).instantiateWithOwner(self, options: nil).first as? UIView {
+        if let view = UINib(nibName: "TargetProfileView", bundle: nil).instantiate(withOwner: self, options: nil).first as? UIView {
             self.view = view
         }
         
         PersistentData.deleteUserIDForKey("imaikuFlag")
         
         // MAPの高さは端末Heightの1/5
-        let mapViewHeight = round(UIScreen.mainScreen().bounds.size.height / 5)
-        let imageSize = round(UIScreen.mainScreen().bounds.size.width / 4)
+        let mapViewHeight = round(UIScreen.main.bounds.size.height / 5)
+        let imageSize = round(UIScreen.main.bounds.size.width / 4)
         let imageY = mapViewHeight - round(imageSize / 2)
         // TableViewに配置するViewのHeight
         let gmapsY = round(mapViewHeight / 2)
@@ -88,27 +112,27 @@ class TargetProfileViewController:
             // UITableView
             
             let nibName = UINib(nibName: "DetailProfileTableViewCell", bundle:nil)
-            tableView.registerNib(nibName, forCellReuseIdentifier: detailTableViewCellIdentifier)
+            tableView.register(nibName, forCellReuseIdentifier: detailTableViewCellIdentifier)
             tableView.estimatedRowHeight = 100.0
             tableView.rowHeight = UITableViewAutomaticDimension
             //tableViewの位置を 1 / 端末サイズ 下げる
             tableView.contentInset.top = innerViewHeight
             
             // 不要行の削除
-            let notUserRowView = UIView(frame: CGRectZero)
-            notUserRowView.backgroundColor = UIColor.clearColor()
+            let notUserRowView = UIView(frame: CGRect.zero)
+            notUserRowView.backgroundColor = UIColor.clear
             tableView.tableFooterView = notUserRowView
             tableView.tableHeaderView = notUserRowView
         
             view.addSubview(tableView)
         }
         
-        self.displayWidth = UIScreen.mainScreen().bounds.size.width
-        self.displayHeight = UIScreen.mainScreen().bounds.size.height
+        self.displayWidth = UIScreen.main.bounds.size.width
+        self.displayHeight = UIScreen.main.bounds.size.height
         
         //ヘッダー
         myHeaderView = UIView(frame: CGRect(x: 0, y: -innerViewHeight, width: self.self.displayHeight, height: innerViewHeight))
-        myHeaderView.backgroundColor = UIColor.whiteColor()
+        myHeaderView.backgroundColor = UIColor.white
     
         tableView.addSubview(myHeaderView)
         
@@ -118,13 +142,13 @@ class TargetProfileViewController:
             let gmaps = GMSMapView()
             //gmaps.translatesAutoresizingMaskIntoConstraints = false
             //gmaps.frame = CGRectMake(0, statusBarHeight + navBarHeight!, UIScreen.mainScreen().bounds.size.width, mapViewHeight)
-            gmaps.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.size.width, mapViewHeight)
-            gmaps.myLocationEnabled = false
+            gmaps.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: mapViewHeight)
+            gmaps.isMyLocationEnabled = false
             gmaps.settings.myLocationButton = false
             //gmaps.camera = camera
             gmaps.delegate = self
             
-            if type == ProfileType.ImakuruTargetProfile {
+            if type == ProfileType.imakuruTargetProfile {
                 GoogleMapsHelper.setUserPin(gmaps, geoPoint: targetGeoPoint)
             } else {
                 GoogleMapsHelper.setUserMarker(gmaps, user: userInfo as! PFObject, isSelect: true)
@@ -137,18 +161,18 @@ class TargetProfileViewController:
         do {
             // 画像表示
             
-            let profileImage = UIImageView(frame: CGRectMake(17, imageY, imageSize, imageSize))
+            let profileImage = UIImageView(frame: CGRect(x: 17, y: imageY, width: imageSize, height: imageSize))
             
-            if let imageFile = userInfo.valueForKey("ProfilePicture") as? PFFile {
-                imageFile.getDataInBackgroundWithBlock { (imageData, error) -> Void in
+            if let imageFile = (userInfo as AnyObject).value(forKey: "ProfilePicture") as? PFFile {
+                imageFile.getDataInBackground { (imageData, error) -> Void in
                     if(error == nil) {
                         profileImage.image = UIImage(data: imageData!)!
-                        profileImage.layer.borderColor = UIColor.whiteColor().CGColor
+                        profileImage.layer.borderColor = UIColor.white.cgColor
                         profileImage.layer.borderWidth = 3
                         profileImage.layer.cornerRadius = 10
                         profileImage.layer.masksToBounds = true
                         
-                        profileImage.userInteractionEnabled = true
+                        profileImage.isUserInteractionEnabled = true
                         
                         let gesture = UITapGestureRecognizer(target:self, action: #selector(self.didClickImageView))
                         profileImage.addGestureRecognizer(gesture)
@@ -159,7 +183,7 @@ class TargetProfileViewController:
             }
         }
         
-        if type == ProfileType.ImaikuTargetProfile {
+        if type == ProfileType.imaikuTargetProfile {
             self.navigationItem.title = "いまから行く人のプロフィール"
             sections = ["プロフィール", "待ち合わせ情報"]
             
@@ -179,7 +203,7 @@ class TargetProfileViewController:
 
             
             
-        } else if type == ProfileType.ImakuruTargetProfile {
+        } else if type == ProfileType.imakuruTargetProfile {
             
             /*
              * GoNowListViewから遷移した場合
@@ -213,10 +237,10 @@ class TargetProfileViewController:
         }
         
         /* 設定ボタンを付与 */
-        let settingsButton: UIButton = UIButton(type: UIButtonType.Custom)
-        settingsButton.setImage(UIImage(named: "santen.png"), forState: UIControlState.Normal)
-        settingsButton.addTarget(self, action: #selector(TargetProfileViewController.onClickSettingAction), forControlEvents: .TouchUpInside)
-        settingsButton.frame = CGRectMake(0, 0, 22, 22)
+        let settingsButton: UIButton = UIButton(type: UIButtonType.custom)
+        settingsButton.setImage(UIImage(named: "santen.png"), for: UIControlState())
+        settingsButton.addTarget(self, action: #selector(TargetProfileViewController.onClickSettingAction), for: .touchUpInside)
+        settingsButton.frame = CGRect(x: 0, y: 0, width: 22, height: 22)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: settingsButton)
 
         if self.isInternetConnect() {
@@ -225,7 +249,7 @@ class TargetProfileViewController:
         }
     }
     
-    func didClickImageView(recognizer: UIGestureRecognizer) {
+    func didClickImageView(_ recognizer: UIGestureRecognizer) {
         
         if let imageView = recognizer.view as? UIImageView {
             
@@ -240,7 +264,7 @@ class TargetProfileViewController:
     /*
     セクションの数を返す.
     */
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSectionsInTableView(_ tableView: UITableView) -> Int {
         
         let returnSectionCount = sections.count
         /*
@@ -254,21 +278,21 @@ class TargetProfileViewController:
     /*
     セクションのタイトルを返す.
     */
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return sections[section] as? String
     }
     
     /*
     テーブルに表示する配列の総数を返す.
     */
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return self.targetProfileItems.count
             
         } else if section == 1 {
             var tableCellCount = 0
             
-            if type == ProfileType.ImakuruTargetProfile {
+            if type == ProfileType.imakuruTargetProfile {
                 tableCellCount = self.imakuruItems.count
             
             } else {
@@ -285,7 +309,7 @@ class TargetProfileViewController:
     /*
     Cellに値を設定する.
     */
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
         
         let tableViewCellIdentifier = "Cell"
         
@@ -294,36 +318,36 @@ class TargetProfileViewController:
             
             if indexPath.row < 3 {
                 // セルを再利用する
-                var normalCell = tableView.dequeueReusableCellWithIdentifier(tableViewCellIdentifier)
+                var normalCell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier)
                 if normalCell == nil { // 再利用するセルがなかったら（不足していたら）
                     // セルを新規に作成する。
-                    normalCell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: tableViewCellIdentifier)
+                    normalCell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: tableViewCellIdentifier)
                     normalCell!.textLabel!.font = UIFont(name: "Arial", size: 15)
                     normalCell!.detailTextLabel!.font = UIFont(name: "Arial", size: 15)
                 }
                 
                 if indexPath.row == 0 {
                     normalCell?.textLabel?.text = targetProfileItems[indexPath.row]
-                    normalCell?.detailTextLabel?.text = self.userInfo.objectForKey("Name") as? String
+                    normalCell?.detailTextLabel?.text = (self.userInfo as AnyObject).object(forKey: "Name") as? String
                     
                 } else if indexPath.row == 1 {
                     normalCell?.textLabel?.text = targetProfileItems[indexPath.row]
-                    normalCell?.detailTextLabel?.text = self.userInfo.objectForKey("Gender") as? String
+                    normalCell?.detailTextLabel?.text = (self.userInfo as AnyObject).object(forKey: "Gender") as? String
                     
                 } else if indexPath.row == 2 {
                     normalCell?.textLabel?.text = targetProfileItems[indexPath.row]
-                    normalCell?.detailTextLabel?.text = Parser.changeAgeRange((self.userInfo.objectForKey("Age") as? String)!)
+                    normalCell?.detailTextLabel?.text = Parser.changeAgeRange(((self.userInfo as AnyObject).object(forKey: "Age") as? String)!)
                 }
                 
                 cell = normalCell
                 
             } else {
                 
-                let detailCell = tableView.dequeueReusableCellWithIdentifier(detailTableViewCellIdentifier, forIndexPath: indexPath) as? DetailProfileTableViewCell
+                let detailCell = tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? DetailProfileTableViewCell
                 
                 if indexPath.row == 3 {
                     detailCell?.titleLabel.text = targetProfileItems[indexPath.row]
-                    detailCell?.valueLabel.text = self.userInfo.objectForKey("Comment") as? String
+                    detailCell?.valueLabel.text = (self.userInfo as AnyObject).object(forKey: "Comment") as? String
                     
                 }
                 
@@ -332,24 +356,24 @@ class TargetProfileViewController:
             
         } else if indexPath.section == 1 {
             
-            var normalCell = tableView.dequeueReusableCellWithIdentifier(tableViewCellIdentifier)
+            var normalCell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier)
             if normalCell == nil { // 再利用するセルがなかったら（不足していたら）
                 // セルを新規に作成する。
-                normalCell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: tableViewCellIdentifier)
+                normalCell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: tableViewCellIdentifier)
                 normalCell!.textLabel!.font = UIFont(name: "Arial", size: 14)
                 normalCell!.detailTextLabel!.font = UIFont(name: "Arial", size: 14)
             }
             
-            if type == ProfileType.ImakuruTargetProfile {
+            if type == ProfileType.imakuruTargetProfile {
                 //いまから来る画面用の処理
                 
                 if indexPath.row == 0 {
                     
                     normalCell?.textLabel?.text = imakuruItems[indexPath.row]
                     
-                    let dateFormatter = NSDateFormatter();
+                    let dateFormatter = DateFormatter();
                     dateFormatter.dateFormat = "yyyy年M月d日 H:mm"
-                    let formatDateString = dateFormatter.stringFromDate(self.gonowInfo.objectForKey("gotoAt") as! NSDate)
+                    let formatDateString = dateFormatter.string(from: (self.gonowInfo as AnyObject).object(forKey: "gotoAt") as! Date)
                     
                     normalCell?.detailTextLabel?.text = formatDateString
                     
@@ -365,28 +389,28 @@ class TargetProfileViewController:
                     
                     normalCell?.textLabel?.text = otherItems[indexPath.row]
                     
-                    let dateFormatter = NSDateFormatter();
+                    let dateFormatter = DateFormatter();
                     dateFormatter.dateFormat = "yyyy年M月d日 H:mm"
-                    if let mark = self.userInfo.objectForKey("MarkTime") {
-                        let formatDateString = dateFormatter.stringFromDate(mark as! NSDate)
+                    if let mark = (self.userInfo as AnyObject).object(forKey: "MarkTime") {
+                        let formatDateString = dateFormatter.string(from: mark as! Date)
                         normalCell?.detailTextLabel?.text = formatDateString
                     }
                     
                     cell = normalCell
                     
                 } else if indexPath.row == 1 {
-                    let detailCell = tableView.dequeueReusableCellWithIdentifier(detailTableViewCellIdentifier, forIndexPath: indexPath) as? DetailProfileTableViewCell
+                    let detailCell = tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? DetailProfileTableViewCell
                     
                     detailCell?.titleLabel.text = otherItems[indexPath.row]
-                    detailCell?.valueLabel.text = self.userInfo.objectForKey("PlaceDetail") as? String
+                    detailCell?.valueLabel.text = (self.userInfo as AnyObject).object(forKey: "PlaceDetail") as? String
                     
                     cell = detailCell
                     
                 } else if indexPath.row == 2 {
-                    let detailCell = tableView.dequeueReusableCellWithIdentifier(detailTableViewCellIdentifier, forIndexPath: indexPath) as? DetailProfileTableViewCell
+                    let detailCell = tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? DetailProfileTableViewCell
                     
                     detailCell?.titleLabel.text = otherItems[indexPath.row]
-                    detailCell?.valueLabel.text = self.userInfo.objectForKey("MyChar") as? String
+                    detailCell?.valueLabel.text = (self.userInfo as AnyObject).object(forKey: "MyChar") as? String
 
                     cell = detailCell
                 }
@@ -401,17 +425,17 @@ class TargetProfileViewController:
         let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         btn.trackTouchLocation = true
         btn.backgroundColor = UIColor.hex("55acee", alpha: 1)
-        btn.layer.borderColor = UIColor.whiteColor().CGColor
+        btn.layer.borderColor = UIColor.white.cgColor
         btn.layer.borderWidth = 3
         btn.layer.cornerRadius = 7
         btn.layer.masksToBounds = true
         
         btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x2196F3)
         btn.rippleColor = LayoutManager.getUIColorFromRGB(0xBBDEFB)
-        btn.addTarget(self, action: #selector(clickImaikuButton), forControlEvents: .TouchUpInside)
-        btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Center
-        btn.setImage(UIImage(named: "imaiku.png"), forState: .Normal)
-        btn.imageView?.contentMode = .ScaleAspectFit
+        btn.addTarget(self, action: #selector(clickImaikuButton), for: .touchUpInside)
+        btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.center
+        btn.setImage(UIImage(named: "imaiku.png"), for: UIControlState())
+        btn.imageView?.contentMode = .scaleAspectFit
         
         return btn
     }
@@ -424,7 +448,7 @@ class TargetProfileViewController:
         let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         btn.trackTouchLocation = true
         btn.backgroundColor = UIColor.hex("55acee", alpha: 1)
-        btn.layer.borderColor = UIColor.whiteColor().CGColor
+        btn.layer.borderColor = UIColor.white.cgColor
         btn.layer.borderWidth = 3
         btn.layer.cornerRadius = 7
         btn.layer.masksToBounds = true
@@ -432,10 +456,10 @@ class TargetProfileViewController:
         btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x2196F3)
         btn.rippleColor = LayoutManager.getUIColorFromRGB(0xBBDEFB)
 //        btn.setTitle("いまココ", forState: .Normal)
-        btn.addTarget(self, action: #selector(clickimakokoButton), forControlEvents: .TouchUpInside)
-        btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Center
-        btn.setImage(UIImage(named: "pin.png"), forState: .Normal)
-        btn.imageView?.contentMode = .ScaleAspectFit
+        btn.addTarget(self, action: #selector(clickimakokoButton), for: .touchUpInside)
+        btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.center
+        btn.setImage(UIImage(named: "pin.png"), for: UIControlState())
+        btn.imageView?.contentMode = .scaleAspectFit
         
         
         return btn
@@ -447,16 +471,16 @@ class TargetProfileViewController:
      */
     func imadokoButton() -> UIButton {
         let btn = UIButton()
-        btn.addTarget(self, action: #selector(clickimadokoButton), forControlEvents: UIControlEvents.TouchUpInside)
-        btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Center
+        btn.addTarget(self, action: #selector(clickimadokoButton), for: UIControlEvents.touchUpInside)
+        btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.center
         
-        btn.setTitle("現在位置確認", forState: .Normal)
-        btn.titleLabel!.font = UIFont.systemFontOfSize(15)
+        btn.setTitle("現在位置確認", for: UIControlState())
+        btn.titleLabel!.font = UIFont.systemFont(ofSize: 15)
         btn.layer.cornerRadius = 5.0
-        btn.layer.borderColor = UIView().tintColor.CGColor
+        btn.layer.borderColor = UIView().tintColor.cgColor
         btn.layer.borderWidth = 1.0
         btn.tintColor = UIView().tintColor
-        btn.setTitleColor(UIView().tintColor, forState: .Normal)
+        btn.setTitleColor(UIView().tintColor, for: UIControlState())
         
         return btn
     }
@@ -465,24 +489,24 @@ class TargetProfileViewController:
         
         UIAlertView.showAlertOKCancel("", message: "現在位置を相手だけに送信します") { action in
             
-            if action == UIAlertView.ActionButton.Cancel {
+            if action == UIAlertView.ActionButton.cancel {
                 return
             }
             
             MBProgressHUDHelper.show("Loading...")
             
-            let center = NSNotificationCenter.defaultCenter() as NSNotificationCenter
+            let center = NotificationCenter.default as NotificationCenter
             
             LocationManager.sharedInstance.startUpdatingLocation()
             
-            center.addObserver(self, selector: #selector(self.foundLocation), name: LMLocationUpdateNotification as String, object: nil)
+            center.addObserver(self, selector: #selector(self.foundLocation), name: NSNotification.Name(rawValue: LMLocationUpdateNotification as String as String), object: nil)
         }
     }
     
-    func foundLocation(notif: NSNotification) {
+    func foundLocation(_ notif: Notification) {
         
         defer {
-            NSNotificationCenter.defaultCenter().removeObserver(self)
+            NotificationCenter.default.removeObserver(self)
         }
         
         ParseHelper.getMyGoNow(PersistentData.User().userID) { (error: NSError?, result) -> Void in
@@ -492,7 +516,7 @@ class TargetProfileViewController:
             }
             
             let info = notif.userInfo as NSDictionary!
-            var location = info[LMLocationInfoKey] as! CLLocation
+            var location = info?[LMLocationInfoKey] as! CLLocation
             
             let latitude = location.coordinate.latitude
             let longitude = location.coordinate.longitude
@@ -500,7 +524,7 @@ class TargetProfileViewController:
             let query = result! as PFObject
             query["userGPS"] = PFGeoPoint(latitude: latitude, longitude: longitude)
             
-            query.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+            query.saveInBackground { (success: Bool, error: Error?) -> Void in
                 
                 defer {
                     MBProgressHUDHelper.hide()
@@ -518,7 +542,7 @@ class TargetProfileViewController:
     func clickimadokoButton() {
         UIAlertView.showAlertOKCancel("現在位置確認", message: "相手が、いまドコにいるのかを確認する通知を送信します") { action in
             
-            if action == UIAlertView.ActionButton.Cancel {
+            if action == UIAlertView.ActionButton.cancel {
                 return
             }
             
@@ -546,7 +570,7 @@ class TargetProfileViewController:
         
         UIAlertView.showAlertOKCancel("いまから行くことを送信", message: "いまから行くことを相手に送信します。") { action in
             
-            if action == UIAlertView.ActionButton.Cancel {
+            if action == UIAlertView.ActionButton.cancel {
                 return
             }
             
@@ -570,7 +594,7 @@ class TargetProfileViewController:
         //imaiku delete
         UIAlertView.showAlertOKCancel("いま行くことを取消", message: "いまから行くことを取り消しますか？") { action in
             
-            if action == UIAlertView.ActionButton.Cancel {
+            if action == UIAlertView.ActionButton.cancel {
                 return
             }
             
@@ -585,7 +609,7 @@ class TargetProfileViewController:
                 //imaiku flag delete
                 PersistentData.deleteUserIDForKey("imaikuFlag")
                 
-                self.navigationController!.popToRootViewControllerAnimated(true)
+                self.navigationController!.popToRootViewController(animated: true)
                 
                 UIAlertView.showAlertDismiss("", message: "取り消しました", completion: { () -> () in })
             }
@@ -603,45 +627,45 @@ class TargetProfileViewController:
         let mail = MFMailComposeViewController()
         let address = ConfigHelper.getPlistKey("MACHINBO_MAIL") as String
         let toRecipients = [address]
-        let userObjectId = userInfo.objectId as String!
-        let mailBody = "報告" + "¥r¥n" + "報告者：" + userObjectId
+        let userObjectId = (userInfo as AnyObject).objectId as String!
+        let mailBody = "報告" + "¥r¥n" + "報告者：" + userObjectId!
         
         mail.mailComposeDelegate = self
         mail.setSubject("報告")
         mail.setToRecipients(toRecipients) //Toアドレスの表示
         mail.setMessageBody(mailBody, isHTML: false)
         
-        self.presentViewController(mail, animated: true, completion: nil)
+        self.present(mail, animated: true, completion: nil)
     }
     
-    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         switch result {
-        case MFMailComposeResultCancelled:
+        case MFMailComposeResult.cancelled:
             print("Mail cancelled")
             break
-        case MFMailComposeResultSaved:
+        case MFMailComposeResult.saved:
             print("Mail saved")
             break
-        case MFMailComposeResultSent:
+        case MFMailComposeResult.sent:
             print("Mail sent")
             break
-        case MFMailComposeResultFailed:
+        case MFMailComposeResult.failed:
             print("Mail sent failure: \(error!.localizedDescription)")
             break
         default:
             break
         }
         
-        controller.dismissViewControllerAnimated(true, completion: nil)
+        controller.dismiss(animated: true, completion: nil)
     }
     
     func onClickSettingAction() {
         
-        let myAlert = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
+        let myAlert = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
         
-        if type == ProfileType.ImaikuTargetProfile {
+        if type == ProfileType.imaikuTargetProfile {
             // 取り消しボタン
-            let destructiveAction_1: UIAlertAction = UIAlertAction(title: "いま行くを取り消し", style: UIAlertActionStyle.Destructive, handler:{
+            let destructiveAction_1: UIAlertAction = UIAlertAction(title: "いま行くを取り消し", style: UIAlertActionStyle.destructive, handler:{
                 (action: UIAlertAction!) -> Void in
                 
                 self.clickTorikesiButton()
@@ -649,7 +673,7 @@ class TargetProfileViewController:
             myAlert.addAction(destructiveAction_1)
         }
         
-        let destructiveAction_2: UIAlertAction = UIAlertAction(title: "報告", style: UIAlertActionStyle.Destructive, handler:{
+        let destructiveAction_2: UIAlertAction = UIAlertAction(title: "報告", style: UIAlertActionStyle.destructive, handler:{
             (action: UIAlertAction!) -> Void in
             
             self.reportManager()
@@ -658,19 +682,19 @@ class TargetProfileViewController:
 
         
         // Cancelボタン
-        let cancelAction: UIAlertAction = UIAlertAction(title: "cancel", style: UIAlertActionStyle.Cancel, handler:{
+        let cancelAction: UIAlertAction = UIAlertAction(title: "cancel", style: UIAlertActionStyle.cancel, handler:{
             (action: UIAlertAction!) -> Void in
             print("cancelAction")
         })
         myAlert.addAction(cancelAction)
         
-        self.presentViewController(myAlert, animated: true, completion: nil)
+        self.present(myAlert, animated: true, completion: nil)
     }
     
     /*
      スクロール時
      */
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         let isOutSectionHeaderScroll =
             scrollView.contentOffset.y >= -innerViewHeight &&

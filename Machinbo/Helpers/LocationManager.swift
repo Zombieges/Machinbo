@@ -15,8 +15,8 @@ let LMLocationInfoKey : NSString = "LMLocationInfoKey"
 
 class LocationManager: NSObject, CLLocationManagerDelegate {
     
-    private var locationManager_: CLLocationManager
-    private var currentLocation: CLLocation!
+    fileprivate var locationManager_: CLLocationManager
+    fileprivate var currentLocation: CLLocation!
     
     struct Singleton {
         static let sharedInstance = LocationManager()
@@ -42,13 +42,13 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         }
         
         // iOS8用のメソッドがあるかチェック
-        if (self.locationManager_.respondsToSelector(#selector(CLLocationManager.requestWhenInUseAuthorization))) {
+        if (self.locationManager_.responds(to: #selector(CLLocationManager.requestWhenInUseAuthorization))) {
             self.locationManager_.requestWhenInUseAuthorization()
         }
         
         // セキュリティ認証のステータスを取得
         let status = CLLocationManager.authorizationStatus()
-        if status == .NotDetermined {
+        if status == .notDetermined {
             // まだ承認が得られていない場合は、認証ダイアログを表示
             locationManager_.requestWhenInUseAuthorization()
         }
@@ -61,25 +61,25 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         self.locationManager_.startUpdatingLocation()
     }
     
-    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Location service failed with error: \(error.localizedDescription)")
     }
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location = locations.last! as CLLocation
         print("Location = \(location)")
         
         self.currentLocation = location
         
         let userInfo = [ LMLocationInfoKey : location]
-        let center = NSNotificationCenter.defaultCenter()
-        center.postNotificationName(LMLocationUpdateNotification as String, object:self, userInfo: userInfo)
+        let center = NotificationCenter.default
+        center.post(name: Notification.Name(rawValue: LMLocationUpdateNotification as String), object:self, userInfo: userInfo)
         self.locationManager_.stopUpdatingLocation()
     }
     
-    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
-        if (status == .NotDetermined) {
-            if (self.locationManager_.respondsToSelector(#selector(CLLocationManager.requestWhenInUseAuthorization))) {
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if (status == .notDetermined) {
+            if (self.locationManager_.responds(to: #selector(CLLocationManager.requestWhenInUseAuthorization))) {
                 self.locationManager_.requestWhenInUseAuthorization()
             }
         }

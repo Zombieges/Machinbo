@@ -27,7 +27,7 @@ class MeetupViewController: UIViewController,
     let detailTableViewCellIdentifier: String = "GoNowCell"
     
     override func viewDidLoad() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(reloadData), name:"reloadData", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadData), name:NSNotification.Name(rawValue: "reloadData"), object: nil)
     }
     
     override func loadView() {
@@ -40,9 +40,9 @@ class MeetupViewController: UIViewController,
         }
         
         self.navigationItem.title = "いまから来る人リスト"
-        self.navigationController!.navigationBar.tintColor = UIColor.darkGrayColor()
+        self.navigationController!.navigationBar.tintColor = UIColor.darkGray
         
-        if let view = UINib(nibName: "GoNowListView", bundle: nil).instantiateWithOwner(self, options: nil).first as? UIView {
+        if let view = UINib(nibName: "GoNowListView", bundle: nil).instantiate(withOwner: self, options: nil).first as? UIView {
             self.view = view
         }
         
@@ -60,12 +60,12 @@ class MeetupViewController: UIViewController,
         }
         do {
             let nibName = UINib(nibName: "GoNowTableViewCell", bundle:nil)
-            self.tableView.registerNib(nibName, forCellReuseIdentifier: detailTableViewCellIdentifier)
+            self.tableView.register(nibName, forCellReuseIdentifier: detailTableViewCellIdentifier)
             self.tableView.estimatedRowHeight = 100.0
             self.tableView.rowHeight = UITableViewAutomaticDimension
             
-            let noUseCell = UIView(frame: CGRectZero)
-            noUseCell.backgroundColor = UIColor.clearColor()
+            let noUseCell = UIView(frame: CGRect.zero)
+            noUseCell.backgroundColor = UIColor.clear
             self.tableView.tableFooterView = noUseCell
             self.tableView.tableHeaderView = noUseCell
             self.view.addSubview(tableView)
@@ -74,7 +74,7 @@ class MeetupViewController: UIViewController,
         do {
             self.refreshControl = UIRefreshControl()
             self.refreshControl.attributedTitle = NSAttributedString(string: "Loading...")
-            self.refreshControl.addTarget(self, action: #selector(refresh), forControlEvents: .ValueChanged)
+            self.refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
             self.tableView.addSubview(refreshControl)
         }
     }
@@ -82,7 +82,7 @@ class MeetupViewController: UIViewController,
     /*
     テーブルに表示する配列の総数を返す.
     */
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return self.goNowList.count
             
@@ -94,33 +94,33 @@ class MeetupViewController: UIViewController,
     /*
     Cellに値を設定する.
     */
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
         
-        let gonowCell = tableView.dequeueReusableCellWithIdentifier(detailTableViewCellIdentifier, forIndexPath: indexPath) as? GoNowTableViewCell
+        let gonowCell = tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? GoNowTableViewCell
         
         let gonow: AnyObject! = goNowList[indexPath.row]
         
-        if let imageFile = gonow.objectForKey("User")?.valueForKey("ProfilePicture") as? PFFile {
-            imageFile.getDataInBackgroundWithBlock { (imageData, error) -> Void in
+        if let imageFile = (gonow.object(forKey: "User") as AnyObject).value(forKey: "ProfilePicture") as? PFFile {
+            imageFile.getDataInBackground { (imageData, error) -> Void in
                 
                 guard error == nil else {
                     return
                 }
                 
                 gonowCell?.profileImage.image = UIImage(data: imageData!)!
-                gonowCell?.profileImage.layer.borderColor = UIColor.whiteColor().CGColor
+                gonowCell?.profileImage.layer.borderColor = UIColor.white.cgColor
                 gonowCell?.profileImage.layer.borderWidth = 3
                 gonowCell?.profileImage.layer.cornerRadius = 10
                 gonowCell?.profileImage.layer.masksToBounds = true
             }
         }
         
-        gonowCell?.titleLabel.text = gonow.objectForKey("User")?.objectForKey("Name") as? String
-        gonowCell?.valueLabel.text = gonow.objectForKey("User")?.objectForKey("Comment") as? String
+        gonowCell?.titleLabel.text = (gonow.object(forKey: "User") as AnyObject).object(forKey: "Name") as? String
+        gonowCell?.valueLabel.text = (gonow.object(forKey: "User") as AnyObject).object(forKey: "Comment") as? String
         
-        let dateFormatter = NSDateFormatter();
+        let dateFormatter = DateFormatter();
         dateFormatter.dateFormat = "yyyy年M月d日 H:mm"
-        gonowCell?.entryTime.text = dateFormatter.stringFromDate(gonow.objectForKey("gotoAt") as! NSDate)
+        gonowCell?.entryTime.text = dateFormatter.string(from: gonow.object(forKey: "gotoAt") as! Date)
         
         return gonowCell!
     }
@@ -128,29 +128,29 @@ class MeetupViewController: UIViewController,
     /*
     Cellが選択された際に呼び出される.
     */
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("Num: \(indexPath.row)")
-        print("Edeintg: \(tableView.editing)")
+        print("Edeintg: \(tableView.isEditing)")
         
-        let vc = TargetProfileViewController(type: ProfileType.ImakuruTargetProfile)
+        let vc = TargetProfileViewController(type: ProfileType.imakuruTargetProfile)
         
-        if let tempGeoPoint = goNowList[indexPath.row].objectForKey("userGPS") {
+        if let tempGeoPoint = goNowList[indexPath.row].object(forKey: "userGPS") {
             vc.targetGeoPoint = tempGeoPoint as! PFGeoPoint
         }
         
-        vc.userInfo = goNowList[indexPath.row].objectForKey("User")!
+        vc.userInfo = goNowList[indexPath.row].object(forKey: "User")!
         vc.gonowInfo = goNowList[indexPath.row]
         
         self.navigationController!.pushViewController(vc, animated: true)
     }
     
-    func tableView(tableView: UITableView,canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool
+    func tableView(_ tableView: UITableView,canEditRowAtIndexPath indexPath: IndexPath) -> Bool
     {
         return true
     }
     
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == UITableViewCellEditingStyle.Delete {
+    func tableView(_ tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: IndexPath) {
+        if editingStyle == UITableViewCellEditingStyle.delete {
             
             let goNowObj = self.goNowList[indexPath.row] as! PFObject
             
@@ -161,25 +161,25 @@ class MeetupViewController: UIViewController,
                 defer {
                     MBProgressHUDHelper.hide()
                     
-                    let name = goNowObj.objectForKey("User")?.objectForKey("Name") as! String
+                    let name = (goNowObj.object(forKey: "User") as AnyObject).object(forKey: "Name") as! String
                     UIAlertView.showAlertDismiss("", message: name + "の「いまから行く」を拒否しました", completion: { () -> () in })
                 }
                 
-                self.goNowList.removeAtIndex(indexPath.row)
+                self.goNowList.remove(at: indexPath.row)
                 self.loadView()
                 self.tableView.reloadData()
             }
         }
     }
     
-    func reloadData(notification:NSNotification){
+    func reloadData(_ notification:Notification){
         
         self.tableView.reloadData()
     }
     
-    func someFunction(success: ((success: Bool) -> Void)) {
+    func someFunction(_ success: ((_ success: Bool) -> Void)) {
         //Perform some tasks here
-        success(success: true)
+        success(true)
     }
     
     /*
@@ -209,8 +209,8 @@ class MeetupViewController: UIViewController,
             self.goNowList = result!
             
             if self.goNowList.count == 0 {
-                let label = UILabel(frame: CGRectMake(0, 0, 100, 20));
-                label.textAlignment = NSTextAlignment.Center
+                let label = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 20));
+                label.textAlignment = NSTextAlignment.center
                 self.view.addSubview(label)
             }
             

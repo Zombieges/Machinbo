@@ -15,13 +15,13 @@ import GoogleMobileAds
 
 extension PickerViewController: TransisionProtocol {}
 
-enum SelectPickerType { case Gender, Age }
-enum InputPickerType { case Comment, Name }
+enum SelectPickerType { case gender, age }
+enum InputPickerType { case comment, name }
 
 protocol PickerViewControllerDelegate{
-    func setInputValue(inputValue: String, type: InputPickerType)
-    func setSelectedValue(selectedIndex: Int, selectedValue: String, type: SelectPickerType)
-    func setSelectedDate(SelectedDate: NSDate)
+    func setInputValue(_ inputValue: String, type: InputPickerType)
+    func setSelectedValue(_ selectedIndex: Int, selectedValue: String, type: SelectPickerType)
+    func setSelectedDate(_ SelectedDate: Date)
 }
 
 class PickerViewController: UIViewController,
@@ -50,20 +50,20 @@ class PickerViewController: UIViewController,
     var searchBarField = UISearchBar()
     
     // Tableで使用する配列を設定する
-    private var tableView: UITableView!
-    private var myItems: NSArray = []
-    private var kind: String = ""
-    private var Input: AnyObject = ""
+    fileprivate var tableView: UITableView!
+    fileprivate var myItems: NSArray = []
+    fileprivate var kind: String = ""
+    fileprivate var Input: AnyObject = "" as AnyObject
     var palmItems:[String] = []
     var palKind: String = ""
-    var palInput: AnyObject = ""
+    var palInput: AnyObject = "" as AnyObject
     var palTargetUser: PFObject?
     var selectedItem: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let view = UINib(nibName: "PickerView", bundle: nil).instantiateWithOwner(self, options: nil).first as? UIView {
+        if let view = UINib(nibName: "PickerView", bundle: nil).instantiate(withOwner: self, options: nil).first as? UIView {
             self.view = view
         }
         
@@ -71,36 +71,36 @@ class PickerViewController: UIViewController,
         _interstitial = showFullAdmob()
         
         self.myItems = []
-        self.myItems = palmItems
+        self.myItems = palmItems as NSArray
         self.kind = palKind
         self.Input = palInput
         
         let navBarHeight = self.navigationController?.navigationBar.frame.size.height
         
         // Viewの高さと幅を取得する.
-        let displayWidth: CGFloat = UIScreen.mainScreen().bounds.size.width
-        let displayHeight: CGFloat = UIScreen.mainScreen().bounds.size.height
+        let displayWidth: CGFloat = UIScreen.main.bounds.size.width
+        let displayHeight: CGFloat = UIScreen.main.bounds.size.height
         
         if (self.kind == "gender" || self.kind == "age") {
             // TableViewの生成す
             tableView = UITableView(frame: CGRect(x: 0, y: 0, width: displayWidth, height: displayHeight - navBarHeight!))
             
             // Cell名の登録をおこなう.
-            tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
+            tableView.register(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
             tableView.dataSource = self   // DataSourceの設定をする.
             tableView.delegate = self     // Delegateを設定する.
             
             // 不要行の削除
-            let notUserRowView = UIView(frame: CGRectZero)
-            notUserRowView.backgroundColor = UIColor.clearColor()
+            let notUserRowView = UIView(frame: CGRect.zero)
+            notUserRowView.backgroundColor = UIColor.clear
             tableView.tableFooterView = notUserRowView
             tableView.tableHeaderView = notUserRowView
             self.view.addSubview(tableView)
             
         } else if self.kind == "name" {
             
-            inputTextField.frame = CGRectMake(10, 20, displayWidth - 20 , 30)
-            inputTextField.borderStyle = UITextBorderStyle.RoundedRect
+            inputTextField.frame = CGRect(x: 10, y: 20, width: displayWidth - 20 , height: 30)
+            inputTextField.borderStyle = UITextBorderStyle.roundedRect
             inputTextField.text = self.Input as? String
             self.view.addSubview(inputTextField)
             
@@ -119,34 +119,34 @@ class PickerViewController: UIViewController,
         } else if self.kind == "imaiku" {
             
             self.navigationItem.title = "待ち合わせまでにかかる時間"
-            self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
+            self.navigationController!.navigationBar.tintColor = UIColor.white
             
             tableView = UITableView(frame: CGRect(x: 0, y: navBarHeight!, width: displayWidth, height: displayHeight - navBarHeight!))
             
-            tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
+            tableView.register(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
             tableView.dataSource = self
             tableView.delegate = self
             
-            let view:UIView = UIView(frame: CGRectZero)
-            view.backgroundColor = UIColor.clearColor()
+            let view:UIView = UIView(frame: CGRect.zero)
+            view.backgroundColor = UIColor.clear
             tableView.tableFooterView = view
             tableView.tableHeaderView = view
             self.view.addSubview(tableView)
         
         } else if self.kind == "imageView" {
-            let displaySize = UIScreen.mainScreen().bounds.size.width
+            let displaySize = UIScreen.main.bounds.size.width
             
             let image = self.palInput as! UIImageView
             image.layer.borderWidth = 0
             image.layer.cornerRadius = 0
-            image.frame = CGRectMake(0, 0, displaySize, displaySize);
+            image.frame = CGRect(x: 0, y: 0, width: displaySize, height: displaySize);
             self.view.addSubview(image)
             
         } else if self.kind == "search" {
             searchBarField = UISearchBar()
             searchBarField.delegate = self
-            searchBarField.frame = CGRectMake(10, 30, displayWidth - 20 , 30)
-            searchBarField.searchBarStyle = .Minimal
+            searchBarField.frame = CGRect(x: 10, y: 30, width: displayWidth - 20 , height: 30)
+            searchBarField.searchBarStyle = .minimal
 //            searchBarField.layer.position = CGPoint(x: self.view.bounds.width/2, y: 50)
 //            searchBarField.showsCancelButton = true
             searchBarField.enablesReturnKeyAutomatically = true
@@ -156,25 +156,25 @@ class PickerViewController: UIViewController,
         }
     }
     
-    func createDatePickerField(displayWidth: CGFloat) {
+    func createDatePickerField(_ displayWidth: CGFloat) {
         // UIDatePickerの設定
         self.inputMyDatePicker = UIDatePicker()
-        self.inputMyDatePicker.datePickerMode = UIDatePickerMode.DateAndTime
+        self.inputMyDatePicker.datePickerMode = UIDatePickerMode.dateAndTime
         self.view.addSubview(self.inputMyDatePicker)
         
         createInsertDataButton(displayWidth, displayHeight: 300)
     }
     
-    func createCommentField(displayWidth: CGFloat, displayHeight: CGFloat) {
+    func createCommentField(_ displayWidth: CGFloat, displayHeight: CGFloat) {
 
-        inputTextView.frame = CGRectMake(10, 20, displayWidth - 20 ,80)
+        inputTextView.frame = CGRect(x: 10, y: 20, width: displayWidth - 20 ,height: 80)
         inputTextView.text = self.Input as? String
         inputTextView.layer.masksToBounds = true
         inputTextView.layer.cornerRadius = 5.0
         inputTextView.layer.borderWidth = 1
-        inputTextView.layer.borderColor = UIColor.grayColor().CGColor
-        inputTextView.font = UIFont.systemFontOfSize(CGFloat(15))
-        inputTextView.textAlignment = NSTextAlignment.Left
+        inputTextView.layer.borderColor = UIColor.gray.cgColor
+        inputTextView.font = UIFont.systemFont(ofSize: CGFloat(15))
+        inputTextView.textAlignment = NSTextAlignment.left
         inputTextView.selectedRange = NSMakeRange(0, 0)
         self.automaticallyAdjustsScrollViewInsets = false
         
@@ -183,18 +183,18 @@ class PickerViewController: UIViewController,
         createInsertDataButton(displayWidth, displayHeight: 200)
     }
     
-    func createInsertDataButton(displayWidth: CGFloat, displayHeight: CGFloat) {
+    func createInsertDataButton(_ displayWidth: CGFloat, displayHeight: CGFloat) {
         
         let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 150, height: 40))
         btn.trackTouchLocation = true
         btn.backgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
         btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
         btn.rippleColor = LayoutManager.getUIColorFromRGB(0xB54241)
-        btn.setTitle("保存", forState: .Normal)
+        btn.setTitle("保存", for: UIControlState())
         btn.layer.cornerRadius = 5.0
         btn.layer.masksToBounds = true
         btn.layer.position = CGPoint(x: displayWidth/2, y: displayHeight)
-        btn.addTarget(self, action: #selector(onClickSaveButton), forControlEvents: UIControlEvents.TouchUpInside)
+        btn.addTarget(self, action: #selector(onClickSaveButton), for: UIControlEvents.touchUpInside)
         
         self.view.addSubview(btn)
     }
@@ -208,7 +208,7 @@ class PickerViewController: UIViewController,
     }
     
     
-    internal func onClickSaveButton(sender: UIButton){
+    internal func onClickSaveButton(_ sender: UIButton){
         
         if (self.kind == "name") {
             
@@ -220,8 +220,8 @@ class PickerViewController: UIViewController,
             
             var userInfo = PersistentData.User()
             if userInfo.userID == "" {
-                self.delegate!.setInputValue(self.inputTextField.text!, type: .Name)
-                self.navigationController!.popViewControllerAnimated(true)
+                self.delegate!.setInputValue(self.inputTextField.text!, type: .name)
+                self.navigationController!.popViewController(animated: true)
                 
                 return
             }
@@ -236,8 +236,8 @@ class PickerViewController: UIViewController,
                 
                 userInfo.name = self.inputTextField.text!
                 
-                self.delegate!.setInputValue(self.inputTextField.text!, type: .Name)
-                self.navigationController!.popViewControllerAnimated(true)
+                self.delegate!.setInputValue(self.inputTextField.text!, type: .name)
+                self.navigationController!.popViewController(animated: true)
             }
             
 
@@ -251,8 +251,8 @@ class PickerViewController: UIViewController,
 
             var userInfo = PersistentData.User()
             if userInfo.userID == "" {
-                self.delegate!.setInputValue(self.inputTextView.text, type: .Comment)
-                self.navigationController!.popViewControllerAnimated(true)
+                self.delegate!.setInputValue(self.inputTextView.text, type: .comment)
+                self.navigationController!.popViewController(animated: true)
                 
                 return
             }
@@ -268,21 +268,21 @@ class PickerViewController: UIViewController,
                 
                 userInfo.comment = self.inputTextView.text
                 
-                self.delegate!.setInputValue(self.inputTextView.text, type: .Comment)
-                self.navigationController!.popViewControllerAnimated(true)
+                self.delegate!.setInputValue(self.inputTextView.text, type: .comment)
+                self.navigationController!.popViewController(animated: true)
             }
             
         } else if self.kind == "imakokoDate" {
             self.delegate!.setSelectedDate(self.inputMyDatePicker.date)
-            self.navigationController!.popViewControllerAnimated(true)
+            self.navigationController!.popViewController(animated: true)
             
         } else if self.kind == "imakoko" {
-            self.delegate!.setInputValue(self.inputTextView.text, type: .Comment)
-            self.navigationController!.popViewControllerAnimated(true)
+            self.delegate!.setInputValue(self.inputTextView.text, type: .comment)
+            self.navigationController!.popViewController(animated: true)
         }
     }
     
-    internal func onClickSearchButton(sender: UIButton){
+    internal func onClickSearchButton(_ sender: UIButton){
         
     }
     
@@ -290,20 +290,20 @@ class PickerViewController: UIViewController,
     /*
     Cellが選択された際に呼び出されるデリゲートメソッド.
     */
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if (self.kind == "age"){
             if let selected = myItems[indexPath.row] as? String {
-                self.delegate!.setSelectedValue(indexPath.row, selectedValue: selected.uppercaseString, type: .Age)
-                self.navigationController!.popViewControllerAnimated(true)
+                self.delegate!.setSelectedValue(indexPath.row, selectedValue: selected.uppercased(), type: .age)
+                self.navigationController!.popViewController(animated: true)
                 
             }
             
         } else if (self.kind == "gender"){
 
             if let selected = myItems[indexPath.row] as? String {
-                self.delegate!.setSelectedValue(indexPath.row, selectedValue: selected.uppercaseString, type: .Gender)
-                self.navigationController!.popViewControllerAnimated(true)
+                self.delegate!.setSelectedValue(indexPath.row, selectedValue: selected.uppercased(), type: .gender)
+                self.navigationController!.popViewController(animated: true)
             }
             
         } else if (self.kind == "imaiku") {
@@ -314,19 +314,19 @@ class PickerViewController: UIViewController,
                 
                 MBProgressHUDHelper.show("Loading...")
                 
-                let center = NSNotificationCenter.defaultCenter() as NSNotificationCenter
+                let center = NotificationCenter.default as NotificationCenter
                 
                 LocationManager.sharedInstance.startUpdatingLocation()
-                center.addObserver(self, selector: #selector(self.foundLocation(_:)), name: LMLocationUpdateNotification as String, object: nil)
+                center.addObserver(self, selector: #selector(self.foundLocation(_:)), name: NSNotification.Name(rawValue: LMLocationUpdateNotification as String as String), object: nil)
             }
             
         }
     }
     
-    func foundLocation(notif: NSNotification) {
+    func foundLocation(_ notif: Notification) {
         
         defer {
-            NSNotificationCenter.defaultCenter().removeObserver(self)
+            NotificationCenter.default.removeObserver(self)
         }
         
         ParseHelper.getUserInfomation(PersistentData.User().userID) { (error: NSError?, result) -> Void in
@@ -336,11 +336,11 @@ class PickerViewController: UIViewController,
                 return
             }
             
-            let userID = result?.objectForKey("UserID") as? String
-            let targetUserID = self.palTargetUser?.objectForKey("UserID") as? String
+            let userID = result?.object(forKey: "UserID") as? String
+            let targetUserID = self.palTargetUser?.object(forKey: "UserID") as? String
             let targetUserUpdatedAt = self.palTargetUser?.updatedAt
-            let targetDeviceToken = self.palTargetUser?.objectForKey("DeviceToken") as? String
-            let name = result?.objectForKey("Name") as? String
+            let targetDeviceToken = self.palTargetUser?.object(forKey: "DeviceToken") as? String
+            let name = result?.object(forKey: "Name") as? String
             
             let query = PFObject(className: "GoNow")
             query["UserID"] = userID
@@ -350,24 +350,24 @@ class PickerViewController: UIViewController,
             query["unReadFlag"] = true
             
             let endPoint = self.selectedItem.characters.count - 1
-            let selected = (self.selectedItem as NSString).substringToIndex(endPoint)
-            let calendar = NSCalendar(identifier: NSCalendarIdentifierGregorian)!
+            let selected = (self.selectedItem as NSString).substring(to: endPoint)
+            let calendar = Calendar(identifier: Calendar.Identifier.gregorian)
             let gotoAtMinute = Int(selected)
-            let createdAtDate = NSDate()
-            let arriveTime = calendar.dateByAddingUnit(.Minute, value: gotoAtMinute!, toDate: createdAtDate, options: NSCalendarOptions())!
+            let createdAtDate = Date()
+            let arriveTime = (calendar as NSCalendar).date(byAdding: .minute, value: gotoAtMinute!, to: createdAtDate, options: NSCalendar.Options())!
             
             query["gotoAt"] = arriveTime
             query["imakokoAt"] = targetUserUpdatedAt
             
             let info = notif.userInfo as NSDictionary!
-            var location = info[LMLocationInfoKey] as! CLLocation
+            var location = info?[LMLocationInfoKey] as! CLLocation
             
             let latitude = location.coordinate.latitude
             let longitude = location.coordinate.longitude
             
             query["userGPS"] = PFGeoPoint(latitude: latitude, longitude: longitude)
             
-            query.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+            query.saveInBackground { (success: Bool, error: Error?) -> Void in
                 
                 defer {
                     MBProgressHUDHelper.hide()
@@ -399,10 +399,10 @@ class PickerViewController: UIViewController,
                 
                 UIAlertView.showAlertDismiss("", message: "いまから行くことを送信しました") { () -> () in
                     if self._interstitial!.isReady {
-                        self._interstitial!.presentFromRootViewController(self)
+                        self._interstitial!.present(fromRootViewController: self)
                     }
                     
-                    self.navigationController!.popToRootViewControllerAnimated(true)
+                    self.navigationController!.popToRootViewController(animated: true)
                 }
             }
         }
@@ -412,7 +412,7 @@ class PickerViewController: UIViewController,
     func errorAction() {
         MBProgressHUDHelper.hide()
         UIAlertView.showAlertDismiss("", message: "通信エラーが発生しました。再実行してください。") { () -> () in
-            self.navigationController!.popToRootViewControllerAnimated(true)
+            self.navigationController!.popToRootViewController(animated: true)
         }
     }
     
@@ -421,7 +421,7 @@ class PickerViewController: UIViewController,
     Cellの総数を返すデータソースメソッド.
     (実装必須)
     */
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.myItems.count
     }
     
@@ -429,21 +429,21 @@ class PickerViewController: UIViewController,
     Cellに値を設定するデータソースメソッド.
     (実装必須)
     */
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let identifier = "Cell" // セルのIDを定数identifierにする。
         var cell: UITableViewCell? // nilになることがあるので、Optionalで宣言
         
-        cell = tableView.dequeueReusableCellWithIdentifier(identifier)
+        cell = tableView.dequeueReusableCell(withIdentifier: identifier)
         if cell == nil {
-            cell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: identifier)
+            cell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: identifier)
         }
         
         if indexPath.section == 0 {
-            cell?.accessoryType = .None
+            cell?.accessoryType = .none
             
             if indexPath.row == (self.palInput as? Int) {
-                cell?.accessoryType = .Checkmark
+                cell?.accessoryType = .checkmark
             }
             
             cell?.textLabel!.text = "\(self.myItems[indexPath.row])"
@@ -452,7 +452,7 @@ class PickerViewController: UIViewController,
         return cell!
     }
     
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
         guard let searchStr = searchBarField.text else {
             return
@@ -465,7 +465,7 @@ class PickerViewController: UIViewController,
                 MBProgressHUDHelper.hide()
             }
             
-            let vc = TargetProfileViewController(type: ProfileType.TargetProfile)
+            let vc = TargetProfileViewController(type: ProfileType.targetProfile)
             vc.userInfo = result!
             
             self.navigationController!.pushViewController(vc, animated: false)

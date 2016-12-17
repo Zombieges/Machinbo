@@ -21,20 +21,20 @@
     
     let registrationKey = "onRegistrationCompleted"
     
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         //
         // REGISTER DEVICE TOKEN FOR SNS
         //
         if #available(iOS 8.0, *) {
             let settings: UIUserNotificationSettings =
-                UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil)
+                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
             application.registerUserNotificationSettings(settings)
             application.registerForRemoteNotifications()
         } else {
             // Fallback
-            let types: UIRemoteNotificationType = [.Alert, .Badge, .Sound]
-            application.registerForRemoteNotificationTypes(types)
+            let types: UIRemoteNotificationType = [.alert, .badge, .sound]
+            application.registerForRemoteNotifications(matching: types)
         }
         
         // Notification Ready
@@ -61,59 +61,59 @@
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
 
         guard PersistentData.User().userID != "" else {
-            let firstViewController = storyboard.instantiateViewControllerWithIdentifier("profile") as! ProfileViewController
+            let firstViewController = storyboard.instantiateViewController(withIdentifier: "profile") as! ProfileViewController
             let mainNavigationCtrl = UINavigationController(rootViewController: firstViewController)
             mainNavigationCtrl.navigationBar.barTintColor = UIColor.hex("fffffff", alpha: 1)
-            mainNavigationCtrl.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.darkGrayColor()]
-            mainNavigationCtrl.navigationBar.tintColor = UIColor.darkGrayColor()
-            mainNavigationCtrl.navigationBar.translucent = false
-            mainNavigationCtrl.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+            mainNavigationCtrl.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.darkGray]
+            mainNavigationCtrl.navigationBar.tintColor = UIColor.darkGray
+            mainNavigationCtrl.navigationBar.isTranslucent = false
+            mainNavigationCtrl.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
             mainNavigationCtrl.navigationBar.setBackgroundImage(UIImage(named: "BarBackground"),
-                                                                forBarMetrics: .Default)
+                                                                for: .default)
             mainNavigationCtrl.navigationBar.shadowImage = UIImage()
             
-            self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+            self.window = UIWindow(frame: UIScreen.main.bounds)
             self.window?.rootViewController = mainNavigationCtrl
             self.window?.makeKeyAndVisible()
             return
         }
  
-        let mapViewController = storyboard.instantiateViewControllerWithIdentifier("map") as! MapViewController
+        let mapViewController = storyboard.instantiateViewController(withIdentifier: "map") as! MapViewController
 
         let mainNavigationCtrl = UINavigationController(rootViewController: mapViewController)
         mainNavigationCtrl.navigationBar.barTintColor = UIColor.hex("fffffff", alpha: 1)
-        mainNavigationCtrl.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.darkGrayColor()]
-        mainNavigationCtrl.navigationBar.tintColor = UIColor.darkGrayColor()
-        mainNavigationCtrl.navigationBar.translucent = false
-        mainNavigationCtrl.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        mainNavigationCtrl.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.darkGray]
+        mainNavigationCtrl.navigationBar.tintColor = UIColor.darkGray
+        mainNavigationCtrl.navigationBar.isTranslucent = false
+        mainNavigationCtrl.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         mainNavigationCtrl.navigationBar.setBackgroundImage(UIImage(named: "BarBackground"),
-                                                             forBarMetrics: .Default)
+                                                             for: .default)
         mainNavigationCtrl.navigationBar.shadowImage = UIImage()
         mainNavigationCtrl.tabBarItem = UITabBarItem(title: "ホーム", image: UIImage(named: "home.png"), tag: 1)
    
-        let meetupViewController = storyboard.instantiateViewControllerWithIdentifier("meetup") as! MeetupViewController
+        let meetupViewController = storyboard.instantiateViewController(withIdentifier: "meetup") as! MeetupViewController
         
         let meetupNavigationCtrl = UINavigationController(rootViewController: meetupViewController)
         meetupNavigationCtrl.navigationBar.barTintColor = UIColor.hex("fffffff", alpha: 1)
-        meetupNavigationCtrl.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.darkGrayColor()]
-        meetupNavigationCtrl.navigationBar.tintColor = UIColor.darkGrayColor()
-        meetupNavigationCtrl.navigationBar.translucent = false
-        meetupNavigationCtrl.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        meetupNavigationCtrl.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.darkGray]
+        meetupNavigationCtrl.navigationBar.tintColor = UIColor.darkGray
+        meetupNavigationCtrl.navigationBar.isTranslucent = false
+        meetupNavigationCtrl.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         meetupNavigationCtrl.navigationBar.setBackgroundImage(UIImage(named: "BarBackground"),
-                                                                forBarMetrics: .Default)
+                                                                for: .default)
         meetupNavigationCtrl.navigationBar.shadowImage = UIImage()
         meetupNavigationCtrl.tabBarItem = UITabBarItem(title: "待ち合わせ", image: UIImage(named: "meetup.png"), tag: 2)
         
-        let profileViewController = storyboard.instantiateViewControllerWithIdentifier("profile") as! ProfileViewController
+        let profileViewController = storyboard.instantiateViewController(withIdentifier: "profile") as! ProfileViewController
         
         let profileNavigationCtrl = UINavigationController(rootViewController: profileViewController)
         profileNavigationCtrl.navigationBar.barTintColor = UIColor.hex("fffffff", alpha: 1)
-        profileNavigationCtrl.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.darkGrayColor()]
-        profileNavigationCtrl.navigationBar.tintColor = UIColor.darkGrayColor()
-        profileNavigationCtrl.navigationBar.translucent = false
-        profileNavigationCtrl.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        profileNavigationCtrl.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.darkGray]
+        profileNavigationCtrl.navigationBar.tintColor = UIColor.darkGray
+        profileNavigationCtrl.navigationBar.isTranslucent = false
+        profileNavigationCtrl.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         profileNavigationCtrl.navigationBar.setBackgroundImage(UIImage(named: "BarBackground"),
-                                                                forBarMetrics: .Default)
+                                                                for: .default)
         profileNavigationCtrl.navigationBar.shadowImage = UIImage()
         profileNavigationCtrl.tabBarItem = UITabBarItem(title: "プロフィール", image: UIImage(named: "profile_icon.png"), tag: 3)
         
@@ -121,21 +121,21 @@
         let tabBarController = UITabBarController()
         tabBarController.setViewControllers([mainNavigationCtrl, meetupNavigationCtrl, profileNavigationCtrl], animated: false)
         
-        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        self.window = UIWindow(frame: UIScreen.main.bounds)
         self.window?.addSubview(tabBarController.view)
         self.window?.rootViewController = tabBarController
         self.window?.makeKeyAndVisible()
     }
     
     // REGISTER DEVICE TOKEN
-    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         
         
         // remove "<>" and space from deviceToken
-        let removingCharacterSet:NSCharacterSet = NSCharacterSet(charactersInString: "<>")
+        let removingCharacterSet:CharacterSet = CharacterSet(charactersIn: "<>")
         
         // get device token
-        let deviceTokenAsString = (deviceToken.description as NSString).stringByTrimmingCharactersInSet(removingCharacterSet).stringByReplacingOccurrencesOfString(" ", withString: "") as String
+        let deviceTokenAsString = (deviceToken.description as NSString).trimmingCharacters(in: removingCharacterSet).replacingOccurrences(of: " ", with: "") as String
         
         print("Device token = \(deviceTokenAsString)")
         
@@ -146,48 +146,48 @@
     }
     
     // FAILED TO REGISTER DEVICE TOKEN
-    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         //print("couldn't register: \(error)")
         print("Registration for remote notification failed with error: \(error.localizedDescription)")
         // [END receive_apns_token_error]
         let userInfo = ["error": error.localizedDescription]
-        NSNotificationCenter.defaultCenter().postNotificationName(
-            registrationKey, object: nil, userInfo: userInfo)
+        NotificationCenter.default.post(
+            name: Notification.Name(rawValue: registrationKey), object: nil, userInfo: userInfo)
     }
     
     
-    func application( application: UIApplication,
-                      didReceiveRemoteNotification userInfo: [NSObject : AnyObject],
-                                                   fetchCompletionHandler handler: (UIBackgroundFetchResult) -> Void) {
+    func application( _ application: UIApplication,
+                      didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+                                                   fetchCompletionHandler handler: @escaping (UIBackgroundFetchResult) -> Void) {
         print("Notification receiveda: \(userInfo)")
         
         
         // to do notification off 時の処理を追記
-        NSNotificationCenter.defaultCenter().postNotificationName("CognitoPushNotification", object: userInfo)
-        handler(UIBackgroundFetchResult.NoData);
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "CognitoPushNotification"), object: userInfo)
+        handler(UIBackgroundFetchResult.noData);
         
         // [END_EXCLUDE]
     }
 
-    func applicationWillResignActive(application: UIApplication) {
+    func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
     }
     
-    func applicationDidEnterBackground(application: UIApplication) {
+    func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     }
     
-    func applicationWillEnterForeground(application: UIApplication) {
+    func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     }
     
-    func applicationDidBecomeActive(application: UIApplication) {
+    func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     }
     
-    func applicationWillTerminate(application: UIApplication) {
+    func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     

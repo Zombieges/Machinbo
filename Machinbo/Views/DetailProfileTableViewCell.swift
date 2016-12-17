@@ -22,18 +22,18 @@ class DetailProfileTableViewCell : UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         // UILabelとかを追加
         
-        let autoresizingMasks: UIViewAutoresizing = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth];
+        let autoresizingMasks: UIViewAutoresizing = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth];
         self.contentView.autoresizingMask = autoresizingMasks
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        titleLabel.textColor = UIColor.blackColor()
-        valueLabel.textColor = UIColor.grayColor()
+        titleLabel.textColor = UIColor.black
+        valueLabel.textColor = UIColor.gray
     }
     
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         // Configure the view for the selected state
     }

@@ -37,7 +37,7 @@ class MarkerDraggableViewController: UIViewController, GMSMapViewDelegate, CLLoc
     
     override func viewDidLoad() {
         
-        if let view = UINib(nibName: "MapView", bundle: nil).instantiateWithOwner(self, options: nil).first as? UIView {
+        if let view = UINib(nibName: "MapView", bundle: nil).instantiate(withOwner: self, options: nil).first as? UIView {
             self.view = view
         }
         
@@ -54,17 +54,17 @@ class MarkerDraggableViewController: UIViewController, GMSMapViewDelegate, CLLoc
         let camera = GMSCameraPosition(target: myPosition, zoom: 13, bearing: 0, viewingAngle: 0)
         
         self.gmaps = GMSMapView()
-        self.gmaps.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.size.width, UIScreen.mainScreen().bounds.size.height)
-        self.gmaps.myLocationEnabled = true
+        self.gmaps.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
+        self.gmaps.isMyLocationEnabled = true
         self.gmaps.settings.myLocationButton = true
         self.gmaps.camera = camera
         self.gmaps.delegate = self
-        self.gmaps.animateToLocation(myPosition)
+        self.gmaps.animate(toLocation: myPosition)
         
         self.view.addSubview(self.gmaps)
     }
     
-    func getMapCenterPosition(gmaps: GMSMapView) -> CLLocationCoordinate2D {
+    func getMapCenterPosition(_ gmaps: GMSMapView) -> CLLocationCoordinate2D {
         let visibleRegion = gmaps.projection.visibleRegion()
         let bounds = GMSCoordinateBounds(region: visibleRegion)
         
@@ -75,12 +75,12 @@ class MarkerDraggableViewController: UIViewController, GMSMapViewDelegate, CLLoc
         return center
     }
     
-    func mapView(mapView: GMSMapView, didChangeCameraPosition cameraPosition: GMSCameraPosition) {
+    func mapView(_ mapView: GMSMapView, didChange cameraPosition: GMSCameraPosition) {
         
         if self.pinImage == nil {
             
             self.pinImage = UIImageView(image: UIImage(named: "mappin.png"))
-            self.pinImage.userInteractionEnabled = true
+            self.pinImage.isUserInteractionEnabled = true
             
             let gesture = UITapGestureRecognizer(target:self, action: #selector(self.didClickImageView))
             self.pinImage.addGestureRecognizer(gesture)
@@ -88,12 +88,12 @@ class MarkerDraggableViewController: UIViewController, GMSMapViewDelegate, CLLoc
             self.view.addSubview(self.pinImage)
         }
 
-        var mapViewPosition = mapView.projection.pointForCoordinate(getMapCenterPosition(mapView))
+        var mapViewPosition = mapView.projection.point(for: getMapCenterPosition(mapView))
         mapViewPosition.y = mapViewPosition.y - self.pinImage.frame.height / 2
         self.pinImage.center = mapViewPosition
     }
     
-    func didClickImageView(recognizer: UIGestureRecognizer) {
+    func didClickImageView(_ recognizer: UIGestureRecognizer) {
 
         let mapViewCenter = getMapCenterPosition(self.gmaps)
         

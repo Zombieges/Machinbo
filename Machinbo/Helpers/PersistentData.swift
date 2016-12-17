@@ -13,24 +13,24 @@ class PersistentData {
     
     class func deleteUserID() {
         // 保存データを全削除
-        let userDefault = NSUserDefaults.standardUserDefaults()
-        userDefault.removeObjectForKey("userID")
-        userDefault.removeObjectForKey("imaikuFlag")
+        let userDefault = UserDefaults.standard
+        userDefault.removeObject(forKey: "userID")
+        userDefault.removeObject(forKey: "imaikuFlag")
         
-        userDefault.removeObjectForKey("insertTime")
-        userDefault.removeObjectForKey("place")
-        userDefault.removeObjectForKey("mychar")
+        userDefault.removeObject(forKey: "insertTime")
+        userDefault.removeObject(forKey: "place")
+        userDefault.removeObject(forKey: "mychar")
         
-        userDefault.removeObjectForKey("isRecruitment")
+        userDefault.removeObject(forKey: "isRecruitment")
         
         userDefault.synchronize()
         
     }
     
-    class func deleteUserIDForKey(id: String) {
+    class func deleteUserIDForKey(_ id: String) {
         // 保存データを全削除
-        let userDefault = NSUserDefaults.standardUserDefaults()
-        userDefault.removeObjectForKey(id)
+        let userDefault = UserDefaults.standard
+        userDefault.removeObject(forKey: id)
         
         userDefault.synchronize()
         
@@ -40,18 +40,18 @@ class PersistentData {
         
         var userID : String {
             get {
-                return NSUserDefaults.standardUserDefaults().stringForKey("userID") ?? ""
+                return UserDefaults.standard.string(forKey: "userID") ?? ""
             }
             set {
-                NSUserDefaults.standardUserDefaults().setObject(newValue , forKey: "userID")
-                NSUserDefaults.standardUserDefaults().synchronize()
+                UserDefaults.standard.set(newValue , forKey: "userID")
+                UserDefaults.standard.synchronize()
             }
         }
         
         var profileImage : UIImage {
             get {
-                if NSUserDefaults.standardUserDefaults().objectForKey("profileImage") != nil {
-                    return UIImage(data: NSUserDefaults.standardUserDefaults().objectForKey("profileImage") as! NSData)!
+                if UserDefaults.standard.object(forKey: "profileImage") != nil {
+                    return UIImage(data: UserDefaults.standard.object(forKey: "profileImage") as! Data)!
                     
                 } else {
                     return UIImage(named: "photo.png")!
@@ -60,128 +60,128 @@ class PersistentData {
             set{
                 let imageData = UIImagePNGRepresentation(newValue)
                 //var myEncodedImageData = NSKeyedArchiver.archivedDataWithRootObject(imageData)
-                NSUserDefaults.standardUserDefaults().setObject(imageData, forKey: "profileImage")
-                NSUserDefaults.standardUserDefaults().synchronize()
+                UserDefaults.standard.set(imageData, forKey: "profileImage")
+                UserDefaults.standard.synchronize()
             }
         }
         var comment : String {
             get {
-                return NSUserDefaults.standardUserDefaults().stringForKey("comment") ?? ""
+                return UserDefaults.standard.string(forKey: "comment") ?? ""
             }
             set {
-                NSUserDefaults.standardUserDefaults().setObject(newValue , forKey: "comment")
-                NSUserDefaults.standardUserDefaults().synchronize()
+                UserDefaults.standard.set(newValue , forKey: "comment")
+                UserDefaults.standard.synchronize()
             }
         }
         var gender : String {
             get {
-                return NSUserDefaults.standardUserDefaults().stringForKey("gender") ?? ""
+                return UserDefaults.standard.string(forKey: "gender") ?? ""
             }
             set {
-                NSUserDefaults.standardUserDefaults().setObject(newValue , forKey: "gender")
-                NSUserDefaults.standardUserDefaults().synchronize()
+                UserDefaults.standard.set(newValue , forKey: "gender")
+                UserDefaults.standard.synchronize()
             }
         }
         var name : String {
             get {
-                return NSUserDefaults.standardUserDefaults().stringForKey("name") ?? ""
+                return UserDefaults.standard.string(forKey: "name") ?? ""
             }
             set {
-                NSUserDefaults.standardUserDefaults().setObject(newValue , forKey: "name")
-                NSUserDefaults.standardUserDefaults().synchronize()
+                UserDefaults.standard.set(newValue , forKey: "name")
+                UserDefaults.standard.synchronize()
             }
         }
         var age : String {
             get {
-                return NSUserDefaults.standardUserDefaults().stringForKey("age") ?? ""
+                return UserDefaults.standard.string(forKey: "age") ?? ""
             }
             set {
-                NSUserDefaults.standardUserDefaults().setObject(newValue , forKey: "age")
-                NSUserDefaults.standardUserDefaults().synchronize()
+                UserDefaults.standard.set(newValue , forKey: "age")
+                UserDefaults.standard.synchronize()
             }
         }
         var insertTime : String {
             get {
-                return NSUserDefaults.standardUserDefaults().stringForKey("insertTime") ?? ""
+                return UserDefaults.standard.string(forKey: "insertTime") ?? ""
             }
             set {
-                NSUserDefaults.standardUserDefaults().setObject(newValue , forKey: "insertTime")
-                NSUserDefaults.standardUserDefaults().synchronize() 
+                UserDefaults.standard.set(newValue , forKey: "insertTime")
+                UserDefaults.standard.synchronize() 
             }
         }
         var place : String {
             get {
-                return NSUserDefaults.standardUserDefaults().stringForKey("place") ?? ""
+                return UserDefaults.standard.string(forKey: "place") ?? ""
             }
             set {
-                NSUserDefaults.standardUserDefaults().setObject(newValue , forKey: "place")
-                NSUserDefaults.standardUserDefaults().synchronize()
+                UserDefaults.standard.set(newValue , forKey: "place")
+                UserDefaults.standard.synchronize()
             }
         }
         var mychar : String {
             get {
-                return NSUserDefaults.standardUserDefaults().stringForKey("mychar") ?? ""
+                return UserDefaults.standard.string(forKey: "mychar") ?? ""
             }
             set {
-                NSUserDefaults.standardUserDefaults().setObject(newValue , forKey: "mychar")
-                NSUserDefaults.standardUserDefaults().synchronize()
+                UserDefaults.standard.set(newValue , forKey: "mychar")
+                UserDefaults.standard.synchronize()
             }
         }
         var imaikuFlag: Bool {
             get {
-                return NSUserDefaults.standardUserDefaults().boolForKey("imaikuFlag") ?? false
+                return UserDefaults.standard.bool(forKey: "imaikuFlag") ?? false
             }
             set {
-                NSUserDefaults.standardUserDefaults().setBool(newValue , forKey: "imaikuFlag")
-                NSUserDefaults.standardUserDefaults().synchronize()
+                UserDefaults.standard.set(newValue , forKey: "imaikuFlag")
+                UserDefaults.standard.synchronize()
             }
         }
         
         var location: Bool {
             get {
-                return NSUserDefaults.standardUserDefaults().boolForKey("location") ?? false
+                return UserDefaults.standard.bool(forKey: "location") ?? false
             }
             set {
-                NSUserDefaults.standardUserDefaults().setBool(newValue , forKey: "location")
-                NSUserDefaults.standardUserDefaults().synchronize()
+                UserDefaults.standard.set(newValue , forKey: "location")
+                UserDefaults.standard.synchronize()
             }
         }
         
         var isRecruitment: Bool? {
             get {
-                return NSUserDefaults.standardUserDefaults().boolForKey("isRecruitment")
+                return UserDefaults.standard.bool(forKey: "isRecruitment")
             }
             set {
-                NSUserDefaults.standardUserDefaults().setBool(newValue!, forKey: "isRecruitment")
-                NSUserDefaults.standardUserDefaults().synchronize()
+                UserDefaults.standard.set(newValue!, forKey: "isRecruitment")
+                UserDefaults.standard.synchronize()
             }
         }
         
         var deviceToken: String {
             get {
-                return NSUserDefaults.standardUserDefaults().stringForKey("deviceToken") ?? ""
+                return UserDefaults.standard.string(forKey: "deviceToken") ?? ""
             }
             set {
-                NSUserDefaults.standardUserDefaults().setObject(newValue , forKey: "deviceToken")
-                NSUserDefaults.standardUserDefaults().synchronize()
+                UserDefaults.standard.set(newValue , forKey: "deviceToken")
+                UserDefaults.standard.synchronize()
             }
         }
         var targetUserID : String {
             get {
-                return NSUserDefaults.standardUserDefaults().stringForKey("targetUserID") ?? ""
+                return UserDefaults.standard.string(forKey: "targetUserID") ?? ""
             }
             set {
-                NSUserDefaults.standardUserDefaults().setObject(newValue , forKey: "targetUserID")
-                NSUserDefaults.standardUserDefaults().synchronize()
+                UserDefaults.standard.set(newValue , forKey: "targetUserID")
+                UserDefaults.standard.synchronize()
             }
         }
         var twitterName : String {
             get {
-                return NSUserDefaults.standardUserDefaults().stringForKey("twitterName") ?? ""
+                return UserDefaults.standard.string(forKey: "twitterName") ?? ""
             }
             set {
-                NSUserDefaults.standardUserDefaults().setObject(newValue , forKey: "twitterName")
-                NSUserDefaults.standardUserDefaults().synchronize()
+                UserDefaults.standard.set(newValue , forKey: "twitterName")
+                UserDefaults.standard.synchronize()
             }
         }
     }

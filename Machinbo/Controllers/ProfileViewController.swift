@@ -26,10 +26,10 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     @IBOutlet weak var imakokoButton: UIButton!
     
     
-    private let photoItems = ["フォト"]
-    private let profileItems = ["名前", "性別", "生まれた年", "Twitter", "プロフィール"]
-    private let otherItems = ["登録時間", "場所", "特徴"]
-    private let sections = ["プロフィール", "待ち合わせ情報"]
+    fileprivate let photoItems = ["フォト"]
+    fileprivate let profileItems = ["名前", "性別", "生まれた年", "Twitter", "プロフィール"]
+    fileprivate let otherItems = ["登録時間", "場所", "特徴"]
+    fileprivate let sections = ["プロフィール", "待ち合わせ情報"]
     
     let picker = UIImagePickerController()
     var window: UIWindow?
@@ -51,27 +51,27 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let view = UINib(nibName: "ProfileView", bundle: nil).instantiateWithOwner(self, options: nil).first as? UIView {
+        if let view = UINib(nibName: "ProfileView", bundle: nil).instantiate(withOwner: self, options: nil).first as? UIView {
             self.view = view
         }
         
         setProfileGesture()
         initTableView()
-        navigationController?.navigationBar.tintColor = UIColor.darkGrayColor()
+        navigationController?.navigationBar.tintColor = UIColor.darkGray
         
         let userData = PersistentData.User()
         guard userData.userID != "" else {
             //初期登録画面
             self.navigationItem.title = "プロフィールを登録してください"
-            self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.darkGrayColor()]
-            self.imakokoButton.hidden = true
+            self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.darkGray]
+            self.imakokoButton.isHidden = true
             profilePicture.image = UIImage(named: "photo.png")
             return
         }
         
         self.navigationItem.title = "プロフィール"
-        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.darkGrayColor()]
-        self.startButton.hidden = true
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.darkGray]
+        self.startButton.isHidden = true
         
         setNavigationItemSettingButton()
         
@@ -90,32 +90,32 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         showAdmob()
     }
     
-    private func setRecruitment() {
+    fileprivate func setRecruitment() {
         let userData = PersistentData.User()
         
         guard !userData.insertTime.isEmpty else {
             //待ち合わせ募集をしていない場合
-             self.imakokoButton.hidden = true
+             self.imakokoButton.isHidden = true
             return
         }
         
         if userData.isRecruitment! {
             //募集中の場合
-            self.imakokoButton.setTitle("待ち合わせ募集中", forState: .Normal)
+            self.imakokoButton.setTitle("待ち合わせ募集中", for: UIControlState())
             self.imakokoButton.layer.cornerRadius = 5.0
-            self.imakokoButton.layer.borderColor = UIView().tintColor.CGColor
+            self.imakokoButton.layer.borderColor = UIView().tintColor.cgColor
             self.imakokoButton.layer.borderWidth = 1.0
             self.imakokoButton.tintColor = UIView().tintColor
         } else {
-            self.imakokoButton.setTitle("待ち合わせ募集停止中", forState: .Normal)
+            self.imakokoButton.setTitle("待ち合わせ募集停止中", for: UIControlState())
             self.imakokoButton.layer.cornerRadius = 5.0
-            self.imakokoButton.layer.borderColor = UIColor.redColor().CGColor
+            self.imakokoButton.layer.borderColor = UIColor.red.cgColor
             self.imakokoButton.layer.borderWidth = 1.0
-            self.imakokoButton.tintColor = UIColor.redColor()
+            self.imakokoButton.tintColor = UIColor.red
         }
     }
     
-    private func showAdmob() {
+    fileprivate func showAdmob() {
         if self.isInternetConnect() {
             //広告を表示
             self.showAdmob(AdmobType.standard)
@@ -125,28 +125,28 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         }
     }
     
-    private func setProfileGesture() {
+    fileprivate func setProfileGesture() {
         // profilePicture をタップできるようにジェスチャーを設定
-        profilePicture.userInteractionEnabled = true
+        profilePicture.isUserInteractionEnabled = true
         let myTap = UITapGestureRecognizer(target: self, action: #selector(tapGesture))
         profilePicture.addGestureRecognizer(myTap)
     }
     
-    private func initTableView() {
+    fileprivate func initTableView() {
         let nibName = UINib(nibName: "DetailProfileTableViewCell", bundle:nil)
-        tableView.registerNib(nibName, forCellReuseIdentifier: detailTableViewCellIdentifier)
+        tableView.register(nibName, forCellReuseIdentifier: detailTableViewCellIdentifier)
         tableView.estimatedRowHeight = 200.0
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.tableFooterView = UIView()
         view.addSubview(tableView)
     }
     
-    private func setNavigationItemSettingButton() {
+    fileprivate func setNavigationItemSettingButton() {
         /* 設定ボタンを付与 */
-        let settingsButton: UIButton = UIButton(type: UIButtonType.Custom)
-        settingsButton.setImage(UIImage(named: "santen.png"), forState: UIControlState.Normal)
-        settingsButton.addTarget(self, action: #selector(ProfileViewController.onClickSettingView), forControlEvents: UIControlEvents.TouchUpInside)
-        settingsButton.frame = CGRectMake(0, 0, 22, 22)
+        let settingsButton: UIButton = UIButton(type: UIButtonType.custom)
+        settingsButton.setImage(UIImage(named: "santen.png"), for: UIControlState())
+        settingsButton.addTarget(self, action: #selector(ProfileViewController.onClickSettingView), for: UIControlEvents.touchUpInside)
+        settingsButton.frame = CGRect(x: 0, y: 0, width: 22, height: 22)
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: settingsButton)
     }
@@ -156,26 +156,26 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     }
     
     // profilePicture タップ時の処理
-    internal func tapGesture(sender: UITapGestureRecognizer){
+    internal func tapGesture(_ sender: UITapGestureRecognizer){
         self.picker.delegate = self
-        self.picker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+        self.picker.sourceType = UIImagePickerControllerSourceType.photoLibrary
         self.picker.allowsEditing = false
         
-        presentViewController(self.picker, animated: true, completion: nil)
+        present(self.picker, animated: true, completion: nil)
     }
     
     
     // 写真選択時の処理
-    internal func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
-        dismissViewControllerAnimated(true, completion: nil)
+    internal func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        dismiss(animated: true, completion: nil)
         
         let image = info[UIImagePickerControllerOriginalImage] as! UIImage
         
-        let displaySize = UIScreen.mainScreen().bounds.size.width
+        let displaySize = UIScreen.main.bounds.size.width
         let resizedSize = CGSize(width: displaySize, height: displaySize)
         UIGraphicsBeginImageContext(resizedSize)
         
-        image.drawInRect(CGRect(x: 0, y: 0, width: resizedSize.width, height: resizedSize.height))
+        image.draw(in: CGRect(x: 0, y: 0, width: resizedSize.width, height: resizedSize.height))
         let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
@@ -189,13 +189,13 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             return
         }
         
-        ParseHelper.getUserInfomation(userInfo.userID) { (error: NSError?, result: PFObject?) -> Void in
+        ParseHelper.getUserInfomation(userInfo.userID) { (error: Error?, result: PFObject?) -> Void in
             if let result = result {
                 let imageData = UIImagePNGRepresentation(self.profilePicture.image!)
                 let imageFile = PFFile(name:"image.png", data:imageData!)
                 
                 result["ProfilePicture"] = imageFile
-                result.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+                result.saveInBackground { (success: Bool, error: Error?) -> Void in
                     
                     userInfo.profileImage = self.profilePicture.image!
                     //self.navigationController!.popViewControllerAnimated(true)
@@ -206,20 +206,20 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     }
     
     // 写真選択画面でキャンセルした場合の処理
-    internal func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        dismissViewControllerAnimated(true, completion: nil)
+    internal func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
     }
     
     // PickerViewController より性別を選択した際に実行される処理
-    internal func setSelectedValue(selectedindex: Int, selectedValue: String, type: SelectPickerType) {
-        if type == SelectPickerType.Age {
+    internal func setSelectedValue(_ selectedindex: Int, selectedValue: String, type: SelectPickerType) {
+        if type == SelectPickerType.age {
             self.age = String(selectedindex)
             self.selectedAge = selectedValue
             // テーブル再描画
             tableView.reloadData()
             
             
-        } else if type == SelectPickerType.Gender {
+        } else if type == SelectPickerType.gender {
             self.gender = selectedValue
             self.selectedGender = selectedValue
             // テーブル再描画
@@ -227,27 +227,27 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         }
     }
     
-    internal func setInputValue(inputValue: String, type: InputPickerType) {
-        if type == InputPickerType.Name {
+    internal func setInputValue(_ inputValue: String, type: InputPickerType) {
+        if type == InputPickerType.name {
             self.inputName = inputValue
             // テーブル再描画
             tableView.reloadData()
             
-        } else if type == InputPickerType.Comment {
+        } else if type == InputPickerType.comment {
             self.inputComment = inputValue
             // テーブル再描画
             tableView.reloadData()
         }
     }
     
-    internal func setSelectedDate(SelectedDate: NSDate) {
+    internal func setSelectedDate(_ SelectedDate: Date) {
         
     }
     
     /*
      テーブルに表示する配列の総数を返す.
      */
-    internal func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if section == 0 {
             return profileItems.count
@@ -262,7 +262,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     /*
      セクションの数を返す.
      */
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSectionsInTableView(_ tableView: UITableView) -> Int {
         
         if PersistentData.User().userID == "" {
             return 1
@@ -274,61 +274,61 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     /*
      セクションのタイトルを返す.
      */
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return sections[section]
     }
     /*
      Cellに値を設定する.
      */
-    internal func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    internal func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
         
         let tableViewCellIdentifier = "Cell"
         
         // セルを再利用する。
-        cell = tableView.dequeueReusableCellWithIdentifier(identifier)
+        cell = tableView.dequeueReusableCell(withIdentifier: identifier)
         if cell == nil { // 再利用するセルがなかったら（不足していたら）
             // セルを新規に作成する。
-            cell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: identifier)
+            cell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: identifier)
         }
         
         
         if indexPath.section == 0 {
             if indexPath.row < 4 {
-                var normalCell = tableView.dequeueReusableCellWithIdentifier(tableViewCellIdentifier)
+                var normalCell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier)
                 if normalCell == nil {
-                    normalCell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: tableViewCellIdentifier)
+                    normalCell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: tableViewCellIdentifier)
                 }
                 normalCell?.textLabel!.font = UIFont(name: "Arial", size: 15)
                 normalCell?.detailTextLabel!.font = UIFont(name: "Arial", size: 15)
                 
                 if indexPath.row == 0 {
                     normalCell?.textLabel?.text = profileItems[indexPath.row]
-                    normalCell?.accessoryType = .DisclosureIndicator
+                    normalCell?.accessoryType = .disclosureIndicator
                     normalCell?.detailTextLabel?.text = inputName as String
                     
                 } else if indexPath.row == 1 {
                     normalCell?.textLabel?.text = profileItems[indexPath.row]
-                    normalCell?.accessoryType = .DisclosureIndicator
+                    normalCell?.accessoryType = .disclosureIndicator
                     normalCell?.detailTextLabel?.text = selectedGender as String
                     
                 } else if indexPath.row == 2 {
                     normalCell?.textLabel?.text = profileItems[indexPath.row]
                     if !selectedAge.isEmpty {
-                        normalCell?.accessoryType = .DisclosureIndicator
+                        normalCell?.accessoryType = .disclosureIndicator
                         normalCell?.detailTextLabel?.text = Parser.changeAgeRange(selectedAge) as String
                     }
                     
                 } else if indexPath.row == 3 {
                     normalCell?.textLabel?.text = profileItems[indexPath.row] as String
                     normalCell?.imageView?.image = UIImage(named: "logo_twitter.png")
-                    normalCell?.accessoryType = .DisclosureIndicator
+                    normalCell?.accessoryType = .disclosureIndicator
                     normalCell?.detailTextLabel?.text = twitterName as String
                 }
                 
                 cell = normalCell
                 
             } else {
-                let detailCell = tableView.dequeueReusableCellWithIdentifier(detailTableViewCellIdentifier, forIndexPath: indexPath) as? DetailProfileTableViewCell
+                let detailCell = tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? DetailProfileTableViewCell
                 
                 if indexPath.row == 4 {
                     detailCell?.titleLabel.text = profileItems[indexPath.row]
@@ -339,16 +339,16 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             }
             
         } else if indexPath.section == 1 {
-            var normalCell = tableView.dequeueReusableCellWithIdentifier(tableViewCellIdentifier)
+            var normalCell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier)
             if normalCell == nil {
-                normalCell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: tableViewCellIdentifier)
+                normalCell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: tableViewCellIdentifier)
             }
             
             let userData = PersistentData.User()
             if indexPath.row == 0 {
                 normalCell?.textLabel?.text = otherItems[indexPath.row]
                 
-                let dateFormatter = NSDateFormatter();
+                let dateFormatter = DateFormatter();
                 dateFormatter.dateFormat = "yyyy年M月d日 H:mm"
                 let formatDateString = userData.insertTime
                 
@@ -357,7 +357,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
                 cell = normalCell
                 
             } else if indexPath.row == 1 {
-                let detailCell = tableView.dequeueReusableCellWithIdentifier(detailTableViewCellIdentifier, forIndexPath: indexPath) as? DetailProfileTableViewCell
+                let detailCell = tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? DetailProfileTableViewCell
                 
                 detailCell?.titleLabel.text = otherItems[indexPath.row]
                 detailCell?.valueLabel.text = userData.place
@@ -365,7 +365,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
                 cell = detailCell
                 
             } else if indexPath.row == 2 {
-                let detailCell = tableView.dequeueReusableCellWithIdentifier(detailTableViewCellIdentifier, forIndexPath: indexPath) as? DetailProfileTableViewCell
+                let detailCell = tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? DetailProfileTableViewCell
                 
                 detailCell?.titleLabel.text = otherItems[indexPath.row]
                 detailCell?.valueLabel.text = userData.mychar
@@ -378,7 +378,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     }
     
     // セルがタップされた時
-    internal func tableView(table: UITableView, didSelectRowAtIndexPath indexPath:NSIndexPath) {
+    internal func tableView(_ table: UITableView, didSelectRowAt indexPath:IndexPath) {
         
         let vc = PickerViewController()
         
@@ -389,7 +389,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
                 
                 vc.palmItems = myItems
                 vc.palKind = "name"
-                vc.palInput = inputName
+                vc.palInput = inputName as AnyObject
                 vc.delegate = self
                 
                 navigationController?.pushViewController(vc, animated: true)
@@ -409,13 +409,13 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
                 
             } else if indexPath.row == 2 {
                 
-                let date = NSDate()      // 現在日時
-                let calendar = NSCalendar.currentCalendar()
-                let comp : NSDateComponents = calendar.components(
-                    NSCalendarUnit.Year, fromDate: date)
+                let date = Date()      // 現在日時
+                let calendar = Calendar.current
+                let comp : DateComponents = (calendar as NSCalendar).components(
+                    NSCalendar.Unit.year, from: date)
                 
                 for i in 0...50 {
-                    myItems.append((String(comp.year - i)))
+                    myItems.append((String(comp.year! - i)))
                 }
                 
                 vc.palmItems = myItems
@@ -436,7 +436,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             } else if indexPath.row == 4 {
                 vc.palmItems = myItems
                 vc.palKind = "comment"
-                vc.palInput = inputComment
+                vc.palInput = inputComment as AnyObject
                 vc.delegate = self
                 
                 navigationController?.pushViewController(vc, animated: true)
@@ -445,7 +445,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     }
     
     
-    @IBAction func pushStart(sender: AnyObject) {
+    @IBAction func pushStart(_ sender: AnyObject) {
         // 必須チェック
         if inputName.isEmpty {
             UIAlertView.showAlertView("", message: "名前を入力してください")
@@ -464,7 +464,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         
         let imageData = UIImagePNGRepresentation(profilePicture.image!)
         let imageFile = PFFile(name:"image.png", data:imageData!)
-        let uuid = NSUUID().UUIDString
+        let uuid = UUID().uuidString
         
         NSLog("UUID" + uuid)
         
@@ -494,8 +494,8 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         MBProgressHUDHelper.hide()
     }
     
-    private func imageMolding(target : UIImageView){
-        target.layer.borderColor = UIColor.whiteColor().CGColor
+    fileprivate func imageMolding(_ target : UIImageView){
+        target.layer.borderColor = UIColor.white.cgColor
         target.layer.borderWidth = 3
         target.layer.cornerRadius = 10
         target.layer.masksToBounds = true
@@ -506,12 +506,12 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         self.navigationController!.pushViewController(vc, animated: true)
     }
     
-    @IBAction func imakokoAction(sender: AnyObject) {
+    @IBAction func imakokoAction(_ sender: AnyObject) {
         
         if PersistentData.User().isRecruitment! {
             
             UIAlertView.showAlertOKCancel("募集停止", message: "待ち合わせ募集を停止してもよろしいですか？") { action in
-                if action == UIAlertView.ActionButton.Cancel {
+                if action == UIAlertView.ActionButton.cancel {
                     return
                 }
                 
@@ -521,7 +521,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         } else {
             
             UIAlertView.showAlertOKCancel("募集再開", message: "待ち合わせ募集を再開してもよろしいですか？") { action in
-                if action == UIAlertView.ActionButton.Cancel {
+                if action == UIAlertView.ActionButton.cancel {
                     return
                 }
                 
@@ -538,7 +538,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         self.recruitmentAction(false)
     }
     
-    private func recruitmentAction(isRecruitment: Bool) {
+    fileprivate func recruitmentAction(_ isRecruitment: Bool) {
         
         var userData = PersistentData.User()
         
@@ -555,7 +555,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             }
             
             result["IsRecruitment"] = isRecruitment
-            result.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+            result.saveInBackground { (success: Bool, error: Error?) -> Void in
                 
                 defer {
                     //画面再描画
@@ -577,8 +577,8 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         btn.backgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
         btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
         btn.rippleColor = LayoutManager.getUIColorFromRGB(0xB54241)
-        btn.setTitle("再表示", forState: .Normal)
-        btn.addTarget(self, action: #selector(self.refresh), forControlEvents: .TouchUpInside)
+        btn.setTitle("再表示", for: UIControlState())
+        btn.addTarget(self, action: #selector(self.refresh), for: .touchUpInside)
         btn.layer.cornerRadius = 5.0
         btn.layer.masksToBounds = true
         btn.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height - self.view.bounds.height/8.3)
@@ -589,7 +589,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         self.viewDidLoad()
     }
     
-    private func loginTwitter() {
+    fileprivate func loginTwitter() {
         guard self.twitterName.isEmpty else {
             let sessionStore = Twitter.sharedInstance().sessionStore
             onClickSettingAction(sessionStore)
@@ -597,7 +597,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             return
         }
         
-        Twitter.sharedInstance().logInWithCompletion { session, error in
+        Twitter.sharedInstance().logIn { session, error in
             guard session != nil else {
                 print("error: \(error!.localizedDescription)")
                 UIAlertView.showAlertView("", message: "Twitterへの接続に失敗しました。再接続してください")
@@ -621,9 +621,9 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         }
     }
     
-    private func onClickSettingAction(sessionStore: TWTRSessionStore) {
-        let myAlert = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
-        let destructiveAction_1: UIAlertAction = UIAlertAction(title: "認証を解除", style: UIAlertActionStyle.Destructive, handler:{
+    fileprivate func onClickSettingAction(_ sessionStore: TWTRSessionStore) {
+        let myAlert = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
+        let destructiveAction_1: UIAlertAction = UIAlertAction(title: "認証を解除", style: UIAlertActionStyle.destructive, handler:{
             (action: UIAlertAction!) -> Void in
             
             self.twitterName = ""
@@ -633,16 +633,16 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         })
         myAlert.addAction(destructiveAction_1)
 
-        let cancelAction: UIAlertAction = UIAlertAction(title: "cancel", style: UIAlertActionStyle.Cancel, handler:{
+        let cancelAction: UIAlertAction = UIAlertAction(title: "cancel", style: UIAlertActionStyle.cancel, handler:{
             (action: UIAlertAction!) -> Void in
             print("cancelAction")
         })
         myAlert.addAction(cancelAction)
         
-        self.presentViewController(myAlert, animated: true, completion: nil)
+        self.present(myAlert, animated: true, completion: nil)
     }
     
-    private func setTwitterName() {
+    fileprivate func setTwitterName() {
         guard PersistentData.User().userID != "" else {
             self.viewDidLoad()
             return
@@ -657,7 +657,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             }
             
             result["Twitter"] = self.twitterName
-            result.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+            result.saveInBackground { (success: Bool, error: Error?) -> Void in
                 defer {
                     MBProgressHUDHelper.hide()
                     self.viewDidLoad()

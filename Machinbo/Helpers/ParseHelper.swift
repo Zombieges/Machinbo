@@ -11,7 +11,7 @@ import Parse
 
 class ParseHelper {
     
-    class func launch(launchOptions: [NSObject: AnyObject]?) {
+    class func launch(_ launchOptions: [AnyHashable: Any]?) {
         
 //        let parseAppIdKey = ConfigHelper.getPlistKey("PARSE_APP_ID_KEY") as String
 //        let parseClientKey = ConfigHelper.getPlistKey("PARSE_CLIENT_KEY") as String
@@ -27,14 +27,14 @@ class ParseHelper {
         let parseUrl = ConfigHelper.getPlistKey("PARSE_URL") as String
         let parseClientKey = ConfigHelper.getPlistKey("PARSE_CLIENT_KEY") as String
         
-        Parse.initializeWithConfiguration(ParseClientConfiguration(block: { (configuration: ParseMutableClientConfiguration) -> Void in
+        Parse.initialize(with: ParseClientConfiguration(block: { (configuration: ParseMutableClientConfiguration) -> Void in
             configuration.server = parseUrl
             configuration.clientKey = parseClientKey
             configuration.applicationId = parseAppIdKey
         }))
     }
 
-    class func getNearUserInfomation(myLocation: CLLocationCoordinate2D, completion:((withError: NSError?, result:[PFObject]?)->Void)?) {
+    class func getNearUserInfomation(_ myLocation: CLLocationCoordinate2D, completion:((_ withError: NSError?, _ result:[PFObject]?)->Void)?) {
         //25km圏内、近くから100件取得
         let myGeoPoint = PFGeoPoint(latitude: myLocation.latitude, longitude: myLocation.longitude)
         
@@ -42,56 +42,56 @@ class ParseHelper {
         query.whereKey("GPS", nearGeoPoint: myGeoPoint, withinKilometers: 25.0)
         query.whereKey("IsRecruitment", equalTo: true)
         query.limit = 300
-        query.orderByAscending("MarkTime")
-        query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
+        query.order(byAscending: "MarkTime")
+        query.findObjectsInBackground { (objects, error) -> Void in
             if let resultNearUser = objects {
-                completion?(withError: error, result: resultNearUser)
+                completion?(error as NSError?, resultNearUser)
             }
         }
     }
     
-    class func getMyGoNow(loginUser: String, completion:((withError: NSError?, result: PFObject?)->Void)?) {
+    class func getMyGoNow(_ loginUser: String, completion:((_ withError: NSError?, _ result: PFObject?)->Void)?) {
         let query = PFQuery(className: "GoNow")
         query.whereKey("UserID", equalTo: loginUser)
         query.includeKey("TargetUser")//PointerからUserInfoへリレーション
-        query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
+        query.findObjectsInBackground { (objects, error) -> Void in
             
             if error == nil {
-                completion?(withError: error, result: objects!.first)
+                completion?(error as NSError?, objects!.first)
             }
         }
     }
     
-    class func getMeetupList(loginUser: String, completion:((withError: NSError?, result:[AnyObject]?)->Void)?) {
+    class func getMeetupList(_ loginUser: String, completion:((_ withError: NSError?, _ result:[AnyObject]?)->Void)?) {
         let query = PFQuery(className: "GoNow")
         query.whereKey("TargetUserID", equalTo: loginUser)
         query.includeKey("User")//UserInfoのPointerから情報を取得
-        query.orderByDescending("updatedAt")
-        query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
+        query.order(byDescending: "updatedAt")
+        query.findObjectsInBackground { (objects, error) -> Void in
             if error == nil {
-                completion?(withError: error, result: objects)
+                completion?(error as NSError?, objects)
             }
         }
     }
     
-    class func getUserInfomation(userID: String, completion:((withError: NSError?, result: PFObject?)->Void)?) {
+    class func getUserInfomation(_ userID: String, completion:((_ withError: NSError?, _ result: PFObject?)->Void)?) {
         let query = PFQuery(className: "UserInfo")
         query.whereKey("UserID", equalTo: userID)
-        query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
+        query.findObjectsInBackground { (objects, error) -> Void in
             
             if error == nil {
-                completion?(withError: error, result: objects!.first)
+                completion?(error as NSError?, objects!.first)
             }
         }
     }
     
-    class func getUserInfomationFromTwitter(twitterName: String, completion:((withError: NSError?, result: PFObject?)->Void)?) {
+    class func getUserInfomationFromTwitter(_ twitterName: String, completion:((_ withError: NSError?, _ result: PFObject?)->Void)?) {
         let query = PFQuery(className: "UserInfo")
         query.whereKey("Twitter", equalTo: twitterName)
-        query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
+        query.findObjectsInBackground { (objects, error) -> Void in
             
             if error == nil {
-                completion?(withError: error, result: objects!.first)
+                completion?(error as NSError?, objects!.first)
             }
         }
     }
@@ -116,7 +116,7 @@ class ParseHelper {
 //        }
 //    }
     
-    class func setUserInfomation(userID: String, name: String, gender: String, age: String, twitter: String, comment: String, photo: PFFile, deviceToken: String) {
+    class func setUserInfomation(_ userID: String, name: String, gender: String, age: String, twitter: String, comment: String, photo: PFFile, deviceToken: String) {
         //新規ユーザー登録
         let info = PFObject(className: "UserInfo")
         info["UserID"] = userID
@@ -128,7 +128,7 @@ class ParseHelper {
         info["ProfilePicture"] = photo
         info["DeviceToken"] = deviceToken
         
-        info.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+        info.saveInBackground { (success: Bool, error: Error?) -> Void in
             if success {
                 NSLog("ユーザー初期登録成功")
                 //UIAlertView.showAlertView("", message: "ユーザ登録が完了しました")
@@ -136,34 +136,36 @@ class ParseHelper {
         }
     }
     
-    class func setUserName(userID: String, name: String) {
+    class func setUserName(_ userID: String, name: String) {
         let info = PFObject(className: "UserInfo")
         info["UserID"] = userID
         info["Name"] = name
         
-        info.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+        info.saveInBackground { (success: Bool, error: Error?) -> Void in
             if success {
                 NSLog("ユーザー初期登録成功")
             }
         }
     }
     
-    class func deleteGoNow(targetObjectID: String, completion: () -> ()) {
+    class func deleteGoNow(_ targetObjectID: String, completion: @escaping () -> ()) {
         let query = PFQuery(className: "GoNow")
-        query.getObjectInBackgroundWithId(targetObjectID, block: { objects, error in
+        query.getObjectInBackground(withId: targetObjectID, block: { objects, error in
             if error != nil {
-                NSLog("%@", error!)
+                //NSLog("%@" += error! as! String)
+                NSLog(error! as! String)
+
             } else {
-                objects!.deleteInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+                objects!.deleteInBackground { (success: Bool, error: Error?) -> Void in
                     completion()
                 }
             }
         })
     }
     
-    class func deleteUserInfo(userID: String, completion: () -> ()) {
+    class func deleteUserInfo(_ userID: String, completion: @escaping () -> ()) {
         
-        ParseHelper.getUserInfomation(userID) { (error: NSError?, result: PFObject?) -> Void in
+        ParseHelper.getUserInfomation(userID) { (error: Error?, result: PFObject?) -> Void in
             
             guard let theResult = result else {
                 MBProgressHUDHelper.hide()
@@ -173,7 +175,7 @@ class ParseHelper {
             }
             
             //UserInfoの削除
-            theResult.deleteInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+            theResult.deleteInBackground { (success: Bool, error: Error?) -> Void in
                 guard success else {
                     return
                 }
@@ -185,24 +187,24 @@ class ParseHelper {
         }
     }
     
-    class func countUnRead(targetObjectID: String, completion:((withError: NSError?, result: Int?)->Void)?) {
+    class func countUnRead(_ targetObjectID: String, completion:((_ withError: NSError?, _ result: Int?)->Void)?) {
         let query = PFQuery(className: "GoNow")
         query.whereKey("TargetUserID", equalTo: targetObjectID)
         query.whereKey("unReadFlag", equalTo: true)
-        query.countObjectsInBackgroundWithBlock {
+        query.countObjectsInBackground {
             (number, error) in
             
             if error == nil {
-                completion?(withError: error, result: Int(number))
+                completion?(error as NSError?, Int(number))
             }
         }
     }
     
-    func getErrorMessage(error:NSError?) -> String {
+    func getErrorMessage(_ error:NSError?) -> String {
         var errorMessage = ""
         if error != nil {
             errorMessage = error!.localizedDescription
-            errorMessage.replaceRange(errorMessage.startIndex...errorMessage.startIndex, with: String(errorMessage[errorMessage.startIndex]).capitalizedString)
+            errorMessage.replaceSubrange(errorMessage.startIndex...errorMessage.startIndex, with: String(errorMessage[errorMessage.startIndex]).capitalized)
         } else {
             errorMessage = "Unexpected error occured. Please try again"
         }

@@ -13,63 +13,63 @@ import UIKit
 public extension UIAlertView {
     
     enum ActionButton {
-        case OK, Cancel
+        case ok, cancel
     }
 
-    class func showAlertView(title:String , message:String) {
+    class func showAlertView(_ title:String , message:String) {
         let alertController = UIAlertController(
             title: title,
             message: message,
-            preferredStyle: .Alert
+            preferredStyle: .alert
         )
 
-        let defaultAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+        let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         alertController.addAction(defaultAction)
         
-        let controller = (UIApplication.sharedApplication().delegate as! AppDelegate).window!.rootViewController!
-        controller.presentViewController(alertController, animated: true, completion: nil)
+        let controller = (UIApplication.shared.delegate as! AppDelegate).window!.rootViewController!
+        controller.present(alertController, animated: true, completion: nil)
     }
     
     /*
      * Alert OK CANCEL
      */
-    class func showAlertOKCancel(title: String, message: String, completion: (action: ActionButton) -> Void) {
+    class func showAlertOKCancel(_ title: String, message: String, completion: @escaping (_ action: ActionButton) -> Void) {
         let alertController = UIAlertController(
             title: title,
             message: message,
-            preferredStyle: .Alert
+            preferredStyle: .alert
         )
         
-        let okAction = UIAlertAction(title: "OK", style: .Default, handler: {
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: {
             (action:UIAlertAction) -> Void in
-            completion(action: ActionButton.OK)
+            completion(ActionButton.ok)
         })
         alertController.addAction(okAction)
         
-        let cancelAction = UIAlertAction(title: "キャンセル", style: .Cancel, handler:{
+        let cancelAction = UIAlertAction(title: "キャンセル", style: .cancel, handler:{
             (action:UIAlertAction) -> Void in
-            completion(action: ActionButton.Cancel)
+            completion(ActionButton.cancel)
         })
         alertController.addAction(cancelAction)
         
-        let controller = (UIApplication.sharedApplication().delegate as! AppDelegate).window!.rootViewController!
-        controller.presentViewController(alertController, animated: true, completion: nil)
+        let controller = (UIApplication.shared.delegate as! AppDelegate).window!.rootViewController!
+        controller.present(alertController, animated: true, completion: nil)
     
     }
     
-    class func showAlertDismiss(title:String, message:String, completion: () -> ()) {
+    class func showAlertDismiss(_ title:String, message:String, completion: @escaping () -> ()) {
         let alertController = UIAlertController(
             title: title,
             message: message,
-            preferredStyle: .Alert
+            preferredStyle: .alert
         )
     
-        let controller = (UIApplication.sharedApplication().delegate as! AppDelegate).window!.rootViewController!
-        controller.presentViewController(alertController, animated: true) { () -> Void in
+        let controller = (UIApplication.shared.delegate as! AppDelegate).window!.rootViewController!
+        controller.present(alertController, animated: true) { () -> Void in
             let delay = 1.5 * Double(NSEC_PER_SEC)
-            let time  = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-            dispatch_after(time, dispatch_get_main_queue(), {
-                controller.dismissViewControllerAnimated(true, completion: nil)
+            let time  = DispatchTime.now() + Double(Int64(delay)) / Double(NSEC_PER_SEC)
+            DispatchQueue.main.asyncAfter(deadline: time, execute: {
+                controller.dismiss(animated: true, completion: nil)
                 //back
                 completion()
             })

@@ -27,22 +27,22 @@ UITableViewDelegate {
     var inputChar: String = ""
     var palGeoPoint: PFGeoPoint?
     
-    private let sections = ["サポート", "Machinboいついて", " "]
-    private let supportLabels = ["Twitter公式アカウント"]
-    private let appRuleLabels = ["サービス規約"]
+    fileprivate let sections = ["サポート", "Machinboいついて", " "]
+    fileprivate let supportLabels = ["Twitter公式アカウント"]
+    fileprivate let appRuleLabels = ["サービス規約"]
     let otherLabels = ["アカウント削除"]
     
     var selectedRow: Int = 0
     
     override func loadView() {
-        if let view = UINib(nibName: "SettingsView", bundle: nil).instantiateWithOwner(self, options: nil).first as? UIView {
+        if let view = UINib(nibName: "SettingsView", bundle: nil).instantiate(withOwner: self, options: nil).first as? UIView {
             self.view = view
         }
         
         self.navigationItem.title = "オプション"
         // 不要行の削除
-        let noCreateView:UIView = UIView(frame: CGRectZero)
-        noCreateView.backgroundColor = UIColor.clearColor()
+        let noCreateView:UIView = UIView(frame: CGRect.zero)
+        noCreateView.backgroundColor = UIColor.clear
         tableView.tableFooterView = noCreateView
         tableView.tableHeaderView = noCreateView
         
@@ -58,7 +58,7 @@ UITableViewDelegate {
     /*
      セクションの数を返す.
      */
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSectionsInTableView(_ tableView: UITableView) -> Int {
         
         let returnSectionCount = sections.count
         /*
@@ -72,14 +72,14 @@ UITableViewDelegate {
     /*
      セクションのタイトルを返す.
      */
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return sections[section]
     }
     
     /*
      テーブルに表示する配列の総数を返す.
      */
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return self.supportLabels.count
             
@@ -97,14 +97,14 @@ UITableViewDelegate {
     /*
      Cellに値を設定する.
      */
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
         
         let tableViewCellIdentifier = "Cell"
         
-        var cell = tableView.dequeueReusableCellWithIdentifier(tableViewCellIdentifier)
+        var cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier)
         if cell == nil { // 再利用するセルがなかったら（不足していたら）
             // セルを新規に作成する。
-            cell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: tableViewCellIdentifier)
+            cell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: tableViewCellIdentifier)
         }
         
         if indexPath.section == 0 {
@@ -125,7 +125,7 @@ UITableViewDelegate {
     }
     
     // PickerViewController よりを保存ボタンを押下した際に実行される処理
-    internal func setComment(comment: String) {
+    internal func setComment(_ comment: String) {
         if selectedRow == 0 {
             inputPlace = comment
             
@@ -138,12 +138,12 @@ UITableViewDelegate {
     }
     
     // セルがタップされた時
-    internal func tableView(table: UITableView, didSelectRowAtIndexPath indexPath:NSIndexPath) {
+    internal func tableView(_ table: UITableView, didSelectRowAt indexPath:IndexPath) {
         if indexPath.section == 0 {
             if indexPath.row == 0 {
-                let url = NSURL(string: ConfigHelper.getPlistKey("TWITTER_LINK"))
-                if UIApplication.sharedApplication().canOpenURL(url!){
-                    UIApplication.sharedApplication().openURL(url!)
+                let url = URL(string: ConfigHelper.getPlistKey("TWITTER_LINK"))
+                if UIApplication.shared.canOpenURL(url!){
+                    UIApplication.shared.openURL(url!)
                 }
             }
             
@@ -169,7 +169,7 @@ UITableViewDelegate {
         //アカウント削除処理
         UIAlertView.showAlertOKCancel("", message: "アカウントを削除しますと、いままでの履歴が削除されてしまいます。本当にアカウントを削除してもよろしいですか？") { action in
             
-            if action == UIAlertView.ActionButton.Cancel {
+            if action == UIAlertView.ActionButton.cancel {
                 MBProgressHUDHelper.hide()
                 return
             }
@@ -182,7 +182,7 @@ UITableViewDelegate {
         }
     }
     
-    func deleteUserInfo(userID: String) {
+    func deleteUserInfo(_ userID: String) {
         
         ParseHelper.deleteUserInfo(userID) { () -> () in
             
@@ -190,14 +190,14 @@ UITableViewDelegate {
             
             let newRootVC = ProfileViewController()
             let navigationController = UINavigationController(rootViewController: newRootVC)
-            navigationController.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.darkGrayColor()]
-            navigationController.navigationBar.tintColor = UIColor.darkGrayColor()
-            navigationController.navigationBar.translucent = false
-            navigationController.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+            navigationController.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.darkGray]
+            navigationController.navigationBar.tintColor = UIColor.darkGray
+            navigationController.navigationBar.isTranslucent = false
+            navigationController.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
             navigationController.navigationBar.setBackgroundImage(UIImage(named: "BarBackground"),
-                                                                forBarMetrics: .Default)
+                                                                for: .default)
             navigationController.navigationBar.shadowImage = UIImage()
-            UIApplication.sharedApplication().keyWindow?.rootViewController = navigationController
+            UIApplication.shared.keyWindow?.rootViewController = navigationController
             
             self.viewDidLoad()
         }

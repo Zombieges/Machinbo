@@ -12,5 +12,7 @@
 #import <AWSCore/AWSCore.h>
 #import <AWSSNS/AWSSNS.h>
 #import <AWSCognito/AWSCognito.h>
+#import <MBProgressHUD/MBProgressHUD.h>
+
 
 #endif /* Bridging_Header_h */

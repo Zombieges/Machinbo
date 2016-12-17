@@ -13,7 +13,7 @@ import MapKit
 
 class GoogleMapsHelper {
 
-    class func setAnyUserMarker(map: GMSMapView, userObjects: [PFObject]) {
+    class func setAnyUserMarker(_ map: GMSMapView, userObjects: [PFObject]) {
         
         MBProgressHUDHelper.show("Loading...")
         
@@ -24,10 +24,10 @@ class GoogleMapsHelper {
         MBProgressHUDHelper.hide()
     }
     
-    class func setUserMarker(map: GMSMapView, user: PFObject, isSelect: Bool) {
+    class func setUserMarker(_ map: GMSMapView, user: PFObject, isSelect: Bool) {
         
         let geoPoint : PFGeoPoint
-        if let tempGeopoint = (user.objectForKey("GPS") as? PFGeoPoint) {
+        if let tempGeopoint = (user.object(forKey: "GPS") as? PFGeoPoint) {
             geoPoint = tempGeopoint
             
         } else {
@@ -47,7 +47,7 @@ class GoogleMapsHelper {
         }
     }
     
-    class func setDraggableUserMarker(map: GMSMapView, geoPoint: PFGeoPoint) {
+    class func setDraggableUserMarker(_ map: GMSMapView, geoPoint: PFGeoPoint) {
         let marker = GMSMarker()
         marker.position = CLLocationCoordinate2DMake(geoPoint.latitude, geoPoint.longitude)
         marker.appearAnimation = kGMSMarkerAnimationPop
@@ -65,7 +65,7 @@ class GoogleMapsHelper {
         map.selectedMarker = marker
     }
     
-    class func setUserPin(map: GMSMapView, geoPoint: PFGeoPoint) {
+    class func setUserPin(_ map: GMSMapView, geoPoint: PFGeoPoint) {
         let marker = GMSMarker()
         marker.position = CLLocationCoordinate2DMake(geoPoint.latitude, geoPoint.longitude)
         marker.appearAnimation = kGMSMarkerAnimationPop
@@ -77,7 +77,7 @@ class GoogleMapsHelper {
         map.camera = camera
     }
     
-    func marker(annotation: MKAnnotation) -> GMSMarker {
+    func marker(_ annotation: MKAnnotation) -> GMSMarker {
         return GMSMarker(position: annotation.coordinate)
     }
 }

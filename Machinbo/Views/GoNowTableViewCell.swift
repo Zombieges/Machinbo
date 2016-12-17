@@ -28,7 +28,7 @@ class GoNowTableViewCell : UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         // UILabelとかを追加
         
-        let autoresizingMasks: UIViewAutoresizing = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth];
+        let autoresizingMasks: UIViewAutoresizing = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth];
         self.contentView.autoresizingMask = autoresizingMasks
     }
     
@@ -36,12 +36,12 @@ class GoNowTableViewCell : UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         profileImage.image = nil
-        entryTime.textColor = UIColor.darkGrayColor()
+        entryTime.textColor = UIColor.darkGray
         //gonowTime.textColor = UIColor.darkGrayColor()
-        valueLabel.textColor = UIColor.grayColor()
+        valueLabel.textColor = UIColor.gray
     }
     
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         // Configure the view for the selected state
     }

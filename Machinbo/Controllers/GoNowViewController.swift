@@ -24,35 +24,35 @@ class GoNowViewController: UIViewController, UINavigationControllerDelegate,
 
     @IBOutlet weak var tableView: UITableView!
     
-    var inputDate = NSDate()
+    var inputDate = Date()
     var inputPlace = ""
     var inputChar = ""
     var palGeoPoint: PFGeoPoint?
     
-    private let normalTableViewCellIdentifier = "NormalCell"
-    private let detailTableViewCellIdentifier = "DetailCell"
+    fileprivate let normalTableViewCellIdentifier = "NormalCell"
+    fileprivate let detailTableViewCellIdentifier = "DetailCell"
     
-    private let targetProfileItems = ["待ち合わせ時間", "待ち合わせ場所", "自分の特徴"]
+    fileprivate let targetProfileItems = ["待ち合わせ時間", "待ち合わせ場所", "自分の特徴"]
     
     var _interstitial: GADInterstitial?
     
     var selectedRow: Int = 0
     
     override func loadView() {
-        if let view = UINib(nibName: "ImakokoView", bundle: nil).instantiateWithOwner(self, options: nil).first as? UIView {
+        if let view = UINib(nibName: "ImakokoView", bundle: nil).instantiate(withOwner: self, options: nil).first as? UIView {
             self.view = view
         }
         
         self.navigationItem.title = "場所と特徴を登録"
-        self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
+        self.navigationController!.navigationBar.tintColor = UIColor.white
         
         let nibName = UINib(nibName: "DetailProfileTableViewCell", bundle:nil)
-        tableView.registerNib(nibName, forCellReuseIdentifier: detailTableViewCellIdentifier)
+        tableView.register(nibName, forCellReuseIdentifier: detailTableViewCellIdentifier)
         
         // 不要行の削除
-        let noCreateView:UIView = UIView(frame: CGRectZero)
+        let noCreateView:UIView = UIView(frame: CGRect.zero)
         
-        noCreateView.backgroundColor = UIColor.clearColor()
+        noCreateView.backgroundColor = UIColor.clear
         tableView.tableFooterView = noCreateView
         tableView.tableHeaderView = noCreateView
         view.addSubview(tableView)
@@ -67,21 +67,21 @@ class GoNowViewController: UIViewController, UINavigationControllerDelegate,
     /*
     セクションの数を返す.
     */
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSectionsInTableView(_ tableView: UITableView) -> Int {
         return 1
     }
     
     /*
     テーブルに表示する配列の総数を返す.
     */
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return targetProfileItems.count
     }
     
     /*
     Cellに値を設定する.
     */
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
         
         var cell: UITableViewCell?
         var normalCell: UITableViewCell?
@@ -91,22 +91,22 @@ class GoNowViewController: UIViewController, UINavigationControllerDelegate,
         
         if indexPath.row == 0 {
             
-            normalCell = tableView.dequeueReusableCellWithIdentifier(tableViewCellIdentifier)
+            normalCell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier)
             if normalCell == nil {
-                normalCell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: tableViewCellIdentifier)
-                normalCell!.textLabel!.font = UIFont.systemFontOfSize(16)
-                normalCell!.detailTextLabel!.font = UIFont.systemFontOfSize(16)
+                normalCell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: tableViewCellIdentifier)
+                normalCell!.textLabel!.font = UIFont.systemFont(ofSize: 16)
+                normalCell!.detailTextLabel!.font = UIFont.systemFont(ofSize: 16)
             }
             
         } else {
-            detailCell = tableView.dequeueReusableCellWithIdentifier(detailTableViewCellIdentifier, forIndexPath: indexPath) as? DetailProfileTableViewCell
+            detailCell = tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? DetailProfileTableViewCell
         }
 
         if indexPath.row == 0 {
             normalCell?.textLabel?.text = targetProfileItems[indexPath.row]
-            let dateFormatter = NSDateFormatter();
+            let dateFormatter = DateFormatter();
             dateFormatter.dateFormat = "yyyy年M月d日 H:mm"
-            let formatDateString = dateFormatter.stringFromDate(self.inputDate)
+            let formatDateString = dateFormatter.string(from: self.inputDate)
             normalCell?.detailTextLabel?.text = formatDateString
             
             cell = normalCell
@@ -145,11 +145,11 @@ class GoNowViewController: UIViewController, UINavigationControllerDelegate,
 //    }
     
     // PickerViewController よりを保存ボタンを押下した際に実行される処理
-    internal func setSelectedValue(selectedIndex: Int, selectedValue: String, type: SelectPickerType) {
+    internal func setSelectedValue(_ selectedIndex: Int, selectedValue: String, type: SelectPickerType) {
     }
     
-    internal func setInputValue(inputValue: String, type: InputPickerType) {
-        if type == InputPickerType.Comment {
+    internal func setInputValue(_ inputValue: String, type: InputPickerType) {
+        if type == InputPickerType.comment {
             if selectedRow == 1 {
                 self.inputPlace = inputValue
 
@@ -161,7 +161,7 @@ class GoNowViewController: UIViewController, UINavigationControllerDelegate,
         }
     }
     
-    internal func setSelectedDate(selectedDate: NSDate) {
+    internal func setSelectedDate(_ selectedDate: Date) {
         if selectedRow == 0 {
             self.inputDate = selectedDate
         }
@@ -184,7 +184,7 @@ class GoNowViewController: UIViewController, UINavigationControllerDelegate,
 //        tableView.reloadData()
 //    }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
     {
         if indexPath.row == 0 {
             return 50
@@ -195,7 +195,7 @@ class GoNowViewController: UIViewController, UINavigationControllerDelegate,
     }
     
     // セルがタップされた時
-    internal func tableView(table: UITableView, didSelectRowAtIndexPath indexPath:NSIndexPath) {
+    internal func tableView(_ table: UITableView, didSelectRowAt indexPath:IndexPath) {
         
         let vc = PickerViewController()
         
@@ -204,21 +204,21 @@ class GoNowViewController: UIViewController, UINavigationControllerDelegate,
             if indexPath.row == 0 {
                 vc.palKind = "imakokoDate"
 
-                vc.palInput = inputDate
+                vc.palInput = inputDate as AnyObject
                 vc.delegate = self
                 
                 navigationController?.pushViewController(vc, animated: true)
                 
             } else if indexPath.row == 1 {
                 vc.palKind = "imakoko"
-                vc.palInput = inputPlace
+                vc.palInput = inputPlace as AnyObject
                 vc.delegate = self
                 
                 navigationController?.pushViewController(vc, animated: true)
                 
             } else if indexPath.row == 2 {
                 vc.palKind = "imakoko"
-                vc.palInput = inputChar
+                vc.palInput = inputChar as AnyObject
                 vc.delegate = self
                 
                 navigationController?.pushViewController(vc, animated: true)
@@ -228,7 +228,7 @@ class GoNowViewController: UIViewController, UINavigationControllerDelegate,
         selectedRow = indexPath.row
     }
     
-    @IBAction func imaikuButton(sender: AnyObject) {
+    @IBAction func imaikuButton(_ sender: AnyObject) {
         
         MBProgressHUDHelper.show("Loading...")
         
@@ -247,7 +247,7 @@ class GoNowViewController: UIViewController, UINavigationControllerDelegate,
             query["MyChar"] = self.inputChar
             query["IsRecruitment"] = true
             
-            query.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+            query.saveInBackground { (success: Bool, error: Error?) -> Void in
                 defer {
                     MBProgressHUDHelper.hide()
                 }
@@ -259,9 +259,9 @@ class GoNowViewController: UIViewController, UINavigationControllerDelegate,
                 //local db に保存
                 var userData = PersistentData.User()
                 
-                let dateFormatter = NSDateFormatter()
+                let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "yyyy年M月d日 H:mm"
-                let formatDateString = dateFormatter.stringFromDate(self.inputDate)
+                let formatDateString = dateFormatter.string(from: self.inputDate)
                 userData.insertTime = formatDateString
                 
                 userData.place = self.inputPlace
@@ -271,10 +271,10 @@ class GoNowViewController: UIViewController, UINavigationControllerDelegate,
                 UIAlertView.showAlertDismiss("", message: "現在位置を登録しました") { () -> () in
                     
                     if self._interstitial!.isReady {
-                        self._interstitial!.presentFromRootViewController(self)
+                        self._interstitial!.present(fromRootViewController: self)
                     }
                     
-                    self.navigationController!.popToRootViewControllerAnimated(true)
+                    self.navigationController!.popToRootViewController(animated: true)
                 }
             }
         }

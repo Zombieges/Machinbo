@@ -461,8 +461,14 @@ class PickerViewController: UIViewController,
         MBProgressHUDHelper.show("Loading...")
         
         ParseHelper.getUserInfomationFromTwitter(searchStr) { (error: NSError?, result: PFObject?) -> Void in
+            
             defer {
                 MBProgressHUDHelper.hide()
+            }
+            
+            guard result != nil else {
+                UIAlertView.showAlertView("エラー", message:"ユーザが見つかりませんでした。")
+                return
             }
             
             let vc = TargetProfileViewController(type: ProfileType.targetProfile)

@@ -57,7 +57,11 @@ class MeetupViewController: UIViewController,
                 UIAlertView.showAlertView("", message: "いまから来る人が存在しません。相手から待ち合わせ希望があった場合、リストに表示されます。")
                 return
             }
+            
+            self.goNowList = result!
+            self.tableView.reloadData()
         }
+        
         do {
             let nibName = UINib(nibName: "GoNowTableViewCell", bundle:nil)
             self.tableView.register(nibName, forCellReuseIdentifier: detailTableViewCellIdentifier)

@@ -104,7 +104,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         btn.backgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
         btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
         btn.rippleColor = LayoutManager.getUIColorFromRGB(0xB54241)
-        btn.setTitle("待ち合わせ場所登録", for: UIControlState())
+        btn.setTitle("待ち合わせ登録", for: UIControlState())
         btn.addTarget(self, action: #selector(MapViewController.onClickImakoko), for: UIControlEvents.touchUpInside)
         btn.layer.cornerRadius = 5.0
         btn.layer.masksToBounds = true

@@ -32,7 +32,7 @@ class GoNowViewController: UIViewController, UINavigationControllerDelegate,
     fileprivate let normalTableViewCellIdentifier = "NormalCell"
     fileprivate let detailTableViewCellIdentifier = "DetailCell"
     
-    fileprivate let targetProfileItems = ["待ち合わせ時間", "待ち合わせ場所", "自分の特徴"]
+    fileprivate let targetProfileItems = ["待ち合わせ開始時間", "待ち合わせ終了時間", "待ち合わせ場所", "自分の特徴"]
     
     var _interstitial: GADInterstitial?
     
@@ -112,6 +112,15 @@ class GoNowViewController: UIViewController, UINavigationControllerDelegate,
             cell = normalCell
             
         } else if indexPath.row == 1 {
+            normalCell?.textLabel?.text = targetProfileItems[indexPath.row]
+            let dateFormatter = DateFormatter();
+            dateFormatter.dateFormat = "yyyy年M月d日 H:mm"
+            let formatDateString = dateFormatter.string(from: self.inputDate)
+            normalCell?.detailTextLabel?.text = formatDateString
+            
+            cell = normalCell
+        
+        } else if indexPath.row == 2 {
             
             detailCell?.titleLabel.text = targetProfileItems[indexPath.row]
             if inputPlace.isEmpty {
@@ -122,7 +131,7 @@ class GoNowViewController: UIViewController, UINavigationControllerDelegate,
             
             cell = detailCell
             
-        } else if indexPath.row == 2 {
+        } else if indexPath.row == 3 {
             detailCell?.titleLabel.text = targetProfileItems[indexPath.row]
             if inputChar.isEmpty {
                 detailCell?.valueLabel.text = "自分の服装など、待ち合わせの際に分かる情報を書いてください。性と関連した内容、金銭関連の内容、その他不適切な内容を作成する場合、アカウントが停止される可能性がありますのでご注意ください"

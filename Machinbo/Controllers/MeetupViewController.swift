@@ -22,6 +22,8 @@ class MeetupViewController: UIViewController,
     var goNowList = [AnyObject]()
     var refreshControl:UIRefreshControl!
     
+    @IBOutlet weak var headerView: UIView!
+    
     @IBOutlet weak var tableView: UITableView!
     
     let detailTableViewCellIdentifier: String = "GoNowCell"
@@ -41,26 +43,21 @@ class MeetupViewController: UIViewController,
         
         self.navigationItem.title = "いまから来る人リスト"
         self.navigationController!.navigationBar.tintColor = UIColor.darkGray
+
         
         if let view = UINib(nibName: "GoNowListView", bundle: nil).instantiate(withOwner: self, options: nil).first as? UIView {
             self.view = view
         }
         
-        ParseHelper.getMeetupList(PersistentData.User().userID) { (error: NSError?, result) -> Void in
-            defer {
-                MBProgressHUDHelper.hide()
-            }
-            
-            guard error == nil else { return }
-            
-            guard result!.count != 0 else {
-                UIAlertView.showAlertView("", message: "いまから来る人が存在しません。相手から待ち合わせ希望があった場合、リストに表示されます。")
-                return
-            }
-            
-            self.goNowList = result!
-            self.tableView.reloadData()
-        }
+        //承認済みリストを表示
+        getApprovedMeetUpList()
+        
+        let bottomLine = CALayer()
+        bottomLine.frame = CGRect(x: 0, y: bottomLine.frame.size.height - 1, width: bottomLine.frame.size.width, height: bottomLine.frame.size.height)
+        bottomLine.borderWidth = 1
+        bottomLine.backgroundColor = UIColor.red.cgColor
+        headerView.layer.addSublayer(bottomLine)
+        headerView.layer.masksToBounds = true
         
         do {
             let nibName = UINib(nibName: "GoNowTableViewCell", bundle:nil)
@@ -222,4 +219,66 @@ class MeetupViewController: UIViewController,
             self.tableView.reloadData()
         }
     }
+    
+    /*
+     SwgmentedControlの値が変わったときに呼び出される.
+     */
+    internal func segconChanged(segcon: UISegmentedControl){
+        
+        switch segcon.selectedSegmentIndex {
+        default:
+            print("Error")
+        }
+    }
+    
+    @IBAction func changeSegmentedControl(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            getApprovedMeetUpList()
+        case 1:
+            getMeetUpList()
+        default:
+            break
+        }
+    }
+ 
+    func getApprovedMeetUpList() {
+        MBProgressHUDHelper.show("Loading...")
+        
+        ParseHelper.getApprovedMeetupList(PersistentData.User().userID) { (error: NSError?, result) -> Void in
+            defer {
+                MBProgressHUDHelper.hide()
+            }
+            
+            guard error == nil else { return }
+            
+            if result!.count == 0 {
+                UIAlertView.showAlertView("", message: "いまから来る人が存在しません。相手から待ち合わせ希望があった場合、リストに表示されます。")
+            }
+            
+            self.goNowList = result!
+            self.tableView.reloadData()
+        }
+    }
+    
+    func getMeetUpList() {
+        MBProgressHUDHelper.show("Loading...")
+        
+        ParseHelper.getMeetupList(PersistentData.User().userID) { (error: NSError?, result) -> Void in
+            defer {
+                MBProgressHUDHelper.hide()
+            }
+            
+            guard error == nil else { return }
+            
+            
+            if result!.count == 0 {
+                UIAlertView.showAlertView("", message: "いまから来る人が存在しません。相手から待ち合わせ希望があった場合、リストに表示されます。")
+            }
+            
+            self.goNowList = result!
+            self.tableView.reloadData()
+        }
+    }
+    
 }

@@ -143,6 +143,7 @@ class PickerViewController: UIViewController,
             self.view.addSubview(image)
             
         } else if self.kind == "search" {
+            self.navigationItem.title = "Twitter検索"
             searchBarField = UISearchBar()
             searchBarField.delegate = self
             searchBarField.frame = CGRect(x: 10, y: 30, width: displayWidth - 20 , height: 30)

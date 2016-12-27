@@ -1,36 +1,71 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2657" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="GoNowListViewController" customModule="Machinbo" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MeetupViewController" customModule="Machinbo" customModuleProvider="target">
             <connections>
+                <outlet property="headerView" destination="cj8-8c-Bnm" id="T6r-7P-Qvl"/>
                 <outlet property="tableView" destination="TxA-Ya-UCe" id="jVI-2N-I0H"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="55" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="TxA-Ya-UCe">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cj8-8c-Bnm">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="54"/>
+                    <subviews>
+                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Ztm-vd-emx">
+                            <rect key="frame" x="20" y="10" width="335" height="31"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="30" id="Z0z-eb-ch6"/>
+                            </constraints>
+                            <segments>
+                                <segment title="承認済み"/>
+                                <segment title="未承認"/>
+                            </segments>
+                            <connections>
+                                <action selector="changeSegmentedControl:" destination="-1" eventType="valueChanged" id="EsU-Mi-max"/>
+                            </connections>
+                        </segmentedControl>
+                    </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="Ztm-vd-emx" firstAttribute="centerX" secondItem="cj8-8c-Bnm" secondAttribute="centerX" id="LP8-nM-cpa"/>
+                        <constraint firstItem="Ztm-vd-emx" firstAttribute="top" secondItem="cj8-8c-Bnm" secondAttribute="top" constant="10" id="bbf-Ci-sjP"/>
+                        <constraint firstItem="Ztm-vd-emx" firstAttribute="leading" secondItem="cj8-8c-Bnm" secondAttribute="leading" constant="20" id="s2K-Vi-dZw"/>
+                    </constraints>
+                </view>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="55" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="TxA-Ya-UCe">
+                    <rect key="frame" x="0.0" y="54" width="375" height="613"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="TN6-oV-pdZ"/>
                         <outlet property="delegate" destination="-1" id="dWh-1l-BTR"/>
                     </connections>
                 </tableView>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstItem="cj8-8c-Bnm" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="6kN-kz-8V7"/>
+                <constraint firstItem="cj8-8c-Bnm" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="9HG-Ql-upt"/>
                 <constraint firstAttribute="trailing" secondItem="TxA-Ya-UCe" secondAttribute="trailing" id="C8X-yp-lSE"/>
-                <constraint firstItem="TxA-Ya-UCe" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="IdU-EO-AGp"/>
+                <constraint firstItem="cj8-8c-Bnm" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" multiplier="0.08" id="HnP-nL-ZnL"/>
                 <constraint firstItem="TxA-Ya-UCe" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="KLV-q3-em9"/>
+                <constraint firstItem="TxA-Ya-UCe" firstAttribute="top" secondItem="cj8-8c-Bnm" secondAttribute="bottom" id="Nuc-Gk-8tT"/>
+                <constraint firstAttribute="trailing" secondItem="cj8-8c-Bnm" secondAttribute="trailing" id="TJm-Ct-pVJ"/>
                 <constraint firstAttribute="bottom" secondItem="TxA-Ya-UCe" secondAttribute="bottom" id="bq5-pp-g5w"/>
             </constraints>
+            <point key="canvasLocation" x="32.5" y="-251.5"/>
         </view>
     </objects>
 </document>

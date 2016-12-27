@@ -62,9 +62,24 @@ class ParseHelper {
         }
     }
     
+    class func getApprovedMeetupList(_ loginUser: String, completion:((_ withError: NSError?, _ result:[AnyObject]?)->Void)?) {
+        let query = PFQuery(className: "GoNow")
+        query.whereKey("TargetUserID", equalTo: loginUser)
+        query.whereKey("IsApproved", equalTo: true)
+        query.includeKey("User")//UserInfoのPointerから情報を取得
+        query.order(byDescending: "updatedAt")
+        query.findObjectsInBackground { (objects, error) -> Void in
+            if error == nil {
+                completion?(error as NSError?, objects)
+            }
+        }
+    }
+    
     class func getMeetupList(_ loginUser: String, completion:((_ withError: NSError?, _ result:[AnyObject]?)->Void)?) {
         let query = PFQuery(className: "GoNow")
         query.whereKey("TargetUserID", equalTo: loginUser)
+        //承認済み
+        query.whereKey("IsApproved", equalTo: false)
         query.includeKey("User")//UserInfoのPointerから情報を取得
         query.order(byDescending: "updatedAt")
         query.findObjectsInBackground { (objects, error) -> Void in

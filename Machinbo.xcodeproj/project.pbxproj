@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0BE58B5763DCCD173A82CAF8 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D675FFC1D3086246DB758F25 /* Pods.framework */; };
+		5D12262CB72581F3CDD27D6B /* Pods_Machinbo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F28FECBB883650521128FC97 /* Pods_Machinbo.framework */; };
 		9409F7931B2D994D0069DAE8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9409F7921B2D994D0069DAE8 /* Images.xcassets */; };
 		9409F7961B2D994D0069DAE8 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9409F7941B2D994D0069DAE8 /* LaunchScreen.xib */; };
 		9409F7A21B2D994D0069DAE8 /* MachinboTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9409F7A11B2D994D0069DAE8 /* MachinboTests.swift */; };
@@ -76,6 +76,7 @@
 		BBC3A4041B3E7C49002CBBE9 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBC3A4031B3E7C49002CBBE9 /* SystemConfiguration.framework */; };
 		BBC411661D461D2500D398FC /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = BBC411651D461D2500D398FC /* star.png */; };
 		BBC4116A1D5DF36800D398FC /* pin.png in Resources */ = {isa = PBXBuildFile; fileRef = BBC411691D5DF36800D398FC /* pin.png */; };
+		BBCB11A71E058AE5005A2E21 /* santen.png in Resources */ = {isa = PBXBuildFile; fileRef = BBCB11A61E058AE5005A2E21 /* santen.png */; };
 		BBD353541CDCF8F0007B1A1C /* santen.png in Resources */ = {isa = PBXBuildFile; fileRef = BBD353531CDCF8F0007B1A1C /* santen.png */; };
 		BBD353561CDCFDD0007B1A1C /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD353551CDCFDD0007B1A1C /* SettingsViewController.swift */; };
 		BBD353581CDDCCB1007B1A1C /* SettingsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BBD353571CDDCCB1007B1A1C /* SettingsView.xib */; };
@@ -89,6 +90,7 @@
 		BBEFA8B11B59E63B002EFC7A /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBEFA8B01B59E63B002EFC7A /* StoreKit.framework */; };
 		BBEFA8B31B59E64F002EFC7A /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BBEFA8B21B59E64F002EFC7A /* libsqlite3.dylib */; };
 		BBFEC6D91B92B7D90069137A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BBFEC6D71B92B7D90069137A /* Main.storyboard */; };
+		C227F726F0D2A1E56A31B16E /* Pods_MachinboTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 821D4D676CCBF63C64EE5A98 /* Pods_MachinboTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,8 +104,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0E38429424BB3D220230A987 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
-		159EFEA287D2979F9FD4D4EF /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		039F17DB208060963CDF2724 /* Pods-Machinbo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Machinbo.release.xcconfig"; path = "Pods/Target Support Files/Pods-Machinbo/Pods-Machinbo.release.xcconfig"; sourceTree = "<group>"; };
+		3518633726ED53A7D74201E0 /* Pods-MachinboTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MachinboTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MachinboTests/Pods-MachinboTests.debug.xcconfig"; sourceTree = "<group>"; };
+		4152C72FE839F65A2054A9E4 /* Pods-Machinbo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Machinbo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Machinbo/Pods-Machinbo.debug.xcconfig"; sourceTree = "<group>"; };
+		55BC44E39B8786E248D66153 /* Pods-MachinboTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MachinboTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MachinboTests/Pods-MachinboTests.release.xcconfig"; sourceTree = "<group>"; };
+		821D4D676CCBF63C64EE5A98 /* Pods_MachinboTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MachinboTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9409F7841B2D994D0069DAE8 /* Machinbo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Machinbo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9409F7921B2D994D0069DAE8 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		9409F7951B2D994D0069DAE8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -179,6 +184,7 @@
 		BBC3A4031B3E7C49002CBBE9 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		BBC411651D461D2500D398FC /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
 		BBC411691D5DF36800D398FC /* pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pin.png; sourceTree = "<group>"; };
+		BBCB11A61E058AE5005A2E21 /* santen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = santen.png; sourceTree = "<group>"; };
 		BBD353531CDCF8F0007B1A1C /* santen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = santen.png; sourceTree = "<group>"; };
 		BBD353551CDCFDD0007B1A1C /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		BBD353571CDDCCB1007B1A1C /* SettingsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsView.xib; sourceTree = "<group>"; };
@@ -194,7 +200,7 @@
 		BBEFA8B21B59E64F002EFC7A /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		BBFEC6D81B92B7D90069137A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D675FFC1D3086246DB758F25 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E220BF5FCC9E6641A9C7F0D5 /* Pods_Machinbo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Machinbo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F28FECBB883650521128FC97 /* Pods_Machinbo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Machinbo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -225,7 +231,7 @@
 				BBC3A3F01B3E7BC1002CBBE9 /* CoreData.framework in Frameworks */,
 				BBC3A3EE1B3E7BB6002CBBE9 /* AVFoundation.framework in Frameworks */,
 				BBA5C4941B3542F3005D062B /* GoogleMaps.framework in Frameworks */,
-				0BE58B5763DCCD173A82CAF8 /* Pods.framework in Frameworks */,
+				5D12262CB72581F3CDD27D6B /* Pods_Machinbo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -233,6 +239,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C227F726F0D2A1E56A31B16E /* Pods_MachinboTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,10 +275,22 @@
 				BBC3A3EF1B3E7BC1002CBBE9 /* CoreData.framework */,
 				BBC3A3ED1B3E7BB6002CBBE9 /* AVFoundation.framework */,
 				BBA5C4931B3542F3005D062B /* GoogleMaps.framework */,
-				E220BF5FCC9E6641A9C7F0D5 /* Pods_Machinbo.framework */,
 				D675FFC1D3086246DB758F25 /* Pods.framework */,
+				F28FECBB883650521128FC97 /* Pods_Machinbo.framework */,
+				821D4D676CCBF63C64EE5A98 /* Pods_MachinboTests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6DA48C952FAF1480DB8B4125 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				4152C72FE839F65A2054A9E4 /* Pods-Machinbo.debug.xcconfig */,
+				039F17DB208060963CDF2724 /* Pods-Machinbo.release.xcconfig */,
+				3518633726ED53A7D74201E0 /* Pods-MachinboTests.debug.xcconfig */,
+				55BC44E39B8786E248D66153 /* Pods-MachinboTests.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 		9409F77B1B2D994D0069DAE8 = {
@@ -281,8 +300,8 @@
 				9409F7861B2D994D0069DAE8 /* Machinbo */,
 				9409F79E1B2D994D0069DAE8 /* MachinboTests */,
 				9409F7851B2D994D0069DAE8 /* Products */,
-				EC3F8760D246C1C60C9B2D71 /* Pods */,
 				69873D646BC5E4EA93DB1322 /* Frameworks */,
+				6DA48C952FAF1480DB8B4125 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -421,6 +440,7 @@
 				BBD3535B1CDDD517007B1A1C /* logo_fb.png */,
 				BBD353591CDDD4E2007B1A1C /* logo_twitter.png */,
 				BB1A1E641D0D04530090E72D /* imaiku.png */,
+				BBCB11A61E058AE5005A2E21 /* santen.png */,
 				BBC411651D461D2500D398FC /* star.png */,
 				BBD353531CDCF8F0007B1A1C /* santen.png */,
 				BB6FDE121C43C1F200C366A2 /* reload.png */,
@@ -440,15 +460,6 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		EC3F8760D246C1C60C9B2D71 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				0E38429424BB3D220230A987 /* Pods.debug.xcconfig */,
-				159EFEA287D2979F9FD4D4EF /* Pods.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -456,13 +467,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9409F7A51B2D994D0069DAE8 /* Build configuration list for PBXNativeTarget "Machinbo" */;
 			buildPhases = (
-				4C7D9CF3CEA3365A1FA7EDE8 /* Check Pods Manifest.lock */,
+				0964908CDFB25C91C0446BA6 /* [CP] Check Pods Manifest.lock */,
 				9409F7801B2D994D0069DAE8 /* Sources */,
 				9409F7811B2D994D0069DAE8 /* Frameworks */,
 				9409F7821B2D994D0069DAE8 /* Resources */,
-				C4F2947C9BB278F4FC7CB9B6 /* Copy Pods Resources */,
-				6354A22693F6225387F7E420 /* Embed Pods Frameworks */,
 				BB7A35421D9DCF45008C1444 /* Run Script */,
+				9ACDB926052F010116DBE216 /* [CP] Embed Pods Frameworks */,
+				0AE2A95ECE856699C2B22439 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -477,9 +488,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9409F7A81B2D994D0069DAE8 /* Build configuration list for PBXNativeTarget "MachinboTests" */;
 			buildPhases = (
+				7A1008C5B6366CFC902F8AAD /* [CP] Check Pods Manifest.lock */,
 				9409F7971B2D994D0069DAE8 /* Sources */,
 				9409F7981B2D994D0069DAE8 /* Frameworks */,
 				9409F7991B2D994D0069DAE8 /* Resources */,
+				8A2B901A8CF2705525B1D260 /* [CP] Embed Pods Frameworks */,
+				FC043FA33DA87F5745954296 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -505,6 +519,7 @@
 					9409F7831B2D994D0069DAE8 = {
 						CreatedOnToolsVersion = 6.3.2;
 						DevelopmentTeam = PBLDVE7SPT;
+						LastSwiftMigration = 0810;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -513,6 +528,8 @@
 					};
 					9409F79A1B2D994D0069DAE8 = {
 						CreatedOnToolsVersion = 6.3.2;
+						DevelopmentTeam = PBLDVE7SPT;
+						LastSwiftMigration = 0810;
 						TestTargetID = 9409F7831B2D994D0069DAE8;
 					};
 				};
@@ -566,6 +583,7 @@
 				BBD3535A1CDDD4E2007B1A1C /* logo_twitter.png in Resources */,
 				BB6FDDE81C3E97E100C366A2 /* GoNowListView.xib in Resources */,
 				9409F7931B2D994D0069DAE8 /* Images.xcassets in Resources */,
+				BBCB11A71E058AE5005A2E21 /* santen.png in Resources */,
 				BBA5C4961B3545D4005D062B /* GoogleMaps.bundle in Resources */,
 				BBC411661D461D2500D398FC /* star.png in Resources */,
 				BB6FDDEF1C3E97E100C366A2 /* ProfileView.xib in Resources */,
@@ -584,34 +602,79 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		4C7D9CF3CEA3365A1FA7EDE8 /* Check Pods Manifest.lock */ = {
+		0964908CDFB25C91C0446BA6 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		6354A22693F6225387F7E420 /* Embed Pods Frameworks */ = {
+		0AE2A95ECE856699C2B22439 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Machinbo/Pods-Machinbo-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7A1008C5B6366CFC902F8AAD /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		8A2B901A8CF2705525B1D260 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MachinboTests/Pods-MachinboTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9ACDB926052F010116DBE216 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Machinbo/Pods-Machinbo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		BB7A35421D9DCF45008C1444 /* Run Script */ = {
@@ -628,19 +691,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\" d1cb3ad27331201c7159f0a5c109840c635ee454 e564b520c8f78fcb5c608a9f91ed17e1b257c9bdea6adb08a97025f6fe71931f";
 		};
-		C4F2947C9BB278F4FC7CB9B6 /* Copy Pods Resources */ = {
+		FC043FA33DA87F5745954296 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MachinboTests/Pods-MachinboTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -756,7 +819,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -794,7 +857,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
@@ -804,11 +867,12 @@
 		};
 		9409F7A61B2D994D0069DAE8 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0E38429424BB3D220230A987 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 4152C72FE839F65A2054A9E4 /* Pods-Machinbo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = PBLDVE7SPT;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Pods/GoogleMaps/Frameworks",
@@ -816,7 +880,7 @@
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				INFOPLIST_FILE = Machinbo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = YES;
@@ -858,16 +922,18 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "$(SRCROOT)/$(PRODUCT)Machinbo/Bridging_Header.h";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
 		9409F7A71B2D994D0069DAE8 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 159EFEA287D2979F9FD4D4EF /* Pods.release.xcconfig */;
+			baseConfigurationReference = 039F17DB208060963CDF2724 /* Pods-Machinbo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = PBLDVE7SPT;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Pods/GoogleMaps/Frameworks",
@@ -875,7 +941,7 @@
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				INFOPLIST_FILE = Machinbo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
@@ -915,13 +981,16 @@
 				PRODUCT_BUNDLE_IDENTIFIER = Zombieges.Machinbo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
 		9409F7A91B2D994D0069DAE8 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3518633726ED53A7D74201E0 /* Pods-MachinboTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = PBLDVE7SPT;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -931,19 +1000,23 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Zombieges.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Machinbo.app/Machinbo";
 			};
 			name = Debug;
 		};
 		9409F7AA1B2D994D0069DAE8 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 55BC44E39B8786E248D66153 /* Pods-MachinboTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = PBLDVE7SPT;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = MachinboTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Zombieges.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Machinbo.app/Machinbo";
 			};
 			name = Release;

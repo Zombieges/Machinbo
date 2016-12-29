@@ -133,24 +133,25 @@ class MeetupViewController: UIViewController,
         print("Num: \(indexPath.row)")
         print("Edeintg: \(tableView.isEditing)")
         
-        let vc = TargetProfileViewController(type: ProfileType.imakuruTargetProfile)
+        let vc = TargetProfileViewController(type: ProfileType.meetupProfile)
         
         if let tempGeoPoint = goNowList[indexPath.row].object(forKey: "userGPS") {
             vc.targetGeoPoint = tempGeoPoint as! PFGeoPoint
         }
         
-        vc.userInfo = goNowList[indexPath.row].object(forKey: "User")!
-        vc.gonowInfo = goNowList[indexPath.row]
+        let gonowObject = goNowList[indexPath.row] as! PFObject
+        vc.userInfo = gonowObject.object(forKey: "User")! as! PFObject
+        vc.gonowInfo = gonowObject
         
         self.navigationController!.pushViewController(vc, animated: true)
     }
     
-    func tableView(_ tableView: UITableView,canEditRowAtIndexPath indexPath: IndexPath) -> Bool
+    private func tableView(_ tableView: UITableView,canEditRowAtIndexPath indexPath: IndexPath) -> Bool
     {
         return true
     }
     
-    func tableView(_ tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: IndexPath) {
+    private func tableView(_ tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: IndexPath) {
         if editingStyle == UITableViewCellEditingStyle.delete {
             
             let goNowObj = self.goNowList[indexPath.row] as! PFObject
@@ -163,7 +164,7 @@ class MeetupViewController: UIViewController,
                     MBProgressHUDHelper.hide()
                     
                     let name = (goNowObj.object(forKey: "User") as AnyObject).object(forKey: "Name") as! String
-                    UIAlertView.showAlertDismiss("", message: name + "の「いまから行く」を拒否しました", completion: { () -> () in })
+                    UIAlertController.showAlertDismiss("", message: name + "の「いまから行く」を拒否しました", completion: { () -> () in })
                 }
                 
                 self.goNowList.remove(at: indexPath.row)
@@ -253,7 +254,7 @@ class MeetupViewController: UIViewController,
             guard error == nil else { return }
             
             if result!.count == 0 {
-                UIAlertView.showAlertView("", message: "いまから来る人が存在しません。相手から待ち合わせ希望があった場合、リストに表示されます。")
+                UIAlertController.showAlertView("", message: "いまから来る人が存在しません。相手から待ち合わせ希望があった場合、リストに表示されます。")
             }
             
             self.goNowList = result!
@@ -273,7 +274,7 @@ class MeetupViewController: UIViewController,
             
             
             if result!.count == 0 {
-                UIAlertView.showAlertView("", message: "いまから来る人が存在しません。相手から待ち合わせ希望があった場合、リストに表示されます。")
+                UIAlertController.showAlertView("", message: "いまから来る人が存在しません。相手から待ち合わせ希望があった場合、リストに表示されます。")
             }
             
             self.goNowList = result!

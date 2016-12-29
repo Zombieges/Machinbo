@@ -39,7 +39,7 @@ fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 
 enum ProfileType {
-    case targetProfile, imaikuTargetProfile, imakuruTargetProfile
+    case targetProfile, imaikuTargetProfile, meetupProfile
 }
 
 extension TargetProfileViewController: TransisionProtocol {}
@@ -58,8 +58,8 @@ class TargetProfileViewController:
     let modalTextLabel = UILabel()
     let lblName: String = ""
     
-    var userInfo: Any = []
-    var gonowInfo: Any = []
+    var userInfo: PFObject?
+    var gonowInfo: PFObject?
     var targetObjectID = ""
     var targetGeoPoint = PFGeoPoint(latitude: 0, longitude: 0)
 
@@ -148,10 +148,10 @@ class TargetProfileViewController:
             //gmaps.camera = camera
             gmaps.delegate = self
             
-            if type == ProfileType.imakuruTargetProfile {
+            if type == ProfileType.meetupProfile {
                 GoogleMapsHelper.setUserPin(gmaps, geoPoint: targetGeoPoint)
             } else {
-                GoogleMapsHelper.setUserMarker(gmaps, user: userInfo as! PFObject, isSelect: true)
+                GoogleMapsHelper.setUserMarker(gmaps, user: userInfo! as PFObject, isSelect: true)
                 
             }
             
@@ -203,21 +203,25 @@ class TargetProfileViewController:
 
             
             
-        } else if type == ProfileType.imakuruTargetProfile {
+        } else if type == ProfileType.meetupProfile {
             
             /*
-             * GoNowListViewから遷移した場合
+             * MeetupView から遷移した場合
              */
             
             sections = ["プロフィール", "来る情報"]
             
-            //いま何処ボタン追加
-            let imadokoBtn = imadokoButton()
-            let imadokoBtnX = self.displayWidth - round(self.displayWidth / 2.5)
-            let imadokoBtnWidth = round(self.displayWidth / 3)
-            let imadokotnHeight = round(self.displayHeight / 17)
-            imadokoBtn.frame = CGRect(x: imadokoBtnX, y: mapViewHeight + 10, width: imadokoBtnWidth, height: imadokotnHeight)
-            myHeaderView.addSubview(imadokoBtn)
+            let isApproved = (self.gonowInfo as AnyObject).object(forKey: "IsApproved") as! Bool
+            if isApproved {
+                //現在位置確認ボタンを追加
+                let imadokoBtn = imadokoButton(mapViewHeight: mapViewHeight)
+                myHeaderView.addSubview(imadokoBtn)
+                
+            } else {
+                //承認するボタンを追加
+                let approveBtn = approvedButton(mapViewHeight: mapViewHeight)
+                myHeaderView.addSubview(approveBtn)
+            }
             
         } else {
             /*
@@ -292,7 +296,7 @@ class TargetProfileViewController:
         } else if section == 1 {
             var tableCellCount = 0
             
-            if type == ProfileType.imakuruTargetProfile {
+            if type == ProfileType.meetupProfile {
                 tableCellCount = self.imakuruItems.count
             
             } else {
@@ -364,8 +368,8 @@ class TargetProfileViewController:
                 normalCell!.detailTextLabel!.font = UIFont(name: "Arial", size: 14)
             }
             
-            if type == ProfileType.imakuruTargetProfile {
-                //いまから来る画面用の処理
+            if type == ProfileType.meetupProfile {
+                //待ち合わせ画面用の処理
                 
                 if indexPath.row == 0 {
                     
@@ -421,6 +425,29 @@ class TargetProfileViewController:
         return cell!
     }
     
+    func clickImaikuButton() {
+        
+        UIAlertController.showAlertOKCancel("いまから行くことを送信", message: "いまから行くことを相手に送信します。") { action in
+            
+            if action == .cancel {
+                return
+            }
+            
+            var userInfo = PersistentData.User()
+            if userInfo.imaikuFlag {
+                UIAlertController.showAlertDismiss("", message: "既にいまから行く対象の人がいます。「いま行く」画面から取消を行ってください。", completion: { () -> () in })
+                return
+            }
+            
+            let vc = PickerViewController()
+            vc.palTargetUser = self.userInfo! as PFObject
+            vc.palKind = "imaiku"
+            vc.palmItems = ["5分","10分", "15分", "20分", "25分", "30分", "35分", "40分", "45分", "50分", "55分", "60分"]
+            
+            self.navigationController!.pushViewController(vc, animated: true)
+        }
+    }
+    
     func imaikuButton() -> ZFRippleButton {
         let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         btn.trackTouchLocation = true
@@ -464,12 +491,35 @@ class TargetProfileViewController:
         
         return btn
     }
-    
+ 
+    /**
+     * 承認ボタン
+     */
+    func approvedButton(mapViewHeight: CGFloat) -> UIButton {
+        let btn = UIButton()
+        btn.addTarget(self, action: #selector(clickApproveButton), for: UIControlEvents.touchUpInside)
+        btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.center
+        
+        btn.setTitle("承認する", for: UIControlState())
+        btn.titleLabel!.font = UIFont.systemFont(ofSize: 15)
+        btn.layer.cornerRadius = 5.0
+        btn.layer.borderColor = UIView().tintColor.cgColor
+        btn.layer.borderWidth = 1.0
+        btn.tintColor = UIView().tintColor
+        btn.setTitleColor(UIView().tintColor, for: UIControlState())
+        
+        let imadokoBtnX = self.displayWidth - round(self.displayWidth / 2.5)
+        let imadokoBtnWidth = round(self.displayWidth / 3)
+        let imadokotnHeight = round(self.displayHeight / 17)
+        btn.frame = CGRect(x: imadokoBtnX, y: mapViewHeight + 10, width: imadokoBtnWidth, height: imadokotnHeight)
+        
+        return btn
+    }
     
     /**
      * いま何処ボタン
      */
-    func imadokoButton() -> UIButton {
+    func imadokoButton(mapViewHeight: CGFloat) -> UIButton {
         let btn = UIButton()
         btn.addTarget(self, action: #selector(clickimadokoButton), for: UIControlEvents.touchUpInside)
         btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.center
@@ -482,14 +532,19 @@ class TargetProfileViewController:
         btn.tintColor = UIView().tintColor
         btn.setTitleColor(UIView().tintColor, for: UIControlState())
         
+        let imadokoBtnX = self.displayWidth - round(self.displayWidth / 2.5)
+        let imadokoBtnWidth = round(self.displayWidth / 3)
+        let imadokotnHeight = round(self.displayHeight / 17)
+        btn.frame = CGRect(x: imadokoBtnX, y: mapViewHeight + 10, width: imadokoBtnWidth, height: imadokotnHeight)
+        
         return btn
     }
     
     func clickimakokoButton() {
         
-        UIAlertView.showAlertOKCancel("", message: "現在位置を相手だけに送信します") { action in
+        UIAlertController.showAlertOKCancel("", message: "現在位置を相手だけに送信します") { action in
             
-            if action == UIAlertView.ActionButton.cancel {
+            if action == .cancel {
                 return
             }
             
@@ -508,6 +563,8 @@ class TargetProfileViewController:
         defer {
             NotificationCenter.default.removeObserver(self)
         }
+        
+        //TODO:この処理だといまから行くが複数ある場合、送信する対象が異なってしまう恐れあり。ParseIDで見ないと駄目かも
         
         ParseHelper.getMyGoNow(PersistentData.User().userID) { (error: NSError?, result) -> Void in
 
@@ -534,15 +591,15 @@ class TargetProfileViewController:
                     return
                 }
                 
-                UIAlertView.showAlertView("", message: "現在位置を相手に送信しました")
+                UIAlertController.showAlertView("", message: "現在位置を相手に送信しました")
             }
         }
     }
     
     func clickimadokoButton() {
-        UIAlertView.showAlertOKCancel("現在位置確認", message: "相手が、いまドコにいるのかを確認する通知を送信します") { action in
+        UIAlertController.showAlertOKCancel("現在位置確認", message: "相手が、いまドコにいるのかを確認する通知を送信します") { action in
             
-            if action == UIAlertView.ActionButton.cancel {
+            if action == .cancel {
                 return
             }
             
@@ -566,35 +623,57 @@ class TargetProfileViewController:
         }
     }
     
-    func clickImaikuButton() {
-        
-        UIAlertView.showAlertOKCancel("いまから行くことを送信", message: "いまから行くことを相手に送信します。") { action in
-            
-            if action == UIAlertView.ActionButton.cancel {
-                return
+    func clickApproveButton() {
+        let query = PFQuery(className: "GoNow")
+        if let id = (gonowInfo! as PFObject).objectId {
+            do {
+                let loadedObject = try query.getObjectWithId(id)
+                loadedObject["IsApproved"] = true
+                loadedObject.saveInBackground()
+                
+                self.gonowInfo = loadedObject
+                
+                let alert = UIAlertController(title: "承認", message: "承認しました", preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "OK", style: .default) {
+                    action in self.present(alert, animated: true, completion: nil)
+                }
+                alert.addAction(okAction)
+                
+            } catch {
+                
             }
-            
-            var userInfo = PersistentData.User()
-            if userInfo.imaikuFlag {
-                UIAlertView.showAlertDismiss("", message: "既にいまから行く対象の人がいます。「いま行く」画面から取消を行ってください。", completion: { () -> () in })
-                return
-            }
-            
-            let vc = PickerViewController()
-            vc.palTargetUser = self.userInfo as? PFObject
-            vc.palKind = "imaiku"
-            vc.palmItems = ["5分","10分", "15分", "20分", "25分", "30分", "35分", "40分", "45分", "50分", "55分", "60分"]
-            
-            self.navigationController!.pushViewController(vc, animated: true)
         }
     }
     
     func clickTorikesiButton() {
     
+//        let alert = UIAlertController(title: "取消", message: "いまから行くことを取り消しますか？", preferredStyle: .alert)
+//        let okAction = UIAlertAction(title: "OK", style: .default) { action in
+//            MBProgressHUDHelper.show("Loading...")
+//            
+//            ParseHelper.deleteGoNow(self.targetObjectID) { () -> () in
+//                
+//                defer {
+//                    MBProgressHUDHelper.hide()
+//                }
+//                
+//                //imaiku flag delete
+//                PersistentData.deleteUserIDForKey("imaikuFlag")
+//                
+//                self.navigationController!.popToRootViewController(animated: true)
+//                
+//                UIAlertController.showAlertDismiss("", message: "取り消しました", completion: { () -> () in })
+//            }
+//            self.present(alert, animated: true, completion: nil)
+//        }
+//        alert.addAction(okAction)
+//        let cancelAction = UIAlertAction(title: "キャンセル", style: .cancel)
+//        alert.addAction(cancelAction)
+        
         //imaiku delete
-        UIAlertView.showAlertOKCancel("いま行くことを取消", message: "いまから行くことを取り消しますか？") { action in
+        UIAlertController.showAlertOKCancel("いま行くことを取消", message: "いまから行くことを取り消しますか？") { action in
             
-            if action == UIAlertView.ActionButton.cancel {
+            if action == .cancel {
                 return
             }
             
@@ -611,7 +690,7 @@ class TargetProfileViewController:
                 
                 self.navigationController!.popToRootViewController(animated: true)
                 
-                UIAlertView.showAlertDismiss("", message: "取り消しました", completion: { () -> () in })
+                UIAlertController.showAlertDismiss("", message: "取り消しました", completion: { () -> () in })
             }
         }
     }

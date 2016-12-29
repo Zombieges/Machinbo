@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 
-public extension UIAlertView {
+public extension UIAlertController {
     
     enum ActionButton {
         case ok, cancel

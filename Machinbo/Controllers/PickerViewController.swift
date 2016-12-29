@@ -214,7 +214,7 @@ class PickerViewController: UIViewController,
         if (self.kind == "name") {
             
             if self.inputTextField.text!.isEmpty {
-                UIAlertView.showAlertView("", message: "名前を入力してください")
+                UIAlertController.showAlertView("", message: "名前を入力してください")
                 
                 return
             }
@@ -245,7 +245,7 @@ class PickerViewController: UIViewController,
         } else if (self.kind == "comment") {
             
             if self.inputTextView.text.isEmpty {
-                UIAlertView.showAlertView("", message: "コメントを入力してください")
+                UIAlertController.showAlertView("", message: "コメントを入力してください")
                 
                 return
             }
@@ -349,6 +349,7 @@ class PickerViewController: UIViewController,
             query["User"] = result
             query["TargetUser"] = self.palTargetUser
             query["unReadFlag"] = true
+            query["IsApproved"] = false // 未承認の状態で登録
             
             let endPoint = self.selectedItem.characters.count - 1
             let selected = (self.selectedItem as NSString).substring(to: endPoint)
@@ -398,7 +399,7 @@ class PickerViewController: UIViewController,
                 var userInfo = PersistentData.User()
                 userInfo.imaikuFlag = true
                 
-                UIAlertView.showAlertDismiss("", message: "いまから行くことを送信しました") { () -> () in
+                UIAlertController.showAlertDismiss("", message: "いまから行くことを送信しました") { () -> () in
                     if self._interstitial!.isReady {
                         self._interstitial!.present(fromRootViewController: self)
                     }
@@ -412,7 +413,7 @@ class PickerViewController: UIViewController,
     
     func errorAction() {
         MBProgressHUDHelper.hide()
-        UIAlertView.showAlertDismiss("", message: "通信エラーが発生しました。再実行してください。") { () -> () in
+        UIAlertController.showAlertDismiss("", message: "通信エラーが発生しました。再実行してください。") { () -> () in
             self.navigationController!.popToRootViewController(animated: true)
         }
     }
@@ -468,7 +469,7 @@ class PickerViewController: UIViewController,
             }
             
             guard result != nil else {
-                UIAlertView.showAlertView("エラー", message:"ユーザが見つかりませんでした。")
+                UIAlertController.showAlertView("エラー", message:"ユーザが見つかりませんでした。")
                 return
             }
             

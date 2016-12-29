@@ -277,7 +277,7 @@ class GoNowViewController: UIViewController, UINavigationControllerDelegate,
                 userData.mychar = self.inputChar
                 userData.isRecruitment = true //募集中フラグ
                 
-                UIAlertView.showAlertDismiss("", message: "現在位置を登録しました") { () -> () in
+                UIAlertController.showAlertDismiss("", message: "現在位置を登録しました") { () -> () in
                     
                     if self._interstitial!.isReady {
                         self._interstitial!.present(fromRootViewController: self)

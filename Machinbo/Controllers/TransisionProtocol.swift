@@ -38,7 +38,7 @@ extension TransisionProtocol where
             defer { createRefreshButton() }
             
             print("インターネット接続なし")
-            UIAlertView.showAlertView("", message: "接続に失敗しました。通信状況を確認の上、再接続してくだささい。")
+            UIAlertController.showAlertView("", message: "接続に失敗しました。通信状況を確認の上、再接続してくだささい。")
             
             return false
         }

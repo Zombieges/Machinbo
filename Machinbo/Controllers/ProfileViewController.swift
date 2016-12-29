@@ -448,15 +448,15 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     @IBAction func pushStart(_ sender: AnyObject) {
         // 必須チェック
         if inputName.isEmpty {
-            UIAlertView.showAlertView("", message: "名前を入力してください")
+            UIAlertController.showAlertView("", message: "名前を入力してください")
             return
         }
         if selectedGender.isEmpty {
-            UIAlertView.showAlertView("", message: "性別を選択してください")
+            UIAlertController.showAlertView("", message: "性別を選択してください")
             return
         }
         if selectedAge.isEmpty {
-            UIAlertView.showAlertView("", message: "生まれた年を選択してください")
+            UIAlertController.showAlertView("", message: "生まれた年を選択してください")
             return
         }
         
@@ -510,8 +510,8 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         
         if PersistentData.User().isRecruitment! {
             
-            UIAlertView.showAlertOKCancel("募集停止", message: "待ち合わせ募集を停止してもよろしいですか？") { action in
-                if action == UIAlertView.ActionButton.cancel {
+            UIAlertController.showAlertOKCancel("募集停止", message: "待ち合わせ募集を停止してもよろしいですか？") { action in
+                if action == .cancel {
                     return
                 }
                 
@@ -520,8 +520,8 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             
         } else {
             
-            UIAlertView.showAlertOKCancel("募集再開", message: "待ち合わせ募集を再開してもよろしいですか？") { action in
-                if action == UIAlertView.ActionButton.cancel {
+            UIAlertController.showAlertOKCancel("募集再開", message: "待ち合わせ募集を再開してもよろしいですか？") { action in
+                if action == .cancel {
                     return
                 }
                 
@@ -562,7 +562,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
                     self.viewDidLoad()
                     
                     let message = isRecruitment ? "募集を開始しました" : "募集を停止しました"
-                    UIAlertView.showAlertDismiss("", message: message, completion: { () -> () in })
+                    UIAlertController.showAlertDismiss("", message: message, completion: { () -> () in })
                 }
                 
                 userData.isRecruitment = isRecruitment
@@ -600,7 +600,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         Twitter.sharedInstance().logIn { session, error in
             guard session != nil else {
                 print("error: \(error!.localizedDescription)")
-                UIAlertView.showAlertView("", message: "Twitterへの接続に失敗しました。再接続してください")
+                UIAlertController.showAlertView("", message: "Twitterへの接続に失敗しました。再接続してください")
                 return
             }
             
@@ -667,7 +667,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
                 userInfo.twitterName = self.twitterName
                 
                 let alertMessage = self.twitterName == "" ? "認証を解除しました" : "連携が完了しました"
-                UIAlertView.showAlertView("", message: alertMessage)
+                UIAlertController.showAlertView("", message: alertMessage)
             }
         }
     }

@@ -167,9 +167,9 @@ UITableViewDelegate {
         MBProgressHUDHelper.show("Loading...")
         
         //アカウント削除処理
-        UIAlertView.showAlertOKCancel("", message: "アカウントを削除しますと、いままでの履歴が削除されてしまいます。本当にアカウントを削除してもよろしいですか？") { action in
+        UIAlertController.showAlertOKCancel("", message: "アカウントを削除しますと、いままでの履歴が削除されてしまいます。本当にアカウントを削除してもよろしいですか？") { action in
             
-            if action == UIAlertView.ActionButton.cancel {
+            if action == .cancel {
                 MBProgressHUDHelper.hide()
                 return
             }
@@ -186,7 +186,7 @@ UITableViewDelegate {
         
         ParseHelper.deleteUserInfo(userID) { () -> () in
             
-            UIAlertView.showAlertDismiss("", message: "アカウントを削除しました") {}
+            UIAlertController.showAlertDismiss("", message: "アカウントを削除しました") {}
             
             let newRootVC = ProfileViewController()
             let navigationController = UINavigationController(rootViewController: newRootVC)

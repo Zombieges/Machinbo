@@ -186,20 +186,20 @@ UITableViewDelegate {
         
         ParseHelper.deleteUserInfo(userID) { () -> () in
             
-            UIAlertController.showAlertDismiss("", message: "アカウントを削除しました") {}
-            
-            let newRootVC = ProfileViewController()
-            let navigationController = UINavigationController(rootViewController: newRootVC)
-            navigationController.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.darkGray]
-            navigationController.navigationBar.tintColor = UIColor.darkGray
-            navigationController.navigationBar.isTranslucent = false
-            navigationController.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-            navigationController.navigationBar.setBackgroundImage(UIImage(named: "BarBackground"),
-                                                                for: .default)
-            navigationController.navigationBar.shadowImage = UIImage()
-            UIApplication.shared.keyWindow?.rootViewController = navigationController
-            
-            self.viewDidLoad()
+            UIAlertController.showAlertView("", message: "アカウントを削除しました") { _ in
+                let newRootVC = ProfileViewController()
+                let navigationController = UINavigationController(rootViewController: newRootVC)
+                navigationController.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.darkGray]
+                navigationController.navigationBar.tintColor = UIColor.darkGray
+                navigationController.navigationBar.isTranslucent = false
+                navigationController.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+                navigationController.navigationBar.setBackgroundImage(UIImage(named: "BarBackground"),
+                                                                    for: .default)
+                navigationController.navigationBar.shadowImage = UIImage()
+                UIApplication.shared.keyWindow?.rootViewController = navigationController
+                
+                self.viewDidLoad()
+            }
         }
     }
     

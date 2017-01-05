@@ -30,15 +30,17 @@ class MBProgressHUDHelper {
     //
     static func hide() {
         let view = (UIApplication.shared.delegate as! AppDelegate).window?.rootViewController?.view
-        DispatchQueue.main.async(execute: { () -> Void in
-            MBProgressHUD.hide(for: view!, animated: true)
-        })
+//        DispatchQueue.main.async(execute: { () -> Void in
+//            MBProgressHUD.hide(for: view!, animated: true)
+//        })
+        MBProgressHUD.hide(for: view!, animated: true)
     }
     
     static func hide(_ view: UIView) {
-        DispatchQueue.main.async(execute: { () -> Void in
-            MBProgressHUD.hide(for: view, animated: true)
-        })
+//        DispatchQueue.main.async(execute: { () -> Void in
+//            MBProgressHUD.hide(for: view, animated: true)
+//        })
+        MBProgressHUD.hide(for: view, animated: true)
     }
     
 }

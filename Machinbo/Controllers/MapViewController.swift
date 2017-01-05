@@ -189,7 +189,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     
     func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
         let vc = TargetProfileViewController(type: ProfileType.targetProfile)
-        vc.userInfo = marker.userData! as! PFObject
+        vc.userInfo = marker.userData! as? PFObject
         
         self.navigationController!.pushViewController(vc, animated: false)
         
@@ -200,13 +200,11 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        defer {
+        NSLog("位置情報取得失敗")
+        UIAlertController.showAlertView("エラー", message:"位置情報の取得が失敗しました。アプリを再起動してください。") { _ in
             manager.stopUpdatingLocation()
             self.createRefreshButton()
         }
-        
-        NSLog("位置情報取得失敗")
-        UIAlertController.showAlertView("エラー", message:"位置情報の取得が失敗しました。アプリを再起動してください。")
     }
     
     func onClickImakoko(){

@@ -13,8 +13,10 @@ import GoogleMobileAds
 
 extension MeetupViewController: TransisionProtocol {}
 
-class MeetupViewController: UIViewController,
+class MeetupViewController:
+    UIViewController,
     UITableViewDelegate,
+    UITableViewDataSource,
     GADBannerViewDelegate,
     GADInterstitialDelegate,
     UITabBarDelegate {
@@ -23,7 +25,6 @@ class MeetupViewController: UIViewController,
     var refreshControl:UIRefreshControl!
     
     @IBOutlet weak var headerView: UIView!
-    
     @IBOutlet weak var tableView: UITableView!
     
     let detailTableViewCellIdentifier: String = "GoNowCell"
@@ -44,7 +45,6 @@ class MeetupViewController: UIViewController,
         self.navigationItem.title = "いまから来る人リスト"
         self.navigationController!.navigationBar.tintColor = UIColor.darkGray
 
-        
         if let view = UINib(nibName: "GoNowListView", bundle: nil).instantiate(withOwner: self, options: nil).first as? UIView {
             self.view = view
         }
@@ -84,29 +84,19 @@ class MeetupViewController: UIViewController,
     テーブルに表示する配列の総数を返す.
     */
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-            return self.goNowList.count
-            
-        } else {
-            return 0
-        }
+        return section == 0 ? self.goNowList.count : 0
     }
     
     /*
     Cellに値を設定する.
     */
-    func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
-        
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let gonowCell = tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? GoNowTableViewCell
-        
         let gonow: AnyObject! = goNowList[indexPath.row]
-        
         if let imageFile = (gonow.object(forKey: "User") as AnyObject).value(forKey: "ProfilePicture") as? PFFile {
             imageFile.getDataInBackground { (imageData, error) -> Void in
                 
-                guard error == nil else {
-                    return
-                }
+                guard error == nil else { return }
                 
                 gonowCell?.profileImage.image = UIImage(data: imageData!)!
                 gonowCell?.profileImage.layer.borderColor = UIColor.white.cgColor
@@ -140,42 +130,39 @@ class MeetupViewController: UIViewController,
         }
         
         let gonowObject = goNowList[indexPath.row] as! PFObject
-        vc.userInfo = gonowObject.object(forKey: "User")! as! PFObject
+        vc.userInfo = gonowObject.object(forKey: "User") as? PFObject
         vc.gonowInfo = gonowObject
         
         self.navigationController!.pushViewController(vc, animated: true)
     }
     
-    private func tableView(_ tableView: UITableView,canEditRowAtIndexPath indexPath: IndexPath) -> Bool
+    func tableView(_ tableView: UITableView,canEditRowAt indexPath: IndexPath) -> Bool
     {
         return true
     }
     
-    private func tableView(_ tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: IndexPath) {
-        if editingStyle == UITableViewCellEditingStyle.delete {
-            
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        
+        if editingStyle == .delete {
             let goNowObj = self.goNowList[indexPath.row] as! PFObject
-            
-            MBProgressHUDHelper.show("Loading...")
-            
-            ParseHelper.deleteGoNow(goNowObj.objectId!) { () -> () in
+            let name = (goNowObj.object(forKey: "User") as AnyObject).object(forKey: "Name") as! String
+            UIAlertController.showAlertOKCancel("", message: name + "の「いまから行く」を拒否しますか？") { action in
                 
-                defer {
-                    MBProgressHUDHelper.hide()
-                    
-                    let name = (goNowObj.object(forKey: "User") as AnyObject).object(forKey: "Name") as! String
-                    UIAlertController.showAlertDismiss("", message: name + "の「いまから行く」を拒否しました", completion: { () -> () in })
+                guard action == .ok else {
+                    return
                 }
                 
-                self.goNowList.remove(at: indexPath.row)
-                self.loadView()
-                self.tableView.reloadData()
+                MBProgressHUDHelper.show("Loading...")
+                ParseHelper.deleteGoNow(goNowObj.objectId!) { () -> () in
+                    MBProgressHUDHelper.hide()
+                    self.goNowList.remove(at: indexPath.row)
+                    self.tableView.reloadData()
+                }
             }
         }
     }
     
     func reloadData(_ notification:Notification){
-        
         self.tableView.reloadData()
     }
     
@@ -187,8 +174,7 @@ class MeetupViewController: UIViewController,
     /*
      画面を下に引っ張った際に呼び出される.
      */
-    func refresh()
-    {
+    func refresh() {
         self.getGoNowMeList()
         self.loadView()
         self.tableView.reloadData()
@@ -205,9 +191,8 @@ class MeetupViewController: UIViewController,
                 MBProgressHUDHelper.hide()
             }
             
-            guard error == nil else {
-                return
-            }
+            guard error == nil else { return }
+            
             self.goNowList = result!
             
             if self.goNowList.count == 0 {
@@ -225,7 +210,6 @@ class MeetupViewController: UIViewController,
      SwgmentedControlの値が変わったときに呼び出される.
      */
     internal func segconChanged(segcon: UISegmentedControl){
-        
         switch segcon.selectedSegmentIndex {
         default:
             print("Error")
@@ -254,7 +238,7 @@ class MeetupViewController: UIViewController,
             guard error == nil else { return }
             
             if result!.count == 0 {
-                UIAlertController.showAlertView("", message: "いまから来る人が存在しません。相手から待ち合わせ希望があった場合、リストに表示されます。")
+                UIAlertController.showAlertView("", message: "いまから来る人が存在しません。相手から待ち合わせ希望があった場合、リストに表示されます。"){ _ in }
             }
             
             self.goNowList = result!
@@ -272,9 +256,8 @@ class MeetupViewController: UIViewController,
             
             guard error == nil else { return }
             
-            
             if result!.count == 0 {
-                UIAlertController.showAlertView("", message: "いまから来る人が存在しません。相手から待ち合わせ希望があった場合、リストに表示されます。")
+                UIAlertController.showAlertView("", message: "いまから来る人が存在しません。相手から待ち合わせ希望があった場合、リストに表示されます。") { _ in }
             }
             
             self.goNowList = result!

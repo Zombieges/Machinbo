@@ -16,18 +16,35 @@ public extension UIAlertController {
         case ok, cancel
     }
 
-    class func showAlertView(_ title:String , message:String) {
+    class func showAlertView(_ title: String , message:String) {
         let alertController = UIAlertController(
             title: title,
             message: message,
             preferredStyle: .alert
         )
-
-        let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-        alertController.addAction(defaultAction)
+        
+        alertController.addAction(UIAlertAction(title: "OK", style: .default))
         
         let controller = (UIApplication.shared.delegate as! AppDelegate).window!.rootViewController!
         controller.present(alertController, animated: true, completion: nil)
+    }
+    
+    class func showAlertView(_ title: String, message: String, completion: @escaping (_ action: ActionButton) -> Void) {
+        let alertController = UIAlertController(
+            title: title,
+            message: message,
+            preferredStyle: .alert
+        )
+        
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: {
+            (action:UIAlertAction) -> Void in
+            completion(.ok)
+        })
+        alertController.addAction(okAction)
+        
+        let controller = (UIApplication.shared.delegate as! AppDelegate).window!.rootViewController!
+        controller.present(alertController, animated: true, completion: nil)
+        
     }
     
     /*
@@ -42,13 +59,13 @@ public extension UIAlertController {
         
         let okAction = UIAlertAction(title: "OK", style: .default, handler: {
             (action:UIAlertAction) -> Void in
-            completion(ActionButton.ok)
+            completion(.ok)
         })
         alertController.addAction(okAction)
         
         let cancelAction = UIAlertAction(title: "キャンセル", style: .cancel, handler:{
             (action:UIAlertAction) -> Void in
-            completion(ActionButton.cancel)
+            completion(.cancel)
         })
         alertController.addAction(cancelAction)
         
@@ -56,23 +73,5 @@ public extension UIAlertController {
         controller.present(alertController, animated: true, completion: nil)
     
     }
-    
-    class func showAlertDismiss(_ title:String, message:String, completion: @escaping () -> ()) {
-        let alertController = UIAlertController(
-            title: title,
-            message: message,
-            preferredStyle: .alert
-        )
-    
-        let controller = (UIApplication.shared.delegate as! AppDelegate).window!.rootViewController!
-        controller.present(alertController, animated: true) { () -> Void in
-            let delay = 1.5 * Double(NSEC_PER_SEC)
-            let time  = DispatchTime.now() + Double(Int64(delay)) / Double(NSEC_PER_SEC)
-            DispatchQueue.main.asyncAfter(deadline: time, execute: {
-                controller.dismiss(animated: true, completion: nil)
-                //back
-                completion()
-            })
-        }
-    }
+
 }

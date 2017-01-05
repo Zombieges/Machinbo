@@ -15,12 +15,15 @@ import GoogleMobileAds
 
 extension GoNowViewController: TransisionProtocol {}
 
-class GoNowViewController: UIViewController, UINavigationControllerDelegate,
+class GoNowViewController:
+    UIViewController,
+    UITableViewDelegate,
+    UITableViewDataSource,
+    UINavigationControllerDelegate,
     UIPickerViewDelegate,
     PickerViewControllerDelegate,
     GADBannerViewDelegate,
-    GADInterstitialDelegate,
-    UITableViewDelegate {
+    GADInterstitialDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -29,10 +32,10 @@ class GoNowViewController: UIViewController, UINavigationControllerDelegate,
     var inputChar = ""
     var palGeoPoint: PFGeoPoint?
     
-    fileprivate let normalTableViewCellIdentifier = "NormalCell"
-    fileprivate let detailTableViewCellIdentifier = "DetailCell"
+    let normalTableViewCellIdentifier = "NormalCell"
+    let detailTableViewCellIdentifier = "DetailCell"
     
-    fileprivate let targetProfileItems = ["待ち合わせ開始時間", "待ち合わせ終了時間", "待ち合わせ場所", "自分の特徴"]
+    let targetProfileItems = ["待ち合わせ開始時間", "待ち合わせ終了時間", "待ち合わせ場所", "自分の特徴"]
     
     var _interstitial: GADInterstitial?
     
@@ -51,7 +54,6 @@ class GoNowViewController: UIViewController, UINavigationControllerDelegate,
         
         // 不要行の削除
         let noCreateView:UIView = UIView(frame: CGRect.zero)
-        
         noCreateView.backgroundColor = UIColor.clear
         tableView.tableFooterView = noCreateView
         tableView.tableHeaderView = noCreateView
@@ -67,7 +69,7 @@ class GoNowViewController: UIViewController, UINavigationControllerDelegate,
     /*
     セクションの数を返す.
     */
-    func numberOfSectionsInTableView(_ tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
@@ -81,7 +83,7 @@ class GoNowViewController: UIViewController, UINavigationControllerDelegate,
     /*
     Cellに値を設定する.
     */
-    func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         var cell: UITableViewCell?
         var normalCell: UITableViewCell?
@@ -89,17 +91,16 @@ class GoNowViewController: UIViewController, UINavigationControllerDelegate,
         
         let tableViewCellIdentifier = "Cell"
         
-        if indexPath.row == 0 {
-            
+        if indexPath.row == 0 || indexPath.row == 1 {
             normalCell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier)
             if normalCell == nil {
-                normalCell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: tableViewCellIdentifier)
+                normalCell = UITableViewCell(style: .value1, reuseIdentifier: tableViewCellIdentifier)
                 normalCell!.textLabel!.font = UIFont.systemFont(ofSize: 16)
                 normalCell!.detailTextLabel!.font = UIFont.systemFont(ofSize: 16)
             }
             
         } else {
-            detailCell = tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? DetailProfileTableViewCell
+           detailCell = tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? DetailProfileTableViewCell
         }
 
         if indexPath.row == 0 {
@@ -121,7 +122,6 @@ class GoNowViewController: UIViewController, UINavigationControllerDelegate,
             cell = normalCell
         
         } else if indexPath.row == 2 {
-            
             detailCell?.titleLabel.text = targetProfileItems[indexPath.row]
             if inputPlace.isEmpty {
                 detailCell?.valueLabel.text = "待ち合わせする場所を詳細に書いてください。性と関連した内容、金銭関連の内容、その他不適切な内容を作成する場合、アカウントが停止される可能性がありますのでご注意ください"
@@ -158,7 +158,7 @@ class GoNowViewController: UIViewController, UINavigationControllerDelegate,
     }
     
     internal func setInputValue(_ inputValue: String, type: InputPickerType) {
-        if type == InputPickerType.comment {
+        if type == .comment {
             if selectedRow == 1 {
                 self.inputPlace = inputValue
 
@@ -193,8 +193,7 @@ class GoNowViewController: UIViewController, UINavigationControllerDelegate,
 //        tableView.reloadData()
 //    }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
-    {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 0 {
             return 50
             
@@ -243,7 +242,7 @@ class GoNowViewController: UIViewController, UINavigationControllerDelegate,
         
         var userInfo = PersistentData.User()
         
-        ParseHelper.getUserInfomation(userInfo.userID) { (error: NSError?, result: PFObject?) -> Void in
+        ParseHelper.getMyUserInfomation(userInfo.userID) { (error: NSError?, result: PFObject?) -> Void in
             
             guard error == nil else {
                 return
@@ -277,8 +276,7 @@ class GoNowViewController: UIViewController, UINavigationControllerDelegate,
                 userData.mychar = self.inputChar
                 userData.isRecruitment = true //募集中フラグ
                 
-                UIAlertController.showAlertDismiss("", message: "現在位置を登録しました") { () -> () in
-                    
+                UIAlertController.showAlertView("", message: "現在位置を登録しました") { action in
                     if self._interstitial!.isReady {
                         self._interstitial!.present(fromRootViewController: self)
                     }
@@ -289,7 +287,5 @@ class GoNowViewController: UIViewController, UINavigationControllerDelegate,
         }
 
     }
-    
 
-    
 }

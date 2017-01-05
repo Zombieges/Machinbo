@@ -148,8 +148,6 @@ class PickerViewController: UIViewController,
             searchBarField.delegate = self
             searchBarField.frame = CGRect(x: 10, y: 30, width: displayWidth - 20 , height: 30)
             searchBarField.searchBarStyle = .minimal
-//            searchBarField.layer.position = CGPoint(x: self.view.bounds.width/2, y: 50)
-//            searchBarField.showsCancelButton = true
             searchBarField.enablesReturnKeyAutomatically = true
             searchBarField.placeholder = "Twitter ID を入力してください"
             self.view.addSubview(searchBarField)
@@ -185,7 +183,6 @@ class PickerViewController: UIViewController,
     }
     
     func createInsertDataButton(_ displayWidth: CGFloat, displayHeight: CGFloat) {
-        
         let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 150, height: 40))
         btn.trackTouchLocation = true
         btn.backgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
@@ -200,23 +197,17 @@ class PickerViewController: UIViewController,
         self.view.addSubview(btn)
     }
     
-    func onClickInsertPlace() {
-        
-    }
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
     
     internal func onClickSaveButton(_ sender: UIButton){
-        
         if (self.kind == "name") {
-            
             if self.inputTextField.text!.isEmpty {
-                UIAlertController.showAlertView("", message: "名前を入力してください")
-                
-                return
+                UIAlertController.showAlertView("", message: "名前を入力してください") { _ in
+                    return
+                }
             }
             
             var userInfo = PersistentData.User()
@@ -227,7 +218,7 @@ class PickerViewController: UIViewController,
                 return
             }
             
-            ParseHelper.getUserInfomation(PersistentData.User().userID) { (error: NSError?, result: PFObject?) -> Void in
+            ParseHelper.getMyUserInfomation(PersistentData.User().userID) { (error: NSError?, result: PFObject?) -> Void in
                 guard let result = result else {
                     return
                 }
@@ -245,21 +236,20 @@ class PickerViewController: UIViewController,
         } else if (self.kind == "comment") {
             
             if self.inputTextView.text.isEmpty {
-                UIAlertController.showAlertView("", message: "コメントを入力してください")
-                
-                return
+                UIAlertController.showAlertView("", message: "コメントを入力してください") { _ in
+                    return
+                }
             }
 
             var userInfo = PersistentData.User()
             if userInfo.userID == "" {
                 self.delegate!.setInputValue(self.inputTextView.text, type: .comment)
                 self.navigationController!.popViewController(animated: true)
-                
                 return
             }
             
             //local db に値が格納されている場合、それを元にユーザ情報を検索してコメントを更新
-            ParseHelper.getUserInfomation(PersistentData.User().userID) { (error: NSError?, result: PFObject?) -> Void in
+            ParseHelper.getMyUserInfomation(PersistentData.User().userID) { (error: NSError?, result: PFObject?) -> Void in
                 guard let result = result else {
                     return
                 }
@@ -330,7 +320,7 @@ class PickerViewController: UIViewController,
             NotificationCenter.default.removeObserver(self)
         }
         
-        ParseHelper.getUserInfomation(PersistentData.User().userID) { (error: NSError?, result) -> Void in
+        ParseHelper.getMyUserInfomation(PersistentData.User().userID) { (error: NSError?, result) -> Void in
             
             guard error == nil else {
                 self.errorAction()
@@ -362,8 +352,7 @@ class PickerViewController: UIViewController,
             query["imakokoAt"] = targetUserUpdatedAt
             
             let info = notif.userInfo as NSDictionary!
-            var location = info?[LMLocationInfoKey] as! CLLocation
-            
+            let location = info?[LMLocationInfoKey] as! CLLocation
             let latitude = location.coordinate.latitude
             let longitude = location.coordinate.longitude
             
@@ -373,22 +362,6 @@ class PickerViewController: UIViewController,
                 
                 defer {
                     MBProgressHUDHelper.hide()
-                    
-                    // user_info の未読数を取得しpush
-                    ParseHelper.countUnRead(targetUserID!){ (error: NSError?, result: Int?) -> Void in
-                        
-                        guard error == nil else {
-                            return
-                        }
-                        
-                        // イマ行く対象のIDを local DB へセット
-                        var userInfo = PersistentData.User()
-                        userInfo.targetUserID = targetUserID!
-                        
-                        // Send Notification
-                        NotificationHelper.sendSpecificDevice(name! + "さんより「いまから行く」されました。", deviceTokenAsString: targetDeviceToken!, badges: result! as Int)
-                    }
-
                 }
                 
                 guard error == nil else {
@@ -399,13 +372,31 @@ class PickerViewController: UIViewController,
                 var userInfo = PersistentData.User()
                 userInfo.imaikuFlag = true
                 
-                UIAlertController.showAlertDismiss("", message: "いまから行くことを送信しました") { () -> () in
-                    if self._interstitial!.isReady {
-                        self._interstitial!.present(fromRootViewController: self)
+                // user_info の未読数を取得しpush
+                ParseHelper.countUnRead(targetUserID!){ (error: NSError?, result: Int?) -> Void in
+                    
+                    guard error == nil else {
+                        self.errorAction()
+                        return
                     }
                     
-                    self.navigationController!.popToRootViewController(animated: true)
+                    // イマ行く対象のIDを local DB へセット
+                    var userInfo = PersistentData.User()
+                    userInfo.targetUserID = targetUserID!
+                    
+                    // Send Notification
+                    NotificationHelper.sendSpecificDevice(name! + "さんより「いまから行く」されました。", deviceTokenAsString: targetDeviceToken!, badges: result! as Int)
                 }
+                
+                //UIAlertController.showAlertView("", message: "いまから行くことを送信しました")
+                // 表示完了時の処理
+                if self._interstitial!.isReady {
+                    self._interstitial!.present(fromRootViewController: self)
+                }
+                
+                self.navigationController!.popToRootViewController(animated: true)
+                
+                UIAlertController.showAlertView("", message: "いまから行くことを送信しました")
             }
         }
 
@@ -413,7 +404,7 @@ class PickerViewController: UIViewController,
     
     func errorAction() {
         MBProgressHUDHelper.hide()
-        UIAlertController.showAlertDismiss("", message: "通信エラーが発生しました。再実行してください。") { () -> () in
+        UIAlertController.showAlertView("", message: "通信エラーが発生しました。再実行してください。") { action in 
             self.navigationController!.popToRootViewController(animated: true)
         }
     }
@@ -469,7 +460,7 @@ class PickerViewController: UIViewController,
             }
             
             guard result != nil else {
-                UIAlertController.showAlertView("エラー", message:"ユーザが見つかりませんでした。")
+                UIAlertController.showAlertView("", message:"ユーザが存在しないか募集停止中です")
                 return
             }
             

@@ -189,7 +189,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             return
         }
         
-        ParseHelper.getUserInfomation(userInfo.userID) { (error: Error?, result: PFObject?) -> Void in
+        ParseHelper.getMyUserInfomation(userInfo.userID) { (error: Error?, result: PFObject?) -> Void in
             if let result = result {
                 let imageData = UIImagePNGRepresentation(self.profilePicture.image!)
                 let imageFile = PFFile(name:"image.png", data:imageData!)
@@ -448,16 +448,19 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     @IBAction func pushStart(_ sender: AnyObject) {
         // 必須チェック
         if inputName.isEmpty {
-            UIAlertController.showAlertView("", message: "名前を入力してください")
-            return
+            UIAlertController.showAlertView("", message: "名前を入力してください") { _ in
+                return
+            }
         }
         if selectedGender.isEmpty {
-            UIAlertController.showAlertView("", message: "性別を選択してください")
-            return
+            UIAlertController.showAlertView("", message: "性別を選択してください") { _ in
+                return
+            }
         }
         if selectedAge.isEmpty {
-            UIAlertController.showAlertView("", message: "生まれた年を選択してください")
-            return
+            UIAlertController.showAlertView("", message: "生まれた年を選択してください") { _ in
+                return
+            }
         }
         
         MBProgressHUDHelper.show("Loading...")
@@ -544,7 +547,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         
         MBProgressHUDHelper.show("Loading...")
         
-        ParseHelper.getUserInfomation(userData.userID) { (error: NSError?, result: PFObject?) -> Void in
+        ParseHelper.getMyUserInfomation(userData.userID) { (error: NSError?, result: PFObject?) -> Void in
             
             defer {
                 MBProgressHUDHelper.hide()
@@ -556,16 +559,13 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             
             result["IsRecruitment"] = isRecruitment
             result.saveInBackground { (success: Bool, error: Error?) -> Void in
-                
-                defer {
+                userData.isRecruitment = isRecruitment
+                let message = isRecruitment ? "募集を開始しました" : "募集を停止しました"
+                UIAlertController.showAlertView("", message: message) { _ in
                     //画面再描画
                     self.viewDidLoad()
-                    
-                    let message = isRecruitment ? "募集を開始しました" : "募集を停止しました"
-                    UIAlertController.showAlertDismiss("", message: message, completion: { () -> () in })
                 }
-                
-                userData.isRecruitment = isRecruitment
+
             }
         }
     }
@@ -600,21 +600,10 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         Twitter.sharedInstance().logIn { session, error in
             guard session != nil else {
                 print("error: \(error!.localizedDescription)")
-                UIAlertController.showAlertView("", message: "Twitterへの接続に失敗しました。再接続してください")
+                UIAlertController.showAlertView("", message: "Twitterへの接続に失敗しました。再接続してください") { _ in }
                 return
             }
             
-//            guard session!.userName != "" else {
-//                if let url = NSURL(string:"app-prefs:root=TWITTER") {
-//                    if #available(iOS 10.0, *) {
-//                        //UIApplication.sharedApplication().open(url, options: [:], completionHandler: nil)
-//                    } else {
-//                        UIApplication.sharedApplication().openURL(url)
-//                    }
-//                }
-//                
-//                return
-//            }
             self.twitterName = session!.userName
             self.setTwitterName()
             print("signed in as \(session!.userName)");
@@ -650,9 +639,9 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         
         MBProgressHUDHelper.show("Loading...")
         
-        ParseHelper.getUserInfomation(PersistentData.User().userID) { (error: NSError?, result: PFObject?) -> Void in
+        ParseHelper.getMyUserInfomation(PersistentData.User().userID) { (error: NSError?, result: PFObject?) -> Void in
             guard let result = result else {
-                 MBProgressHUDHelper.hide()
+                MBProgressHUDHelper.hide()
                 return
             }
             
@@ -660,14 +649,15 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             result.saveInBackground { (success: Bool, error: Error?) -> Void in
                 defer {
                     MBProgressHUDHelper.hide()
-                    self.viewDidLoad()
                 }
                 
                 var userInfo = PersistentData.User()
                 userInfo.twitterName = self.twitterName
                 
                 let alertMessage = self.twitterName == "" ? "認証を解除しました" : "連携が完了しました"
-                UIAlertController.showAlertView("", message: alertMessage)
+                UIAlertController.showAlertView("", message: alertMessage) { _ in
+                    self.viewDidLoad()
+                }
             }
         }
     }

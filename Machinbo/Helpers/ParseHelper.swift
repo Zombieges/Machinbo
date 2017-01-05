@@ -102,7 +102,7 @@ class ParseHelper {
         }
     }
     
-    class func getUserInfomation(_ userID: String, completion:((_ withError: NSError?, _ result: PFObject?)->Void)?) {
+    class func getMyUserInfomation(_ userID: String, completion:((_ withError: NSError?, _ result: PFObject?)->Void)?) {
         let query = PFQuery(className: "UserInfo")
         query.whereKey("UserID", equalTo: userID)
         query.findObjectsInBackground { (objects, error) -> Void in
@@ -116,6 +116,7 @@ class ParseHelper {
     class func getUserInfomationFromTwitter(_ twitterName: String, completion:((_ withError: NSError?, _ result: PFObject?)->Void)?) {
         let query = PFQuery(className: "UserInfo")
         query.whereKey("Twitter", equalTo: twitterName)
+        query.whereKey("IsRecruitment", equalTo: true)
         query.findObjectsInBackground { (objects, error) -> Void in
             
             if error == nil {
@@ -123,26 +124,6 @@ class ParseHelper {
             }
         }
     }
-    
-//    class func getActionInfomation(userID: String, completion:((withError: NSError?, result: PFObject?)->Void)?) {
-//        
-//        let userInfoQuery = PFQuery(className: "UserInfo")
-//        userInfoQuery.whereKey("UserID", equalTo: userID)
-//        
-//        let actionQuery = PFQuery(className: "Action")
-//        actionQuery.includeKey("CreatedBy")
-//        actionQuery.whereKey("CreatedBy", matchesQuery: userInfoQuery)
-//        
-//        actionQuery.getFirstObjectInBackgroundWithBlock { (object, error) -> Void in
-//            if error == nil {
-//                //既存のレコードを削除
-//                object!.deleteInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in }
-//                
-//            }
-//            
-//            completion?(withError: error, result: object)
-//        }
-//    }
     
     class func setUserInfomation(_ userID: String, name: String, gender: String, age: String, twitter: String, comment: String, photo: PFFile, deviceToken: String) {
         //新規ユーザー登録
@@ -193,7 +174,7 @@ class ParseHelper {
     
     class func deleteUserInfo(_ userID: String, completion: @escaping () -> ()) {
         
-        ParseHelper.getUserInfomation(userID) { (error: Error?, result: PFObject?) -> Void in
+        ParseHelper.getMyUserInfomation(userID) { (error: Error?, result: PFObject?) -> Void in
             
             guard let theResult = result else {
                 MBProgressHUDHelper.hide()

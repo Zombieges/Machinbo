@@ -35,11 +35,10 @@ extension TransisionProtocol where
 
         let reachability = try! AMReachability.reachabilityForInternetConnection()
         if !reachability.isReachable() {
-            defer { createRefreshButton() }
-            
             print("インターネット接続なし")
-            UIAlertController.showAlertView("", message: "接続に失敗しました。通信状況を確認の上、再接続してくだささい。")
-            
+            UIAlertController.showAlertView("", message: "接続に失敗しました。通信状況を確認の上、再接続してくだささい。") { _ in
+                self.createRefreshButton()
+            }
             return false
         }
         

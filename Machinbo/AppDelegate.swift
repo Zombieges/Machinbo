@@ -13,6 +13,7 @@
  import AWSSNS
  import Fabric
  import TwitterKit
+ import UserNotifications
  
  @UIApplicationMain
  class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -26,15 +27,29 @@
         //
         // REGISTER DEVICE TOKEN FOR SNS
         //
-        if #available(iOS 8.0, *) {
-            let settings: UIUserNotificationSettings =
-                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
-            application.registerUserNotificationSettings(settings)
-            application.registerForRemoteNotifications()
+        if #available(iOS 10.0, *) {
+            
+            // iOS10.0以上
+            UNUserNotificationCenter.current().requestAuthorization(options: [.badge, .sound, .alert]) { granted, error in
+                
+                guard error == nil else {
+                    
+                    // error handling
+                    return
+                }
+                
+                if granted {
+                    
+                    UIApplication.shared.registerForRemoteNotifications()
+                }
+            }
         } else {
-            // Fallback
-            let types: UIRemoteNotificationType = [.alert, .badge, .sound]
-            application.registerForRemoteNotifications(matching: types)
+            
+            // それ以外
+            let settings = UIUserNotificationSettings(types: [.badge, .sound, .alert], categories: nil)
+            
+            UIApplication.shared.registerUserNotificationSettings(settings)
+            UIApplication.shared.registerForRemoteNotifications()
         }
         
         // Notification Ready
@@ -135,7 +150,7 @@
         let removingCharacterSet:CharacterSet = CharacterSet(charactersIn: "<>")
         
         // get device token
-        let deviceTokenAsString = (deviceToken.description as NSString).trimmingCharacters(in: removingCharacterSet).replacingOccurrences(of: " ", with: "") as String
+        let deviceTokenAsString = deviceToken.map { String(format: "%.2hhx", $0) }.joined()
         
         print("Device token = \(deviceTokenAsString)")
         

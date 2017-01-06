@@ -15,13 +15,22 @@ class PersistentData {
         // 保存データを全削除
         let userDefault = UserDefaults.standard
         userDefault.removeObject(forKey: "userID")
+        userDefault.removeObject(forKey: "profileImage")
+        userDefault.removeObject(forKey: "comment")
+        userDefault.removeObject(forKey: "gender")
+        userDefault.removeObject(forKey: "name")
+        userDefault.removeObject(forKey: "age")
         userDefault.removeObject(forKey: "imaikuFlag")
         
         userDefault.removeObject(forKey: "insertTime")
         userDefault.removeObject(forKey: "place")
         userDefault.removeObject(forKey: "mychar")
+        userDefault.removeObject(forKey: "location")
         
         userDefault.removeObject(forKey: "isRecruitment")
+        userDefault.removeObject(forKey: "deviceToken")
+        userDefault.removeObject(forKey: "targetUserID")
+        userDefault.removeObject(forKey: "twitterName")
         
         userDefault.synchronize()
         
@@ -129,7 +138,7 @@ class PersistentData {
         }
         var imaikuFlag: Bool {
             get {
-                return UserDefaults.standard.bool(forKey: "imaikuFlag") ?? false
+                return UserDefaults.standard.bool(forKey: "imaikuFlag") 
             }
             set {
                 UserDefaults.standard.set(newValue , forKey: "imaikuFlag")
@@ -139,7 +148,7 @@ class PersistentData {
         
         var location: Bool {
             get {
-                return UserDefaults.standard.bool(forKey: "location") ?? false
+                return UserDefaults.standard.bool(forKey: "location") 
             }
             set {
                 UserDefaults.standard.set(newValue , forKey: "location")

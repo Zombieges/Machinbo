@@ -19,8 +19,8 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" sectionIndexMinimumDisplayRowCount="4" rowHeight="120" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="B2F-vt-9rc">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="310"/>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" sectionIndexMinimumDisplayRowCount="4" rowHeight="120" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="B2F-vt-9rc">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="390"/>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="310" id="lES-Z3-mTz"/>
@@ -30,8 +30,8 @@
                         <outlet property="delegate" destination="-1" id="CTp-O7-wam"/>
                     </connections>
                 </tableView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vRk-kq-rGR" customClass="ZFRippleButton" customModule="Machinbo" customModuleProvider="target">
-                    <rect key="frame" x="10" y="320" width="355" height="40"/>
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vRk-kq-rGR" customClass="ZFRippleButton" customModule="Machinbo" customModuleProvider="target">
+                    <rect key="frame" x="10" y="398" width="355" height="40"/>
                     <color key="backgroundColor" red="0.85098039219999999" green="0.34901960780000002" blue="0.30196078430000001" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="wlD-MU-s9a"/>
@@ -65,6 +65,7 @@
                 <constraint firstItem="vRk-kq-rGR" firstAttribute="top" secondItem="B2F-vt-9rc" secondAttribute="bottom" constant="10" id="Xjp-GB-o6w"/>
                 <constraint firstItem="B2F-vt-9rc" firstAttribute="top" secondItem="NfN-WM-bC4" secondAttribute="top" id="ec7-Ty-BgP"/>
             </constraints>
+            <point key="canvasLocation" x="81.5" y="72.5"/>
         </view>
     </objects>
 </document>

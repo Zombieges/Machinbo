@@ -218,7 +218,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             // テーブル再描画
             tableView.reloadData()
             
-            
         } else if type == SelectPickerType.gender {
             self.gender = selectedValue
             self.selectedGender = selectedValue
@@ -240,9 +239,8 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         }
     }
     
-    internal func setSelectedDate(_ SelectedDate: Date) {
-        
-    }
+    internal func setSelectedDateTo(_ SelectedDate: Date) {}
+    internal func setSelectedDateFrom(_ SelectedDate: Date) {}
     
     /*
      テーブルに表示する配列の総数を返す.

@@ -84,18 +84,33 @@ class ParseHelper {
     
     class func getMeetupList(_ loginUser: String, completion:((_ withError: NSError?, _ result:[AnyObject]?)->Void)?) {
         
-        let userQuery = PFQuery(className: "GoNow")
-        userQuery.whereKey("UserID", equalTo: loginUser)
-        userQuery.whereKey("IsApproved", equalTo: false)
-        
-        let targetUserQuery = PFQuery(className: "GoNow")
-        targetUserQuery.whereKey("TargetUserID", equalTo: loginUser)
-        targetUserQuery.whereKey("IsApproved", equalTo: false)
+        let query = PFQuery(className: "GoNow")
+        query.whereKey("UserID", equalTo: loginUser)
+        query.whereKey("IsApproved", equalTo: false)
+        query.includeKey("User")
+        query.order(byDescending: "updatedAt")
+//        let targetUserQuery = PFQuery(className: "GoNow")
+//        targetUserQuery.whereKey("TargetUserID", equalTo: loginUser)
+//        targetUserQuery.whereKey("IsApproved", equalTo: false)
 
-        let joinQuery = PFQuery.orQuery(withSubqueries: [userQuery, targetUserQuery])
-        joinQuery.includeKey("User")//UserInfoのPointerから情報を取得
-        joinQuery.order(byDescending: "updatedAt")
-        joinQuery.findObjectsInBackground { (objects, error) -> Void in
+//        let joinQuery = PFQuery.orQuery(withSubqueries: [userQuery, targetUserQuery])
+//        joinQuery.includeKey("User")//UserInfoのPointerから情報を取得
+//        joinQuery.order(byDescending: "updatedAt")
+        query.findObjectsInBackground { (objects, error) -> Void in
+            if error == nil {
+                completion?(error as NSError?, objects)
+            }
+        }
+    }
+    
+    class func getReceiveList(_ loginUser: String, completion:((_ withError: NSError?, _ result:[AnyObject]?)->Void)?) {
+        
+        let query = PFQuery(className: "GoNow")
+        query.whereKey("TargetUserID", equalTo: loginUser)
+        query.whereKey("IsApproved", equalTo: false)
+        query.includeKey("User")
+        query.order(byDescending: "updatedAt")
+        query.findObjectsInBackground { (objects, error) -> Void in
             if error == nil {
                 completion?(error as NSError?, objects)
             }

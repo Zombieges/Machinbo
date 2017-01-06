@@ -27,7 +27,8 @@ class GoNowViewController:
 
     @IBOutlet weak var tableView: UITableView!
     
-    var inputDate = Date()
+    var inputDateFrom = Date()
+    var inputDateTo = Date()
     var inputPlace = ""
     var inputChar = ""
     var palGeoPoint: PFGeoPoint?
@@ -53,13 +54,13 @@ class GoNowViewController:
         tableView.register(nibName, forCellReuseIdentifier: detailTableViewCellIdentifier)
         
         // 不要行の削除
-        let noCreateView:UIView = UIView(frame: CGRect.zero)
+        let noCreateView = UIView(frame: CGRect.zero)
         noCreateView.backgroundColor = UIColor.clear
         tableView.tableFooterView = noCreateView
         tableView.tableHeaderView = noCreateView
         view.addSubview(tableView)
         
-        if self.isInternetConnect() {
+        if isInternetConnect() {
             //広告を表示
             self.showAdmob(AdmobType.standard)
             _interstitial = self.showFullAdmob()
@@ -107,7 +108,7 @@ class GoNowViewController:
             normalCell?.textLabel?.text = targetProfileItems[indexPath.row]
             let dateFormatter = DateFormatter();
             dateFormatter.dateFormat = "yyyy年M月d日 H:mm"
-            let formatDateString = dateFormatter.string(from: self.inputDate)
+            let formatDateString = dateFormatter.string(from: self.inputDateFrom)
             normalCell?.detailTextLabel?.text = formatDateString
             
             cell = normalCell
@@ -116,7 +117,7 @@ class GoNowViewController:
             normalCell?.textLabel?.text = targetProfileItems[indexPath.row]
             let dateFormatter = DateFormatter();
             dateFormatter.dateFormat = "yyyy年M月d日 H:mm"
-            let formatDateString = dateFormatter.string(from: self.inputDate)
+            let formatDateString = dateFormatter.string(from: self.inputDateTo)
             normalCell?.detailTextLabel?.text = formatDateString
             
             cell = normalCell
@@ -170,12 +171,18 @@ class GoNowViewController:
         }
     }
     
-    internal func setSelectedDate(_ selectedDate: Date) {
+    internal func setSelectedDateFrom(_ selectedDate: Date) {
         if selectedRow == 0 {
-            self.inputDate = selectedDate
+            self.inputDateFrom = selectedDate
         }
     }
-        
+    
+    internal func setSelectedDateTo(_ selectedDate: Date) {
+        if selectedRow == 1 {
+            self.inputDateTo = selectedDate
+        }
+    }
+    
     
 //    // PickerViewController よりを保存ボタンを押下した際に実行される処理
 //    internal func setComment(comment: String) {
@@ -210,21 +217,28 @@ class GoNowViewController:
         if indexPath.section == 0 {
             
             if indexPath.row == 0 {
-                vc.palKind = "imakokoDate"
+                vc.palKind = "imakokoDateFrom"
 
-                vc.palInput = inputDate as AnyObject
+                vc.palInput = inputDateFrom as AnyObject
                 vc.delegate = self
                 
                 navigationController?.pushViewController(vc, animated: true)
                 
             } else if indexPath.row == 1 {
+                vc.palKind = "imakokoDateTo"
+                vc.palInput = inputDateTo as AnyObject
+                vc.delegate = self
+                
+                navigationController?.pushViewController(vc, animated: true)
+                
+            } else if indexPath.row == 2 {
                 vc.palKind = "imakoko"
                 vc.palInput = inputPlace as AnyObject
                 vc.delegate = self
                 
                 navigationController?.pushViewController(vc, animated: true)
                 
-            } else if indexPath.row == 2 {
+            } else if indexPath.row == 3 {
                 vc.palKind = "imakoko"
                 vc.palInput = inputChar as AnyObject
                 vc.delegate = self
@@ -250,7 +264,9 @@ class GoNowViewController:
             
             let query = result! as PFObject
             query["GPS"] = self.palGeoPoint
-            query["MarkTime"] = self.inputDate
+            query["MarkTime"] = self.inputDateFrom
+            //TODO
+            query["MarkTimeTo"] = self.inputDateTo
             query["PlaceDetail"] = self.inputPlace
             query["MyChar"] = self.inputChar
             query["IsRecruitment"] = true
@@ -269,7 +285,7 @@ class GoNowViewController:
                 
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "yyyy年M月d日 H:mm"
-                let formatDateString = dateFormatter.string(from: self.inputDate)
+                let formatDateString = dateFormatter.string(from: self.inputDateFrom)
                 userData.insertTime = formatDateString
                 
                 userData.place = self.inputPlace

@@ -92,27 +92,37 @@ class MeetupViewController:
     */
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let gonowCell = tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? GoNowTableViewCell
-        let gonow: AnyObject! = goNowList[indexPath.row]
-        if let imageFile = (gonow.object(forKey: "User") as AnyObject).value(forKey: "ProfilePicture") as? PFFile {
-            imageFile.getDataInBackground { (imageData, error) -> Void in
-                
-                guard error == nil else { return }
-                
-                gonowCell?.profileImage.image = UIImage(data: imageData!)!
-                gonowCell?.profileImage.layer.borderColor = UIColor.white.cgColor
-                gonowCell?.profileImage.layer.borderWidth = 3
-                gonowCell?.profileImage.layer.cornerRadius = 10
-                gonowCell?.profileImage.layer.masksToBounds = true
+        
+        let gonow = goNowList[indexPath.row]
+        
+        if let userInfoObject = gonow.object(forKey: "User") {
+            if let imageFile = (userInfoObject as AnyObject).value(forKey: "ProfilePicture") as? PFFile {
+                imageFile.getDataInBackground { (imageData, error) -> Void in
+                    
+                    guard error == nil else { return }
+                    
+                    gonowCell?.profileImage.image = UIImage(data: imageData!)!
+                    gonowCell?.profileImage.layer.borderColor = UIColor.white.cgColor
+                    gonowCell?.profileImage.layer.borderWidth = 3
+                    gonowCell?.profileImage.layer.cornerRadius = 10
+                    gonowCell?.profileImage.layer.masksToBounds = true
+                }
             }
+            
+            gonowCell?.titleLabel.text = (userInfoObject as AnyObject).object(forKey: "Name") as? String
+            gonowCell?.valueLabel.text = (userInfoObject as AnyObject).object(forKey: "Comment") as? String
+            
+            let dateFormatter = DateFormatter();
+            dateFormatter.dateFormat = "yyyy年M月d日 H:mm"
+            gonowCell?.entryTime.text = dateFormatter.string(from: gonow.object(forKey: "gotoAt") as! Date)
+            
+        } else {
+            gonowCell?.titleLabel.text = "このユーザは存在しません"
+            gonowCell?.valueLabel.text = ""
+            gonowCell?.entryTime.text = ""
+            
         }
-        
-        gonowCell?.titleLabel.text = (gonow.object(forKey: "User") as AnyObject).object(forKey: "Name") as? String
-        gonowCell?.valueLabel.text = (gonow.object(forKey: "User") as AnyObject).object(forKey: "Comment") as? String
-        
-        let dateFormatter = DateFormatter();
-        dateFormatter.dateFormat = "yyyy年M月d日 H:mm"
-        gonowCell?.entryTime.text = dateFormatter.string(from: gonow.object(forKey: "gotoAt") as! Date)
-        
+
         return gonowCell!
     }
     
@@ -130,7 +140,12 @@ class MeetupViewController:
         }
         
         let gonowObject = goNowList[indexPath.row] as! PFObject
-        vc.userInfo = gonowObject.object(forKey: "User") as? PFObject
+        guard let userInfoObject = gonowObject.object(forKey: "User") else {
+            UIAlertController.showAlertView("", message: "ユーザが存在しません。")
+            return
+        }
+        
+        vc.userInfo = userInfoObject as? PFObject
         vc.gonowInfo = gonowObject
         
         self.navigationController!.pushViewController(vc, animated: true)
@@ -222,6 +237,8 @@ class MeetupViewController:
             getApprovedMeetUpList()
         case 1:
             getMeetUpList()
+        case 2:
+            getReceiveList()
         default:
             break
         }
@@ -238,7 +255,7 @@ class MeetupViewController:
             guard error == nil else { return }
             
             if result!.count == 0 {
-                UIAlertController.showAlertView("", message: "いまから来る人が存在しません。相手から待ち合わせ希望があった場合、リストに表示されます。"){ _ in }
+                UIAlertController.showAlertView("", message: "マッチングした人が存在しません。"){ _ in }
             }
             
             self.goNowList = result!
@@ -257,7 +274,7 @@ class MeetupViewController:
             guard error == nil else { return }
             
             if result!.count == 0 {
-                UIAlertController.showAlertView("", message: "いまから来る人が存在しません。相手から待ち合わせ希望があった場合、リストに表示されます。") { _ in }
+                UIAlertController.showAlertView("", message: "待ち合わせ申請した人がいません。") { _ in }
             }
             
             self.goNowList = result!
@@ -265,4 +282,22 @@ class MeetupViewController:
         }
     }
     
+    func getReceiveList() {
+        MBProgressHUDHelper.show("Loading...")
+        
+        ParseHelper.getReceiveList(PersistentData.User().userID) { (error: NSError?, result) -> Void in
+            defer {
+                MBProgressHUDHelper.hide()
+            }
+            
+            guard error == nil else { return }
+            
+            if result!.count == 0 {
+                UIAlertController.showAlertView("", message: "相手からの受信がありません。相手から待ち合わせ希望があった場合、リストに表示されます。") { _ in }
+            }
+            
+            self.goNowList = result!
+            self.tableView.reloadData()
+        }
+    }
 }

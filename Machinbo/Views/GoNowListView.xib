@@ -30,8 +30,9 @@
                                 <constraint firstAttribute="height" constant="30" id="Z0z-eb-ch6"/>
                             </constraints>
                             <segments>
-                                <segment title="承認済み"/>
-                                <segment title="未承認"/>
+                                <segment title="マッチング"/>
+                                <segment title="送信済み"/>
+                                <segment title="受信済み"/>
                             </segments>
                             <connections>
                                 <action selector="changeSegmentedControl:" destination="-1" eventType="valueChanged" id="EsU-Mi-max"/>

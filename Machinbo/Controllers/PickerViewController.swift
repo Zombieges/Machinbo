@@ -21,7 +21,8 @@ enum InputPickerType { case comment, name }
 protocol PickerViewControllerDelegate{
     func setInputValue(_ inputValue: String, type: InputPickerType)
     func setSelectedValue(_ selectedIndex: Int, selectedValue: String, type: SelectPickerType)
-    func setSelectedDate(_ SelectedDate: Date)
+    func setSelectedDateFrom(_ SelectedDate: Date)
+    func setSelectedDateTo(_ SelectedDate: Date)
 }
 
 class PickerViewController: UIViewController,
@@ -109,7 +110,10 @@ class PickerViewController: UIViewController,
         } else if self.kind == "comment" {
             createCommentField(displayWidth, displayHeight: 200)
             
-        } else if self.kind == "imakokoDate" {
+        } else if self.kind == "imakokoDateFrom" {
+            createDatePickerField(displayWidth)
+            
+        } else if self.kind == "imakokoDateTo" {
             createDatePickerField(displayWidth)
             
         } else if self.kind == "imakoko" {
@@ -263,8 +267,12 @@ class PickerViewController: UIViewController,
                 self.navigationController!.popViewController(animated: true)
             }
             
-        } else if self.kind == "imakokoDate" {
-            self.delegate!.setSelectedDate(self.inputMyDatePicker.date)
+        } else if self.kind == "imakokoDateFrom" {
+            self.delegate!.setSelectedDateFrom(self.inputMyDatePicker.date)
+            self.navigationController!.popViewController(animated: true)
+            
+        } else if self.kind == "imakokoDateTo" {
+            self.delegate!.setSelectedDateTo(self.inputMyDatePicker.date)
             self.navigationController!.popViewController(animated: true)
             
         } else if self.kind == "imakoko" {

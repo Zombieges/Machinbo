@@ -550,11 +550,9 @@ class TargetProfileViewController:
     
     func clickimakokoButton() {
         
-        UIAlertController.showAlertOKCancel("", message: "現在位置を相手だけに送信します") { action in
+        UIAlertController.showAlertOKCancel("現在位置の送信", message: "現在のあなたの位置情報を相手だけに送信します") { action in
             
-            if action == .cancel {
-                return
-            }
+            if action == .cancel { return }
             
             MBProgressHUDHelper.show("Loading...")
             
@@ -646,36 +644,9 @@ class TargetProfileViewController:
     }
     
     func clickTorikesiButton() {
-    
-//        let alert = UIAlertController(title: "取消", message: "いまから行くことを取り消しますか？", preferredStyle: .alert)
-//        let okAction = UIAlertAction(title: "OK", style: .default) { action in
-//            MBProgressHUDHelper.show("Loading...")
-//            
-//            ParseHelper.deleteGoNow(self.targetObjectID) { () -> () in
-//                
-//                defer {
-//                    MBProgressHUDHelper.hide()
-//                }
-//                
-//                //imaiku flag delete
-//                PersistentData.deleteUserIDForKey("imaikuFlag")
-//                
-//                self.navigationController!.popToRootViewController(animated: true)
-//                
-//                UIAlertController.showAlertDismiss("", message: "取り消しました", completion: { () -> () in })
-//            }
-//            self.present(alert, animated: true, completion: nil)
-//        }
-//        alert.addAction(okAction)
-//        let cancelAction = UIAlertAction(title: "キャンセル", style: .cancel)
-//        alert.addAction(cancelAction)
-        
-        //imaiku delete
         UIAlertController.showAlertOKCancel("いま行くことを取消", message: "いまから行くことを取り消しますか？") { action in
             
-            if action == .cancel {
-                return
-            }
+            if action == .cancel { return }
             
             MBProgressHUDHelper.show("Loading...")
             

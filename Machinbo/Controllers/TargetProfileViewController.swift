@@ -511,7 +511,7 @@ class TargetProfileViewController:
         btn.tintColor = UIView().tintColor
         btn.setTitleColor(UIView().tintColor, for: UIControlState())
         
-        let imadokoBtnX = self.displayWidth - round(self.displayWidth / 5)
+        let imadokoBtnX = self.displayWidth - round(self.displayWidth / 3.5)
         let imadokoBtnWidth = round(self.displayWidth / 4)
         let imadokotnHeight = round(self.displayHeight / 17)
         btn.frame = CGRect(x: imadokoBtnX, y: mapViewHeight + 10, width: imadokoBtnWidth, height: imadokotnHeight)
@@ -535,7 +535,7 @@ class TargetProfileViewController:
         btn.tintColor = UIView().tintColor
         btn.setTitleColor(UIView().tintColor, for: UIControlState())
         
-        let imadokoBtnX = self.displayWidth - round(self.displayWidth / 2.5)
+        let imadokoBtnX = self.displayWidth - round(self.displayWidth / 1.8)
         let imadokoBtnWidth = round(self.displayWidth / 4)
         let imadokotnHeight = round(self.displayHeight / 17)
         btn.frame = CGRect(x: imadokoBtnX, y: mapViewHeight + 10, width: imadokoBtnWidth, height: imadokotnHeight)

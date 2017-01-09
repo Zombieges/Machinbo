@@ -14,8 +14,6 @@ class GoNowTableViewCell : UITableViewCell {
     
     @IBOutlet weak var titleLabel: UILabel!
     
-    //@IBOutlet weak var gonowTime: UILabel!
-    
     @IBOutlet weak var valueLabel: UILabel!
     
     @IBOutlet weak var entryTime: UILabel!    
@@ -37,7 +35,6 @@ class GoNowTableViewCell : UITableViewCell {
         // Initialization code
         profileImage.image = nil
         entryTime.textColor = UIColor.darkGray
-        //gonowTime.textColor = UIColor.darkGrayColor()
         valueLabel.textColor = UIColor.gray
     }
     

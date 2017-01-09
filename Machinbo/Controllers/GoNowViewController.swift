@@ -48,7 +48,7 @@ class GoNowViewController:
         }
         
         self.navigationItem.title = "場所と特徴を登録"
-        self.navigationController!.navigationBar.tintColor = UIColor.white
+        self.navigationController!.navigationBar.tintColor = UIColor.darkGray
         
         let nibName = UINib(nibName: "DetailProfileTableViewCell", bundle:nil)
         tableView.register(nibName, forCellReuseIdentifier: detailTableViewCellIdentifier)
@@ -92,7 +92,7 @@ class GoNowViewController:
         
         let tableViewCellIdentifier = "Cell"
         
-        if indexPath.row == 0 || indexPath.row == 1 {
+        if indexPath.row <= 1 {
             normalCell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier)
             if normalCell == nil {
                 normalCell = UITableViewCell(style: .value1, reuseIdentifier: tableViewCellIdentifier)
@@ -146,24 +146,16 @@ class GoNowViewController:
         return cell!
     }
     
-//    // PickerViewController より性別を選択した際に実行される処理
-//    internal func setGender(selectedIndex: Int,selected: String) {
-//    }
-//    
-//    // PickerViewController より年齢を選択した際に実行される処理
-//    internal func setAge(selectedIndex: Int,selected: String) {
-//    }
-    
     // PickerViewController よりを保存ボタンを押下した際に実行される処理
     internal func setSelectedValue(_ selectedIndex: Int, selectedValue: String, type: SelectPickerType) {
     }
     
     internal func setInputValue(_ inputValue: String, type: InputPickerType) {
         if type == .comment {
-            if selectedRow == 1 {
+            if selectedRow == 2 {
                 self.inputPlace = inputValue
 
-            } else if selectedRow == 2 {
+            } else if selectedRow == 3 {
                 self.inputChar = inputValue
             }
             
@@ -180,20 +172,8 @@ class GoNowViewController:
         tableView.reloadData()
     }
     
-//    internal func setSelectedDateTo(_ selectedDate: Date) {
-//        if selectedRow == 1 {
-//            self.inputDateTo = selectedDate
-//            tableView.reloadData()
-//        }
-//    }
-//    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.row == 0 {
-            return 50
-            
-        } else {
-            return 120
-        }
+        return indexPath.row <= 1 ? 50 : 120
     }
     
     // セルがタップされた時
@@ -251,10 +231,7 @@ class GoNowViewController:
             query["IsRecruitment"] = true
             
             query.saveInBackground { (success: Bool, error: Error?) -> Void in
-                defer {
-                    MBProgressHUDHelper.hide()
-                }
-                
+                defer { MBProgressHUDHelper.hide() }
                 guard error == nil else { print("Error information"); return }
                 
                 //local db に保存

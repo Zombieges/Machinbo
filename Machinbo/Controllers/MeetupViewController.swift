@@ -28,17 +28,15 @@ class MeetupViewController:
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var tableView: UITableView!
     
-    let detailTableViewCellIdentifier: String = "GoNowCell"
+    let detailTableViewCellIdentifier = "GoNowCell"
     
     override func viewDidLoad() {
         NotificationCenter.default.addObserver(self, selector: #selector(reloadData), name:NSNotification.Name(rawValue: "reloadData"), object: nil)
     }
     
     override func loadView() {
-        
         defer {
             if self.isInternetConnect() {
-                //広告を表示
                 self.showAdmob(AdmobType.standard)
             }
         }
@@ -124,7 +122,7 @@ class MeetupViewController:
         if let userInfoObject = userInfoObject {
             if let imageFile = userInfoObject.value(forKey: "ProfilePicture") as? PFFile {
                 imageFile.getDataInBackground { (imageData, error) -> Void in
-                    guard error == nil else { return }
+                    guard error == nil else { print("Error information"); return }
                     
                     gonowCell?.profileImage.image = UIImage(data: imageData!)!
                     gonowCell?.profileImage.layer.borderColor = UIColor.white.cgColor
@@ -158,7 +156,12 @@ class MeetupViewController:
         print("Num: \(indexPath.row)")
         print("Edeintg: \(tableView.isEditing)")
         
-        let vc = TargetProfileViewController(type: ProfileType.meetupProfile)
+        let vc : TargetProfileViewController
+        if nowSegumentIndex <= 1 {
+            vc = TargetProfileViewController(type: ProfileType.meetupProfile)
+        } else {
+            vc = TargetProfileViewController(type: ProfileType.receiveProfile)
+        }
         
         if let tempGeoPoint = goNowList[indexPath.row].object(forKey: "userGPS") {
             vc.targetGeoPoint = tempGeoPoint as! PFGeoPoint
@@ -178,8 +181,7 @@ class MeetupViewController:
         self.navigationController!.pushViewController(vc, animated: true)
     }
     
-    func tableView(_ tableView: UITableView,canEditRowAt indexPath: IndexPath) -> Bool
-    {
+    func tableView(_ tableView: UITableView,canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
     
@@ -191,9 +193,7 @@ class MeetupViewController:
             let name = userInfoObject?.object(forKey: "Name") as! String
             
             UIAlertController.showAlertOKCancel("", message: name + "の「いまから行く」を拒否しますか？") { action in
-                guard action == .ok else {
-                    return
-                }
+                guard action == .ok else { return }
                 
                 MBProgressHUDHelper.show("Loading...")
                 ParseHelper.deleteGoNow(gonowObject.objectId!) { () -> () in
@@ -205,7 +205,11 @@ class MeetupViewController:
         }
     }
     
-    func reloadData(_ notification:Notification){
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 80
+    }
+    
+    func reloadData(_ notification:Notification) {
         self.tableView.reloadData()
     }
     
@@ -229,15 +233,10 @@ class MeetupViewController:
     func getGoNowMeList(){
         
         ParseHelper.getMeetupList(PersistentData.User().userID) { (error: NSError?, result) -> Void in
-            
-            defer {
-                MBProgressHUDHelper.hide()
-            }
-            
-            guard error == nil else { return }
+            defer { MBProgressHUDHelper.hide() }
+            guard error == nil else { print("Error information"); return }
             
             self.goNowList = result!
-            
             if self.goNowList.count == 0 {
                 let label = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 20));
                 label.textAlignment = NSTextAlignment.center
@@ -278,11 +277,9 @@ class MeetupViewController:
         MBProgressHUDHelper.show("Loading...")
         
         ParseHelper.getApprovedMeetupList(PersistentData.User().userID) { (error: NSError?, result) -> Void in
-            defer {
-                MBProgressHUDHelper.hide()
-            }
+            defer { MBProgressHUDHelper.hide() }
             
-            guard error == nil else { return }
+            guard error == nil else { print("Error information"); return }
             
             if result!.count == 0 {
                 UIAlertController.showAlertView("", message: "マッチングした人が存在しません。"){ _ in }
@@ -297,11 +294,8 @@ class MeetupViewController:
         MBProgressHUDHelper.show("Loading...")
         
         ParseHelper.getMeetupList(PersistentData.User().userID) { (error: NSError?, result) -> Void in
-            defer {
-                MBProgressHUDHelper.hide()
-            }
-            
-            guard error == nil else { return }
+            defer { MBProgressHUDHelper.hide() }
+            guard error == nil else { print("Error information"); return }
             
             if result!.count == 0 {
                 UIAlertController.showAlertView("", message: "待ち合わせ申請した人がいません。") { _ in }
@@ -316,11 +310,9 @@ class MeetupViewController:
         MBProgressHUDHelper.show("Loading...")
         
         ParseHelper.getReceiveList(PersistentData.User().userID) { (error: NSError?, result) -> Void in
-            defer {
-                MBProgressHUDHelper.hide()
-            }
+            defer { MBProgressHUDHelper.hide() }
             
-            guard error == nil else { return }
+            guard error == nil else { print("Error information"); return }
             
             if result!.count == 0 {
                 UIAlertController.showAlertView("", message: "相手からの受信がありません。相手から待ち合わせ希望があった場合、リストに表示されます。") { _ in }

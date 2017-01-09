@@ -12,11 +12,11 @@
 		9409F7961B2D994D0069DAE8 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9409F7941B2D994D0069DAE8 /* LaunchScreen.xib */; };
 		9409F7A21B2D994D0069DAE8 /* MachinboTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9409F7A11B2D994D0069DAE8 /* MachinboTests.swift */; };
 		941312E31E1FF48400374E05 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 941312E21E1FF48400374E05 /* Info.plist */; };
-		941312E51E1FF6C900374E05 /* santen.png in Resources */ = {isa = PBXBuildFile; fileRef = 941312E41E1FF6C900374E05 /* santen.png */; };
 		9484EBD81CC38B0300DEC7A4 /* GoNowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9484EBD71CC38B0300DEC7A4 /* GoNowViewController.swift */; };
 		9484EBDA1CC38BC800DEC7A4 /* AMReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9484EBD91CC38BC800DEC7A4 /* AMReachability.swift */; };
 		94A91D401CC448B1004E7652 /* MBProgressHUDHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A91D3F1CC448B1004E7652 /* MBProgressHUDHelper.swift */; };
 		AD194D4529582F32C17F9B12 /* Pods_Machinbo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81EFC3B3F85240D27AAB8A33 /* Pods_Machinbo.framework */; };
+		BB0222CD1E23880E00051CC0 /* santen.png in Resources */ = {isa = PBXBuildFile; fileRef = BB0222CC1E23880E00051CC0 /* santen.png */; };
 		BB1A1E5B1CE93B190090E72D /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB1A1E5A1CE93B190090E72D /* MessageUI.framework */; };
 		BB1A1E5D1CF515A90090E72D /* UserPolicy.txt in Resources */ = {isa = PBXBuildFile; fileRef = BB1A1E5C1CF515A90090E72D /* UserPolicy.txt */; };
 		BB1A1E651D0D04530090E72D /* imaiku.png in Resources */ = {isa = PBXBuildFile; fileRef = BB1A1E641D0D04530090E72D /* imaiku.png */; };
@@ -117,10 +117,10 @@
 		9409F7A11B2D994D0069DAE8 /* MachinboTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MachinboTests.swift; sourceTree = "<group>"; };
 		941312DF1E1FF2EB00374E05 /* Machinbo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Machinbo.entitlements; sourceTree = "<group>"; };
 		941312E21E1FF48400374E05 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		941312E41E1FF6C900374E05 /* santen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = santen.png; sourceTree = "<group>"; };
 		9484EBD71CC38B0300DEC7A4 /* GoNowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoNowViewController.swift; sourceTree = "<group>"; };
 		9484EBD91CC38BC800DEC7A4 /* AMReachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AMReachability.swift; sourceTree = "<group>"; };
 		94A91D3F1CC448B1004E7652 /* MBProgressHUDHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MBProgressHUDHelper.swift; sourceTree = "<group>"; };
+		BB0222CC1E23880E00051CC0 /* santen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = santen.png; sourceTree = "<group>"; };
 		BB1A1E5A1CE93B190090E72D /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		BB1A1E5C1CF515A90090E72D /* UserPolicy.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = UserPolicy.txt; sourceTree = "<group>"; };
 		BB1A1E641D0D04530090E72D /* imaiku.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imaiku.png; sourceTree = "<group>"; };
@@ -438,8 +438,8 @@
 				BBC411691D5DF36800D398FC /* pin.png */,
 				BB3643141D2F166100CF1D18 /* mappin.png */,
 				BBA3D78E1DA9BFA200862733 /* home.png */,
+				BB0222CC1E23880E00051CC0 /* santen.png */,
 				BBD3535B1CDDD517007B1A1C /* logo_fb.png */,
-				941312E41E1FF6C900374E05 /* santen.png */,
 				BBD353591CDDD4E2007B1A1C /* logo_twitter.png */,
 				BB1A1E641D0D04530090E72D /* imaiku.png */,
 				BBC411651D461D2500D398FC /* star.png */,
@@ -586,7 +586,7 @@
 				BBD3535A1CDDD4E2007B1A1C /* logo_twitter.png in Resources */,
 				BB6FDDE81C3E97E100C366A2 /* GoNowListView.xib in Resources */,
 				9409F7931B2D994D0069DAE8 /* Images.xcassets in Resources */,
-				941312E51E1FF6C900374E05 /* santen.png in Resources */,
+				BB0222CD1E23880E00051CC0 /* santen.png in Resources */,
 				BBA5C4961B3545D4005D062B /* GoogleMaps.bundle in Resources */,
 				BBC411661D461D2500D398FC /* star.png in Resources */,
 				BB6FDDEF1C3E97E100C366A2 /* ProfileView.xib in Resources */,

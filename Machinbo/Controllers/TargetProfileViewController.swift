@@ -39,7 +39,7 @@ fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 
 enum ProfileType {
-    case targetProfile, imaikuTargetProfile, meetupProfile
+    case targetProfile, imaikuTargetProfile, meetupProfile, receiveProfile
 }
 
 extension TargetProfileViewController: TransisionProtocol {}
@@ -148,7 +148,7 @@ class TargetProfileViewController:
             //gmaps.camera = camera
             gmaps.delegate = self
             
-            if type == ProfileType.meetupProfile {
+            if type == ProfileType.meetupProfile || type == ProfileType.receiveProfile {
                 GoogleMapsHelper.setUserPin(gmaps, geoPoint: targetGeoPoint)
             } else {
                 GoogleMapsHelper.setUserMarker(gmaps, user: userInfo! as PFObject, isSelect: true)
@@ -218,12 +218,17 @@ class TargetProfileViewController:
                 myHeaderView.addSubview(imakokoBtn)
                 let imadokoBtn = imadokoButton(mapViewHeight: mapViewHeight)
                 myHeaderView.addSubview(imadokoBtn)
-                
-            } else {
-                //承認するボタンを追加
-                let approveBtn = approvedButton(mapViewHeight: mapViewHeight)
-                myHeaderView.addSubview(approveBtn)
             }
+            
+        } else if type == .receiveProfile {
+            
+            /*
+             * MeetupView から遷移した場合
+             */
+            
+            sections = ["プロフィール", "来る情報"]
+            let approveBtn = approvedButton(mapViewHeight: mapViewHeight)
+            myHeaderView.addSubview(approveBtn)
             
         } else {
             /*
@@ -487,7 +492,7 @@ class TargetProfileViewController:
         btn.tintColor = UIView().tintColor
         btn.setTitleColor(UIView().tintColor, for: UIControlState())
         
-        let imadokoBtnX = self.displayWidth - round(self.displayWidth / 2)
+        let imadokoBtnX = self.displayWidth - round(self.displayWidth / 3.8)
         let imadokoBtnWidth = round(self.displayWidth / 4)
         let imadokotnHeight = round(self.displayHeight / 17)
         btn.frame = CGRect(x: imadokoBtnX, y: mapViewHeight + 10, width: imadokoBtnWidth, height: imadokotnHeight)

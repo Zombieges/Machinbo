@@ -171,35 +171,22 @@ class GoNowViewController:
         }
     }
     
-    internal func setSelectedDateFrom(_ selectedDate: Date) {
+    internal func setSelectedDate(_ selectedDate: Date) {
         if selectedRow == 0 {
             self.inputDateFrom = selectedDate
-        }
-    }
-    
-    internal func setSelectedDateTo(_ selectedDate: Date) {
-        if selectedRow == 1 {
+        } else if selectedRow == 1 {
             self.inputDateTo = selectedDate
         }
+        tableView.reloadData()
     }
     
-    
-//    // PickerViewController よりを保存ボタンを押下した際に実行される処理
-//    internal func setComment(comment: String) {
-//        if selectedRow == 0 {
-//            self.inputDate = comment
-//            
-//        } else if selectedRow == 1 {
-//            self.inputPlace = comment
-//            
-//        } else if selectedRow == 2 {
-//            self.inputChar = comment
+//    internal func setSelectedDateTo(_ selectedDate: Date) {
+//        if selectedRow == 1 {
+//            self.inputDateTo = selectedDate
+//            tableView.reloadData()
 //        }
-//        
-//        // テーブル再描画
-//        tableView.reloadData()
 //    }
-    
+//    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 0 {
             return 50
@@ -211,43 +198,38 @@ class GoNowViewController:
     
     // セルがタップされた時
     internal func tableView(_ table: UITableView, didSelectRowAt indexPath:IndexPath) {
+        selectedRow = indexPath.row
+        guard indexPath.section == 0 else { return }
         
         let vc = PickerViewController()
-        
-        if indexPath.section == 0 {
+        if indexPath.row == 0 {
+            vc.palKind = "imakokoDateFrom"
+            vc.palInput = inputDateFrom as AnyObject
+            vc.delegate = self
             
-            if indexPath.row == 0 {
-                vc.palKind = "imakokoDateFrom"
-
-                vc.palInput = inputDateFrom as AnyObject
-                vc.delegate = self
-                
-                navigationController?.pushViewController(vc, animated: true)
-                
-            } else if indexPath.row == 1 {
-                vc.palKind = "imakokoDateTo"
-                vc.palInput = inputDateTo as AnyObject
-                vc.delegate = self
-                
-                navigationController?.pushViewController(vc, animated: true)
-                
-            } else if indexPath.row == 2 {
-                vc.palKind = "imakoko"
-                vc.palInput = inputPlace as AnyObject
-                vc.delegate = self
-                
-                navigationController?.pushViewController(vc, animated: true)
-                
-            } else if indexPath.row == 3 {
-                vc.palKind = "imakoko"
-                vc.palInput = inputChar as AnyObject
-                vc.delegate = self
-                
-                navigationController?.pushViewController(vc, animated: true)
-            }
+            navigationController?.pushViewController(vc, animated: true)
+            
+        } else if indexPath.row == 1 {
+            vc.palKind = "imakokoDateTo"
+            vc.palInput = inputDateTo as AnyObject
+            vc.delegate = self
+            
+            navigationController?.pushViewController(vc, animated: true)
+            
+        } else if indexPath.row == 2 {
+            vc.palKind = "imakoko"
+            vc.palInput = inputPlace as AnyObject
+            vc.delegate = self
+            
+            navigationController?.pushViewController(vc, animated: true)
+            
+        } else if indexPath.row == 3 {
+            vc.palKind = "imakoko"
+            vc.palInput = inputChar as AnyObject
+            vc.delegate = self
+            
+            navigationController?.pushViewController(vc, animated: true)
         }
-        
-        selectedRow = indexPath.row
     }
     
     @IBAction func imaikuButton(_ sender: AnyObject) {
@@ -258,14 +240,11 @@ class GoNowViewController:
         
         ParseHelper.getMyUserInfomation(userInfo.userID) { (error: NSError?, result: PFObject?) -> Void in
             
-            guard error == nil else {
-                return
-            }
+            guard error == nil else { print("Error information"); return }
             
             let query = result! as PFObject
             query["GPS"] = self.palGeoPoint
             query["MarkTime"] = self.inputDateFrom
-            //TODO
             query["MarkTimeTo"] = self.inputDateTo
             query["PlaceDetail"] = self.inputPlace
             query["MyChar"] = self.inputChar
@@ -276,9 +255,7 @@ class GoNowViewController:
                     MBProgressHUDHelper.hide()
                 }
                 
-                guard error == nil else {
-                    return
-                }
+                guard error == nil else { print("Error information"); return }
                 
                 //local db に保存
                 var userData = PersistentData.User()

@@ -22,6 +22,7 @@ class MeetupViewController:
     UITabBarDelegate {
 
     var goNowList = [AnyObject]()
+    var nowSegumentIndex = 0
     var refreshControl:UIRefreshControl!
     
     @IBOutlet weak var headerView: UIView!
@@ -87,18 +88,42 @@ class MeetupViewController:
         return section == 0 ? self.goNowList.count : 0
     }
     
+    func getUserInfomation(index: Int) -> PFObject? {
+        let gonowObject = goNowList[index] as! PFObject
+        var userInfoObject: PFObject?
+        
+        if nowSegumentIndex == 0 {
+            let userID = gonowObject.object(forKey: "UserID") as! String
+            let targetUserID = gonowObject.object(forKey: "TargetUserID") as! String
+            
+            if userID == PersistentData.User().userID {
+                userInfoObject = gonowObject.object(forKey: "TargetUser") as? PFObject
+                
+            } else if targetUserID == PersistentData.User().userID {
+                userInfoObject = gonowObject.object(forKey: "User") as? PFObject
+            }
+            
+        } else if nowSegumentIndex == 1 {
+            userInfoObject = gonowObject.object(forKey: "TargetUser") as? PFObject
+            
+        } else {
+            userInfoObject = gonowObject.object(forKey: "User") as? PFObject
+        }
+        
+        return userInfoObject
+    }
+    
     /*
     Cellに値を設定する.
     */
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let gonowCell = tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? GoNowTableViewCell
         
-        let gonow = goNowList[indexPath.row]
+        let userInfoObject = getUserInfomation(index: indexPath.row)
         
-        if let userInfoObject = gonow.object(forKey: "User") {
-            if let imageFile = (userInfoObject as AnyObject).value(forKey: "ProfilePicture") as? PFFile {
+        if let userInfoObject = userInfoObject {
+            if let imageFile = userInfoObject.value(forKey: "ProfilePicture") as? PFFile {
                 imageFile.getDataInBackground { (imageData, error) -> Void in
-                    
                     guard error == nil else { return }
                     
                     gonowCell?.profileImage.image = UIImage(data: imageData!)!
@@ -109,12 +134,12 @@ class MeetupViewController:
                 }
             }
             
-            gonowCell?.titleLabel.text = (userInfoObject as AnyObject).object(forKey: "Name") as? String
-            gonowCell?.valueLabel.text = (userInfoObject as AnyObject).object(forKey: "Comment") as? String
+            gonowCell?.titleLabel.text = userInfoObject.object(forKey: "Name") as? String
+            gonowCell?.valueLabel.text = userInfoObject.object(forKey: "Comment") as? String
             
-            let dateFormatter = DateFormatter();
+            let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy年M月d日 H:mm"
-            gonowCell?.entryTime.text = dateFormatter.string(from: gonow.object(forKey: "gotoAt") as! Date)
+            gonowCell?.entryTime.text = dateFormatter.string(from: goNowList[indexPath.row].object(forKey: "gotoAt") as! Date)
             
         } else {
             gonowCell?.titleLabel.text = "このユーザは存在しません"
@@ -140,12 +165,14 @@ class MeetupViewController:
         }
         
         let gonowObject = goNowList[indexPath.row] as! PFObject
-        guard let userInfoObject = gonowObject.object(forKey: "User") else {
+        let userInfoObject = getUserInfomation(index: indexPath.row)
+        
+        guard userInfoObject != nil else {
             UIAlertController.showAlertView("", message: "ユーザが存在しません。")
             return
         }
         
-        vc.userInfo = userInfoObject as? PFObject
+        vc.userInfo = userInfoObject
         vc.gonowInfo = gonowObject
         
         self.navigationController!.pushViewController(vc, animated: true)
@@ -159,16 +186,17 @@ class MeetupViewController:
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         
         if editingStyle == .delete {
-            let goNowObj = self.goNowList[indexPath.row] as! PFObject
-            let name = (goNowObj.object(forKey: "User") as AnyObject).object(forKey: "Name") as! String
+            let gonowObject = goNowList[indexPath.row] as! PFObject
+            let userInfoObject = getUserInfomation(index: indexPath.row)
+            let name = userInfoObject?.object(forKey: "Name") as! String
+            
             UIAlertController.showAlertOKCancel("", message: name + "の「いまから行く」を拒否しますか？") { action in
-                
                 guard action == .ok else {
                     return
                 }
                 
                 MBProgressHUDHelper.show("Loading...")
-                ParseHelper.deleteGoNow(goNowObj.objectId!) { () -> () in
+                ParseHelper.deleteGoNow(gonowObject.objectId!) { () -> () in
                     MBProgressHUDHelper.hide()
                     self.goNowList.remove(at: indexPath.row)
                     self.tableView.reloadData()
@@ -232,6 +260,8 @@ class MeetupViewController:
     }
     
     @IBAction func changeSegmentedControl(_ sender: UISegmentedControl) {
+        nowSegumentIndex = sender.selectedSegmentIndex
+        
         switch sender.selectedSegmentIndex {
         case 0:
             getApprovedMeetUpList()

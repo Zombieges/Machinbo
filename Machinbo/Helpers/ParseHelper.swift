@@ -74,6 +74,7 @@ class ParseHelper {
         
         let joinQuery = PFQuery.orQuery(withSubqueries: [userQuery, targetUserQuery])
         joinQuery.includeKey("User")//UserInfoのPointerから情報を取得
+        joinQuery.includeKey("TargetUser")
         joinQuery.order(byDescending: "updatedAt")
         joinQuery.findObjectsInBackground { (objects, error) -> Void in
             if error == nil {
@@ -87,7 +88,7 @@ class ParseHelper {
         let query = PFQuery(className: "GoNow")
         query.whereKey("UserID", equalTo: loginUser)
         query.whereKey("IsApproved", equalTo: false)
-        query.includeKey("User")
+        query.includeKey("TargetUser")
         query.order(byDescending: "updatedAt")
 //        let targetUserQuery = PFQuery(className: "GoNow")
 //        targetUserQuery.whereKey("TargetUserID", equalTo: loginUser)

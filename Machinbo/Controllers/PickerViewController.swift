@@ -21,8 +21,8 @@ enum InputPickerType { case comment, name }
 protocol PickerViewControllerDelegate{
     func setInputValue(_ inputValue: String, type: InputPickerType)
     func setSelectedValue(_ selectedIndex: Int, selectedValue: String, type: SelectPickerType)
-    func setSelectedDateFrom(_ SelectedDate: Date)
-    func setSelectedDateTo(_ SelectedDate: Date)
+    func setSelectedDate(_ SelectedDate: Date)
+    //func setSelectedDateTo(_ SelectedDate: Date)
 }
 
 class PickerViewController: UIViewController,
@@ -268,11 +268,11 @@ class PickerViewController: UIViewController,
             }
             
         } else if self.kind == "imakokoDateFrom" {
-            self.delegate!.setSelectedDateFrom(self.inputMyDatePicker.date)
+            self.delegate!.setSelectedDate(self.inputMyDatePicker.date)
             self.navigationController!.popViewController(animated: true)
             
         } else if self.kind == "imakokoDateTo" {
-            self.delegate!.setSelectedDateTo(self.inputMyDatePicker.date)
+            self.delegate!.setSelectedDate(self.inputMyDatePicker.date)
             self.navigationController!.popViewController(animated: true)
             
         } else if self.kind == "imakoko" {

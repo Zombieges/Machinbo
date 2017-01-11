@@ -364,7 +364,7 @@ class PickerViewController: UIViewController,
             let latitude = location.coordinate.latitude
             let longitude = location.coordinate.longitude
             
-            query["userGPS"] = PFGeoPoint(latitude: latitude, longitude: longitude)
+            query["meetingGeoPoint"] = PFGeoPoint(latitude: latitude, longitude: longitude)
             
             query.saveInBackground { (success: Bool, error: Error?) -> Void in
                 

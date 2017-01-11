@@ -163,7 +163,7 @@ class MeetupViewController:
             vc = TargetProfileViewController(type: ProfileType.receiveProfile)
         }
         
-        if let tempGeoPoint = goNowList[indexPath.row].object(forKey: "userGPS") {
+        if let tempGeoPoint = goNowList[indexPath.row].object(forKey: "meetingGeoPoint") {
             vc.targetGeoPoint = tempGeoPoint as! PFGeoPoint
         }
         
@@ -206,7 +206,7 @@ class MeetupViewController:
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80
+        return 85
     }
     
     func reloadData(_ notification:Notification) {

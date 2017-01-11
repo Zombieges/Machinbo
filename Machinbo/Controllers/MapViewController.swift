@@ -37,8 +37,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         
         self.navigationItem.title = "ホーム"
         self.navigationController!.navigationBar.tintColor = UIColor.darkGray
-        
-        //button 生成
+
         createNavigationItem()
     }
     
@@ -160,9 +159,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     func mapView(_ mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView? {
         self.markWindow = Bundle.main.loadNibNamed("MarkWindow", owner: self, options: nil)?.first! as! MarkWindow
         
-        let createdBy: AnyObject? = marker.userData as AnyObject?
-        
-        if let createdBy: AnyObject = createdBy {
+        if let createdBy = marker.userData as AnyObject? {
             if let imageFile = createdBy.value(forKey: "ProfilePicture") as? PFFile {
                 let imageData: Data = try! imageFile.getData()
                 self.markWindow.ProfileImage.image = UIImage(data: imageData)!
@@ -219,66 +216,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         vc.palKind = "search"
         self.navigationController!.pushViewController(vc, animated: false)
     }
-    
-//    
-//    func onClickGoNowView() {
-//        MBProgressHUDHelper.show("Loading...")
-//        
-//        ParseHelper.getMyGoNow(PersistentData.User().targetUserID) { (error: NSError?, result) -> Void in
-//            
-//            defer {
-//                MBProgressHUDHelper.hide()
-//            }
-//            
-//            guard let goNowObj = result else {
-//                UIAlertView.showAlertDismiss("", message: "いまから行く人が登録されていません") { () -> () in }
-//                return
-//            }
-//            
-//            let targetUserInfo = goNowObj.objectForKey("TargetUser") as? PFObject
-//            
-//            guard targetUserInfo != nil else {
-//                
-//                targetUserInfo!.deleteInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
-//                    
-//                    guard success else {
-//                        print("削除エラー")
-//                        return
-//                    }
-//                    
-//                    goNowObj.deleteInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
-//                        defer {
-//                            MBProgressHUDHelper.hide()
-//                        }
-//                        
-//                        guard success else {
-//                            print("削除エラー")
-//                            return
-//                        }
-//                        
-//                        PersistentData.deleteUserIDForKey("imaikuFlag")
-//                        UIAlertView.showAlertDismiss("", message: "いまから行く人のアカウントが削除されています") { () -> () in }
-//                    }
-//                }
-//                
-//                return
-//            }
-//            
-//            let vc = TargetProfileViewController(type: ProfileType.ImaikuTargetProfile)
-//            vc.targetObjectID = goNowObj.objectId!
-//            vc.userInfo = targetUserInfo!
-//            
-//            self.navigationController!.pushViewController(vc, animated: true)
-//            
-//            
-//            let userUpdateAt = targetUserInfo?.updatedAt
-//            let imakokoAt = goNowObj.objectForKey("imakokoAt") as? NSDate
-//            
-//            if userUpdateAt != imakokoAt {
-//                UIAlertView.showAlertDismiss("", message: "いまから行く人の位置情報が変更されています") { () -> () in }
-//            }
-//        }
-//    }
     
     //更新
     func onClickReload() {

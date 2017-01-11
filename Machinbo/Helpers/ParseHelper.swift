@@ -50,17 +50,30 @@ class ParseHelper {
         }
     }
     
-    class func getMyGoNow(_ loginUser: String, completion:((_ withError: NSError?, _ result: PFObject?)->Void)?) {
+    class func getTargetUserGoNow(_ objectId: String, completion:((_ withError: NSError?, _ result: PFObject?)->Void)?) {
         let query = PFQuery(className: "GoNow")
-        query.whereKey("UserID", equalTo: loginUser)
-        query.includeKey("TargetUser")//PointerからUserInfoへリレーション
+        query.whereKey("objectId", equalTo:objectId)
+        query.includeKey("userGoNow")
+        query.includeKey("targetGoNow")
         query.findObjectsInBackground { (objects, error) -> Void in
-            
             if error == nil {
                 completion?(error as NSError?, objects!.first)
             }
         }
     }
+    
+//    class func getMyGoNow(_ loginUser: String, completion:((_ withError: NSError?, _ result: PFObject?)->Void)?) {
+//        let query = PFQuery(className: "GoNow")
+//        query.whereKey("UserID", equalTo: loginUser)
+//        query.includeKey("userGoNow")
+//        query.includeKey("targetGoNow")
+//        query.findObjectsInBackground { (objects, error) -> Void in
+//            
+//            if error == nil {
+//                completion?(error as NSError?, objects?[0])
+//            }
+//        }
+//    }
     
     class func getApprovedMeetupList(_ loginUser: String, completion:((_ withError: NSError?, _ result:[AnyObject]?)->Void)?) {
 

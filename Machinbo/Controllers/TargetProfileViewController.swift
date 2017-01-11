@@ -511,9 +511,7 @@ class TargetProfileViewController:
     
     func foundLocation(_ notif: Notification) {
         
-        defer {
-            NotificationCenter.default.removeObserver(self)
-        }
+        defer { NotificationCenter.default.removeObserver(self) }
         
         //TODO:この処理だといまから行くが複数ある場合、送信する対象が異なってしまう恐れあり。ParseIDで見ないと駄目かも
         
@@ -533,7 +531,6 @@ class TargetProfileViewController:
             let targetUserID = result.object(forKey: "TargetUserID") as! String
             let geoPoint = PFGeoPoint(latitude: latitude, longitude: longitude)
             
-            let query = result
             if userID == PersistentData.User().userID {
                 guard let query = result.object(forKey: "userGoNow") as? PFObject else {
                     defer { MBProgressHUDHelper.hide() }
@@ -541,6 +538,13 @@ class TargetProfileViewController:
                     return
                 }
                 query["userGeoPoint"] = geoPoint
+                query.saveInBackground { (success: Bool, error: Error?) -> Void in
+                    
+                    defer { MBProgressHUDHelper.hide() }
+                    guard error == nil else { return }
+                    
+                    UIAlertController.showAlertView("", message: "現在位置を相手に送信しました")
+                }
                 
             } else if targetUserID == PersistentData.User().userID {
                 guard let query = result.object(forKey: "targetGoNow") as? PFObject else {
@@ -549,14 +553,13 @@ class TargetProfileViewController:
                     return
                 }
                 query["userGeoPoint"] = geoPoint
-            }
-
-            query.saveInBackground { (success: Bool, error: Error?) -> Void in
-                
-                defer { MBProgressHUDHelper.hide() }
-                guard error == nil else { return }
-                
-                UIAlertController.showAlertView("", message: "現在位置を相手に送信しました")
+                query.saveInBackground { (success: Bool, error: Error?) -> Void in
+                    
+                    defer { MBProgressHUDHelper.hide() }
+                    guard error == nil else { return }
+                    
+                    UIAlertController.showAlertView("", message: "現在位置を相手に送信しました")
+                }
             }
         }
     }

@@ -72,7 +72,7 @@ class TargetProfileViewController:
     fileprivate let targetProfileItems = ["名前", "性別", "年齢", "プロフィール"]
     //いまから来る人の詳細情報
     fileprivate let imakuruItems = ["到着時間"]
-    fileprivate let otherItems = ["登録時間", "場所", "特徴"]
+    fileprivate let otherItems = ["待ち合わせ開始時間", "待ち合わせ終了時間", "場所", "特徴"]
     
     // Sectionで使用する配列を定義する.
     fileprivate var sections: NSArray = []
@@ -399,7 +399,7 @@ class TargetProfileViewController:
             let vc = PickerViewController()
             vc.palTargetUser = self.userInfo! as PFObject
             vc.palKind = "imaiku"
-            vc.palmItems = ["5分","10分", "15分", "20分", "25分", "30分", "35分", "40分", "45分", "50分", "55分", "60分"]
+            //vc.palmItems = ["5分","10分", "15分", "20分", "25分", "30分", "35分", "40分", "45分", "50分", "55分", "60分"]
             
             self.navigationController!.pushViewController(vc, animated: true)
         }
@@ -531,12 +531,26 @@ class TargetProfileViewController:
             let targetUserID = result.object(forKey: "TargetUserID") as! String
             let geoPoint = PFGeoPoint(latitude: latitude, longitude: longitude)
             
+            //現在位置確認をする際、この待ち合わせを募集した人はuserGoNow→GoNowReceiveへ値を更新し、
+            //募集に対していまから行くをした人は、targetGoNow→GoNowSendへ値を更新する
             if userID == PersistentData.User().userID {
                 guard let query = result.object(forKey: "userGoNow") as? PFObject else {
                     defer { MBProgressHUDHelper.hide() }
-                    print("TargetGoNow data is nothing")
+                    
+                    let gonowReceiveObject = PFObject(className: "GoNowReceive")
+                    gonowReceiveObject["userGeoPoint"] = geoPoint
+                    gonowReceiveObject.saveInBackground { (success: Bool, error: Error?) -> Void in
+                        defer { MBProgressHUDHelper.hide() }
+                        guard error == nil else { return }
+                    }
+                    result["userGoNow"] = gonowReceiveObject
+                    result.saveInBackground { (success: Bool, error: Error?) -> Void in
+                            defer { MBProgressHUDHelper.hide() }
+                            guard error == nil else { return }
+                    }
                     return
                 }
+                
                 query["userGeoPoint"] = geoPoint
                 query.saveInBackground { (success: Bool, error: Error?) -> Void in
                     
@@ -548,8 +562,17 @@ class TargetProfileViewController:
                 
             } else if targetUserID == PersistentData.User().userID {
                 guard let query = result.object(forKey: "targetGoNow") as? PFObject else {
-                    defer { MBProgressHUDHelper.hide() }
-                    print("TargetGoNow data is nothing")
+                    let gonowReceiveObject = PFObject(className: "GoNowSend")
+                    gonowReceiveObject["userGeoPoint"] = geoPoint
+                    gonowReceiveObject.saveInBackground { (success: Bool, error: Error?) -> Void in
+                        defer { MBProgressHUDHelper.hide() }
+                        guard error == nil else { return }
+                    }
+                    result["userGoNow"] = gonowReceiveObject
+                    result.saveInBackground { (success: Bool, error: Error?) -> Void in
+                        defer { MBProgressHUDHelper.hide() }
+                        guard error == nil else { return }
+                    }
                     return
                 }
                 query["userGeoPoint"] = geoPoint

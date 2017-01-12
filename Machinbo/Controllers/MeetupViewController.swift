@@ -209,6 +209,24 @@ class MeetupViewController:
         return 85
     }
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        var numOfSections = 0
+        if self.goNowList.count == 0 {
+            let noDataLabel = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
+            noDataLabel.text = "待ち合わせ情報がありません"
+            noDataLabel.textColor        = UIColor.darkGray
+            noDataLabel.textAlignment    = .center
+            tableView.backgroundView = noDataLabel
+            tableView.separatorStyle = .none
+            
+        } else {
+            tableView.separatorStyle = .singleLine
+            numOfSections = 1
+            tableView.backgroundView = nil
+        }
+        return numOfSections
+    }
+    
     func reloadData(_ notification:Notification) {
         self.tableView.reloadData()
     }
@@ -281,10 +299,6 @@ class MeetupViewController:
             
             guard error == nil else { print("Error information"); return }
             
-            if result!.count == 0 {
-                UIAlertController.showAlertView("", message: "マッチングした人が存在しません。"){ _ in }
-            }
-            
             self.goNowList = result!
             self.tableView.reloadData()
         }
@@ -296,10 +310,6 @@ class MeetupViewController:
         ParseHelper.getMeetupList(PersistentData.User().userID) { (error: NSError?, result) -> Void in
             defer { MBProgressHUDHelper.hide() }
             guard error == nil else { print("Error information"); return }
-            
-            if result!.count == 0 {
-                UIAlertController.showAlertView("", message: "待ち合わせ申請した人がいません。") { _ in }
-            }
             
             self.goNowList = result!
             self.tableView.reloadData()
@@ -313,10 +323,6 @@ class MeetupViewController:
             defer { MBProgressHUDHelper.hide() }
             
             guard error == nil else { print("Error information"); return }
-            
-            if result!.count == 0 {
-                UIAlertController.showAlertView("", message: "相手からの受信がありません。相手から待ち合わせ希望があった場合、リストに表示されます。") { _ in }
-            }
             
             self.goNowList = result!
             self.tableView.reloadData()

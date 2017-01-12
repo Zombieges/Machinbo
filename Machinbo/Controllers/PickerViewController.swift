@@ -59,6 +59,8 @@ class PickerViewController: UIViewController,
     var palKind: String = ""
     var palInput: AnyObject = "" as AnyObject
     var palTargetUser: PFObject?
+    
+    
     var selectedItem: String!
     
     override func viewDidLoad() {
@@ -121,21 +123,21 @@ class PickerViewController: UIViewController,
             
         
         } else if self.kind == "imaiku" {
-            
-            self.navigationItem.title = "待ち合わせまでにかかる時間"
-            self.navigationController!.navigationBar.tintColor = UIColor.white
-            
-            tableView = UITableView(frame: CGRect(x: 0, y: navBarHeight!, width: displayWidth, height: displayHeight - navBarHeight!))
-            
-            tableView.register(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
-            tableView.dataSource = self
-            tableView.delegate = self
-            
-            let view:UIView = UIView(frame: CGRect.zero)
-            view.backgroundColor = UIColor.clear
-            tableView.tableFooterView = view
-            tableView.tableHeaderView = view
-            self.view.addSubview(tableView)
+            createDatePickerField(displayWidth)
+//            self.navigationItem.title = "待ち合わせまでにかかる時間"
+//            self.navigationController!.navigationBar.tintColor = UIColor.white
+//            
+//            tableView = UITableView(frame: CGRect(x: 0, y: navBarHeight!, width: displayWidth, height: displayHeight - navBarHeight!))
+//            
+//            tableView.register(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
+//            tableView.dataSource = self
+//            tableView.delegate = self
+//            
+//            let view:UIView = UIView(frame: CGRect.zero)
+//            view.backgroundColor = UIColor.clear
+//            tableView.tableFooterView = view
+//            tableView.tableHeaderView = view
+//            self.view.addSubview(tableView)
         
         } else if self.kind == "imageView" {
             let displaySize = UIScreen.main.bounds.size.width
@@ -278,7 +280,17 @@ class PickerViewController: UIViewController,
         } else if self.kind == "imakoko" {
             self.delegate!.setInputValue(self.inputTextView.text, type: .comment)
             self.navigationController!.popViewController(animated: true)
+            
+        } else if self.kind == "imaiku" {
+            MBProgressHUDHelper.show("Loading...")
+            
+
+            
+            let center = NotificationCenter.default as NotificationCenter
+            LocationManager.sharedInstance.startUpdatingLocation()
+            center.addObserver(self, selector: #selector(self.foundLocation(_:)), name: NSNotification.Name(rawValue: LMLocationUpdateNotification as String as String), object: nil)
         }
+        
     }
     
     internal func onClickSearchButton(_ sender: UIButton){
@@ -305,21 +317,20 @@ class PickerViewController: UIViewController,
                 self.navigationController!.popViewController(animated: true)
             }
             
-        } else if (self.kind == "imaiku") {
-            
-            if let selected = myItems[indexPath.row] as? String {
-                
-                self.selectedItem = selected
-                
-                MBProgressHUDHelper.show("Loading...")
-                
-                let center = NotificationCenter.default as NotificationCenter
-                
-                LocationManager.sharedInstance.startUpdatingLocation()
-                center.addObserver(self, selector: #selector(self.foundLocation(_:)), name: NSNotification.Name(rawValue: LMLocationUpdateNotification as String as String), object: nil)
-            }
-            
         }
+//        else if (self.kind == "imaiku") {
+//            
+//            if let selected = myItems[indexPath.row] as? String {
+//                self.selectedItem = selected
+//                
+//                MBProgressHUDHelper.show("Loading...")
+//                
+//                let center = NotificationCenter.default as NotificationCenter
+//                LocationManager.sharedInstance.startUpdatingLocation()
+//                center.addObserver(self, selector: #selector(self.foundLocation(_:)), name: NSNotification.Name(rawValue: LMLocationUpdateNotification as String as String), object: nil)
+//            }
+//            
+//        }
     }
     
     func foundLocation(_ notif: Notification) {
@@ -330,10 +341,7 @@ class PickerViewController: UIViewController,
         
         ParseHelper.getMyUserInfomation(PersistentData.User().userID) { (error: NSError?, result) -> Void in
             
-            guard error == nil else {
-                self.errorAction()
-                return
-            }
+            guard error == nil else { self.errorAction(); return }
             
             let userID = result?.object(forKey: "UserID") as? String
             let targetUserID = self.palTargetUser?.object(forKey: "UserID") as? String
@@ -349,14 +357,19 @@ class PickerViewController: UIViewController,
             query["unReadFlag"] = true
             query["IsApproved"] = false // 未承認の状態で登録
             
-            let endPoint = self.selectedItem.characters.count - 1
-            let selected = (self.selectedItem as NSString).substring(to: endPoint)
-            let calendar = Calendar(identifier: Calendar.Identifier.gregorian)
-            let gotoAtMinute = Int(selected)
-            let createdAtDate = Date()
-            let arriveTime = (calendar as NSCalendar).date(byAdding: .minute, value: gotoAtMinute!, to: createdAtDate, options: NSCalendar.Options())!
+            //TODO:ここで、GoNowReceiveまたはGoNowSendにデータを登録する必要がある
             
-            query["gotoAt"] = arriveTime
+            
+            
+//            let endPoint = self.selectedItem.characters.count - 1
+//            let selected = (self.selectedItem as NSString).substring(to: endPoint)
+//            let calendar = Calendar(identifier: Calendar.Identifier.gregorian)
+//            let gotoAtMinute = Int(selected)
+//            let createdAtDate = Date()
+//            let arriveTime = (calendar as NSCalendar).date(byAdding: .minute, value: gotoAtMinute!, to: createdAtDate, options: NSCalendar.Options())!
+//            
+//            query["gotoAt"] = arriveTime
+            query["gotoAt"] = self.inputMyDatePicker.date
             query["imakokoAt"] = targetUserUpdatedAt
             
             let info = notif.userInfo as NSDictionary!
@@ -396,7 +409,6 @@ class PickerViewController: UIViewController,
                     NotificationHelper.sendSpecificDevice(name! + "さんより「いまから行く」されました。", deviceTokenAsString: targetDeviceToken!, badges: result! as Int)
                 }
                 
-                //UIAlertController.showAlertView("", message: "いまから行くことを送信しました")
                 // 表示完了時の処理
                 if self._interstitial!.isReady {
                     self._interstitial!.present(fromRootViewController: self)

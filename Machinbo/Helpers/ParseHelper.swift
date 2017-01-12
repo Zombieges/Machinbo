@@ -190,7 +190,6 @@ class ParseHelper {
         let query = PFQuery(className: "GoNow")
         query.getObjectInBackground(withId: targetObjectID, block: { objects, error in
             if error != nil {
-                //NSLog("%@" += error! as! String)
                 NSLog(error! as! String)
 
             } else {

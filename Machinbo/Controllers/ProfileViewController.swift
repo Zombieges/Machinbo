@@ -28,7 +28,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     
     fileprivate let photoItems = ["フォト"]
     fileprivate let profileItems = ["名前", "性別", "生まれた年", "Twitter", "プロフィール"]
-    fileprivate let otherItems = ["登録時間", "場所", "特徴"]
+    fileprivate let otherItems = ["待ち合わせ（何時から〜）", "待ち合わせ（〜何時まで）", "場所", "特徴"]
     fileprivate let sections = ["プロフィール", "待ち合わせ情報"]
     
     let picker = UIImagePickerController()
@@ -93,7 +93,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     fileprivate func setRecruitment() {
         let userData = PersistentData.User()
         
-        guard !userData.insertTime.isEmpty else {
+        guard !userData.markTimeFrom.isEmpty else {
             //待ち合わせ募集をしていない場合
              self.imakokoButton.isHidden = true
             return
@@ -143,7 +143,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     
     fileprivate func setNavigationItemSettingButton() {
         /* 設定ボタンを付与 */
-        let settingsButton: UIButton = UIButton(type: UIButtonType.custom)
+        let settingsButton: UIButton = UIButton(type: .custom)
         settingsButton.setImage(UIImage(named: "santen.png"), for: UIControlState())
         settingsButton.addTarget(self, action: #selector(ProfileViewController.onClickSettingView), for: UIControlEvents.touchUpInside)
         settingsButton.frame = CGRect(x: 0, y: 0, width: 22, height: 22)
@@ -180,7 +180,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         UIGraphicsEndImageContext()
         
         profilePicture.image = resizedImage
-        
         imageMolding(profilePicture)
         
         var userInfo = PersistentData.User()
@@ -212,35 +211,30 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     
     // PickerViewController より性別を選択した際に実行される処理
     internal func setSelectedValue(_ selectedindex: Int, selectedValue: String, type: SelectPickerType) {
-        if type == SelectPickerType.age {
+        if type == .age {
             self.age = String(selectedindex)
             self.selectedAge = selectedValue
-            // テーブル再描画
             tableView.reloadData()
             
-        } else if type == SelectPickerType.gender {
+        } else if type == .gender {
             self.gender = selectedValue
             self.selectedGender = selectedValue
-            // テーブル再描画
             tableView.reloadData()
         }
     }
     
     internal func setInputValue(_ inputValue: String, type: InputPickerType) {
-        if type == InputPickerType.name {
+        if type == .name {
             self.inputName = inputValue
-            // テーブル再描画
             tableView.reloadData()
             
-        } else if type == InputPickerType.comment {
+        } else if type == .comment {
             self.inputComment = inputValue
-            // テーブル再描画
             tableView.reloadData()
         }
     }
     
     internal func setSelectedDate(_ SelectedDate: Date) {}
-    //internal func setSelectedDateTo(_ SelectedDate: Date) {}
     
     /*
      テーブルに表示する配列の総数を返す.
@@ -261,12 +255,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
      セクションの数を返す.
      */
     func numberOfSectionsInTableView(_ tableView: UITableView) -> Int {
-        
-        if PersistentData.User().userID == "" {
-            return 1
-        }
-        
-        return sections.count
+        return PersistentData.User().userID == "" ? 1 : sections.count
     }
     
     /*
@@ -281,23 +270,19 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     internal func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
         
         let tableViewCellIdentifier = "Cell"
-        
-        // セルを再利用する。
         cell = tableView.dequeueReusableCell(withIdentifier: identifier)
-        if cell == nil { // 再利用するセルがなかったら（不足していたら）
-            // セルを新規に作成する。
-            cell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: identifier)
+        if cell == nil {
+            cell = UITableViewCell(style: .value1, reuseIdentifier: identifier)
         }
-        
         
         if indexPath.section == 0 {
             if indexPath.row < 4 {
                 var normalCell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier)
                 if normalCell == nil {
-                    normalCell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: tableViewCellIdentifier)
+                    normalCell = UITableViewCell(style: .value1, reuseIdentifier: tableViewCellIdentifier)
                 }
-                normalCell?.textLabel!.font = UIFont(name: "Arial", size: 15)
-                normalCell?.detailTextLabel!.font = UIFont(name: "Arial", size: 15)
+                normalCell!.textLabel!.font = UIFont.systemFont(ofSize: 16)
+                normalCell!.detailTextLabel!.font = UIFont.systemFont(ofSize: 16)
                 
                 if indexPath.row == 0 {
                     normalCell?.textLabel?.text = profileItems[indexPath.row]
@@ -345,16 +330,17 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             let userData = PersistentData.User()
             if indexPath.row == 0 {
                 normalCell?.textLabel?.text = otherItems[indexPath.row]
-                
-                let dateFormatter = DateFormatter();
-                dateFormatter.dateFormat = "yyyy年M月d日 H:mm"
-                let formatDateString = userData.insertTime
-                
-                normalCell?.detailTextLabel?.text = formatDateString
+                normalCell?.detailTextLabel?.text = userData.markTimeFrom
                 
                 cell = normalCell
                 
             } else if indexPath.row == 1 {
+                normalCell?.textLabel?.text = otherItems[indexPath.row]
+                normalCell?.detailTextLabel?.text = userData.markTimeTo
+                
+                cell = normalCell
+                
+            } else if indexPath.row == 2 {
                 let detailCell = tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? DetailProfileTableViewCell
                 
                 detailCell?.titleLabel.text = otherItems[indexPath.row]
@@ -362,7 +348,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
                 
                 cell = detailCell
                 
-            } else if indexPath.row == 2 {
+            } else if indexPath.row == 3 {
                 let detailCell = tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? DetailProfileTableViewCell
                 
                 detailCell?.titleLabel.text = otherItems[indexPath.row]
@@ -377,9 +363,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     
     // セルがタップされた時
     internal func tableView(_ table: UITableView, didSelectRowAt indexPath:IndexPath) {
-        
         let vc = PickerViewController()
-        
         myItems = []
         
         if indexPath.section == 0 {
@@ -397,10 +381,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
                 myItems = ["男性","女性"]
                 vc.palmItems = myItems
                 vc.palKind = "gender"
-                //                if let gender = gender{
-                //
-                //                    vc.palInput = gender
-                //                }
                 vc.delegate = self
                 
                 navigationController?.pushViewController(vc, animated: true)
@@ -418,10 +398,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
                 
                 vc.palmItems = myItems
                 vc.palKind = "age"
-                //                if let age = age{
-                //
-                //                    vc.palInput = age
-                //                }
                 vc.delegate = self
                 
                 navigationController?.pushViewController(vc, animated: true)
@@ -429,7 +405,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             } else if indexPath.row == 3 {
                 //Twitter認証
                 loginTwitter()
-
                 
             } else if indexPath.row == 4 {
                 vc.palmItems = myItems
@@ -446,19 +421,13 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     @IBAction func pushStart(_ sender: AnyObject) {
         // 必須チェック
         if inputName.isEmpty {
-            UIAlertController.showAlertView("", message: "名前を入力してください") { _ in
-                return
-            }
+            UIAlertController.showAlertView("", message: "名前を入力してください") { _ in return }
         }
         if selectedGender.isEmpty {
-            UIAlertController.showAlertView("", message: "性別を選択してください") { _ in
-                return
-            }
+            UIAlertController.showAlertView("", message: "性別を選択してください") { _ in return }
         }
         if selectedAge.isEmpty {
-            UIAlertController.showAlertView("", message: "生まれた年を選択してください") { _ in
-                return
-            }
+            UIAlertController.showAlertView("", message: "生まれた年を選択してください") { _ in return }
         }
         
         MBProgressHUDHelper.show("Loading...")
@@ -510,22 +479,14 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     @IBAction func imakokoAction(_ sender: AnyObject) {
         
         if PersistentData.User().isRecruitment! {
-            
             UIAlertController.showAlertOKCancel("募集停止", message: "待ち合わせ募集を停止してもよろしいですか？") { action in
-                if action == .cancel {
-                    return
-                }
-                
+                if action == .cancel { return }
                 self.recruitmentStop()
             }
             
         } else {
-            
             UIAlertController.showAlertOKCancel("募集再開", message: "待ち合わせ募集を再開してもよろしいですか？") { action in
-                if action == .cancel {
-                    return
-                }
-                
+                if action == .cancel { return }
                 self.recruitmentStart()
             }
         }
@@ -547,20 +508,15 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         
         ParseHelper.getMyUserInfomation(userData.userID) { (error: NSError?, result: PFObject?) -> Void in
             
-            defer {
-                MBProgressHUDHelper.hide()
-            }
+            defer {  MBProgressHUDHelper.hide() }
             
-            guard let result = result else {
-                return
-            }
+            guard let result = result else { return }
             
             result["IsRecruitment"] = isRecruitment
             result.saveInBackground { (success: Bool, error: Error?) -> Void in
                 userData.isRecruitment = isRecruitment
                 let message = isRecruitment ? "募集を開始しました" : "募集を停止しました"
                 UIAlertController.showAlertView("", message: message) { _ in
-                    //画面再描画
                     self.viewDidLoad()
                 }
 
@@ -591,7 +547,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         guard self.twitterName.isEmpty else {
             let sessionStore = Twitter.sharedInstance().sessionStore
             onClickSettingAction(sessionStore)
-            
             return
         }
         
@@ -645,9 +600,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             
             result["Twitter"] = self.twitterName
             result.saveInBackground { (success: Bool, error: Error?) -> Void in
-                defer {
-                    MBProgressHUDHelper.hide()
-                }
+                defer { MBProgressHUDHelper.hide() }
                 
                 var userInfo = PersistentData.User()
                 userInfo.twitterName = self.twitterName

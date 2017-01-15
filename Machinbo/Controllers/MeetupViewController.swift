@@ -209,24 +209,6 @@ class MeetupViewController:
         return 85
     }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        var numOfSections = 0
-        if self.goNowList.count == 0 {
-            let noDataLabel = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
-            noDataLabel.text = "待ち合わせ情報がありません"
-            noDataLabel.textColor        = UIColor.darkGray
-            noDataLabel.textAlignment    = .center
-            tableView.backgroundView = noDataLabel
-            tableView.separatorStyle = .none
-            
-        } else {
-            tableView.separatorStyle = .singleLine
-            numOfSections = 1
-            tableView.backgroundView = nil
-        }
-        return numOfSections
-    }
-    
     func reloadData(_ notification:Notification) {
         self.tableView.reloadData()
     }
@@ -288,6 +270,18 @@ class MeetupViewController:
             getReceiveList()
         default:
             break
+        }
+        
+        if self.goNowList.count == 0 {
+            let noDataLabel = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
+            noDataLabel.text = "待ち合わせ情報がありません"
+            noDataLabel.textColor        = UIColor.darkGray
+            noDataLabel.textAlignment    = .center
+            tableView.backgroundView = noDataLabel
+            tableView.separatorStyle = .none
+        } else {
+            tableView.separatorStyle = .singleLine
+            tableView.backgroundView = nil
         }
     }
  

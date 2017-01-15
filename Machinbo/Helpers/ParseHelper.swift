@@ -35,13 +35,13 @@ class ParseHelper {
     }
 
     class func getNearUserInfomation(_ myLocation: CLLocationCoordinate2D, completion:((_ withError: NSError?, _ result:[PFObject]?)->Void)?) {
-        //25km圏内、近くから100件取得
+        //50km圏内、近くから300件取得
         let myGeoPoint = PFGeoPoint(latitude: myLocation.latitude, longitude: myLocation.longitude)
         
         let query = PFQuery(className: "UserInfo")
         query.whereKey("GPS", nearGeoPoint: myGeoPoint, withinKilometers: 25.0)
         query.whereKey("IsRecruitment", equalTo: true)
-        query.limit = 300
+        query.limit = 100
         query.order(byAscending: "MarkTime")
         query.findObjectsInBackground { (objects, error) -> Void in
             if let resultNearUser = objects {

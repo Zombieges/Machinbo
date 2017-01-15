@@ -109,13 +109,22 @@ class PersistentData {
                 UserDefaults.standard.synchronize()
             }
         }
-        var insertTime : String {
+        var markTimeFrom : String {
             get {
-                return UserDefaults.standard.string(forKey: "insertTime") ?? ""
+                return UserDefaults.standard.string(forKey: "markTimeFrom") ?? ""
             }
             set {
-                UserDefaults.standard.set(newValue , forKey: "insertTime")
+                UserDefaults.standard.set(newValue , forKey: "markTimeFrom")
                 UserDefaults.standard.synchronize() 
+            }
+        }
+        var markTimeTo : String {
+            get {
+                return UserDefaults.standard.string(forKey: "markTimeTo") ?? ""
+            }
+            set {
+                UserDefaults.standard.set(newValue , forKey: "markTimeTo")
+                UserDefaults.standard.synchronize()
             }
         }
         var place : String {

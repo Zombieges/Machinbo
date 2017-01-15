@@ -368,6 +368,18 @@ class TargetProfileViewController:
                     cell = normalCell
                     
                 } else if indexPath.row == 1 {
+                    normalCell?.textLabel?.text = otherItems[indexPath.row]
+                    
+                    let dateFormatter = DateFormatter();
+                    dateFormatter.dateFormat = "yyyy年M月d日 H:mm"
+                    if let mark = (self.userInfo as AnyObject).object(forKey: "MarkTimeTo") {
+                        let formatDateString = dateFormatter.string(from: mark as! Date)
+                        normalCell?.detailTextLabel?.text = formatDateString
+                    }
+                    
+                    cell = normalCell
+                    
+                } else if indexPath.row == 2 {
                     let detailCell = tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? DetailProfileTableViewCell
                     
                     detailCell?.titleLabel.text = otherItems[indexPath.row]
@@ -375,7 +387,7 @@ class TargetProfileViewController:
                     
                     cell = detailCell
                     
-                } else if indexPath.row == 2 {
+                } else if indexPath.row == 3 {
                     let detailCell = tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? DetailProfileTableViewCell
                     
                     detailCell?.titleLabel.text = otherItems[indexPath.row]
@@ -590,9 +602,7 @@ class TargetProfileViewController:
     func clickimadokoButton() {
         UIAlertController.showAlertOKCancel("現在位置確認", message: "相手が、いまドコにいるのかを確認する通知を送信します") { action in
             
-            if action == .cancel {
-                return
-            }
+            if action == .cancel { return }
             
             //MBProgressHUDHelper.show("Loading...")
             

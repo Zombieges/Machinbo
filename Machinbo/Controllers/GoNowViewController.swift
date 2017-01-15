@@ -27,8 +27,8 @@ class GoNowViewController:
 
     @IBOutlet weak var tableView: UITableView!
     
-    var inputDateFrom = Date()
-    var inputDateTo = Date()
+    var inputDateFrom: Date?
+    var inputDateTo: Date?
     var inputPlace = ""
     var inputChar = ""
     var palGeoPoint: PFGeoPoint?
@@ -36,7 +36,7 @@ class GoNowViewController:
     let normalTableViewCellIdentifier = "NormalCell"
     let detailTableViewCellIdentifier = "DetailCell"
     
-    let targetProfileItems = ["待ち合わせ開始時間", "待ち合わせ終了時間", "待ち合わせ場所", "自分の特徴"]
+    let targetProfileItems = ["待ち合わせ（何時から〜）", "待ち合わせ（〜何時まで）", "待ち合わせ場所", "自分の特徴"]
     
     var _interstitial: GADInterstitial?
     
@@ -47,7 +47,7 @@ class GoNowViewController:
             self.view = view
         }
         
-        self.navigationItem.title = "場所と特徴を登録"
+        self.navigationItem.title = "待ち合わせ情報の登録"
         self.navigationController!.navigationBar.tintColor = UIColor.darkGray
         
         let nibName = UINib(nibName: "DetailProfileTableViewCell", bundle:nil)
@@ -108,8 +108,10 @@ class GoNowViewController:
             normalCell?.textLabel?.text = targetProfileItems[indexPath.row]
             let dateFormatter = DateFormatter();
             dateFormatter.dateFormat = "yyyy年M月d日 H:mm"
-            let formatDateString = dateFormatter.string(from: self.inputDateFrom)
-            normalCell?.detailTextLabel?.text = formatDateString
+            if self.inputDateFrom != nil {
+                let formatDateString = dateFormatter.string(from: self.inputDateFrom!)
+                normalCell?.detailTextLabel?.text = formatDateString
+            }
             
             cell = normalCell
             
@@ -117,9 +119,10 @@ class GoNowViewController:
             normalCell?.textLabel?.text = targetProfileItems[indexPath.row]
             let dateFormatter = DateFormatter();
             dateFormatter.dateFormat = "yyyy年M月d日 H:mm"
-            let formatDateString = dateFormatter.string(from: self.inputDateTo)
-            normalCell?.detailTextLabel?.text = formatDateString
-            
+            if self.inputDateTo != nil {
+                let formatDateString = dateFormatter.string(from: self.inputDateTo!)
+                normalCell?.detailTextLabel?.text = formatDateString
+            }
             cell = normalCell
         
         } else if indexPath.row == 2 {
@@ -239,8 +242,13 @@ class GoNowViewController:
                 
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "yyyy年M月d日 H:mm"
-                let formatDateString = dateFormatter.string(from: self.inputDateFrom)
-                userData.insertTime = formatDateString
+                
+                if self.inputDateFrom != nil {
+                    userData.markTimeFrom =  dateFormatter.string(from: self.inputDateFrom!)
+                }
+                if self.inputDateTo != nil {
+                    userData.markTimeTo = dateFormatter.string(from: self.inputDateTo!)
+                }
                 
                 userData.place = self.inputPlace
                 userData.mychar = self.inputChar

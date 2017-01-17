@@ -22,9 +22,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     @IBOutlet weak var profilePicture: UIImageView!
     @IBOutlet weak var startButton: ZFRippleButton!
     @IBOutlet weak var tableView: UITableView!
-    
     @IBOutlet weak var imakokoButton: UIButton!
-    
     
     fileprivate let photoItems = ["フォト"]
     fileprivate let profileItems = ["名前", "性別", "生まれた年", "Twitter", "プロフィール"]
@@ -34,7 +32,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     let picker = UIImagePickerController()
     var window: UIWindow?
     var FarstTimeStart = false
-    
     var myItems = [String]()
     
     var gender = ""
@@ -57,6 +54,10 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         
         setProfileGesture()
         initTableView()
+        
+        
+        self.navigationItem.title = "プロフィール"
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.darkGray]
         navigationController?.navigationBar.tintColor = UIColor.darkGray
         
         let userData = PersistentData.User()
@@ -68,11 +69,8 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             profilePicture.image = UIImage(named: "photo.png")
             return
         }
-        
-        self.navigationItem.title = "プロフィール"
-        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.darkGray]
+
         self.startButton.isHidden = true
-        
         setNavigationItemSettingButton()
         
         // 通常の画面遷移
@@ -420,17 +418,22 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     
     @IBAction func pushStart(_ sender: AnyObject) {
         // 必須チェック
-        if inputName.isEmpty {
-            UIAlertController.showAlertView("", message: "名前を入力してください") { _ in return }
+        guard !inputName.isEmpty else {
+            UIAlertController.showAlertView("", message: "名前を入力してください")
+            return
         }
-        if selectedGender.isEmpty {
-            UIAlertController.showAlertView("", message: "性別を選択してください") { _ in return }
+        guard !selectedGender.isEmpty else {
+            UIAlertController.showAlertView("", message: "性別を選択してください")
+            return
         }
-        if selectedAge.isEmpty {
-            UIAlertController.showAlertView("", message: "生まれた年を選択してください") { _ in return }
+        guard !selectedAge.isEmpty else {
+            UIAlertController.showAlertView("", message: "生まれた年を選択してください")
+            return
         }
         
         MBProgressHUDHelper.show("Loading...")
+        
+        defer { MBProgressHUDHelper.hide() }
         
         let imageData = UIImagePNGRepresentation(profilePicture.image!)
         let imageFile = PFFile(name:"image.png", data:imageData!)
@@ -460,8 +463,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         )
         
         LayoutManager.createNavigationAndTabItems()
-        
-        MBProgressHUDHelper.hide()
     }
     
     fileprivate func imageMolding(_ target : UIImageView){
@@ -477,7 +478,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     }
     
     @IBAction func imakokoAction(_ sender: AnyObject) {
-        
         if PersistentData.User().isRecruitment! {
             UIAlertController.showAlertOKCancel("募集停止", message: "待ち合わせ募集を停止してもよろしいですか？") { action in
                 if action == .cancel { return }
@@ -501,11 +501,9 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     }
     
     fileprivate func recruitmentAction(_ isRecruitment: Bool) {
-        
-        var userData = PersistentData.User()
-        
         MBProgressHUDHelper.show("Loading...")
         
+        var userData = PersistentData.User()
         ParseHelper.getMyUserInfomation(userData.userID) { (error: NSError?, result: PFObject?) -> Void in
             
             defer {  MBProgressHUDHelper.hide() }

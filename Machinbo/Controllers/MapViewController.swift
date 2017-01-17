@@ -133,7 +133,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         self.createupdateGeoPointButton()
     }
     
-    func createGoogleMapForNearGeoPoint(notif: Notification) {
+    private func createGoogleMapForNearGeoPoint(notif: Notification) {
         let info = notif.userInfo as NSDictionary!
         let location = info?[LMLocationInfoKey] as! CLLocation
         self.latitude = location.coordinate.latitude
@@ -157,7 +157,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         }
     }
     
-    func createupdateGeoPointButton() {
+    private func createupdateGeoPointButton() {
         let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 200, height: 40))
         btn.trackTouchLocation = true
         btn.backgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
@@ -171,7 +171,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         self.view.addSubview(btn)
     }
     
-    func createNavigationItem() {
+    private func createNavigationItem() {
         let reloadButton = UIButton(type: UIButtonType.custom)
         reloadButton.setImage(UIImage(named: "reload.png"), for: UIControlState())
         reloadButton.setTitleColor(UIColor.darkGray, for: UIControlState())
@@ -190,7 +190,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: seachButton)
     }
     
-    func createRefreshButton() {
+    private func createRefreshButton() {
         let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 150, height: 40))
         btn.trackTouchLocation = true
         btn.backgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)

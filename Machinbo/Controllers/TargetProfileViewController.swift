@@ -16,25 +16,25 @@ import GoogleMaps
 // FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
 // Consider refactoring the code to use the non-optional operators.
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
+    switch (lhs, rhs) {
+    case let (l?, r?):
+        return l < r
+    case (nil, _?):
+        return true
+    default:
+        return false
+    }
 }
 
 // FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
 // Consider refactoring the code to use the non-optional operators.
 fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l <= r
-  default:
-    return !(rhs < lhs)
-  }
+    switch (lhs, rhs) {
+    case let (l?, r?):
+        return l <= r
+    default:
+        return !(rhs < lhs)
+    }
 }
 
 
@@ -51,7 +51,7 @@ class TargetProfileViewController:
     GADInterstitialDelegate,
     MFMailComposeViewControllerDelegate,
     CLLocationManagerDelegate,
-    GMSMapViewDelegate {
+GMSMapViewDelegate {
     
     var userInfo: PFObject?
     var type = ProfileType.targetProfile
@@ -70,9 +70,14 @@ class TargetProfileViewController:
     private var mapViewHeight: CGFloat!
     private let targetProfileItems = ["名前", "性別", "年齢", "プロフィール"]
     private let imakuruItems = ["到着時間"]
-    private let otherItems = ["待ち合わせ開始時間", "待ち合わせ終了時間", "場所", "特徴"]
+    private let otherItems = ["待ち合わせ開始時間", "待ち合わせ終了時間", "到着時間", "場所", "特徴"]
     private let detailTableViewCellIdentifier = "DetailCell"
     private let mapTableViewCellIdentifier = "MapCell"
+    private lazy var dateFormatter: DateFormatter = {
+        var formatter = DateFormatter()
+        formatter.dateFormat = "yyyy年M月d日 H:mm"
+        return formatter
+    }()
     
     init (type: ProfileType) {
         super.init(nibName: nil, bundle: nil)
@@ -100,34 +105,31 @@ class TargetProfileViewController:
         self.initTableView()
         self.setImageProfile()
         self.setGoogleMap()
+        self.sections = ["プロフィール", "待ち合わせ情報"]
         
         if type == .meetupProfile {
-            self.sections = ["プロフィール", "来る情報"]
-            let isApproved = (self.gonowInfo as AnyObject).object(forKey: "IsApproved") as! Bool
+            let isApproved =  (self.gonowInfo as AnyObject).object(forKey: "IsApproved") as! Bool
             if isApproved {
                 self.createSendGeoPointButton(mapViewHeight: self.mapViewHeight)
                 self.createConfirmGeoPointButton(mapViewHeight: self.mapViewHeight)
             }
             
         } else if type == .receiveProfile {
-            self.sections = ["プロフィール", "来る情報"]
             self.createApprovedButton(mapViewHeight: self.mapViewHeight)
             
         } else {
-            self.sections = ["プロフィール", "待ち合わせ情報"]
             self.createGoNowButton()
         }
         
         if self.isInternetConnect() {
-            //広告を表示
             self.showAdmob(AdmobType.standard)
         }
     }
-
+    
     func numberOfSectionsInTableView(_ tableView: UITableView) -> Int {
         return sections.count
     }
-
+    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return sections[section] as? String
     }
@@ -136,7 +138,8 @@ class TargetProfileViewController:
         if section == 0 {
             return self.targetProfileItems.count
         } else if section == 1 {
-            return type == ProfileType.meetupProfile ? imakuruItems.count : otherItems.count
+            //return type == ProfileType.meetupProfile ? imakuruItems.count : self.otherItems.count
+            return self.otherItems.count
         }
         
         return 0
@@ -186,75 +189,53 @@ class TargetProfileViewController:
         } else if indexPath.section == 1 {
             
             var normalCell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier)
-            if normalCell == nil { // 再利用するセルがなかったら（不足していたら）
-                // セルを新規に作成する。
+            if normalCell == nil {
                 normalCell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: tableViewCellIdentifier)
                 normalCell!.textLabel!.font = UIFont(name: "Arial", size: 14)
                 normalCell!.detailTextLabel!.font = UIFont(name: "Arial", size: 14)
             }
             
-            if type == .meetupProfile {
-                if indexPath.row == 0 {
-                    normalCell?.textLabel?.text = imakuruItems[indexPath.row]
-                    
-                    let dateFormatter = DateFormatter();
-                    dateFormatter.dateFormat = "yyyy年M月d日 H:mm"
-                    let formatDateString = dateFormatter.string(from: (self.gonowInfo as AnyObject).object(forKey: "gotoAt") as! Date)
-                    
-                    normalCell?.detailTextLabel?.text = formatDateString
-                    
-                    cell = normalCell
-                }
+            if indexPath.row == 0 {
+                normalCell?.textLabel?.text = otherItems[indexPath.row]
+                normalCell?.detailTextLabel?.text = self.getDateformatStringForUserInfo(keyString: "MarkTime")
                 
-                return cell!
+                cell = normalCell
                 
-            } else {
+            } else if indexPath.row == 1 {
+                normalCell?.textLabel?.text = otherItems[indexPath.row]
+                normalCell?.detailTextLabel?.text = self.getDateformatStringForUserInfo(keyString: "MarkTimeTo")
                 
-                if indexPath.row == 0 {
-                    normalCell?.textLabel?.text = otherItems[indexPath.row]
-                    
-                    let dateFormatter = DateFormatter();
-                    dateFormatter.dateFormat = "yyyy年M月d日 H:mm"
-                    if let mark = (self.userInfo as AnyObject).object(forKey: "MarkTime") {
-                        let formatDateString = dateFormatter.string(from: mark as! Date)
-                        normalCell?.detailTextLabel?.text = formatDateString
-                    }
-                    
-                    cell = normalCell
-                    
-                } else if indexPath.row == 1 {
-                    normalCell?.textLabel?.text = otherItems[indexPath.row]
-                    
-                    let dateFormatter = DateFormatter();
-                    dateFormatter.dateFormat = "yyyy年M月d日 H:mm"
-                    if let mark = (self.userInfo as AnyObject).object(forKey: "MarkTimeTo") {
-                        let formatDateString = dateFormatter.string(from: mark as! Date)
-                        normalCell?.detailTextLabel?.text = formatDateString
-                    }
-                    
-                    cell = normalCell
-                    
-                } else if indexPath.row == 2 {
-                    let detailCell = tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? DetailProfileTableViewCell
-                    
-                    detailCell?.titleLabel.text = otherItems[indexPath.row]
-                    detailCell?.valueLabel.text = (self.userInfo as AnyObject).object(forKey: "PlaceDetail") as? String
-                    
-                    cell = detailCell
-                    
-                } else if indexPath.row == 3 {
-                    let detailCell = tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? DetailProfileTableViewCell
-                    
-                    detailCell?.titleLabel.text = otherItems[indexPath.row]
-                    detailCell?.valueLabel.text = (self.userInfo as AnyObject).object(forKey: "MyChar") as? String
-                    
-                    cell = detailCell
-                }
+                cell = normalCell
+                
+            } else if indexPath.row == 2 {
+                normalCell?.textLabel?.text = otherItems[indexPath.row]
+                normalCell?.detailTextLabel?.text = self.getDateformatStringForUserInfo(keyString: "gotoAt")
+                
+                cell = normalCell
+                
+            } else if indexPath.row == 3 {
+                let detailCell = tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? DetailProfileTableViewCell
+                
+                detailCell?.titleLabel.text = otherItems[indexPath.row]
+                detailCell?.valueLabel.text = (self.userInfo as AnyObject).object(forKey: "PlaceDetail") as? String
+                
+                cell = detailCell
+                
+            } else if indexPath.row == 4 {
+                let detailCell = tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? DetailProfileTableViewCell
+                
+                detailCell?.titleLabel.text = otherItems[indexPath.row]
+                detailCell?.valueLabel.text = (self.userInfo as AnyObject).object(forKey: "MyChar") as? String
+                
+                cell = detailCell
             }
-            
         }
         
         return cell!
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 80.0
     }
     
     func setNavigationButton() {
@@ -375,7 +356,7 @@ class TargetProfileViewController:
         let imadokotnHeight = round(self.displayHeight / 17)
         btn.frame = CGRect(x: imadokoBtnX, y: mapViewHeight + 10, width: imadokoBtnWidth, height: imadokotnHeight)
         
-       self.myHeaderView.addSubview(btn)
+        self.myHeaderView.addSubview(btn)
     }
     
     func clickimakokoButton() {
@@ -596,7 +577,7 @@ class TargetProfileViewController:
         if let imageFile = (userInfo as AnyObject).value(forKey: "ProfilePicture") as? PFFile {
             imageFile.getDataInBackground { (imageData, error) -> Void in
                 guard error == nil else { print("image no data error."); return }
-
+                
                 let profileImage = UIImageView(frame: CGRect(x: 17, y: imageY, width: imageSize, height: imageSize))
                 profileImage.image = UIImage(data: imageData!)!
                 profileImage.layer.borderColor = UIColor.white.cgColor
@@ -609,7 +590,7 @@ class TargetProfileViewController:
             }
         }
     }
-
+    
     func didClickImageView(_ recognizer: UIGestureRecognizer) {
         if let imageView = recognizer.view as? UIImageView {
             let vc = PickerViewController()
@@ -634,5 +615,13 @@ class TargetProfileViewController:
         }
         
         self.myHeaderView.addSubview(gmaps)
+    }
+    
+    func getDateformatStringForUserInfo(keyString: String) -> String {
+        if let data = (self.userInfo as AnyObject).object(forKey: keyString) {
+            return dateFormatter.string(from: data as! Date)
+        }
+        
+        return ""
     }
 }

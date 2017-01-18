@@ -134,6 +134,25 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
     }
     
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: NSIndexPath) -> [UITableViewRowAction]? {
+        let blockButton: UITableViewRowAction = UITableViewRowAction(style: .normal, title: "ブロック") { (action, index) -> Void in
+            let gonowObject = self.goNowList[indexPath.row] as! PFObject
+            let userInfoObject = self.getUserInfomation(index: indexPath.row)
+            let name = userInfoObject?.object(forKey: "Name") as! String
+            
+            UIAlertController.showAlertOKCancel("", message: name + "をブロックしますか？") { action in
+                guard action == .ok else { return }
+                //Block処理を追加
+                //UserInfoにブロックArrayを追加->Arrayに追加（Json形式が良さげ？）
+            }
+            tableView.isEditing = false
+            print("ブロック")
+        }
+        //blockButton.backgroundColor = UIColor.blueColor()
+        
+        return [blockButton]
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 85
     }

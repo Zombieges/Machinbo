@@ -27,9 +27,10 @@ UITableViewDelegate {
     var inputChar: String = ""
     var palGeoPoint: PFGeoPoint?
     
-    fileprivate let sections = ["サポート", "Machinboいついて", " "]
+    fileprivate let sections = ["サポート", "Machinboいついて","通知について", " "]
     fileprivate let supportLabels = ["Twitter公式アカウント"]
     fileprivate let appRuleLabels = ["サービス規約"]
+    fileprivate let notificationLabels = ["通知設定"]
     let otherLabels = ["アカウント削除"]
     
     var selectedRow: Int = 0
@@ -84,9 +85,12 @@ UITableViewDelegate {
             return self.supportLabels.count
             
         } else if section == 1 {
-            return self.appRuleLabels.count
+            return self.notificationLabels.count
             
         } else if section == 2 {
+            return self.appRuleLabels.count
+            
+        } else if section == 3 {
             return self.otherLabels.count
             
         } else {
@@ -115,9 +119,12 @@ UITableViewDelegate {
             }
             
         } else if indexPath.section == 1 {
-            cell?.textLabel?.text = appRuleLabels[indexPath.row] as String
+            cell?.textLabel?.text = notificationLabels[indexPath.row] as String
             
         } else if indexPath.section == 2 {
+            cell?.textLabel?.text = appRuleLabels[indexPath.row] as String
+            
+        } else if indexPath.section == 3 {
             cell?.textLabel?.text = otherLabels[indexPath.row] as String
         }
         
@@ -147,7 +154,16 @@ UITableViewDelegate {
                 }
             }
             
-        } else if indexPath.section == 1 {
+        }  else if indexPath.section == 1 {
+            
+            let vc = PickerViewController()
+            //vc.palTargetUser = self.userInfo as? PFObject
+            vc.palKind = "notificationSettings"
+            vc.palmItems = ["メッセージ内容の表示"]
+            
+            self.navigationController!.pushViewController(vc, animated: true)
+            
+        } else if indexPath.section == 2 {
             if indexPath.row == 0 {
                 let vc = PickerViewController()
                 vc.palKind = "yakkan"
@@ -155,7 +171,7 @@ UITableViewDelegate {
                 self.navigationController!.pushViewController(vc, animated: true)
             }
             
-        } else if indexPath.section == 2 {
+        } else if indexPath.section == 3 {
             if indexPath.row == 0 {
                 deleteAccount()
             }
@@ -194,7 +210,7 @@ UITableViewDelegate {
                 navigationController.navigationBar.isTranslucent = false
                 navigationController.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
                 navigationController.navigationBar.setBackgroundImage(UIImage(named: "BarBackground"),
-                                                                    for: .default)
+                                                                      for: .default)
                 navigationController.navigationBar.shadowImage = UIImage()
                 UIApplication.shared.keyWindow?.rootViewController = navigationController
                 

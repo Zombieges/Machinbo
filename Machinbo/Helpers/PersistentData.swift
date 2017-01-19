@@ -115,7 +115,7 @@ class PersistentData {
             }
             set {
                 UserDefaults.standard.set(newValue , forKey: "markTimeFrom")
-                UserDefaults.standard.synchronize() 
+                UserDefaults.standard.synchronize()
             }
         }
         var markTimeTo : String {
@@ -147,7 +147,7 @@ class PersistentData {
         }
         var imaikuFlag: Bool {
             get {
-                return UserDefaults.standard.bool(forKey: "imaikuFlag") 
+                return UserDefaults.standard.bool(forKey: "imaikuFlag")
             }
             set {
                 UserDefaults.standard.set(newValue , forKey: "imaikuFlag")
@@ -157,7 +157,7 @@ class PersistentData {
         
         var location: Bool {
             get {
-                return UserDefaults.standard.bool(forKey: "location") 
+                return UserDefaults.standard.bool(forKey: "location")
             }
             set {
                 UserDefaults.standard.set(newValue , forKey: "location")
@@ -199,6 +199,15 @@ class PersistentData {
             }
             set {
                 UserDefaults.standard.set(newValue , forKey: "twitterName")
+                UserDefaults.standard.synchronize()
+            }
+        }
+        var isReceiveMassageHide : Bool {
+            get {
+                return UserDefaults.standard.bool(forKey: "targetDeviceToken")
+            }
+            set {
+                UserDefaults.standard.set(newValue , forKey: "isReceiveMassageHide")
                 UserDefaults.standard.synchronize()
             }
         }

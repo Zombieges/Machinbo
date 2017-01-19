@@ -12,6 +12,7 @@ import SpriteKit
 import Parse
 import MBProgressHUD
 import GoogleMobileAds
+import UserNotifications
 
 extension PickerViewController: TransisionProtocol {}
 
@@ -30,7 +31,7 @@ class PickerViewController: UIViewController,
     UITableViewDataSource,
     GADBannerViewDelegate,
     GADInterstitialDelegate,
-    UISearchBarDelegate {
+UISearchBarDelegate {
     
     var delegate: PickerViewControllerDelegate?
     
@@ -60,8 +61,12 @@ class PickerViewController: UIViewController,
     var palInput: AnyObject = "" as AnyObject
     var palTargetUser: PFObject?
     
+    let displayWidth: CGFloat = UIScreen.main.bounds.size.width
+    let displayHeight: CGFloat = UIScreen.main.bounds.size.height
     
     var selectedItem: String!
+    
+    let norificationView = "test"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,9 +85,6 @@ class PickerViewController: UIViewController,
         
         let navBarHeight = self.navigationController?.navigationBar.frame.size.height
         
-        // Viewの高さと幅を取得する.
-        let displayWidth: CGFloat = UIScreen.main.bounds.size.width
-        let displayHeight: CGFloat = UIScreen.main.bounds.size.height
         
         if (self.kind == "gender" || self.kind == "age") {
             // TableViewの生成す
@@ -121,24 +123,24 @@ class PickerViewController: UIViewController,
         } else if self.kind == "imakoko" {
             createCommentField(displayWidth, displayHeight: 200)
             
-        
+            
         } else if self.kind == "imaiku" {
             createDatePickerField(displayWidth)
-//            self.navigationItem.title = "待ち合わせまでにかかる時間"
-//            self.navigationController!.navigationBar.tintColor = UIColor.white
-//            
-//            tableView = UITableView(frame: CGRect(x: 0, y: navBarHeight!, width: displayWidth, height: displayHeight - navBarHeight!))
-//            
-//            tableView.register(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
-//            tableView.dataSource = self
-//            tableView.delegate = self
-//            
-//            let view:UIView = UIView(frame: CGRect.zero)
-//            view.backgroundColor = UIColor.clear
-//            tableView.tableFooterView = view
-//            tableView.tableHeaderView = view
-//            self.view.addSubview(tableView)
-        
+            //            self.navigationItem.title = "待ち合わせまでにかかる時間"
+            //            self.navigationController!.navigationBar.tintColor = UIColor.white
+            //
+            //            tableView = UITableView(frame: CGRect(x: 0, y: navBarHeight!, width: displayWidth, height: displayHeight - navBarHeight!))
+            //
+            //            tableView.register(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
+            //            tableView.dataSource = self
+            //            tableView.delegate = self
+            //
+            //            let view:UIView = UIView(frame: CGRect.zero)
+            //            view.backgroundColor = UIColor.clear
+            //            tableView.tableFooterView = view
+            //            tableView.tableHeaderView = view
+            //            self.view.addSubview(tableView)
+            
         } else if self.kind == "imageView" {
             let displaySize = UIScreen.main.bounds.size.width
             
@@ -158,8 +160,74 @@ class PickerViewController: UIViewController,
             searchBarField.placeholder = "Twitter ID を入力してください"
             self.view.addSubview(searchBarField)
             
+        } else if self.kind == "notificationSettings"{
+            
+            let center = NotificationCenter.default as NotificationCenter
+            center.addObserver(self, selector: #selector(self.notificationView), name: NSNotification.Name(rawValue: "test"), object: nil)
+            
+            UNUserNotificationCenter.current().requestAuthorization(options: [.alert]) { (granted, error) in
+                guard error == nil else { NSLog("oops"); return }
+                
+                let center = NotificationCenter.default
+                center.post(name: Notification.Name(rawValue: "test"), object: self)
+            }
+            
+            
+            
+            /*
+             UNUserNotificationCenter.current().getNotificationSettings { (settings) in
+             
+             switch settings.authorizationStatus {
+             case .authorized:
+             
+             authorized = true
+             
+             break
+             case .denied:
+             
+             authorized = false
+             break
+             case .notDetermined:
+             authorized = false
+             break
+             }
+             }*/
+            
+            
         }
     }
+    func notificationView(_ notif: Notification) {
+        defer { NotificationCenter.default.removeObserver(self) }
+        
+        var authorized:Bool = false
+        let navHaight = self.navigationController?.navigationBar.frame.size.height
+        
+        if authorized == true {
+            tableView = UITableView(frame: CGRect(x: 0, y: navHaight!, width: displayWidth, height: displayHeight - navHaight!))
+            
+            tableView.register(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
+            tableView.dataSource = self
+            tableView.delegate = self
+            
+            let view:UIView = UIView(frame: CGRect.zero)
+            view.backgroundColor = UIColor.clear
+            tableView.tableFooterView = view
+            tableView.tableHeaderView = view
+            view.addSubview(self.tableView)
+        } else {
+            
+            let label = UILabel(frame: CGRect(x: 10, y: 20, width:  displayWidth - 10,height:  10));
+            label.text = "Machinbo から通知を受信しない設定になっています。通知を受信をしたい場合は、アプリの設定を有効にしてください。"
+            label.font = UIFont.italicSystemFont(ofSize: UIFont.labelFontSize)
+            label.numberOfLines = 0
+            label.sizeToFit()
+            self.view.addSubview(label)
+            
+            // open app setting buttom
+            createNotificationSettingsButton(displayWidth: displayWidth, displayHeight: 200)
+        }
+    }
+    
     
     func createDatePickerField(_ displayWidth: CGFloat) {
         // UIDatePickerの設定
@@ -171,7 +239,7 @@ class PickerViewController: UIViewController,
     }
     
     func createCommentField(_ displayWidth: CGFloat, displayHeight: CGFloat) {
-
+        
         inputTextView.frame = CGRect(x: 10, y: 20, width: displayWidth - 20 ,height: 80)
         inputTextView.text = self.Input as? String
         inputTextView.layer.masksToBounds = true
@@ -238,7 +306,7 @@ class PickerViewController: UIViewController,
                 self.navigationController!.popViewController(animated: true)
             }
             
-
+            
         } else if (self.kind == "comment") {
             
             if self.inputTextView.text.isEmpty {
@@ -246,7 +314,7 @@ class PickerViewController: UIViewController,
                     return
                 }
             }
-
+            
             var userInfo = PersistentData.User()
             if userInfo.userID == "" {
                 self.delegate!.setInputValue(self.inputTextView.text, type: .comment)
@@ -284,13 +352,13 @@ class PickerViewController: UIViewController,
         } else if self.kind == "imaiku" {
             MBProgressHUDHelper.show("Loading...")
             
-
+            
             
             let center = NotificationCenter.default as NotificationCenter
             LocationManager.sharedInstance.startUpdatingLocation()
             center.addObserver(self, selector: #selector(self.foundLocation(_:)), name: NSNotification.Name(rawValue: LMLocationUpdateNotification as String as String), object: nil)
+            
         }
-        
     }
     
     internal func onClickSearchButton(_ sender: UIButton){
@@ -299,8 +367,8 @@ class PickerViewController: UIViewController,
     
     
     /*
-    Cellが選択された際に呼び出されるデリゲートメソッド.
-    */
+     Cellが選択された際に呼び出されるデリゲートメソッド.
+     */
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if (self.kind == "age"){
@@ -311,26 +379,26 @@ class PickerViewController: UIViewController,
             }
             
         } else if (self.kind == "gender"){
-
+            
             if let selected = myItems[indexPath.row] as? String {
                 self.delegate!.setSelectedValue(indexPath.row, selectedValue: selected.uppercased(), type: .gender)
                 self.navigationController!.popViewController(animated: true)
             }
             
         }
-//        else if (self.kind == "imaiku") {
-//            
-//            if let selected = myItems[indexPath.row] as? String {
-//                self.selectedItem = selected
-//                
-//                MBProgressHUDHelper.show("Loading...")
-//                
-//                let center = NotificationCenter.default as NotificationCenter
-//                LocationManager.sharedInstance.startUpdatingLocation()
-//                center.addObserver(self, selector: #selector(self.foundLocation(_:)), name: NSNotification.Name(rawValue: LMLocationUpdateNotification as String as String), object: nil)
-//            }
-//            
-//        }
+        //        else if (self.kind == "imaiku") {
+        //
+        //            if let selected = myItems[indexPath.row] as? String {
+        //                self.selectedItem = selected
+        //
+        //                MBProgressHUDHelper.show("Loading...")
+        //
+        //                let center = NotificationCenter.default as NotificationCenter
+        //                LocationManager.sharedInstance.startUpdatingLocation()
+        //                center.addObserver(self, selector: #selector(self.foundLocation(_:)), name: NSNotification.Name(rawValue: LMLocationUpdateNotification as String as String), object: nil)
+        //            }
+        //
+        //        }
     }
     
     func foundLocation(_ notif: Notification) {
@@ -361,14 +429,14 @@ class PickerViewController: UIViewController,
             
             
             
-//            let endPoint = self.selectedItem.characters.count - 1
-//            let selected = (self.selectedItem as NSString).substring(to: endPoint)
-//            let calendar = Calendar(identifier: Calendar.Identifier.gregorian)
-//            let gotoAtMinute = Int(selected)
-//            let createdAtDate = Date()
-//            let arriveTime = (calendar as NSCalendar).date(byAdding: .minute, value: gotoAtMinute!, to: createdAtDate, options: NSCalendar.Options())!
-//            
-//            query["gotoAt"] = arriveTime
+            //            let endPoint = self.selectedItem.characters.count - 1
+            //            let selected = (self.selectedItem as NSString).substring(to: endPoint)
+            //            let calendar = Calendar(identifier: Calendar.Identifier.gregorian)
+            //            let gotoAtMinute = Int(selected)
+            //            let createdAtDate = Date()
+            //            let arriveTime = (calendar as NSCalendar).date(byAdding: .minute, value: gotoAtMinute!, to: createdAtDate, options: NSCalendar.Options())!
+            //
+            //            query["gotoAt"] = arriveTime
             query["gotoAt"] = self.inputMyDatePicker.date
             query["imakokoAt"] = targetUserUpdatedAt
             
@@ -419,29 +487,29 @@ class PickerViewController: UIViewController,
                 UIAlertController.showAlertView("", message: "いまから行くことを送信しました")
             }
         }
-
+        
     }
     
     func errorAction() {
         MBProgressHUDHelper.hide()
-        UIAlertController.showAlertView("", message: "通信エラーが発生しました。再実行してください。") { action in 
+        UIAlertController.showAlertView("", message: "通信エラーが発生しました。再実行してください。") { action in
             self.navigationController!.popToRootViewController(animated: true)
         }
     }
     
     
     /*
-    Cellの総数を返すデータソースメソッド.
-    (実装必須)
-    */
+     Cellの総数を返すデータソースメソッド.
+     (実装必須)
+     */
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.myItems.count
     }
     
     /*
-    Cellに値を設定するデータソースメソッド.
-    (実装必須)
-    */
+     Cellに値を設定するデータソースメソッド.
+     (実装必須)
+     */
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let identifier = "Cell" // セルのIDを定数identifierにする。
@@ -460,6 +528,20 @@ class PickerViewController: UIViewController,
             }
             
             cell?.textLabel!.text = "\(self.myItems[indexPath.row])"
+            
+            if self.kind == "notificationSettings" {
+                
+                cell?.detailTextLabel?.text = selectedGender as String
+                
+                
+                // settings able
+                let sw = UISwitch(frame: CGRect(x:0,y: 0,width: 60,height: 40))
+                cell?.addSubview(sw)
+                //sw.center = CGPointMake(displayWidth - 50, cell!.frame.height/2)
+                sw.center = CGPoint(x: displayWidth - 50,y: cell!.frame.height/2)
+                
+                sw.addTarget(self, action: #selector(PickerViewController.onChangeNotificationSwich), for: UIControlEvents.touchUpInside)
+            }
         }
         
         return cell!
@@ -492,5 +574,37 @@ class PickerViewController: UIViewController,
         
         self.view.endEditing(true)
     }
-
+    
+    
+    func createNotificationSettingsButton(displayWidth: CGFloat, displayHeight: CGFloat) {
+        
+        let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 350, height: 40))
+        btn.trackTouchLocation = true
+        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
+        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
+        btn.rippleColor = LayoutManager.getUIColorFromRGB(0xB54241)
+        btn.setTitle("go to ios settings", for: .normal)
+        btn.layer.cornerRadius = 5.0
+        btn.layer.masksToBounds = true
+        btn.layer.position = CGPoint(x: displayWidth/2, y: displayHeight)
+        btn.addTarget(self, action: #selector(openAppSettingPage), for: UIControlEvents.touchUpInside)
+        
+        self.view.addSubview(btn)
+    }
+    func openAppSettingPage() -> Void {
+        //let application = UIApplication.sharedApplication()
+        
+        let url = NSURL(string:UIApplicationOpenSettingsURLString)!
+        if #available(iOS 10.0, *) {
+            UIApplication.shared.open(url as URL, options: [:], completionHandler: nil)
+        } else {
+            UIApplication.shared.openURL(url as URL)
+        }
+    }
+    func onChangeNotificationSwich(sender: UISwitch){
+        
+        // save to local db
+        var userInfo = PersistentData.User()
+        userInfo.isReceiveMassageHide = sender.isOn
+    }
 }

@@ -161,73 +161,41 @@ UISearchBarDelegate {
             self.view.addSubview(searchBarField)
             
         } else if self.kind == "notificationSettings"{
+
             
-            let center = NotificationCenter.default as NotificationCenter
-            center.addObserver(self, selector: #selector(self.notificationView), name: NSNotification.Name(rawValue: "test"), object: nil)
-            
-            UNUserNotificationCenter.current().requestAuthorization(options: [.alert]) { (granted, error) in
-                guard error == nil else { NSLog("oops"); return }
+            let status = UIApplication.shared.currentUserNotificationSettings?.types
+
+            if (status?.contains(UIUserNotificationType.alert))! {
+                print("Alert ON")
                 
-                let center = NotificationCenter.default
-                center.post(name: Notification.Name(rawValue: "test"), object: self)
+                let navHaight = self.navigationController?.navigationBar.frame.size.height
+                tableView = UITableView(frame: CGRect(x: 0, y: 0, width: displayWidth, height: displayHeight - navHaight!))
+                
+                tableView.register(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
+                tableView.dataSource = self
+                tableView.delegate = self
+                
+                let notificationTableView:UIView = UIView(frame: CGRect.zero)
+                view.backgroundColor = UIColor.clear
+                tableView.tableFooterView = notificationTableView
+                tableView.tableHeaderView = notificationTableView
+                view.addSubview(tableView)
+                self.tableView.reloadData()
+                
+            } else{
+                
+                let label = UILabel(frame: CGRect(x: 10, y: 20, width:  displayWidth - 10,height:  10));
+                label.text = "Machinbo から通知を受信しない設定になっています。通知を受信をしたい場合は、アプリの設定を有効にしてください。"
+                label.font = UIFont.italicSystemFont(ofSize: UIFont.labelFontSize)
+                label.numberOfLines = 0
+                label.sizeToFit()
+                self.view.addSubview(label)
+                
+                // open app setting buttom
+                createNotificationSettingsButton(displayWidth: displayWidth, displayHeight: 200)
             }
-            
-            
-            
-            /*
-             UNUserNotificationCenter.current().getNotificationSettings { (settings) in
-             
-             switch settings.authorizationStatus {
-             case .authorized:
-             
-             authorized = true
-             
-             break
-             case .denied:
-             
-             authorized = false
-             break
-             case .notDetermined:
-             authorized = false
-             break
-             }
-             }*/
-            
-            
         }
     }
-    func notificationView(_ notif: Notification) {
-        defer { NotificationCenter.default.removeObserver(self) }
-        
-        var authorized:Bool = false
-        let navHaight = self.navigationController?.navigationBar.frame.size.height
-        
-        if authorized == true {
-            tableView = UITableView(frame: CGRect(x: 0, y: navHaight!, width: displayWidth, height: displayHeight - navHaight!))
-            
-            tableView.register(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
-            tableView.dataSource = self
-            tableView.delegate = self
-            
-            let view:UIView = UIView(frame: CGRect.zero)
-            view.backgroundColor = UIColor.clear
-            tableView.tableFooterView = view
-            tableView.tableHeaderView = view
-            view.addSubview(self.tableView)
-        } else {
-            
-            let label = UILabel(frame: CGRect(x: 10, y: 20, width:  displayWidth - 10,height:  10));
-            label.text = "Machinbo から通知を受信しない設定になっています。通知を受信をしたい場合は、アプリの設定を有効にしてください。"
-            label.font = UIFont.italicSystemFont(ofSize: UIFont.labelFontSize)
-            label.numberOfLines = 0
-            label.sizeToFit()
-            self.view.addSubview(label)
-            
-            // open app setting buttom
-            createNotificationSettingsButton(displayWidth: displayWidth, displayHeight: 200)
-        }
-    }
-    
     
     func createDatePickerField(_ displayWidth: CGFloat) {
         // UIDatePickerの設定
@@ -531,16 +499,14 @@ UISearchBarDelegate {
             
             if self.kind == "notificationSettings" {
                 
-                cell?.detailTextLabel?.text = selectedGender as String
-                
-                
                 // settings able
                 let sw = UISwitch(frame: CGRect(x:0,y: 0,width: 60,height: 40))
-                cell?.addSubview(sw)
+                
                 //sw.center = CGPointMake(displayWidth - 50, cell!.frame.height/2)
                 sw.center = CGPoint(x: displayWidth - 50,y: cell!.frame.height/2)
                 
                 sw.addTarget(self, action: #selector(PickerViewController.onChangeNotificationSwich), for: UIControlEvents.touchUpInside)
+                cell?.addSubview(sw)
             }
         }
         

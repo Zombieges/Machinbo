@@ -105,7 +105,7 @@ GMSMapViewDelegate {
         self.initTableView()
         self.setImageProfile()
         self.setGoogleMap()
-        self.sections = ["プロフィール", "待ち合わせ情報"]
+        self.sections = ["", ""]
         
         if type == .meetupProfile {
             let isApproved =  (self.gonowInfo as AnyObject).object(forKey: "IsApproved") as! Bool
@@ -130,9 +130,9 @@ GMSMapViewDelegate {
         return sections.count
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sections[section] as? String
-    }
+//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        return sections[section] as? String
+//    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
@@ -235,7 +235,7 @@ GMSMapViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 80.0
+        return 40.0
     }
     
     func setNavigationButton() {
@@ -247,38 +247,34 @@ GMSMapViewDelegate {
     }
     
     func createGoNowButton() {
-        let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        btn.trackTouchLocation = true
-        btn.backgroundColor = UIColor.hex("55acee", alpha: 1)
-        btn.layer.borderColor = UIColor.white.cgColor
-        btn.layer.borderWidth = 3
-        btn.layer.cornerRadius = 7
-        btn.layer.masksToBounds = true
-        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x2196F3)
-        btn.rippleColor = LayoutManager.getUIColorFromRGB(0xBBDEFB)
+        let imadokoBtnX = self.displayWidth - round(self.displayWidth / 3.5)
+        let imadokoBtnWidth = round(self.displayWidth / 4)
+        let imadokotnHeight = round(self.displayHeight / 17)
+        
+        let btn = ZFRippleButton(frame: CGRect(x: imadokoBtnX, y: mapViewHeight + 10, width: imadokoBtnWidth, height: imadokotnHeight))
+        btn.setTitle("約束", for: UIControlState())
         btn.addTarget(self, action: #selector(self.clickGoNowButton), for: .touchUpInside)
-        btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.center
-        btn.setImage(UIImage(named: "imaiku.png"), for: UIControlState())
-        btn.imageView?.contentMode = .scaleAspectFit
-        let imaikuBtnX = self.displayWidth - round(self.displayWidth / 5)
-        let imaikuBtnWidth = round(self.displayWidth / 7)
-        let imaikuBtnHeight = round(self.displayHeight / 17)
-        btn.frame = CGRect(x: imaikuBtnX, y: mapViewHeight + 10, width: imaikuBtnWidth, height: imaikuBtnHeight)
-        btn.imageEdgeInsets = UIEdgeInsetsMake(8, 8, 8, 8)
+        btn.trackTouchLocation = true
+        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1)
+        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1)
+        btn.rippleColor = LayoutManager.getUIColorFromRGB(0x1976D2)
+        btn.layer.cornerRadius = 5.0
+        btn.layer.masksToBounds = true
         
         self.myHeaderView.addSubview(btn)
     }
     
     func clickGoNowButton() {
-        UIAlertController.showAlertOKCancel("いまから行くことを送信", message: "いまから行くことを相手に送信します。") { action in
-            guard action == .ok else { return }
-            
-            let vc = PickerViewController()
-            vc.palTargetUser = self.userInfo! as PFObject
-            vc.palKind = "imaiku"
-            
-            self.navigationController!.pushViewController(vc, animated: true)
-        }
+        let vc = PickerViewController()
+        vc.palTargetUser = self.userInfo! as PFObject
+        vc.palKind = "imaiku"
+        
+        self.navigationController!.pushViewController(vc, animated: true)
+        
+        //TODO:PickerViewで送信
+//        UIAlertController.showAlertOKCancel("", message: "相手に行くことを送信します", actiontitle: "送信") { action in
+//            guard action == .ok else { return }
+//        }
     }
     
     func createApprovedButton(mapViewHeight: CGFloat) {
@@ -340,27 +336,25 @@ GMSMapViewDelegate {
     }
     
     func createConfirmGeoPointButton(mapViewHeight: CGFloat) {
-        let btn = UIButton()
-        btn.addTarget(self, action: #selector(self.clickimadokoButton), for: .touchUpInside)
-        btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.center
-        btn.setTitle("位置確認", for: UIControlState())
-        btn.titleLabel!.font = UIFont.systemFont(ofSize: 15)
-        btn.layer.cornerRadius = 5.0
-        btn.layer.borderColor = UIView().tintColor.cgColor
-        btn.layer.borderWidth = 1.0
-        btn.tintColor = UIView().tintColor
-        btn.setTitleColor(UIView().tintColor, for: UIControlState())
-        
         let imadokoBtnX = self.displayWidth - round(self.displayWidth / 1.8)
         let imadokoBtnWidth = round(self.displayWidth / 4)
         let imadokotnHeight = round(self.displayHeight / 17)
-        btn.frame = CGRect(x: imadokoBtnX, y: mapViewHeight + 10, width: imadokoBtnWidth, height: imadokotnHeight)
+        
+        let btn = ZFRippleButton(frame: CGRect(x: imadokoBtnX, y: mapViewHeight + 10, width: imadokoBtnWidth, height: imadokotnHeight))
+        btn.setTitle("位置確認", for: UIControlState())
+        btn.addTarget(self, action: #selector(self.clickimadokoButton), for: .touchUpInside)
+        btn.trackTouchLocation = true
+        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1)
+        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1)
+        btn.rippleColor = LayoutManager.getUIColorFromRGB(0x1976D2)
+        btn.layer.cornerRadius = 5.0
+        btn.layer.masksToBounds = true
         
         self.myHeaderView.addSubview(btn)
     }
     
     func clickimakokoButton() {
-        UIAlertController.showAlertOKCancel("現在位置の送信", message: "現在のあなたの位置情報を相手だけに送信します") { action in
+        UIAlertController.showAlertOKCancel("", message: "現在のあなたの位置情報を相手だけに送信します", actiontitle: "送信") { action in
             if action == .cancel { return }
             
             LocationManager.sharedInstance.startUpdatingLocation()
@@ -446,7 +440,7 @@ GMSMapViewDelegate {
     }
     
     func clickimadokoButton() {
-        UIAlertController.showAlertOKCancel("現在位置確認", message: "相手が、いまドコにいるのかを確認する通知を送信します") { action in
+        UIAlertController.showAlertOKCancel("", message: "相手の現在位置を送信する依頼をします", actiontitle: "送信") { action in
             
             if action == .cancel { return }
             

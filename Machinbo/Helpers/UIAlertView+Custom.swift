@@ -50,14 +50,14 @@ public extension UIAlertController {
     /*
      * Alert OK CANCEL
      */
-    class func showAlertOKCancel(_ title: String, message: String, completion: @escaping (_ action: ActionButton) -> Void) {
+    class func showAlertOKCancel(_ title: String, message: String, actiontitle: String, completion: @escaping (_ action: ActionButton) -> Void) {
         let alertController = UIAlertController(
             title: title,
             message: message,
             preferredStyle: .alert
         )
         
-        let okAction = UIAlertAction(title: "OK", style: .default, handler: {
+        let okAction = UIAlertAction(title: actiontitle, style: .default, handler: {
             (action:UIAlertAction) -> Void in
             completion(.ok)
         })

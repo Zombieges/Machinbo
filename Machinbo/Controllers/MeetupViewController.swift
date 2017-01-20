@@ -52,7 +52,20 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let gonowCell = tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? GoNowTableViewCell
         let userInfoObject = self.getUserInfomation(index: indexPath.row)
         
-        if let userInfoObject = userInfoObject {
+        let gonowObject = self.goNowList[indexPath.row] as! PFObject
+        let isDeleteUser = gonowObject.object(forKey: "isDeleteUser") as! Bool
+        let isDeleteTarget = gonowObject.object(forKey: "isDeleteTarget") as! Bool
+        let userID = gonowObject.object(forKey: "UserID") as! String
+        let targetUserID = gonowObject.object(forKey: "TargetUserID") as! String
+        
+        let isDelete = (userID == PersistentData.User().userID && isDeleteTarget) ||
+            (targetUserID == PersistentData.User().userID && isDeleteUser)
+        if isDelete {
+            gonowCell?.titleLabel.text = "ユーザから拒否されました"
+            gonowCell?.valueLabel.text = ""
+            gonowCell?.entryTime.text = ""
+            
+        } else if let userInfoObject = userInfoObject {
             if let imageFile = userInfoObject.value(forKey: "ProfilePicture") as? PFFile {
                 imageFile.getDataInBackground { (imageData, error) -> Void in
                     guard error == nil else { print("Error information"); return }
@@ -76,28 +89,12 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
             gonowCell?.titleLabel.text = "このユーザは存在しません"
             gonowCell?.valueLabel.text = ""
             gonowCell?.entryTime.text = ""
-            
         }
         
         return gonowCell!
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("Num: \(indexPath.row)")
-        print("Edeintg: \(tableView.isEditing)")
-        
-        let vc : TargetProfileViewController
-        if nowSegumentIndex <= 1 {
-            vc = TargetProfileViewController(type: ProfileType.meetupProfile)
-        } else {
-            vc = TargetProfileViewController(type: ProfileType.receiveProfile)
-        }
-        
-        if let tempGeoPoint = self.goNowList[indexPath.row].object(forKey: "meetingGeoPoint") {
-            vc.targetGeoPoint = tempGeoPoint as! PFGeoPoint
-        }
-        
-        let gonowObject = self.goNowList[indexPath.row] as! PFObject
         let userInfoObject = self.getUserInfomation(index: indexPath.row)
         
         guard userInfoObject != nil else {
@@ -105,8 +102,25 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
             return
         }
         
+        let gonowObject = self.goNowList[indexPath.row] as! PFObject
+        let isDeleteUser = gonowObject.object(forKey: "isDeleteUser") as! Bool
+        let isDeleteTarget = gonowObject.object(forKey: "isDeleteTarget") as! Bool
+        
+        guard !isDeleteUser && !isDeleteTarget else {
+            UIAlertController.showAlertOKCancel("", message: "ユーザから拒否されました。削除しますか？", actiontitle: "削除") { action in
+                guard action == .ok else { return }
+                self.deleteGoNow(row: indexPath.row)
+            }
+            return
+        }
+        
+        let type = nowSegumentIndex <= 1 ? ProfileType.meetupProfile : ProfileType.receiveProfile
+        let vc = TargetProfileViewController(type: type)
         vc.userInfo = userInfoObject
         vc.gonowInfo = gonowObject
+        if let tempGeoPoint = self.goNowList[indexPath.row].object(forKey: "meetingGeoPoint") {
+            vc.targetGeoPoint = tempGeoPoint as! PFGeoPoint
+        }
         
         self.navigationController!.pushViewController(vc, animated: true)
     }
@@ -117,30 +131,26 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let gonowObject = self.goNowList[indexPath.row] as! PFObject
-            let userInfoObject = self.getUserInfomation(index: indexPath.row)
-            let name = userInfoObject?.object(forKey: "Name") as! String
-            
-            UIAlertController.showAlertOKCancel("", message: name + "の「いまから行く」を拒否しますか？") { action in
+            UIAlertController.showAlertOKCancel("", message: "削除します。よろしいですか？", actiontitle: "削除") { action in
                 guard action == .ok else { return }
                 
-                MBProgressHUDHelper.show("Loading...")
-                ParseHelper.deleteGoNow(gonowObject.objectId!) { () -> () in
-                    MBProgressHUDHelper.hide()
-                    self.goNowList.remove(at: indexPath.row)
-                    tableView.reloadData()
-                }
+                self.deleteAction(row: indexPath.row)
             }
         }
     }
     
-    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: NSIndexPath) -> [UITableViewRowAction]? {
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let deleteButton = UITableViewRowAction(style: .normal, title: "削除") { (action, index) -> Void in
+            UIAlertController.showAlertOKCancel("", message: "削除します。よろしいですか？", actiontitle: "削除") { action in
+                guard action == .ok else { return }
+                
+                self.deleteAction(row: indexPath.row)
+            }
+        }
+        deleteButton.backgroundColor = UIColor.red
+        
         let blockButton: UITableViewRowAction = UITableViewRowAction(style: .normal, title: "ブロック") { (action, index) -> Void in
-            let gonowObject = self.goNowList[indexPath.row] as! PFObject
-            let userInfoObject = self.getUserInfomation(index: indexPath.row)
-            let name = userInfoObject?.object(forKey: "Name") as! String
-            
-            UIAlertController.showAlertOKCancel("", message: name + "をブロックしますか？") { action in
+            UIAlertController.showAlertOKCancel("", message: "ブロックします。よろしいですか？", actiontitle: "ブロック") { action in
                 guard action == .ok else { return }
                 //Block処理を追加
                 //UserInfoにブロックArrayを追加->Arrayに追加（Json形式が良さげ？）
@@ -148,9 +158,8 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
             tableView.isEditing = false
             print("ブロック")
         }
-        //blockButton.backgroundColor = UIColor.blueColor()
         
-        return [blockButton]
+        return [deleteButton, blockButton]
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -184,7 +193,7 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
     }
     
-    func initTableView() {
+    private func initTableView() {
         let nibName = UINib(nibName: "GoNowTableViewCell", bundle:nil)
         self.tableView.register(nibName, forCellReuseIdentifier: detailTableViewCellIdentifier)
         self.tableView.estimatedRowHeight = 100.0
@@ -197,7 +206,7 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.view.addSubview(tableView)
     }
     
-    func createHeaderBottomLine() {
+    private func createHeaderBottomLine() {
         let bottomLine = CALayer()
         bottomLine.frame = CGRect(x: 0, y: bottomLine.frame.size.height - 1, width: bottomLine.frame.size.width, height: bottomLine.frame.size.height)
         bottomLine.borderWidth = 1
@@ -206,7 +215,7 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.headerView.layer.masksToBounds = true
     }
     
-    func createRefreshControl() {
+    private func createRefreshControl() {
         self.refreshControl = UIRefreshControl()
         self.refreshControl.attributedTitle = NSAttributedString(string: "Loading...")
         self.refreshControl.addTarget(self, action: #selector(self.refresh), for: .valueChanged)
@@ -224,7 +233,7 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.tableView.reloadData()
     }
     
-    func getUserInfomation(index: Int) -> PFObject? {
+    private func getUserInfomation(index: Int) -> PFObject? {
         let gonowObject = self.goNowList[index] as! PFObject
         var userInfoObject: PFObject?
         
@@ -305,6 +314,42 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
             guard error == nil else { print("Error information"); return }
             
             self.goNowList = result!
+            self.tableView.reloadData()
+        }
+    }
+    
+    private func deleteAction(row: Int) {
+        let gonowObject = self.goNowList[row] as! PFObject
+        let isDeleteUser = gonowObject.object(forKey: "isDeleteUser") as! Bool
+        let isDeleteTarget = gonowObject.object(forKey: "isDeleteTarget") as! Bool
+        
+        MBProgressHUDHelper.show("Loading...")
+        defer { MBProgressHUDHelper.hide() }
+        
+        guard !isDeleteUser && !isDeleteTarget else {
+            //どちらかがtrueの場合、レコードを削除
+            self.deleteGoNow(row: row)
+            return
+        }
+        
+        let userID = gonowObject.object(forKey: "UserID") as! String
+        let targetUserID = gonowObject.object(forKey: "TargetUserID") as! String
+        
+        if userID == PersistentData.User().userID {
+            gonowObject["isDeleteUser"] = true
+        } else if targetUserID == PersistentData.User().userID {
+            gonowObject["isDeleteTarget"] = true
+        }
+        gonowObject.saveInBackground()
+        
+        self.goNowList.remove(at: row)
+        self.tableView.reloadData()
+    }
+    
+    private func deleteGoNow(row: Int) {
+        let gonowObject = self.goNowList[row] as! PFObject
+        ParseHelper.deleteGoNow(gonowObject.objectId!) { () -> () in
+            self.goNowList.remove(at: row)
             self.tableView.reloadData()
         }
     }

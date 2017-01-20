@@ -183,7 +183,7 @@ UITableViewDelegate {
         MBProgressHUDHelper.show("Loading...")
         
         //アカウント削除処理
-        UIAlertController.showAlertOKCancel("", message: "アカウントを削除しますと、いままでの履歴が削除されてしまいます。本当にアカウントを削除してもよろしいですか？") { action in
+        UIAlertController.showAlertOKCancel("", message: "アカウントを削除しますと、いままでの履歴が削除されてしまいます。本当にアカウントを削除してもよろしいですか？", actiontitle: "削除") { action in
             
             if action == .cancel {
                 MBProgressHUDHelper.hide()

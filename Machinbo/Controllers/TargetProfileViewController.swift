@@ -55,7 +55,7 @@ GMSMapViewDelegate {
     
     var userInfo: PFObject?
     var type = ProfileType.targetProfile
-    var targetGeoPoint = PFGeoPoint(latitude: 0, longitude: 0)
+    //var targetGeoPoint = PFGeoPoint(latitude: 0, longitude: 0)
     var gonowInfo: PFObject?
     
     @IBOutlet var tableView: UITableView!
@@ -603,7 +603,8 @@ GMSMapViewDelegate {
         gmaps.delegate = self
         
         if type == ProfileType.meetupProfile || type == ProfileType.receiveProfile {
-            GoogleMapsHelper.setUserPin(gmaps, geoPoint: targetGeoPoint)
+            //↓こっちは待ち合わせ画面から来た場合
+            GoogleMapsHelper.setUserPin(gmaps, gonowInfo: self.gonowInfo!)
         } else {
             GoogleMapsHelper.setUserMarker(gmaps, user: userInfo! as PFObject, isSelect: true)
         }

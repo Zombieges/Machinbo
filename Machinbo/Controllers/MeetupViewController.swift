@@ -15,7 +15,9 @@ extension MeetupViewController: TransisionProtocol {}
 
 class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, GADBannerViewDelegate, GADInterstitialDelegate, UITabBarDelegate {
     
-    private var goNowList = [AnyObject]()
+    private var goNowList: [AnyObject]?
+    private var meetupList: [AnyObject]?
+    private var recieveList: [AnyObject]?
     private var nowSegumentIndex = 0
     private var refreshControl:UIRefreshControl!
     private let detailTableViewCellIdentifier = "GoNowCell"
@@ -44,15 +46,65 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
     }
     
+    func setNoMeetupTableView(count: Int) {
+        if count == 0 {
+            let noDataLabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.size.width, height: self.tableView.bounds.size.height))
+            noDataLabel.text = "待ち合わせ情報がありません"
+            noDataLabel.textColor        = UIColor.darkGray
+            noDataLabel.textAlignment    = .center
+            self.tableView.backgroundView = noDataLabel
+            self.tableView.separatorStyle = .none
+            
+        } else {
+            self.tableView.separatorStyle = .singleLine
+            self.tableView.backgroundView = nil
+        }
+
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? self.goNowList.count : 0
+        if self.nowSegumentIndex == 0 {
+            if let list = self.goNowList {
+                self.setNoMeetupTableView(count: list.count)
+                return list.count
+            }
+            
+        } else if self.nowSegumentIndex == 1 {
+            if let list = self.meetupList {
+                self.setNoMeetupTableView(count: list.count)
+                return list.count
+            }
+            
+        } else if self.nowSegumentIndex == 2 {
+            if let list = self.recieveList {
+                self.setNoMeetupTableView(count: list.count)
+                return list.count
+            }
+            
+        }
+
+        return 0
+    }
+    
+    func getGonowObject(row: Int) -> AnyObject {
+        if self.nowSegumentIndex == 0 {
+            if let list = self.goNowList { return list[row] }
+            
+        } else if self.nowSegumentIndex == 1 {
+            if let list = self.meetupList { return list[row] }
+            
+        } else if self.nowSegumentIndex == 2 {
+            if let list = self.recieveList { return list[row] }
+        }
+        
+        return PFObject()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let gonowCell = tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? GoNowTableViewCell
         let userInfoObject = self.getUserInfomation(index: indexPath.row)
         
-        let gonowObject = self.goNowList[indexPath.row] as! PFObject
+        let gonowObject = self.getGonowObject(row: indexPath.row)
         let isDeleteUser = gonowObject.object(forKey: "isDeleteUser") as! Bool
         let isDeleteTarget = gonowObject.object(forKey: "isDeleteTarget") as! Bool
         let userID = gonowObject.object(forKey: "UserID") as! String
@@ -83,7 +135,7 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
             
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy年M月d日 H:mm"
-            gonowCell?.entryTime.text = dateFormatter.string(from: goNowList[indexPath.row].object(forKey: "gotoAt") as! Date)
+            gonowCell?.entryTime.text = dateFormatter.string(from: gonowObject.object(forKey: "gotoAt") as! Date)
             
         } else {
             gonowCell?.titleLabel.text = "このユーザは存在しません"
@@ -102,7 +154,7 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
             return
         }
         
-        let gonowObject = self.goNowList[indexPath.row] as! PFObject
+        let gonowObject = getGonowObject(row: indexPath.row)
         let isDeleteUser = gonowObject.object(forKey: "isDeleteUser") as! Bool
         let isDeleteTarget = gonowObject.object(forKey: "isDeleteTarget") as! Bool
         
@@ -117,11 +169,8 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let type = nowSegumentIndex <= 1 ? ProfileType.meetupProfile : ProfileType.receiveProfile
         let vc = TargetProfileViewController(type: type)
         vc.userInfo = userInfoObject
-        vc.gonowInfo = gonowObject
-        if let tempGeoPoint = self.goNowList[indexPath.row].object(forKey: "meetingGeoPoint") {
-            vc.targetGeoPoint = tempGeoPoint as! PFGeoPoint
-        }
-        
+        vc.gonowInfo = gonowObject as? PFObject
+
         self.navigationController!.pushViewController(vc, animated: true)
     }
     
@@ -167,30 +216,23 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     @IBAction func changeSegmentedControl(_ sender: UISegmentedControl) {
-        nowSegumentIndex = sender.selectedSegmentIndex
+        self.nowSegumentIndex = sender.selectedSegmentIndex
         
-        switch sender.selectedSegmentIndex {
+        MBProgressHUDHelper.show("Loading...")
+        defer { MBProgressHUDHelper.hide() }
+        
+        switch self.nowSegumentIndex {
         case 0:
-            self.getApprovedMeetUpList()
+            if self.goNowList == nil { self.getApprovedMeetUpList() }
         case 1:
-            self.getMeetUpList()
+            if self.meetupList == nil { self.getMeetUpList() }
         case 2:
-            self.getReceiveList()
+            if self.recieveList == nil { self.getReceiveList() }
         default:
             break
         }
         
-        if self.goNowList.count == 0 {
-            let noDataLabel = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
-            noDataLabel.text = "待ち合わせ情報がありません"
-            noDataLabel.textColor        = UIColor.darkGray
-            noDataLabel.textAlignment    = .center
-            self.tableView.backgroundView = noDataLabel
-            self.tableView.separatorStyle = .none
-        } else {
-            self.tableView.separatorStyle = .singleLine
-            self.tableView.backgroundView = nil
-        }
+        self.tableView.reloadData()
     }
     
     private func initTableView() {
@@ -207,17 +249,12 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     private func createHeaderBottomLine() {
-        let bottomLine = CALayer()
-        bottomLine.frame = CGRect(x: 0, y: bottomLine.frame.size.height - 1, width: bottomLine.frame.size.width, height: bottomLine.frame.size.height)
-        bottomLine.borderWidth = 1
-        bottomLine.backgroundColor = UIColor.red.cgColor
-        self.headerView.layer.addSublayer(bottomLine)
-        self.headerView.layer.masksToBounds = true
+        self.headerView.layer.borderWidth = 0.3
+        self.headerView.layer.borderColor = UIColor.lightGray.cgColor
     }
     
     private func createRefreshControl() {
         self.refreshControl = UIRefreshControl()
-        self.refreshControl.attributedTitle = NSAttributedString(string: "Loading...")
         self.refreshControl.addTarget(self, action: #selector(self.refresh), for: .valueChanged)
         self.tableView.addSubview(refreshControl)
     }
@@ -228,13 +265,22 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func refresh() {
-        self.getGoNowMeList()
-        self.loadView()
+        switch self.nowSegumentIndex {
+        case 0:
+            self.getApprovedMeetUpList()
+        case 1:
+            self.getMeetUpList()
+        case 2:
+            self.getReceiveList()
+        default:
+            break
+        }
+        self.refreshControl.endRefreshing()
         self.tableView.reloadData()
     }
     
     private func getUserInfomation(index: Int) -> PFObject? {
-        let gonowObject = self.goNowList[index] as! PFObject
+        let gonowObject = getGonowObject(row: index)
         var userInfoObject: PFObject?
         
         if nowSegumentIndex == 0 {
@@ -257,69 +303,39 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         return userInfoObject
     }
-    
-    func getGoNowMeList(){
-        ParseHelper.getMeetupList(PersistentData.User().userID) { (error: NSError?, result) -> Void in
-            defer { MBProgressHUDHelper.hide() }
-            guard error == nil else { print("Error information"); return }
-            
-            self.goNowList = result!
-            if self.goNowList.count == 0 {
-                let label = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 20));
-                label.textAlignment = NSTextAlignment.center
-                self.view.addSubview(label)
-            }
-            
-            // このタイミングで reloadData() を行わないと、引っ張って更新時に画面に反映されない
-            self.tableView.reloadData()
-        }
-    }
-    
-    internal func segconChanged(segcon: UISegmentedControl){
-        switch segcon.selectedSegmentIndex {
-        default:
-            print("Error")
-        }
-    }
+
+//    internal func segconChanged(segcon: UISegmentedControl){
+//        switch segcon.selectedSegmentIndex {
+//        default:
+//            print("Error")
+//        }
+//    }
     
     func getApprovedMeetUpList() {
-        MBProgressHUDHelper.show("Loading...")
+        
         
         ParseHelper.getApprovedMeetupList(PersistentData.User().userID) { (error: NSError?, result) -> Void in
-            defer { MBProgressHUDHelper.hide() }
             guard error == nil else { print("Error information"); return }
-            
-            self.goNowList = result!
-            self.tableView.reloadData()
+            self.goNowList = result
         }
     }
     
     func getMeetUpList() {
-        MBProgressHUDHelper.show("Loading...")
-        
         ParseHelper.getMeetupList(PersistentData.User().userID) { (error: NSError?, result) -> Void in
-            defer { MBProgressHUDHelper.hide() }
             guard error == nil else { print("Error information"); return }
-            
-            self.goNowList = result!
-            self.tableView.reloadData()
+            self.meetupList = result
         }
     }
     
     func getReceiveList() {
-        MBProgressHUDHelper.show("Loading...")
-        
         ParseHelper.getReceiveList(PersistentData.User().userID) { (error: NSError?, result) -> Void in
-            defer { MBProgressHUDHelper.hide() }
             guard error == nil else { print("Error information"); return }
-            
-            self.goNowList = result!
-            self.tableView.reloadData()
+            self.recieveList = result
         }
     }
     
     private func deleteAction(row: Int) {
-        let gonowObject = self.goNowList[row] as! PFObject
+        let gonowObject = getGonowObject(row: row) as! PFObject
         let isDeleteUser = gonowObject.object(forKey: "isDeleteUser") as! Bool
         let isDeleteTarget = gonowObject.object(forKey: "isDeleteTarget") as! Bool
         
@@ -327,7 +343,6 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         defer { MBProgressHUDHelper.hide() }
         
         guard !isDeleteUser && !isDeleteTarget else {
-            //どちらかがtrueの場合、レコードを削除
             self.deleteGoNow(row: row)
             return
         }
@@ -341,15 +356,35 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
             gonowObject["isDeleteTarget"] = true
         }
         gonowObject.saveInBackground()
+
+        switch self.nowSegumentIndex {
+        case 0:
+            self.goNowList?.remove(at: row)
+        case 1:
+            self.meetupList?.remove(at: row)
+        case 2:
+            self.recieveList?.remove(at: row)
+        default:
+            break
+        }
         
-        self.goNowList.remove(at: row)
         self.tableView.reloadData()
     }
     
     private func deleteGoNow(row: Int) {
-        let gonowObject = self.goNowList[row] as! PFObject
+        let gonowObject = getGonowObject(row: row) as! PFObject
         ParseHelper.deleteGoNow(gonowObject.objectId!) { () -> () in
-            self.goNowList.remove(at: row)
+            switch self.nowSegumentIndex {
+            case 0:
+                self.goNowList?.remove(at: row)
+            case 1:
+                self.meetupList?.remove(at: row)
+            case 2:
+                self.recieveList?.remove(at: row)
+            default:
+                break
+            }
+            
             self.tableView.reloadData()
         }
     }

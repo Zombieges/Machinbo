@@ -152,34 +152,30 @@ UISearchBarDelegate {
             
         } else if self.kind == "search" {
             self.navigationItem.title = "Twitter検索"
-            searchBarField = UISearchBar()
-            searchBarField.delegate = self
-            searchBarField.frame = CGRect(x: 10, y: 30, width: displayWidth - 20 , height: 30)
-            searchBarField.searchBarStyle = .minimal
-            searchBarField.enablesReturnKeyAutomatically = true
-            searchBarField.placeholder = "Twitter ID を入力してください"
-            self.view.addSubview(searchBarField)
+            self.searchBarField = UISearchBar()
+            self.searchBarField.delegate = self
+            self.searchBarField.frame = CGRect(x: 10, y: 30, width: displayWidth - 20 , height: 40)
+            self.searchBarField.searchBarStyle = .minimal
+            self.searchBarField.enablesReturnKeyAutomatically = true
+            self.searchBarField.placeholder = "Twitter ID を入力してください"
+            self.view.addSubview(self.searchBarField)
             
-        } else if self.kind == "notificationSettings"{
-
-            
+        } else if self.kind == "notificationSettings" {
             let status = UIApplication.shared.currentUserNotificationSettings?.types
-
-            if (status?.contains(UIUserNotificationType.alert))! {
+            if (status?.contains(.alert))! {
                 print("Alert ON")
                 
                 let navHaight = self.navigationController?.navigationBar.frame.size.height
-                tableView = UITableView(frame: CGRect(x: 0, y: 0, width: displayWidth, height: displayHeight - navHaight!))
+                self.tableView = UITableView(frame: CGRect(x: 0, y: 0, width: displayWidth, height: displayHeight - navHaight!))
+                self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
+                self.tableView.dataSource = self
+                self.tableView.delegate = self
                 
-                tableView.register(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
-                tableView.dataSource = self
-                tableView.delegate = self
-                
-                let notificationTableView:UIView = UIView(frame: CGRect.zero)
-                view.backgroundColor = UIColor.clear
-                tableView.tableFooterView = notificationTableView
-                tableView.tableHeaderView = notificationTableView
-                view.addSubview(tableView)
+                let notificationTableView = UIView(frame: CGRect.zero)
+                notificationTableView.backgroundColor = UIColor.clear
+                self.tableView.tableFooterView = notificationTableView
+                self.tableView.tableHeaderView = notificationTableView
+                self.view.addSubview(self.tableView)
                 self.tableView.reloadData()
                 
             } else{
@@ -391,20 +387,9 @@ UISearchBarDelegate {
             query["User"] = result
             query["TargetUser"] = self.palTargetUser
             query["unReadFlag"] = true
-            query["IsApproved"] = false // 未承認の状態で登録
-            
-            //TODO:ここで、GoNowReceiveまたはGoNowSendにデータを登録する必要がある
-            
-            
-            
-            //            let endPoint = self.selectedItem.characters.count - 1
-            //            let selected = (self.selectedItem as NSString).substring(to: endPoint)
-            //            let calendar = Calendar(identifier: Calendar.Identifier.gregorian)
-            //            let gotoAtMinute = Int(selected)
-            //            let createdAtDate = Date()
-            //            let arriveTime = (calendar as NSCalendar).date(byAdding: .minute, value: gotoAtMinute!, to: createdAtDate, options: NSCalendar.Options())!
-            //
-            //            query["gotoAt"] = arriveTime
+            query["IsApproved"] = false
+            query["isDeleteUser"] = false
+            query["isDeleteTarget"] = false
             query["gotoAt"] = self.inputMyDatePicker.date
             query["imakokoAt"] = targetUserUpdatedAt
             
@@ -442,7 +427,7 @@ UISearchBarDelegate {
                     userInfo.targetUserID = targetUserID!
                     
                     // Send Notification
-                    NotificationHelper.sendSpecificDevice(name! + "さんより「いまから行く」されました。", deviceTokenAsString: targetDeviceToken!, badges: result! as Int)
+                    NotificationHelper.sendSpecificDevice(name! + "さんより「いまから行く」されました", deviceTokenAsString: targetDeviceToken!, badges: result! as Int)
                 }
                 
                 // 表示完了時の処理
@@ -452,7 +437,7 @@ UISearchBarDelegate {
                 
                 self.navigationController!.popToRootViewController(animated: true)
                 
-                UIAlertController.showAlertView("", message: "いまから行くことを送信しました")
+                UIAlertController.showAlertView("", message: "待ち合わせを申請しました")
             }
         }
         

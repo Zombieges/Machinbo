@@ -15,23 +15,19 @@ import GoogleMobileAds
 
 extension SettingsViewController: TransisionProtocol {}
 
-class SettingsViewController: UIViewController, UINavigationControllerDelegate,
-    GADBannerViewDelegate,
-    GADInterstitialDelegate,
-UITableViewDelegate {
+class SettingsViewController: UIViewController, UINavigationControllerDelegate, GADBannerViewDelegate, GADInterstitialDelegate, UITableViewDelegate {
     
     @IBOutlet weak var tableView: UITableView!
-    
     
     var inputPlace: String = ""
     var inputChar: String = ""
     var palGeoPoint: PFGeoPoint?
     
-    fileprivate let sections = ["サポート", "Machinboいついて","通知について", " "]
-    fileprivate let supportLabels = ["Twitter公式アカウント"]
-    fileprivate let appRuleLabels = ["サービス規約"]
-    fileprivate let notificationLabels = ["通知設定"]
-    let otherLabels = ["アカウント削除"]
+    private let sections = ["サポート", "Machinboいついて","通知について", " "]
+    private let supportLabels = ["Twitter公式アカウント"]
+    private let appRuleLabels = ["サービス規約"]
+    private let notificationLabels = ["通知設定"]
+    private let otherLabels = ["アカウント削除"]
     
     var selectedRow: Int = 0
     
@@ -41,45 +37,27 @@ UITableViewDelegate {
         }
         
         self.navigationItem.title = "オプション"
-        // 不要行の削除
-        let noCreateView:UIView = UIView(frame: CGRect.zero)
+        
+        let noCreateView = UIView(frame: CGRect.zero)
         noCreateView.backgroundColor = UIColor.clear
-        tableView.tableFooterView = noCreateView
-        tableView.tableHeaderView = noCreateView
+        self.tableView.tableFooterView = noCreateView
+        self.tableView.tableHeaderView = noCreateView
         
-        
-        view.addSubview(tableView)
+        self.view.addSubview(self.tableView)
         
         if self.isInternetConnect() {
-            //広告を表示
             self.showAdmob(AdmobType.standard)
         }
     }
     
-    /*
-     セクションの数を返す.
-     */
     func numberOfSectionsInTableView(_ tableView: UITableView) -> Int {
-        
-        let returnSectionCount = sections.count
-        /*
-         if type == ProfileType.TargetProfile {
-         returnSectionCount -= 1
-         }*/
-        
-        return returnSectionCount
+        return sections.count
     }
     
-    /*
-     セクションのタイトルを返す.
-     */
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return sections[section]
     }
     
-    /*
-     テーブルに表示する配列の総数を返す.
-     */
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return self.supportLabels.count
@@ -98,16 +76,12 @@ UITableViewDelegate {
         }
     }
     
-    /*
-     Cellに値を設定する.
-     */
     func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
         
         let tableViewCellIdentifier = "Cell"
         
         var cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier)
-        if cell == nil { // 再利用するセルがなかったら（不足していたら）
-            // セルを新規に作成する。
+        if cell == nil {
             cell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: tableViewCellIdentifier)
         }
         
@@ -131,21 +105,18 @@ UITableViewDelegate {
         return cell!
     }
     
-    // PickerViewController よりを保存ボタンを押下した際に実行される処理
     internal func setComment(_ comment: String) {
         if selectedRow == 0 {
-            inputPlace = comment
+            self.inputPlace = comment
             
         } else if selectedRow == 1 {
-            inputChar = comment
+            self.inputChar = comment
         }
         
-        // テーブル再描画
-        tableView.reloadData()
+        self.tableView.reloadData()
     }
-    
-    // セルがタップされた時
-    internal func tableView(_ table: UITableView, didSelectRowAt indexPath:IndexPath) {
+
+    func tableView(_ table: UITableView, didSelectRowAt indexPath:IndexPath) {
         if indexPath.section == 0 {
             if indexPath.row == 0 {
                 let url = URL(string: ConfigHelper.getPlistKey("TWITTER_LINK"))
@@ -157,7 +128,6 @@ UITableViewDelegate {
         }  else if indexPath.section == 1 {
             
             let vc = PickerViewController()
-            //vc.palTargetUser = self.userInfo as? PFObject
             vc.palKind = "notificationSettings"
             vc.palmItems = ["メッセージ内容の表示"]
             
@@ -173,16 +143,14 @@ UITableViewDelegate {
             
         } else if indexPath.section == 3 {
             if indexPath.row == 0 {
-                deleteAccount()
+                self.deleteAccount()
             }
         }
     }
     
     func deleteAccount() {
-        
         MBProgressHUDHelper.show("Loading...")
         
-        //アカウント削除処理
         UIAlertController.showAlertOKCancel("", message: "アカウントを削除しますと、いままでの履歴が削除されてしまいます。本当にアカウントを削除してもよろしいですか？", actiontitle: "削除") { action in
             
             if action == .cancel {
@@ -190,10 +158,7 @@ UITableViewDelegate {
                 return
             }
             
-            let userData = PersistentData.User()
-            
-            //ActionオブジェクトがNilの場合は、UserInfoオブジェクトのみ削除する
-            self.deleteUserInfo(userData.userID)
+            self.deleteUserInfo(PersistentData.User().userID)
             PersistentData.deleteUserID()
         }
     }
@@ -205,8 +170,8 @@ UITableViewDelegate {
             UIAlertController.showAlertView("", message: "アカウントを削除しました") { _ in
                 let newRootVC = ProfileViewController()
                 let navigationController = UINavigationController(rootViewController: newRootVC)
-                navigationController.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.darkGray]
-                navigationController.navigationBar.tintColor = UIColor.darkGray
+                navigationController.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGray]
+                navigationController.navigationBar.tintColor = .darkGray
                 navigationController.navigationBar.isTranslucent = false
                 navigationController.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
                 navigationController.navigationBar.setBackgroundImage(UIImage(named: "BarBackground"),

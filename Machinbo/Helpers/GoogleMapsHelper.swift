@@ -76,7 +76,7 @@ class GoogleMapsHelper {
 //        
 //        map.camera = camera
         var meetingGeoPoint = PFGeoPoint(latitude: 0, longitude: 0)
-        if let tempGeopoint = (gonowInfo.object(forKey: "meetingGeoPoint") as? PFGeoPoint) {
+        if let tempGeopoint = gonowInfo.object(forKey: "meetingGeoPoint") as? PFGeoPoint {
             meetingGeoPoint = tempGeopoint
         }
         let marker1 = GMSMarker()
@@ -86,8 +86,8 @@ class GoogleMapsHelper {
         marker1.title = "待ち合わせ場所"
         
         var userGeoPoint = PFGeoPoint(latitude: 0, longitude: 0)
-        if let userGonow = (gonowInfo.object(forKey: "userGoNow") as? PFObject) {
-            if let tempGeoPoint = (userGonow.object(forKey: "userGeoPoint") as? PFGeoPoint) {
+        if let userGonow = gonowInfo.object(forKey: "userGoNow") as? PFObject {
+            if let tempGeoPoint = userGonow.object(forKey: "userGeoPoint") as? PFGeoPoint {
                 userGeoPoint = tempGeoPoint
             }
         }
@@ -104,14 +104,14 @@ class GoogleMapsHelper {
         marker2.title = userName
         
         var targetGeoPoint = PFGeoPoint(latitude: 0, longitude: 0)
-        if let targetGonow = (gonowInfo.object(forKey: "targetGoNow") as? PFObject) {
-            if let tempGeoPoint = (targetGonow.object(forKey: "userGeoPoint") as? PFGeoPoint) {
+        if let targetGonow = gonowInfo.object(forKey: "targetGoNow") as? PFObject {
+            if let tempGeoPoint = targetGonow.object(forKey: "userGeoPoint") as? PFGeoPoint {
                 targetGeoPoint = tempGeoPoint
             }
         }
         var targetUserName = ""
-        if let targetUser = (gonowInfo.object(forKey: "TargetUser") as? PFObject) {
-            if let tempName = (targetUser.object(forKey: "Name") as? String) {
+        if let targetUser = gonowInfo.object(forKey: "TargetUser") as? PFObject {
+            if let tempName = targetUser.object(forKey: "Name") as? String {
                 targetUserName = tempName
             }
         }
@@ -131,8 +131,6 @@ class GoogleMapsHelper {
         
         map.camera = camera
         map.selectedMarker = marker1
-        map.selectedMarker = marker2
-        map.selectedMarker = marker3
     }
     
     func marker(_ annotation: MKAnnotation) -> GMSMarker {

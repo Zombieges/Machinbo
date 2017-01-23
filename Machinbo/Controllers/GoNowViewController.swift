@@ -75,10 +75,7 @@ class GoNowViewController:
         
         if indexPath.row <= 1 {
             normalCell = self.tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier)
-            
-            //TODO:もしかしたらおかしくなるかも
-            //normalCell = UITableViewCell(style: .value1, reuseIdentifier: tableViewCellIdentifier)
-            
+            normalCell = UITableViewCell(style: .value1, reuseIdentifier: tableViewCellIdentifier)
             normalCell!.textLabel!.font = UIFont.systemFont(ofSize: 16)
             normalCell!.detailTextLabel!.font = UIFont.systemFont(ofSize: 16)
             

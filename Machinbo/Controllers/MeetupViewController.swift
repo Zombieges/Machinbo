@@ -44,6 +44,15 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         if self.isInternetConnect() {
             self.showAdmob(AdmobType.standard)
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(viewWillEnterForeground), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
+    }
+    
+    func viewWillEnterForeground(notification: NSNotification?) {
+        if (self.isViewLoaded && (self.view.window != nil)) {
+            self.refresh()
+            print("foreground........................>")
+        }
     }
     
     func setNoMeetupTableView(count: Int) {
@@ -231,8 +240,6 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         default:
             break
         }
-        
-        self.tableView.reloadData()
     }
     
     private func initTableView() {
@@ -276,7 +283,6 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
             break
         }
         self.refreshControl.endRefreshing()
-        self.tableView.reloadData()
     }
     
     private func getUserInfomation(index: Int) -> PFObject? {
@@ -312,11 +318,10 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
 //    }
     
     func getApprovedMeetUpList() {
-        
-        
         ParseHelper.getApprovedMeetupList(PersistentData.User().userID) { (error: NSError?, result) -> Void in
             guard error == nil else { print("Error information"); return }
             self.goNowList = result
+            self.tableView.reloadData()
         }
     }
     
@@ -324,6 +329,7 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         ParseHelper.getMeetupList(PersistentData.User().userID) { (error: NSError?, result) -> Void in
             guard error == nil else { print("Error information"); return }
             self.meetupList = result
+            self.tableView.reloadData()
         }
     }
     
@@ -331,6 +337,7 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         ParseHelper.getReceiveList(PersistentData.User().userID) { (error: NSError?, result) -> Void in
             guard error == nil else { print("Error information"); return }
             self.recieveList = result
+            self.tableView.reloadData()
         }
     }
     

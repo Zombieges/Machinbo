@@ -78,49 +78,50 @@ class GoogleMapsHelper {
         var meetingGeoPoint = PFGeoPoint(latitude: 0, longitude: 0)
         if let tempGeopoint = gonowInfo.object(forKey: "meetingGeoPoint") as? PFGeoPoint {
             meetingGeoPoint = tempGeopoint
+            
+            let marker1 = GMSMarker()
+            marker1.position = CLLocationCoordinate2DMake(meetingGeoPoint.latitude, meetingGeoPoint.longitude)
+            marker1.appearAnimation = kGMSMarkerAnimationPop
+            marker1.map = map
+            marker1.title = "待ち合わせ場所"
+            
+            map.selectedMarker = marker1
         }
-        let marker1 = GMSMarker()
-        marker1.position = CLLocationCoordinate2DMake(meetingGeoPoint.latitude, meetingGeoPoint.longitude)
-        marker1.appearAnimation = kGMSMarkerAnimationPop
-        marker1.map = map
-        marker1.title = "待ち合わせ場所"
         
         var userGeoPoint = PFGeoPoint(latitude: 0, longitude: 0)
         if let userGonow = gonowInfo.object(forKey: "userGoNow") as? PFObject {
             if let tempGeoPoint = userGonow.object(forKey: "userGeoPoint") as? PFGeoPoint {
                 userGeoPoint = tempGeoPoint
+                let marker2 = GMSMarker()
+                marker2.position = CLLocationCoordinate2DMake(userGeoPoint.latitude, userGeoPoint.longitude)
+                marker2.appearAnimation = kGMSMarkerAnimationPop
+                marker2.map = map
+                
+                if let user = gonowInfo.object(forKey: "User") as? PFObject {
+                    if let tempName = user.object(forKey: "Name") as? String {
+                        marker2.title = tempName
+                    }
+                }
             }
         }
-        var userName = ""
-        if let user = (gonowInfo.object(forKey: "User") as? PFObject) {
-            if let tempName = (user.object(forKey: "Name") as? String) {
-                userName = tempName
-            }
-        }
-        let marker2 = GMSMarker()
-        marker2.position = CLLocationCoordinate2DMake(userGeoPoint.latitude, userGeoPoint.longitude)
-        marker2.appearAnimation = kGMSMarkerAnimationPop
-        marker2.map = map
-        marker2.title = userName
+
         
         var targetGeoPoint = PFGeoPoint(latitude: 0, longitude: 0)
         if let targetGonow = gonowInfo.object(forKey: "targetGoNow") as? PFObject {
             if let tempGeoPoint = targetGonow.object(forKey: "userGeoPoint") as? PFGeoPoint {
                 targetGeoPoint = tempGeoPoint
+                let marker3 = GMSMarker()
+                marker3.position = CLLocationCoordinate2DMake(targetGeoPoint.latitude, targetGeoPoint.longitude)
+                marker3.appearAnimation = kGMSMarkerAnimationPop
+                marker3.map = map
+                
+                if let targetUser = gonowInfo.object(forKey: "TargetUser") as? PFObject {
+                    if let tempName = targetUser.object(forKey: "Name") as? String {
+                        marker3.title = tempName
+                    }
+                }
             }
         }
-        var targetUserName = ""
-        if let targetUser = gonowInfo.object(forKey: "TargetUser") as? PFObject {
-            if let tempName = targetUser.object(forKey: "Name") as? String {
-                targetUserName = tempName
-            }
-        }
-        let marker3 = GMSMarker()
-        marker3.position = CLLocationCoordinate2DMake(targetGeoPoint.latitude, targetGeoPoint.longitude)
-        marker3.appearAnimation = kGMSMarkerAnimationPop
-        marker3.map = map
-        marker3.title = targetUserName
-        
         
         let visibleRegion = map.projection.visibleRegion()
         let bounds = GMSCoordinateBounds(region: visibleRegion)
@@ -130,7 +131,6 @@ class GoogleMapsHelper {
         let camera = GMSCameraPosition(target: center, zoom: 13, bearing: 0, viewingAngle: 0)
         
         map.camera = camera
-        map.selectedMarker = marker1
     }
     
     func marker(_ annotation: MKAnnotation) -> GMSMarker {

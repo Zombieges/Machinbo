@@ -91,6 +91,8 @@ class func getApprovedMeetupList(_ loginUser: String, completion:((_ withError: 
     let joinQuery = PFQuery.orQuery(withSubqueries: [userQuery, targetUserQuery])
     joinQuery.includeKey("User")//UserInfoのPointerから情報を取得
     joinQuery.includeKey("TargetUser")
+    joinQuery.includeKey("userGoNow")
+    joinQuery.includeKey("targetGoNow")
     joinQuery.order(byDescending: "updatedAt")
     joinQuery.findObjectsInBackground { (objects, error) -> Void in
         if error == nil {
@@ -105,6 +107,7 @@ class func getMeetupList(_ loginUser: String, completion:((_ withError: NSError?
     query.whereKey("UserID", equalTo: loginUser)
     query.whereKey("IsApproved", equalTo: false)
     query.includeKey("TargetUser")
+    query.includeKey("targetGoNow")
     query.order(byDescending: "updatedAt")
     //        let targetUserQuery = PFQuery(className: "GoNow")
     //        targetUserQuery.whereKey("TargetUserID", equalTo: loginUser)
@@ -126,6 +129,7 @@ class func getReceiveList(_ loginUser: String, completion:((_ withError: NSError
     query.whereKey("TargetUserID", equalTo: loginUser)
     query.whereKey("IsApproved", equalTo: false)
     query.includeKey("User")
+    query.includeKey("userGoNow")
     query.order(byDescending: "updatedAt")
     query.findObjectsInBackground { (objects, error) -> Void in
         if error == nil {

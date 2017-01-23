@@ -228,8 +228,7 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.nowSegumentIndex = sender.selectedSegmentIndex
         
         MBProgressHUDHelper.show("Loading...")
-        defer { MBProgressHUDHelper.hide() }
-        
+
         switch self.nowSegumentIndex {
         case 0:
             if self.goNowList == nil { self.getApprovedMeetUpList() }
@@ -240,6 +239,8 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         default:
             break
         }
+        
+        self.tableView.reloadData()
     }
     
     private func initTableView() {
@@ -319,6 +320,8 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func getApprovedMeetUpList() {
         ParseHelper.getApprovedMeetupList(PersistentData.User().userID) { (error: NSError?, result) -> Void in
+            defer { MBProgressHUDHelper.hide() }
+            
             guard error == nil else { print("Error information"); return }
             self.goNowList = result
             self.tableView.reloadData()
@@ -327,6 +330,8 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func getMeetUpList() {
         ParseHelper.getMeetupList(PersistentData.User().userID) { (error: NSError?, result) -> Void in
+            defer { MBProgressHUDHelper.hide() }
+            
             guard error == nil else { print("Error information"); return }
             self.meetupList = result
             self.tableView.reloadData()
@@ -335,6 +340,8 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func getReceiveList() {
         ParseHelper.getReceiveList(PersistentData.User().userID) { (error: NSError?, result) -> Void in
+            defer { MBProgressHUDHelper.hide() }
+            
             guard error == nil else { print("Error information"); return }
             self.recieveList = result
             self.tableView.reloadData()

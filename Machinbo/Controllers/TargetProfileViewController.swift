@@ -429,7 +429,7 @@ GMSMapViewDelegate {
                         defer { MBProgressHUDHelper.hide() }
                         guard error == nil else { return }
                     }
-                    result["userGoNow"] = gonowReceiveObject
+                    result["targetGoNow"] = gonowReceiveObject
                     result.saveInBackground { (success: Bool, error: Error?) -> Void in
                         defer { MBProgressHUDHelper.hide() }
                         guard error == nil else { return }

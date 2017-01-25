@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import Parse
 import GoogleMobileAds
+import MBProgressHUD
 
 extension MeetupViewController: TransisionProtocol {}
 
@@ -38,7 +39,6 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         self.initTableView()
         self.createRefreshControl()
-        self.getApprovedMeetUpList()
         self.createHeaderBottomLine()
         
         if self.isInternetConnect() {
@@ -46,6 +46,8 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(viewWillEnterForeground), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
+        
+        self.getApprovedMeetUpList()
     }
     
     func viewWillEnterForeground(notification: NSNotification?) {
@@ -226,8 +228,6 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     @IBAction func changeSegmentedControl(_ sender: UISegmentedControl) {
         self.nowSegumentIndex = sender.selectedSegmentIndex
-        
-        MBProgressHUDHelper.show("Loading...")
 
         switch self.nowSegumentIndex {
         case 0:
@@ -310,17 +310,11 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         return userInfoObject
     }
-
-//    internal func segconChanged(segcon: UISegmentedControl){
-//        switch segcon.selectedSegmentIndex {
-//        default:
-//            print("Error")
-//        }
-//    }
     
     func getApprovedMeetUpList() {
+        MBProgressHUDHelper.show("Loading...")
         ParseHelper.getApprovedMeetupList(PersistentData.User().userID) { (error: NSError?, result) -> Void in
-            defer { MBProgressHUDHelper.hide() }
+            MBProgressHUDHelper.hide()
             
             guard error == nil else { print("Error information"); return }
             self.goNowList = result
@@ -329,8 +323,9 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func getMeetUpList() {
+        MBProgressHUDHelper.show("Loading...")
         ParseHelper.getMeetupList(PersistentData.User().userID) { (error: NSError?, result) -> Void in
-            defer { MBProgressHUDHelper.hide() }
+            MBProgressHUDHelper.hide()
             
             guard error == nil else { print("Error information"); return }
             self.meetupList = result
@@ -339,8 +334,9 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func getReceiveList() {
+        MBProgressHUDHelper.show("Loading...")
         ParseHelper.getReceiveList(PersistentData.User().userID) { (error: NSError?, result) -> Void in
-            defer { MBProgressHUDHelper.hide() }
+            MBProgressHUDHelper.hide()
             
             guard error == nil else { print("Error information"); return }
             self.recieveList = result

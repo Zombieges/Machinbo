@@ -380,6 +380,7 @@ UISearchBarDelegate {
             let targetUserUpdatedAt = self.palTargetUser?.updatedAt
             let targetDeviceToken = self.palTargetUser?.object(forKey: "DeviceToken") as? String
             let name = result?.object(forKey: "Name") as? String
+            let gps = self.palTargetUser?.object(forKey: "GPS") as? PFGeoPoint
             
             let query = PFObject(className: "GoNow")
             query["UserID"] = userID
@@ -392,29 +393,16 @@ UISearchBarDelegate {
             query["isDeleteTarget"] = false
             query["gotoAt"] = self.inputMyDatePicker.date
             query["imakokoAt"] = targetUserUpdatedAt
-            
-            let info = notif.userInfo as NSDictionary!
-            let location = info?[LMLocationInfoKey] as! CLLocation
-            let latitude = location.coordinate.latitude
-            let longitude = location.coordinate.longitude
-            
-            query["meetingGeoPoint"] = PFGeoPoint(latitude: latitude, longitude: longitude)
+            query["meetingGeoPoint"] = gps
             
             query.saveInBackground { (success: Bool, error: Error?) -> Void in
                 
-                defer {
-                    MBProgressHUDHelper.hide()
-                }
-                
-                guard error == nil else {
-                    self.errorAction()
-                    return
-                }
+                defer { MBProgressHUDHelper.hide() }
+                guard error == nil else { self.errorAction();return }
                 
                 var userInfo = PersistentData.User()
                 userInfo.imaikuFlag = true
                 
-                // user_info の未読数を取得しpush
                 ParseHelper.countUnRead(targetUserID!){ (error: NSError?, result: Int?) -> Void in
                     
                     guard error == nil else {

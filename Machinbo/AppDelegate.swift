@@ -28,20 +28,11 @@
         // REGISTER DEVICE TOKEN FOR SNS
         //
         if #available(iOS 10.0, *) {
-            
             // iOS10.0以上
             UNUserNotificationCenter.current().requestAuthorization(options: [.badge, .sound, .alert]) { granted, error in
+                guard error == nil else { return }
                 
-                guard error == nil else {
-                    
-                    // error handling
-                    return
-                }
-                
-                if granted {
-                    
-                    UIApplication.shared.registerForRemoteNotifications()
-                }
+                if granted { UIApplication.shared.registerForRemoteNotifications() }
             }
         } else {
             

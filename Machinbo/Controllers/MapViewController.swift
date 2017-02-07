@@ -13,9 +13,9 @@ import Parse
 import MBProgressHUD
 import GoogleMobileAds
 
-extension MapViewController: TransisionProtocol {}
+//extension MapViewController: TransisionProtocol {}
 
-class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManagerDelegate, GADBannerViewDelegate, GADInterstitialDelegate, UITabBarDelegate {
+class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManagerDelegate, GADBannerViewDelegate, GADInterstitialDelegate, UITabBarDelegate, TransisionProtocol {
     
     private var profileSettingButton: UIBarButtonItem!
     private var lm : CLLocationManager!
@@ -190,7 +190,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: seachButton)
     }
     
-    private func createRefreshButton() {
+    internal func createRefreshButton() {
         let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 150, height: 40))
         btn.trackTouchLocation = true
         btn.backgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)

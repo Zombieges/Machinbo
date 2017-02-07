@@ -13,36 +13,34 @@ import MBProgressHUD
 import GoogleMobileAds
 import MessageUI
 import GoogleMaps
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-    switch (lhs, rhs) {
-    case let (l?, r?):
-        return l < r
-    case (nil, _?):
-        return true
-    default:
-        return false
-    }
-}
-
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-    switch (lhs, rhs) {
-    case let (l?, r?):
-        return l <= r
-    default:
-        return !(rhs < lhs)
-    }
-}
+//// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+//// Consider refactoring the code to use the non-optional operators.
+//fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+//    switch (lhs, rhs) {
+//    case let (l?, r?):
+//        return l < r
+//    case (nil, _?):
+//        return true
+//    default:
+//        return false
+//    }
+//}
+//
+//// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+//// Consider refactoring the code to use the non-optional operators.
+//fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+//    switch (lhs, rhs) {
+//    case let (l?, r?):
+//        return l <= r
+//    default:
+//        return !(rhs < lhs)
+//    }
+//}
 
 
 enum ProfileType {
     case targetProfile, imaikuTargetProfile, meetupProfile, receiveProfile
 }
-
-extension TargetProfileViewController: TransisionProtocol {}
 
 class TargetProfileViewController:
     UIViewController,
@@ -51,7 +49,8 @@ class TargetProfileViewController:
     GADInterstitialDelegate,
     MFMailComposeViewControllerDelegate,
     CLLocationManagerDelegate,
-GMSMapViewDelegate {
+GMSMapViewDelegate,
+TransisionProtocol {
     
     var userInfo: PFObject?
     var type = ProfileType.targetProfile
@@ -59,6 +58,7 @@ GMSMapViewDelegate {
     var gonowInfo: PFObject?
     
     @IBOutlet var tableView: UITableView!
+    private var refreshControl:UIRefreshControl!
     private let modalTextLabel = UILabel()
     private let lblName: String = ""
     private var targetObjectID = ""
@@ -101,11 +101,16 @@ GMSMapViewDelegate {
         PersistentData.deleteUserIDForKey("imaikuFlag")
         
         self.setHeader()
+        self.createRefreshControl()
         self.setNavigationButton()
         self.initTableView()
         self.setImageProfile()
         self.setGoogleMap()
-        self.sections = ["", ""]
+        self.sections = ["プロフィール", "待ち合わせ"]
+        
+        if self.isInternetConnect() {
+            self.showAdmob(AdmobType.standard)
+        }
         
         if type == .meetupProfile {
             let isApproved =  (self.gonowInfo as AnyObject).object(forKey: "IsApproved") as! Bool
@@ -118,21 +123,30 @@ GMSMapViewDelegate {
             self.createApprovedButton(mapViewHeight: self.mapViewHeight)
             
         } else {
+            //ブロックされている場合はここでボタン非表示にする
+            let userData = PersistentData.User()
+            
+            // 相手が自分のことをブロックしている場合
+            if let targetUserBlockList = self.userInfo?.object(forKey: "blockUserList") {
+                guard !(targetUserBlockList as! [String]).contains(userData.objectId) else {
+                    self.createBlockLabel()
+                    return
+                }
+            }
+            
+            // 自分が相手をブロックしている場合
+            let targetUserObjectId = self.userInfo?.objectId
+            guard !userData.blockUserList.contains(targetUserObjectId!) else {
+                return
+            }
+
             self.createGoNowButton()
-        }
-        
-        if self.isInternetConnect() {
-            self.showAdmob(AdmobType.standard)
         }
     }
     
     func numberOfSectionsInTableView(_ tableView: UITableView) -> Int {
         return sections.count
     }
-    
-//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        return sections[section] as? String
-//    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
@@ -246,6 +260,18 @@ GMSMapViewDelegate {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: settingsButton)
     }
     
+    func createBlockLabel() {
+        let imadokoBtnX = self.displayWidth - round(self.displayWidth / 2)
+        let imadokoBtnWidth = round(self.displayWidth / 2)
+        let imadokotnHeight = round(self.displayHeight / 17)
+        
+        let label = UILabel(frame: CGRect(x: imadokoBtnX, y: mapViewHeight + 10, width: imadokoBtnWidth, height: imadokotnHeight))
+        label.text = "ブロックされています"
+        label.textColor = UIColor.red
+        
+        self.myHeaderView.addSubview(label)
+    }
+    
     func createGoNowButton() {
         let imadokoBtnX = self.displayWidth - round(self.displayWidth / 3.5)
         let imadokoBtnWidth = round(self.displayWidth / 4)
@@ -264,17 +290,30 @@ GMSMapViewDelegate {
         self.myHeaderView.addSubview(btn)
     }
     
+    func createRemoveBlockButton() {
+        let imadokoBtnX = self.displayWidth - round(self.displayWidth / 3.5)
+        let imadokoBtnWidth = round(self.displayWidth / 4)
+        let imadokotnHeight = round(self.displayHeight / 17)
+        
+        let btn = ZFRippleButton(frame: CGRect(x: imadokoBtnX, y: mapViewHeight + 10, width: imadokoBtnWidth, height: imadokotnHeight))
+        btn.setTitle("ブロック解除", for: UIControlState())
+        btn.addTarget(self, action: #selector(self.clickRemoveBlock), for: .touchUpInside)
+        btn.trackTouchLocation = true
+        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1)
+        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1)
+        btn.rippleColor = LayoutManager.getUIColorFromRGB(0x1976D2)
+        btn.layer.cornerRadius = 5.0
+        btn.layer.masksToBounds = true
+        
+        self.myHeaderView.addSubview(btn)
+    }
+    
     func clickGoNowButton() {
         let vc = PickerViewController()
         vc.palTargetUser = self.userInfo! as PFObject
         vc.palKind = "imaiku"
         
         self.navigationController!.pushViewController(vc, animated: true)
-        
-        //TODO:PickerViewで送信
-//        UIAlertController.showAlertOKCancel("", message: "相手に行くことを送信します", actiontitle: "送信") { action in
-//            guard action == .ok else { return }
-//        }
     }
     
     func createApprovedButton(mapViewHeight: CGFloat) {
@@ -318,7 +357,6 @@ GMSMapViewDelegate {
         let btn = UIButton()
         btn.addTarget(self, action: #selector(self.clickimakokoButton), for: .touchUpInside)
         btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.center
-        
         btn.setTitle("位置送信", for: UIControlState())
         btn.titleLabel!.font = UIFont.systemFont(ofSize: 15)
         btn.layer.cornerRadius = 5.0
@@ -412,6 +450,9 @@ GMSMapViewDelegate {
                     }
                 }
                 
+                result["updateAt"] = Date()
+                result.saveInBackground()
+                
             } else if targetUserID == PersistentData.User().userID {
                 if let query = result.object(forKey: "targetGoNow") as? PFObject {
                     query["userGeoPoint"] = geoPoint
@@ -435,12 +476,15 @@ GMSMapViewDelegate {
                         guard error == nil else { return }
                     }
                 }
+                
+                result["updateAt"] = Date()
+                result.saveInBackground()
             }
         }
     }
     
     func clickimadokoButton() {
-        UIAlertController.showAlertOKCancel("", message: "相手の現在位置を送信する依頼をします", actiontitle: "送信") { action in
+        UIAlertController.showAlertOKCancel("", message: "相手に、現在位置を送信してもらう依頼をします", actiontitle: "送信") { action in
             
             if action == .cancel { return }
             
@@ -471,7 +515,7 @@ GMSMapViewDelegate {
         let address = ConfigHelper.getPlistKey("MACHINBO_MAIL") as String
         let toRecipients = [address]
         let userObjectId = (userInfo as AnyObject).objectId as String!
-        let mailBody = "報告" + "¥r¥n" + "報告者：" + userObjectId!
+        let mailBody = "報告" + "\n" + "報告者：" + userObjectId! + "\n\n" + "報告内容（入力してください）：" 
         
         let mail = MFMailComposeViewController()
         mail.mailComposeDelegate = self
@@ -618,5 +662,32 @@ GMSMapViewDelegate {
         }
         
         return ""
+    }
+    
+    func clickRemoveBlock() {
+        UIAlertController.showAlertOKCancel("", message: "ブロックしています。ブロックを解除しますか？", actiontitle: "解除") { action in
+            guard action == .ok else { return }
+        
+            MBProgressHUDHelper.show("Loading...")
+            ParseHelper.getMyUserInfomation(PersistentData.User().objectId) { (error: NSError?, result: PFObject?) -> Void in
+                defer {  MBProgressHUDHelper.hide() }
+                guard let result = result else { return }
+                
+                result.remove(self.userInfo?.objectId! as Any, forKey: "blockUserList")
+                result.saveInBackground()
+                self.viewDidLoad()
+            }
+        }
+    }
+    
+    private func createRefreshControl() {
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl.addTarget(self, action: #selector(self.refresh), for: .valueChanged)
+        self.tableView.addSubview(refreshControl)
+    }
+    
+    func refresh() {
+        self.setGoogleMap()
+        self.refreshControl.endRefreshing()
     }
 }

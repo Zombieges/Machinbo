@@ -13,8 +13,6 @@ import SpriteKit
 import MBProgressHUD
 import GoogleMobileAds
 
-extension GoNowViewController: TransisionProtocol {}
-
 class GoNowViewController:
     UIViewController,
     UITableViewDelegate,
@@ -23,7 +21,8 @@ class GoNowViewController:
     UIPickerViewDelegate,
     PickerViewControllerDelegate,
     GADBannerViewDelegate,
-    GADInterstitialDelegate {
+    GADInterstitialDelegate,
+    TransisionProtocol {
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -94,7 +93,7 @@ class GoNowViewController:
             
         } else if indexPath.row == 1 {
             normalCell?.textLabel?.text = self.targetProfileItems[indexPath.row]
-            if let input = self.inputDateTo {
+            if self.inputDateTo != nil {
                 let formatDateString = self.dateFormatter.string(from: self.inputDateTo!)
                 normalCell?.detailTextLabel?.text = formatDateString
             }
@@ -166,6 +165,15 @@ class GoNowViewController:
     }
     
     @IBAction func imaikuButton(_ sender: AnyObject) {
+        guard self.inputDateFrom != nil else {
+            UIAlertController.showAlertView("", message: "待ち合わせ時間（何時から〜）を入力してください")
+            return
+        }
+        guard self.inputDateTo != nil else {
+            UIAlertController.showAlertView("", message: "待ち合わせ時間（〜何時まで）を入力してください")
+            return
+        }
+        
         MBProgressHUDHelper.show("Loading...")
         
         var userInfo = PersistentData.User()
@@ -189,6 +197,7 @@ class GoNowViewController:
                 if self.inputDateFrom != nil {
                     userData.markTimeFrom =  dateFormatter.string(from: self.inputDateFrom!)
                 }
+                
                 if self.inputDateTo != nil {
                     userData.markTimeTo = dateFormatter.string(from: self.inputDateTo!)
                 }
@@ -197,7 +206,7 @@ class GoNowViewController:
                 userData.mychar = self.inputChar
                 userData.isRecruitment = true //募集中フラグ
                 
-                UIAlertController.showAlertView("", message: "現在位置を登録しました") { action in
+                UIAlertController.showAlertView("", message: "待ち合わせ登録をしました") { action in
                     if self._interstitial!.isReady {
                         self._interstitial!.present(fromRootViewController: self)
                     }

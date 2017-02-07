@@ -14,6 +14,8 @@ class PersistentData {
     class func deleteUserID() {
         // 保存データを全削除
         let userDefault = UserDefaults.standard
+        
+        userDefault.removeObject(forKey: "objectId")
         userDefault.removeObject(forKey: "userID")
         userDefault.removeObject(forKey: "profileImage")
         userDefault.removeObject(forKey: "comment")
@@ -31,9 +33,9 @@ class PersistentData {
         userDefault.removeObject(forKey: "deviceToken")
         userDefault.removeObject(forKey: "targetUserID")
         userDefault.removeObject(forKey: "twitterName")
+        userDefault.removeObject(forKey: "blockUserList")
         
         userDefault.synchronize()
-        
     }
     
     class func deleteUserIDForKey(_ id: String) {
@@ -44,8 +46,18 @@ class PersistentData {
         userDefault.synchronize()
         
     }
-    
+
     struct User {
+     
+        var objectId : String {
+            get {
+                return UserDefaults.standard.string(forKey: "objectId") ?? ""
+            }
+            set {
+                UserDefaults.standard.set(newValue , forKey: "objectId")
+                UserDefaults.standard.synchronize()
+            }
+        }
         
         var userID : String {
             get {
@@ -68,7 +80,6 @@ class PersistentData {
             }
             set{
                 let imageData = UIImagePNGRepresentation(newValue)
-                //var myEncodedImageData = NSKeyedArchiver.archivedDataWithRootObject(imageData)
                 UserDefaults.standard.set(imageData, forKey: "profileImage")
                 UserDefaults.standard.synchronize()
             }
@@ -208,6 +219,15 @@ class PersistentData {
             }
             set {
                 UserDefaults.standard.set(newValue , forKey: "isReceiveMassageHide")
+                UserDefaults.standard.synchronize()
+            }
+        }
+        var blockUserList: [String] {
+            get {
+                return UserDefaults.standard.stringArray(forKey: "blockUserList") ?? []
+            }
+            set {
+                UserDefaults.standard.set(newValue, forKey: "blockUserList")
                 UserDefaults.standard.synchronize()
             }
         }

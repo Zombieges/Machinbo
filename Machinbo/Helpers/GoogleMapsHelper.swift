@@ -12,7 +12,7 @@ import GoogleMaps
 import MapKit
 
 class GoogleMapsHelper {
-
+    
     class func setAnyUserMarker(_ map: GMSMapView, userObjects: [PFObject]) {
         
         MBProgressHUDHelper.show("Loading...")
@@ -26,12 +26,9 @@ class GoogleMapsHelper {
     
     class func setUserMarker(_ map: GMSMapView, user: PFObject, isSelect: Bool) {
         
-        let geoPoint : PFGeoPoint
+        var geoPoint = PFGeoPoint(latitude: 0, longitude: 0)
         if let tempGeopoint = (user.object(forKey: "GPS") as? PFGeoPoint) {
             geoPoint = tempGeopoint
-            
-        } else {
-            geoPoint = PFGeoPoint(latitude: 0, longitude: 0)
         }
         
         let marker = GMSMarker()
@@ -88,7 +85,6 @@ class GoogleMapsHelper {
                 let position = CLLocationCoordinate2DMake(userGeoPoint.latitude, userGeoPoint.longitude)
                 let marker2 = GMSMarker(position: position)
                 marker2.appearAnimation = kGMSMarkerAnimationPop
-                //marker2.icon = UIImage(named: "logo_twitter")
                 marker2.map = map
                 
                 if let user = gonowInfo.object(forKey: "User") as? PFObject {
@@ -99,7 +95,6 @@ class GoogleMapsHelper {
             }
         }
 
-        
         var targetGeoPoint = PFGeoPoint(latitude: 0, longitude: 0)
         if let targetGonow = gonowInfo.object(forKey: "targetGoNow") as? PFObject {
             if let tempGeoPoint = targetGonow.object(forKey: "userGeoPoint") as? PFGeoPoint {

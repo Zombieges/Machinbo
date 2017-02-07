@@ -15,9 +15,7 @@ import MBProgressHUD
 import GoogleMobileAds
 import TwitterKit
 
-extension ProfileViewController: TransisionProtocol {}
-
-class ProfileViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIPickerViewDelegate, PickerViewControllerDelegate, UITableViewDelegate, GADBannerViewDelegate, GADInterstitialDelegate{
+class ProfileViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIPickerViewDelegate, PickerViewControllerDelegate, UITableViewDelegate, GADBannerViewDelegate, GADInterstitialDelegate, TransisionProtocol {
     
     @IBOutlet weak var profilePicture: UIImageView!
     @IBOutlet weak var startButton: ZFRippleButton!
@@ -500,14 +498,12 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         self.recruitmentAction(false)
     }
     
-    fileprivate func recruitmentAction(_ isRecruitment: Bool) {
+    private func recruitmentAction(_ isRecruitment: Bool) {
         MBProgressHUDHelper.show("Loading...")
         
         var userData = PersistentData.User()
         ParseHelper.getMyUserInfomation(userData.userID) { (error: NSError?, result: PFObject?) -> Void in
-            
             defer {  MBProgressHUDHelper.hide() }
-            
             guard let result = result else { return }
             
             result["IsRecruitment"] = isRecruitment

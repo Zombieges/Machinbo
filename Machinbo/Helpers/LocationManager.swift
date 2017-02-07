@@ -9,22 +9,15 @@
 import Foundation
 import CoreLocation
 
-let LMLocationUpdateNotification : NSString = "LMLocationUpdateNotification"
-
-let LMLocationInfoKey : NSString = "LMLocationInfoKey"
+let LMLocationUpdateNotification = "LMLocationUpdateNotification"
+let LMLocationInfoKey = "LMLocationInfoKey"
 
 class LocationManager: NSObject, CLLocationManagerDelegate {
     
-    fileprivate var locationManager_: CLLocationManager
-    fileprivate var currentLocation: CLLocation!
+    private var locationManager_: CLLocationManager
+    private var currentLocation: CLLocation!
     
-    struct Singleton {
-        static let sharedInstance = LocationManager()
-    }
-    
-    class var sharedInstance: LocationManager {
-        return Singleton.sharedInstance
-    }
+    static let sharedInstance = LocationManager()
     
     override init() {
         locationManager_ = CLLocationManager()
@@ -32,7 +25,6 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
 //        locationManager_.distanceFilter = 100 // meters
         super.init()
         locationManager_.delegate = self
-
         locationManager_.requestWhenInUseAuthorization()
         locationManager_.desiredAccuracy = kCLLocationAccuracyThreeKilometers
         locationManager_.pausesLocationUpdatesAutomatically = true

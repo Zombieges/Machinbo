@@ -12,9 +12,7 @@ import Parse
 import GoogleMobileAds
 import MBProgressHUD
 
-extension MeetupViewController: TransisionProtocol {}
-
-class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, GADBannerViewDelegate, GADInterstitialDelegate, UITabBarDelegate {
+class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, GADBannerViewDelegate, GADInterstitialDelegate, UITabBarDelegate, TransisionProtocol {
     
     private var goNowList: [AnyObject]?
     private var meetupList: [AnyObject]?
@@ -189,15 +187,15 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         return true
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            UIAlertController.showAlertOKCancel("", message: "削除します。よろしいですか？", actiontitle: "削除") { action in
-                guard action == .ok else { return }
-                
-                self.deleteAction(row: indexPath.row)
-            }
-        }
-    }
+//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+//        if editingStyle == .delete {
+//            UIAlertController.showAlertOKCancel("", message: "削除します。よろしいですか？", actiontitle: "削除") { action in
+//                guard action == .ok else { return }
+//                
+//                self.deleteAction(row: indexPath.row)
+//            }
+//        }
+//    }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let deleteButton = UITableViewRowAction(style: .normal, title: "削除") { (action, index) -> Void in
@@ -212,11 +210,21 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let blockButton: UITableViewRowAction = UITableViewRowAction(style: .normal, title: "ブロック") { (action, index) -> Void in
             UIAlertController.showAlertOKCancel("", message: "ブロックします。よろしいですか？", actiontitle: "ブロック") { action in
                 guard action == .ok else { return }
-                //Block処理を追加
-                //UserInfoにブロックArrayを追加->Arrayに追加（Json形式が良さげ？）
+                //User Block
+                if let userInfoObject = self.getUserInfomation(index: indexPath.row) {
+                    if let myUserInfo = self.getMyUserInfo(index: indexPath.row) {
+                        myUserInfo.add(userInfoObject.objectId!, forKey: "blockUserList")
+                        myUserInfo.saveInBackground()
+                        
+                        var data = PersistentData.User()
+                        data.blockUserList = myUserInfo.object(forKey: "blockUserList") as! [String]
+                    }
+                }
+                
+                self.deleteAction(row: indexPath.row)
             }
-            tableView.isEditing = false
-            print("ブロック")
+//            tableView.isEditing = false
+//            print("ブロック")
         }
         
         return [deleteButton, blockButton]
@@ -306,6 +314,22 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
             
         } else {
             userInfoObject = gonowObject.object(forKey: "User") as? PFObject
+        }
+        
+        return userInfoObject
+    }
+    
+    private func getMyUserInfo(index: Int) -> PFObject? {
+        let gonowObject = getGonowObject(row: index)
+        let userID = gonowObject.object(forKey: "UserID") as! String
+        let targetUserID = gonowObject.object(forKey: "TargetUserID") as! String
+        var userInfoObject: PFObject?
+    
+        if userID == PersistentData.User().userID {
+            userInfoObject = gonowObject.object(forKey: "User") as? PFObject
+
+        } else if targetUserID == PersistentData.User().userID {
+            userInfoObject = gonowObject.object(forKey: "TargetUser") as? PFObject
         }
         
         return userInfoObject

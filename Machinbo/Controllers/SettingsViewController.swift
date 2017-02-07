@@ -13,9 +13,7 @@ import SpriteKit
 import MBProgressHUD
 import GoogleMobileAds
 
-extension SettingsViewController: TransisionProtocol {}
-
-class SettingsViewController: UIViewController, UINavigationControllerDelegate, GADBannerViewDelegate, GADInterstitialDelegate, UITableViewDelegate {
+class SettingsViewController: UIViewController, UINavigationControllerDelegate, GADBannerViewDelegate, GADInterstitialDelegate, UITableViewDelegate, TransisionProtocol {
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -23,7 +21,7 @@ class SettingsViewController: UIViewController, UINavigationControllerDelegate, 
     var inputChar: String = ""
     var palGeoPoint: PFGeoPoint?
     
-    private let sections = ["サポート", "Machinboいついて","通知について", " "]
+    private let sections = ["サポート", "通知","規約", " "]
     private let supportLabels = ["Twitter公式アカウント"]
     private let appRuleLabels = ["サービス規約"]
     private let notificationLabels = ["通知設定"]

@@ -38,9 +38,13 @@ class func getNearUserInfomation(_ myLocation: CLLocationCoordinate2D, completio
     //50km圏内、近くから300件取得
     let myGeoPoint = PFGeoPoint(latitude: myLocation.latitude, longitude: myLocation.longitude)
     
+    var data = PersistentData.User()
+    print("*************************>")
+    print(data.blockUserList)
     let query = PFQuery(className: "UserInfo")
     query.whereKey("GPS", nearGeoPoint: myGeoPoint, withinKilometers: 25.0)
     query.whereKey("IsRecruitment", equalTo: true)
+    query.whereKey("objectId", notContainedIn: data.blockUserList)
     query.limit = 100
     query.order(byAscending: "MarkTime")
     query.findObjectsInBackground { (objects, error) -> Void in
@@ -61,19 +65,6 @@ class func getTargetUserGoNow(_ objectId: String, completion:((_ withError: NSEr
         }
     }
 }
-
-//    class func getMyGoNow(_ loginUser: String, completion:((_ withError: NSError?, _ result: PFObject?)->Void)?) {
-//        let query = PFQuery(className: "GoNow")
-//        query.whereKey("UserID", equalTo: loginUser)
-//        query.includeKey("userGoNow")
-//        query.includeKey("targetGoNow")
-//        query.findObjectsInBackground { (objects, error) -> Void in
-//
-//            if error == nil {
-//                completion?(error as NSError?, objects?[0])
-//            }
-//        }
-//    }
 
 class func getApprovedMeetupList(_ loginUser: String, completion:((_ withError: NSError?, _ result:[AnyObject]?)->Void)?) {
     
@@ -176,7 +167,8 @@ class func setUserInfomation(_ userID: String, name: String, gender: String, age
     info.saveInBackground { (success: Bool, error: Error?) -> Void in
         if success {
             NSLog("ユーザー初期登録成功")
-            //UIAlertView.showAlertView("", message: "ユーザ登録が完了しました")
+            var user = PersistentData.User()
+            user.objectId = info.objectId!
         }
     }
 }

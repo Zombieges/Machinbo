@@ -14,8 +14,9 @@ import AWSCore
 import AWSCognito
 
 protocol TransisionProtocol {
+    // ネット接続確認
     func isInternetConnect() -> Bool
-    func createRefreshButton()
+    // 広告表示
     func showAdmob(_ type: AdmobType)
 }
 
@@ -54,7 +55,7 @@ extension TransisionProtocol where
         btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
         btn.rippleColor = LayoutManager.getUIColorFromRGB(0xB54241)
         btn.setTitle("Try now", for: UIControlState())
-        //btn.addTarget(self, action: #selector(TransisionProtocol.onClickViewRefresh), forControlEvents: UIControlEvents.TouchUpInside)
+        //btn.addTarget(self, action: #selector(TransisionProtocol.onClickViewRefresh), forControlEvents: .touchUpInside)
         btn.layer.cornerRadius = 5.0
         btn.layer.masksToBounds = true
         btn.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height - self.view.bounds.height/8.3)

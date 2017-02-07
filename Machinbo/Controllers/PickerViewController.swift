@@ -315,9 +315,7 @@ UISearchBarDelegate {
             
         } else if self.kind == "imaiku" {
             MBProgressHUDHelper.show("Loading...")
-            
-            
-            
+
             let center = NotificationCenter.default as NotificationCenter
             LocationManager.sharedInstance.startUpdatingLocation()
             center.addObserver(self, selector: #selector(self.foundLocation(_:)), name: NSNotification.Name(rawValue: LMLocationUpdateNotification as String as String), object: nil)
@@ -516,7 +514,6 @@ UISearchBarDelegate {
     
     
     func createNotificationSettingsButton(displayWidth: CGFloat, displayHeight: CGFloat) {
-        
         let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 350, height: 40))
         btn.trackTouchLocation = true
         btn.backgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
@@ -530,6 +527,7 @@ UISearchBarDelegate {
         
         self.view.addSubview(btn)
     }
+    
     func openAppSettingPage() -> Void {
         //let application = UIApplication.sharedApplication()
         
@@ -540,7 +538,7 @@ UISearchBarDelegate {
             UIApplication.shared.openURL(url as URL)
         }
     }
-    func onChangeNotificationSwich(sender: UISwitch){
+    func onChangeNotificationSwich(sender: UISwitch) {
         
         // save to local db
         var userInfo = PersistentData.User()

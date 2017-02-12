@@ -22,10 +22,11 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var imakokoButton: UIButton!
     
-    fileprivate let photoItems = ["フォト"]
-    fileprivate let profileItems = ["名前", "性別", "生まれた年", "Twitter", "プロフィール"]
-    fileprivate let otherItems = ["待ち合わせ（何時から〜）", "待ち合わせ（〜何時まで）", "場所", "特徴"]
-    fileprivate let sections = ["プロフィール", "待ち合わせ情報"]
+    private let photoItems = ["フォト"]
+    private let profileItems = ["名前", "性別", "生まれた年", "プロフィール"]
+    private let snsItems = ["Twitter"]
+    private let otherItems = ["待ち合わせ（何時から〜）", "待ち合わせ（〜何時まで）", "場所", "特徴"]
+    private let sections = ["プロフィール", "SNS", "待ち合わせ情報"]
     
     let picker = UIImagePickerController()
     var window: UIWindow?
@@ -241,6 +242,9 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             return profileItems.count
             
         } else if section == 1 {
+            return snsItems.count
+        
+        } else if section == 2 {
             return otherItems.count
         }
         
@@ -254,12 +258,28 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         return PersistentData.User().userID == "" ? 1 : sections.count
     }
     
-    /*
-     セクションのタイトルを返す.
-     */
-    private func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sections[section]
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return sections[section] as? String
     }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: StyleConst.sectionHeaderHeight))
+        let label = UILabel(frame: CGRect(x: 8, y: 0, width: tableView.frame.size.width - 16, height: StyleConst.sectionHeaderHeight))
+        label.font = UIFont(name: "Helvetica-Bold",size: CGFloat(13))
+        
+        label.text = self.tableView(tableView, titleForHeaderInSection: section)
+        label.textColor = StyleConst.textColorForHeader
+        view.addSubview(label)
+        view.backgroundColor = StyleConst.backgroundColorForHeader
+        view.layer.borderWidth = 1
+        view.layer.borderColor = StyleConst.borderColorForHeader.cgColor
+        return view
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return StyleConst.sectionHeaderHeight
+    }
+
     /*
      Cellに値を設定する.
      */
@@ -272,7 +292,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         }
         
         if indexPath.section == 0 {
-            if indexPath.row < 4 {
+            if indexPath.row < 3 {
                 var normalCell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier)
                 if normalCell == nil {
                     normalCell = UITableViewCell(style: .value1, reuseIdentifier: tableViewCellIdentifier)
@@ -297,11 +317,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
                         normalCell?.detailTextLabel?.text = Parser.changeAgeRange(selectedAge) as String
                     }
                     
-                } else if indexPath.row == 3 {
-                    normalCell?.textLabel?.text = profileItems[indexPath.row] as String
-                    normalCell?.imageView?.image = UIImage(named: "logo_twitter.png")
-                    normalCell?.accessoryType = .disclosureIndicator
-                    normalCell?.detailTextLabel?.text = twitterName as String
                 }
                 
                 cell = normalCell
@@ -309,7 +324,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             } else {
                 let detailCell = tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? DetailProfileTableViewCell
                 
-                if indexPath.row == 4 {
+                if indexPath.row == 3 {
                     detailCell?.titleLabel.text = profileItems[indexPath.row]
                     detailCell?.valueLabel.text = inputComment as String
                 }
@@ -318,6 +333,24 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             }
             
         } else if indexPath.section == 1 {
+            var normalCell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier)
+            if normalCell == nil {
+                normalCell = UITableViewCell(style: .value1, reuseIdentifier: tableViewCellIdentifier)
+            }
+            normalCell!.textLabel!.font = UIFont.systemFont(ofSize: 16)
+            normalCell!.detailTextLabel!.font = UIFont.systemFont(ofSize: 16)
+            
+            if indexPath.row == 0 {
+                normalCell?.textLabel?.text = snsItems[indexPath.row] as String
+                normalCell?.imageView?.image = UIImage(named: "logo_twitter.png")
+                normalCell?.accessoryType = .disclosureIndicator
+                normalCell?.detailTextLabel?.text = twitterName as String
+            }
+            
+            cell = normalCell
+            
+        } else if indexPath.section == 2 {
+            
             var normalCell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier)
             if normalCell == nil {
                 normalCell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: tableViewCellIdentifier)
@@ -399,16 +432,18 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
                 navigationController?.pushViewController(vc, animated: true)
                 
             } else if indexPath.row == 3 {
-                //Twitter認証
-                loginTwitter()
-                
-            } else if indexPath.row == 4 {
                 vc.palmItems = myItems
                 vc.palKind = "comment"
                 vc.palInput = inputComment as AnyObject
                 vc.delegate = self
                 
                 navigationController?.pushViewController(vc, animated: true)
+            }
+            
+        } else if indexPath.section == 1 {
+            if indexPath.row == 0 {
+                //Twitter認証
+                loginTwitter()
             }
         }
     }

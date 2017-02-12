@@ -132,20 +132,19 @@ class TargetProfileViewController:
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: sectionHeaderHeight))
         let label = UILabel(frame: CGRect(x: 8, y: 0, width: tableView.frame.size.width - 16, height: sectionHeaderHeight))
-        label.font = self.fontForHeader()
+        label.font = UIFont(name: "Helvetica-Bold",size: CGFloat(13))
+        
         label.text = self.tableView(tableView, titleForHeaderInSection: section)
-        label.textColor = self.textColorForHeader()
+        label.textColor = StyleConst.textColorForHeader
         view.addSubview(label)
-        view.backgroundColor = UIColor.clear
+        view.backgroundColor = StyleConst.backgroundColorForHeader
+        view.layer.borderWidth = 1
+        view.layer.borderColor = StyleConst.borderColorForHeader.cgColor
         return view
     }
     
     func fontForHeader() -> UIFont? {
         return UIFont(name: "BrandonGrotesque-Medium", size: 12.0)
-    }
-    
-    func textColorForHeader() -> UIColor {
-        return LayoutManager.getUIColorFromRGB(0x929292)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -249,9 +248,8 @@ class TargetProfileViewController:
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 40.0
+        return StyleConst.sectionHeaderHeight
     }
-    
     
     func setNavigationButton() {
         let settingsButton = UIButton(type: .custom)

@@ -138,4 +138,11 @@ extension TransisionProtocol where
         return interstitial
     }
     
+    func textColorForHeader() -> UIColor {
+        return LayoutManager.getUIColorFromRGB(0x929292)
+    }
+    
+    func backgroundColorForHeader() -> UIColor {
+        return LayoutManager.getUIColorFromRGB(0xF6F2F3)
+    }
 }

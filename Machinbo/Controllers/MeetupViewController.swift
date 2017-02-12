@@ -207,7 +207,7 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         deleteButton.backgroundColor = UIColor.red
         
         let blockButton: UITableViewRowAction = UITableViewRowAction(style: .normal, title: "ブロック") { (action, index) -> Void in
-            UIAlertController.showAlertOKCancel("", message: "ブロックします。よろしいですか？", actiontitle: "ブロック") { action in
+            UIAlertController.showAlertOKCancel("", message: "ブロックしたら二度と表示されません。よろしいですか？", actiontitle: "ブロック") { action in
                 guard action == .ok else { return }
                 //User Block
                 if let userInfoObject = self.getUserInfomation(index: indexPath.row) {
@@ -251,6 +251,7 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.tableView.register(nibName, forCellReuseIdentifier: detailTableViewCellIdentifier)
         self.tableView.estimatedRowHeight = 100.0
         self.tableView.rowHeight = UITableViewAutomaticDimension
+        self.tableView.rowHeight = 85.0
         
         let noUseCell = UIView(frame: CGRect.zero)
         noUseCell.backgroundColor = UIColor.clear

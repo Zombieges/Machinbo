@@ -89,6 +89,7 @@ UISearchBarDelegate {
             // TableViewの生成す
             self.tableView =
                 UITableView(frame: CGRect(x: 0, y: 0, width: displayWidth, height: displayHeight - navBarHeight!))
+            self.tableView.layer.backgroundColor = UIColor.lightGray.cgColor
             // Cell名の登録をおこなう.
             //self.tableView.rowHeight = 44
             self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "MyCell")

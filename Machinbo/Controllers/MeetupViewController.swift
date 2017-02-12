@@ -164,10 +164,9 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
         
         let gonowObject = getGonowObject(row: indexPath.row)
-        let isDeleteUser = gonowObject.object(forKey: "isDeleteUser") as! Bool
-        let isDeleteTarget = gonowObject.object(forKey: "isDeleteTarget") as! Bool
+        let gonowData = GonowData(parseObject: gonowObject as! PFObject)
         
-        guard !isDeleteUser && !isDeleteTarget else {
+        guard !gonowData.IsDeleteUser && !gonowData.IsDeleteTarget else {
             UIAlertController.showAlertOKCancel("", message: "ユーザから拒否されました。削除しますか？", actiontitle: "削除") { action in
                 guard action == .ok else { return }
                 self.deleteGoNow(row: indexPath.row)
@@ -178,7 +177,7 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let type = nowSegumentIndex <= 1 ? ProfileType.meetupProfile : ProfileType.receiveProfile
         let vc = TargetProfileViewController(type: type)
         vc.userInfo = userInfoObject
-        vc.gonowInfo = gonowObject as? PFObject
+        vc.gonowInfo = gonowData
 
         self.navigationController!.pushViewController(vc, animated: true)
     }
@@ -228,10 +227,6 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
         
         return [deleteButton, blockButton]
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 85
     }
     
     @IBAction func changeSegmentedControl(_ sender: UISegmentedControl) {

@@ -78,7 +78,6 @@ UISearchBarDelegate {
         //フル画面広告を取得
         _interstitial = showFullAdmob()
         
-        self.myItems = []
         self.myItems = palmItems as NSArray
         self.kind = palKind
         self.Input = palInput
@@ -88,18 +87,19 @@ UISearchBarDelegate {
         
         if (self.kind == "gender" || self.kind == "age") {
             // TableViewの生成す
-            tableView = UITableView(frame: CGRect(x: 0, y: 0, width: displayWidth, height: displayHeight - navBarHeight!))
-            
+            self.tableView =
+                UITableView(frame: CGRect(x: 0, y: 0, width: displayWidth, height: displayHeight - navBarHeight!))
             // Cell名の登録をおこなう.
-            tableView.register(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
-            tableView.dataSource = self   // DataSourceの設定をする.
-            tableView.delegate = self     // Delegateを設定する.
+            //self.tableView.rowHeight = 44
+            self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
+            self.tableView.dataSource = self   // DataSourceの設定をする.
+            self.tableView.delegate = self     // Delegateを設定する.
             
             // 不要行の削除
             let notUserRowView = UIView(frame: CGRect.zero)
-            notUserRowView.backgroundColor = UIColor.clear
-            tableView.tableFooterView = notUserRowView
-            tableView.tableHeaderView = notUserRowView
+            notUserRowView.backgroundColor = UIColor.lightGray
+            self.tableView.tableFooterView = notUserRowView
+
             self.view.addSubview(tableView)
             
         } else if self.kind == "name" {
@@ -327,10 +327,45 @@ UISearchBarDelegate {
         
     }
     
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.myItems.count
+    }
     
-    /*
-     Cellが選択された際に呼び出されるデリゲートメソッド.
-     */
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let identifier = "Cell" // セルのIDを定数identifierにする。
+        var cell: UITableViewCell? // nilになることがあるので、Optionalで宣言
+        
+        cell = tableView.dequeueReusableCell(withIdentifier: identifier)
+        if cell == nil {
+            cell = UITableViewCell(style: .value1, reuseIdentifier: identifier)
+        }
+        
+        if indexPath.section == 0 {
+            cell?.accessoryType = .none
+            
+            if indexPath.row == (self.palInput as? Int) {
+                cell?.accessoryType = .checkmark
+            }
+            
+            cell?.textLabel!.text = "\(self.myItems[indexPath.row])"
+            
+            if self.kind == "notificationSettings" {
+                
+                // settings able
+                let sw = UISwitch(frame: CGRect(x:0,y: 0,width: 60,height: 40))
+                
+                //sw.center = CGPointMake(displayWidth - 50, cell!.frame.height/2)
+                sw.center = CGPoint(x: displayWidth - 50,y: cell!.frame.height/2)
+                
+                sw.addTarget(self, action: #selector(PickerViewController.onChangeNotificationSwich), for: UIControlEvents.touchUpInside)
+                cell?.addSubview(sw)
+            }
+        }
+        
+        return cell!
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if (self.kind == "age"){
@@ -434,54 +469,6 @@ UISearchBarDelegate {
         UIAlertController.showAlertView("", message: "通信エラーが発生しました。再実行してください。") { action in
             self.navigationController!.popToRootViewController(animated: true)
         }
-    }
-    
-    
-    /*
-     Cellの総数を返すデータソースメソッド.
-     (実装必須)
-     */
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.myItems.count
-    }
-    
-    /*
-     Cellに値を設定するデータソースメソッド.
-     (実装必須)
-     */
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let identifier = "Cell" // セルのIDを定数identifierにする。
-        var cell: UITableViewCell? // nilになることがあるので、Optionalで宣言
-        
-        cell = tableView.dequeueReusableCell(withIdentifier: identifier)
-        if cell == nil {
-            cell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: identifier)
-        }
-        
-        if indexPath.section == 0 {
-            cell?.accessoryType = .none
-            
-            if indexPath.row == (self.palInput as? Int) {
-                cell?.accessoryType = .checkmark
-            }
-            
-            cell?.textLabel!.text = "\(self.myItems[indexPath.row])"
-            
-            if self.kind == "notificationSettings" {
-                
-                // settings able
-                let sw = UISwitch(frame: CGRect(x:0,y: 0,width: 60,height: 40))
-                
-                //sw.center = CGPointMake(displayWidth - 50, cell!.frame.height/2)
-                sw.center = CGPoint(x: displayWidth - 50,y: cell!.frame.height/2)
-                
-                sw.addTarget(self, action: #selector(PickerViewController.onChangeNotificationSwich), for: UIControlEvents.touchUpInside)
-                cell?.addSubview(sw)
-            }
-        }
-        
-        return cell!
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {

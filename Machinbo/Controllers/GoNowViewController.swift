@@ -244,10 +244,8 @@ class GoNowViewController:
         let nibName = UINib(nibName: "DetailProfileTableViewCell", bundle:nil)
         self.tableView.register(nibName, forCellReuseIdentifier: self.detailTableViewCellIdentifier)
         // 不要行の削除
-        let noCreateView = UIView(frame: CGRect.zero)
-        noCreateView.backgroundColor = UIColor.clear
-        self.tableView.tableFooterView = noCreateView
-        self.tableView.tableHeaderView = noCreateView
+        self.tableView.tableFooterView = UIView(frame: CGRect.zero)
+        self.tableView.rowHeight = 85.0
         self.view.addSubview(self.tableView)
     }
     

@@ -121,9 +121,13 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     }
     
     func onClickReload() {
-        let center = NotificationCenter.default as NotificationCenter
         LocationManager.sharedInstance.startUpdatingLocation()
-        center.addObserver(self, selector: #selector(self.foundLocation), name: NSNotification.Name(rawValue: LMLocationUpdateNotification as String as String), object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.foundLocation),
+            name: NSNotification.Name(rawValue: LMLocationUpdateNotification as String as String),
+            object: nil
+        )
     }
     
     func foundLocation(_ notif: Notification) {
@@ -172,22 +176,22 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     }
     
     private func createNavigationItem() {
-        let reloadButton = UIButton(type: UIButtonType.custom)
+        let reloadButton = UIButton(type: .custom)
         reloadButton.setImage(UIImage(named: "reload.png"), for: UIControlState())
-        reloadButton.setTitleColor(UIColor.darkGray, for: UIControlState())
-        reloadButton.addTarget(self, action: #selector(onClickReload), for: UIControlEvents.touchUpInside)
+        reloadButton.setTitleColor(.darkGray, for: UIControlState())
+        reloadButton.addTarget(self, action: #selector(onClickReload), for: .touchUpInside)
         reloadButton.frame = CGRect(x: 0, y: 0, width: 22, height: 22)
         reloadButton.imageView?.contentMode = .scaleAspectFit
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: reloadButton)
         
-        let seachButton = UIButton(type: UIButtonType.custom)
+        let seachButton = UIButton(type: .custom)
         seachButton.setImage(UIImage(named: "search.png"), for: UIControlState())
-        seachButton.setTitleColor(UIColor.darkGray, for: UIControlState())
-        seachButton.addTarget(self, action: #selector(onClickSearch), for: UIControlEvents.touchUpInside)
+        seachButton.setTitleColor(.darkGray, for: UIControlState())
+        seachButton.addTarget(self, action: #selector(onClickSearch), for: .touchUpInside)
         seachButton.frame = CGRect(x: 0, y: 0, width: 22, height: 22)
         seachButton.imageView?.contentMode = .scaleAspectFit
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: seachButton)
+        self.navigationItem.rightBarButtonItems =
+            [UIBarButtonItem(customView: seachButton), UIBarButtonItem(customView: reloadButton)]
     }
     
     internal func createRefreshButton() {

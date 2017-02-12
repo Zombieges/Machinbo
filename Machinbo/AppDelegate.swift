@@ -138,7 +138,7 @@
         
         
         // remove "<>" and space from deviceToken
-        let removingCharacterSet:CharacterSet = CharacterSet(charactersIn: "<>")
+        //let removingCharacterSet = CharacterSet(charactersIn: "<>")
         
         // get device token
         let deviceTokenAsString = deviceToken.map { String(format: "%.2hhx", $0) }.joined()

@@ -13,21 +13,7 @@ import Parse
 import MBProgressHUD
 import GoogleMobileAds
 
-extension MarkerDraggableViewController: TransisionProtocol {}
-
-//enum MySelector {
-//    case MapPinTapped
-//    
-//    func selector() -> Selector {
-//        switch self {
-//        case .MapPinTapped:
-//            return #selector(MarkerDraggableViewController.mapPinTapped(_:))
-//        }
-//    }
-//}
-
-class MarkerDraggableViewController: UIViewController, GMSMapViewDelegate, CLLocationManagerDelegate, GADBannerViewDelegate, GADInterstitialDelegate,
-    UIGestureRecognizerDelegate {
+class MarkerDraggableViewController: UIViewController, GMSMapViewDelegate, CLLocationManagerDelegate, GADBannerViewDelegate, GADInterstitialDelegate, UIGestureRecognizerDelegate, TransisionProtocol {
     
     var gmaps: GMSMapView!
     var palGeoPoint: PFGeoPoint!

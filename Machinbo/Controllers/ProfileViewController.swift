@@ -64,23 +64,23 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             self.navigationItem.title = "プロフィールを登録してください"
             self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.darkGray]
             self.imakokoButton.isHidden = true
-            profilePicture.image = UIImage(named: "photo.png")
+            self.profilePicture.image = UIImage(named: "photo.png")
             return
         }
 
         self.startButton.isHidden = true
-        setNavigationItemSettingButton()
         
         // 通常の画面遷移
-        profilePicture.image = userData.profileImage
-        inputName = userData.name
-        age = userData.age
-        selectedAge = userData.age
-        gender = userData.gender
-        selectedGender = String(userData.gender)
-        inputComment = userData.comment
-        twitterName = userData.twitterName
+        self.profilePicture.image = userData.profileImage
+        self.inputName = userData.name
+        self.age = userData.age
+        self.selectedAge = userData.age
+        self.gender = userData.gender
+        self.selectedGender = String(userData.gender)
+        self.inputComment = userData.comment
+        self.twitterName = userData.twitterName
         
+        setNavigationItemSettingButton()
         setRecruitment()
         imageMolding(profilePicture)
         showAdmob()
@@ -91,7 +91,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         
         guard !userData.markTimeFrom.isEmpty else {
             //待ち合わせ募集をしていない場合
-             self.imakokoButton.isHidden = true
+            self.imakokoButton.isHidden = true
             return
         }
         
@@ -257,13 +257,13 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     /*
      セクションのタイトルを返す.
      */
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    private func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return sections[section]
     }
     /*
      Cellに値を設定する.
      */
-    internal func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
         
         let tableViewCellIdentifier = "Cell"
         cell = tableView.dequeueReusableCell(withIdentifier: identifier)

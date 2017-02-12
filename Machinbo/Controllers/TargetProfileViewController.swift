@@ -13,30 +13,6 @@ import MBProgressHUD
 import GoogleMobileAds
 import MessageUI
 import GoogleMaps
-//// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-//// Consider refactoring the code to use the non-optional operators.
-//fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-//    switch (lhs, rhs) {
-//    case let (l?, r?):
-//        return l < r
-//    case (nil, _?):
-//        return true
-//    default:
-//        return false
-//    }
-//}
-//
-//// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-//// Consider refactoring the code to use the non-optional operators.
-//fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-//    switch (lhs, rhs) {
-//    case let (l?, r?):
-//        return l <= r
-//    default:
-//        return !(rhs < lhs)
-//    }
-//}
-
 
 enum ProfileType {
     case targetProfile, imaikuTargetProfile, meetupProfile, receiveProfile
@@ -49,13 +25,13 @@ class TargetProfileViewController:
     GADInterstitialDelegate,
     MFMailComposeViewControllerDelegate,
     CLLocationManagerDelegate,
-GMSMapViewDelegate,
-TransisionProtocol {
+    GMSMapViewDelegate,
+    TransisionProtocol {
     
     var userInfo: PFObject?
     var type = ProfileType.targetProfile
     //var targetGeoPoint = PFGeoPoint(latitude: 0, longitude: 0)
-    var gonowInfo: PFObject?
+    var gonowInfo: GonowData?
     
     @IBOutlet var tableView: UITableView!
     private var refreshControl:UIRefreshControl!
@@ -66,13 +42,16 @@ TransisionProtocol {
     private var displayWidth = CGFloat()
     private var displayHeight = CGFloat()
     private var innerViewHeight: CGFloat!
-    private var sections: NSArray = []
+    private var sections = ["プロフィール", "待ち合わせ"]
     private var mapViewHeight: CGFloat!
     private let targetProfileItems = ["名前", "性別", "年齢", "プロフィール"]
     private let imakuruItems = ["到着時間"]
     private let otherItems = ["待ち合わせ開始時間", "待ち合わせ終了時間", "到着時間", "場所", "特徴"]
     private let detailTableViewCellIdentifier = "DetailCell"
     private let mapTableViewCellIdentifier = "MapCell"
+    
+    private let sectionHeaderHeight: CGFloat = 40.0
+    
     private lazy var dateFormatter: DateFormatter = {
         var formatter = DateFormatter()
         formatter.dateFormat = "yyyy年M月d日 H:mm"
@@ -106,15 +85,13 @@ TransisionProtocol {
         self.initTableView()
         self.setImageProfile()
         self.setGoogleMap()
-        self.sections = ["プロフィール", "待ち合わせ"]
         
         if self.isInternetConnect() {
             self.showAdmob(AdmobType.standard)
         }
         
         if type == .meetupProfile {
-            let isApproved =  (self.gonowInfo as AnyObject).object(forKey: "IsApproved") as! Bool
-            if isApproved {
+            if (self.gonowInfo?.IsApproved)! {
                 self.createSendGeoPointButton(mapViewHeight: self.mapViewHeight)
                 self.createConfirmGeoPointButton(mapViewHeight: self.mapViewHeight)
             }
@@ -146,6 +123,29 @@ TransisionProtocol {
     
     func numberOfSectionsInTableView(_ tableView: UITableView) -> Int {
         return sections.count
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return sections[section] as? String
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: sectionHeaderHeight))
+        let label = UILabel(frame: CGRect(x: 8, y: 0, width: tableView.frame.size.width - 16, height: sectionHeaderHeight))
+        label.font = self.fontForHeader()
+        label.text = self.tableView(tableView, titleForHeaderInSection: section)
+        label.textColor = self.textColorForHeader()
+        view.addSubview(label)
+        view.backgroundColor = UIColor.clear
+        return view
+    }
+    
+    func fontForHeader() -> UIFont? {
+        return UIFont(name: "BrandonGrotesque-Medium", size: 12.0)
+    }
+    
+    func textColorForHeader() -> UIColor {
+        return LayoutManager.getUIColorFromRGB(0x929292)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -252,6 +252,7 @@ TransisionProtocol {
         return 40.0
     }
     
+    
     func setNavigationButton() {
         let settingsButton = UIButton(type: .custom)
         settingsButton.setImage(UIImage(named: "santen.png"), for: UIControlState())
@@ -337,13 +338,13 @@ TransisionProtocol {
     }
     
     func clickApproveButton() {
-        if let id = (gonowInfo! as PFObject).objectId {
+        if let id = self.gonowInfo?.ObjectId {
             do {
                 let query = PFQuery(className: "GoNow")
                 let loadedObject = try query.getObjectWithId(id)
                 loadedObject["IsApproved"] = true
                 loadedObject.saveInBackground()
-                self.gonowInfo = loadedObject
+                self.gonowInfo = GonowData(parseObject: loadedObject)
                 
             } catch {}
             
@@ -396,12 +397,16 @@ TransisionProtocol {
             if action == .cancel { return }
             
             LocationManager.sharedInstance.startUpdatingLocation()
-            let center = NotificationCenter.default as NotificationCenter
-            center.addObserver(self, selector: #selector(self.foundLocation), name: NSNotification.Name(rawValue: LMLocationUpdateNotification as String as String), object: nil)
+            NotificationCenter.default.addObserver(
+                self,
+                selector: #selector(self.imaikuAction),
+                name: NSNotification.Name(rawValue: LMLocationUpdateNotification as String as String),
+                object: nil
+            )
         }
     }
     
-    func foundLocation(_ notif: Notification) {
+    func imaikuAction(_ notif: Notification) {
         defer { NotificationCenter.default.removeObserver(self) }
         
         //TODO:この処理だといまから行くが複数ある場合、送信する対象が異なってしまう恐れあり。ParseIDで見ないと駄目かも
@@ -412,7 +417,11 @@ TransisionProtocol {
         let location = info?[LMLocationInfoKey] as! CLLocation
         let latitude = location.coordinate.latitude
         let longitude = location.coordinate.longitude
-        let objectid = (gonowInfo! as PFObject).objectId
+        let objectid = self.gonowInfo?.ObjectId
+        
+        let userID = self.gonowInfo?.UserID
+        let targetUserID = self.gonowInfo?.TargetUserID
+        let geoPoint = PFGeoPoint(latitude: latitude, longitude: longitude)
         
         ParseHelper.getTargetUserGoNow(objectid!) { (error: NSError?, result) -> Void in
             guard error == nil else { print("Error information"); return }
@@ -648,7 +657,7 @@ TransisionProtocol {
         
         if type == ProfileType.meetupProfile || type == ProfileType.receiveProfile {
             //↓こっちは待ち合わせ画面から来た場合
-            GoogleMapsHelper.setUserPin(gmaps, gonowInfo: self.gonowInfo!)
+            GoogleMapsHelper.setUserPin(gmaps, gonowInfo: (self.gonowInfo?.pfObject)!)
         } else {
             GoogleMapsHelper.setUserMarker(gmaps, user: userInfo! as PFObject, isSelect: true)
         }

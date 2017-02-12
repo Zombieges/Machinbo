@@ -50,7 +50,7 @@
                 </button>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="55" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="YmW-wK-9N8">
                     <rect key="frame" x="0.0" y="132.5" width="375" height="433.5"/>
-                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="8W5-ti-0qE"/>
                         <outlet property="delegate" destination="-1" id="xtW-vq-gEY"/>
@@ -70,6 +70,7 @@
                             </connections>
                         </button>
                     </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="4KK-1b-J7V" firstAttribute="height" secondItem="PEC-ux-cxX" secondAttribute="height" multiplier="0.3" id="0FZ-NK-urs"/>
                         <constraint firstItem="leq-Pp-UA6" firstAttribute="leading" secondItem="PEC-ux-cxX" secondAttribute="leading" constant="17" id="2nV-ky-D1D"/>
@@ -82,7 +83,7 @@
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" red="0.92156862750000001" green="0.92156862750000001" blue="0.94509803920000002" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="Rf5-tc-hSa" secondAttribute="trailing" constant="8" id="6on-n7-giJ"/>
                 <constraint firstItem="YmW-wK-9N8" firstAttribute="top" secondItem="leq-Pp-UA6" secondAttribute="bottom" constant="10" id="BaG-ax-3Bd"/>

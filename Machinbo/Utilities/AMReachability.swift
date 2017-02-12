@@ -160,7 +160,7 @@ open class AMReachability: NSObject {
     guard !notifierRunning else { return }
     
     var context = SCNetworkReachabilityContext(version: 0, info: nil, retain: nil, release: nil, copyDescription: nil)
-    var info: UnsafeMutableRawPointer?
+    //var info: UnsafeMutableRawPointer?
     context.info = Unmanaged.passUnretained(self).toOpaque()
     //context.info = UnsafeMutablePointer(Unmanaged.passUnretained(self).toOpaque())
     

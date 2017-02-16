@@ -17,8 +17,8 @@ class GonowData {
     }
     
     var ObjectId: String {
-        get { return pfObject.object(forKey: "objectId") as! String }
-        set(v) { pfObject.setValue(v, forKey: "objectId") }
+        get { return pfObject.objectId! }
+        set(v) { pfObject.objectId = v }
     }
     
     var UserID: String {

@@ -344,6 +344,9 @@ class TargetProfileViewController:
                 loadedObject.saveInBackground()
                 self.gonowInfo = GonowData(parseObject: loadedObject)
                 
+                
+                NotificationHelper.sendSpecificDevice( PersistentData.User().name + "さんより「承認」されました", deviceTokenAsString: self.userInfo?.object(forKey: "DeviceToken") as! String, badges: 0 as Int)
+                
             } catch {}
             
             UIAlertController.showAlertView("", message: "承認しました") { _ in

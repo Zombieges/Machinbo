@@ -74,6 +74,24 @@ class SettingsViewController: UIViewController, UINavigationControllerDelegate, 
         }
     }
     
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return StyleConst.sectionHeaderHeight
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: StyleConst.sectionHeaderHeight))
+        let label = UILabel(frame: CGRect(x: 8, y: 0, width: tableView.frame.size.width - 16, height: StyleConst.sectionHeaderHeight))
+        label.font = UIFont(name: "Helvetica-Bold",size: CGFloat(13))
+        
+        label.text = self.tableView(tableView, titleForHeaderInSection: section)
+        label.textColor = StyleConst.textColorForHeader
+        view.addSubview(label)
+        view.backgroundColor = StyleConst.backgroundColorForHeader
+        view.layer.borderWidth = 1
+        view.layer.borderColor = StyleConst.borderColorForHeader.cgColor
+        return view
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
         
         let tableViewCellIdentifier = "Cell"

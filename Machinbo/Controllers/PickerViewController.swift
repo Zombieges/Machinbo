@@ -52,10 +52,10 @@ UISearchBarDelegate {
     var searchBarField = UISearchBar()
     
     // Tableで使用する配列を設定する
-    fileprivate var tableView: UITableView!
-    fileprivate var myItems: NSArray = []
-    fileprivate var kind: String = ""
-    fileprivate var Input: AnyObject = "" as AnyObject
+    private var tableView: UITableView!
+    private var myItems: NSArray = []
+    private var kind: String = ""
+    private var Input: AnyObject = "" as AnyObject
     var palmItems:[String] = []
     var palKind: String = ""
     var palInput: AnyObject = "" as AnyObject
@@ -67,6 +67,8 @@ UISearchBarDelegate {
     var selectedItem: String!
     
     let norificationView = "test"
+    
+    private let sections = [" ", " "]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -87,19 +89,12 @@ UISearchBarDelegate {
         
         if (self.kind == "gender" || self.kind == "age") {
             // TableViewの生成す
-            self.tableView =
-                UITableView(frame: CGRect(x: 0, y: 0, width: displayWidth, height: displayHeight - navBarHeight!))
+            let rect = CGRect(x: 0, y: 0, width: displayWidth, height: displayHeight - navBarHeight!)
+            self.tableView = UITableView(frame:rect, style: .grouped);
             self.tableView.layer.backgroundColor = UIColor.lightGray.cgColor
-            // Cell名の登録をおこなう.
-            //self.tableView.rowHeight = 44
             self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
             self.tableView.dataSource = self   // DataSourceの設定をする.
             self.tableView.delegate = self     // Delegateを設定する.
-            
-            // 不要行の削除
-            let notUserRowView = UIView(frame: CGRect.zero)
-            notUserRowView.backgroundColor = UIColor.lightGray
-            self.tableView.tableFooterView = notUserRowView
 
             self.view.addSubview(tableView)
             
@@ -328,21 +323,58 @@ UISearchBarDelegate {
         
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.myItems.count
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return sections.count
     }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            return sections[section]
+        }
+        return nil
+    }
+    
+//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+//        if section == 0 {
+//            return StyleConst.sectionHeaderHeight
+//        }
+//        return UIScreen.main.bounds.size.height
+//        
+//    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 0 {
+            return self.myItems.count
+        }
+        return 0
+    }
+    
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        var view: UIView
+//        if section == 0 {
+//            view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: StyleConst.sectionHeaderHeight))
+//        } else {
+//            view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: UIScreen.main.bounds.size.height))
+//        }
+//        
+//        view.backgroundColor = StyleConst.backgroundColorForHeader
+//        view.layer.borderWidth = 1
+//        view.layer.borderColor = StyleConst.borderColorForHeader.cgColor
+//        return view
+//    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let identifier = "Cell" // セルのIDを定数identifierにする。
-        var cell: UITableViewCell? // nilになることがあるので、Optionalで宣言
-        
-        cell = tableView.dequeueReusableCell(withIdentifier: identifier)
-        if cell == nil {
-            cell = UITableViewCell(style: .value1, reuseIdentifier: identifier)
-        }
-        
+
         if indexPath.section == 0 {
+            var cell: UITableViewCell? // nilになることがあるので、Optionalで宣言
+            
+            cell = tableView.dequeueReusableCell(withIdentifier: identifier)
+            if cell == nil {
+                cell = UITableViewCell(style: .value1, reuseIdentifier: identifier)
+            }
+            
             cell?.accessoryType = .none
             
             if indexPath.row == (self.palInput as? Int) {
@@ -362,9 +394,11 @@ UISearchBarDelegate {
                 sw.addTarget(self, action: #selector(PickerViewController.onChangeNotificationSwich), for: UIControlEvents.touchUpInside)
                 cell?.addSubview(sw)
             }
+            
+            return cell!
         }
         
-        return cell!
+        return UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

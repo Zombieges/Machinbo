@@ -90,7 +90,7 @@ UISearchBarDelegate {
         if (self.kind == "gender" || self.kind == "age") {
             // TableViewの生成す
             let rect = CGRect(x: 0, y: 0, width: displayWidth, height: displayHeight - navBarHeight!)
-            self.tableView = UITableView(frame:rect, style: .grouped);
+            self.tableView = UITableView(frame:rect, style: .grouped)
             self.tableView.layer.backgroundColor = UIColor.lightGray.cgColor
             self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
             self.tableView.dataSource = self   // DataSourceの設定をする.
@@ -347,6 +347,10 @@ UISearchBarDelegate {
             return self.myItems.count
         }
         return 0
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return CGFloat.leastNormalMagnitude
     }
     
 //    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

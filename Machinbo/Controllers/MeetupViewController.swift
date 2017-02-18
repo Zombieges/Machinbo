@@ -109,7 +109,16 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         return PFObject()
     }
     
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return CGFloat.leastNormalMagnitude
+    }
+    
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.section != 0 {
+            return UITableViewCell()
+        }
+        
         let gonowCell = tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? GoNowTableViewCell
         let userInfoObject = self.getUserInfomation(index: indexPath.row)
         
@@ -121,36 +130,41 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         let isDelete = (userID == PersistentData.User().userID && isDeleteTarget) ||
             (targetUserID == PersistentData.User().userID && isDeleteUser)
-        if isDelete {
+        guard !isDelete else {
             gonowCell?.titleLabel.text = "ユーザから拒否されました"
             gonowCell?.valueLabel.text = ""
             gonowCell?.entryTime.text = ""
             
-        } else if let userInfoObject = userInfoObject {
-            if let imageFile = userInfoObject.value(forKey: "ProfilePicture") as? PFFile {
-                imageFile.getDataInBackground { (imageData, error) -> Void in
-                    guard error == nil else { print("Error information"); return }
-                    
-                    gonowCell?.profileImage.image = UIImage(data: imageData!)!
-                    gonowCell?.profileImage.layer.borderColor = UIColor.white.cgColor
-                    gonowCell?.profileImage.layer.borderWidth = 3
-                    gonowCell?.profileImage.layer.cornerRadius = 10
-                    gonowCell?.profileImage.layer.masksToBounds = true
-                }
-            }
+            return gonowCell!
             
-            gonowCell?.titleLabel.text = userInfoObject.object(forKey: "Name") as? String
-            gonowCell?.valueLabel.text = userInfoObject.object(forKey: "Comment") as? String
-            
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy年M月d日 H:mm"
-            gonowCell?.entryTime.text = dateFormatter.string(from: gonowObject.object(forKey: "gotoAt") as! Date)
-            
-        } else {
+        }
+        
+        guard let userInfoNotNil = userInfoObject else {
             gonowCell?.titleLabel.text = "このユーザは存在しません"
             gonowCell?.valueLabel.text = ""
             gonowCell?.entryTime.text = ""
+            
+            return gonowCell!
         }
+
+        if let imageFile = userInfoNotNil.value(forKey: "ProfilePicture") as? PFFile {
+            imageFile.getDataInBackground { (imageData, error) -> Void in
+                guard error == nil else { print("Error information"); return }
+                
+                gonowCell?.profileImage.image = UIImage(data: imageData!)!
+                gonowCell?.profileImage.layer.borderColor = UIColor.white.cgColor
+                gonowCell?.profileImage.layer.borderWidth = 3
+                gonowCell?.profileImage.layer.cornerRadius = 10
+                gonowCell?.profileImage.layer.masksToBounds = true
+            }
+        }
+        
+        gonowCell?.titleLabel.text = userInfoNotNil.object(forKey: "Name") as? String
+        gonowCell?.valueLabel.text = userInfoNotNil.object(forKey: "Comment") as? String
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy年M月d日 H:mm"
+        gonowCell?.entryTime.text = dateFormatter.string(from: gonowObject.object(forKey: "gotoAt") as! Date)
         
         return gonowCell!
     }
@@ -252,12 +266,17 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.tableView.estimatedRowHeight = 100.0
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.rowHeight = 85.0
+        self.tableView.sectionHeaderHeight = 1
         
-        let noUseCell = UIView(frame: CGRect.zero)
-        noUseCell.backgroundColor = UIColor.clear
-        self.tableView.tableFooterView = noUseCell
-        self.tableView.tableHeaderView = noUseCell
-        self.view.addSubview(tableView)
+//        let noUseCell = UIView(frame: CGRect.zero)
+//        noUseCell.backgroundColor = UIColor.clear
+//        self.tableView.tableFooterView = noUseCell
+//        self.tableView.tableHeaderView = noUseCell
+//        self.view.addSubview(tableView)
+//        var frame = self.tableView.tableHeaderView?.frame;
+//        frame?.size.height = 1;
+//        let noUseCell = UIView(frame: frame!)
+//        self.tableView.tableHeaderView = noUseCell
     }
     
     private func createHeaderBottomLine() {

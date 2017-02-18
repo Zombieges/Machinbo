@@ -46,9 +46,9 @@
                         <constraint firstItem="Ztm-vd-emx" firstAttribute="leading" secondItem="cj8-8c-Bnm" secondAttribute="leading" constant="20" id="s2K-Vi-dZw"/>
                     </constraints>
                 </view>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="70" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="TxA-Ya-UCe">
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="default" rowHeight="70" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="TxA-Ya-UCe">
                     <rect key="frame" x="0.0" y="54" width="375" height="613"/>
-                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="TN6-oV-pdZ"/>
                         <outlet property="delegate" destination="-1" id="dWh-1l-BTR"/>

@@ -334,14 +334,6 @@ UISearchBarDelegate {
         return nil
     }
     
-//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//        if section == 0 {
-//            return StyleConst.sectionHeaderHeight
-//        }
-//        return UIScreen.main.bounds.size.height
-//        
-//    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return self.myItems.count
@@ -352,20 +344,6 @@ UISearchBarDelegate {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return CGFloat.leastNormalMagnitude
     }
-    
-//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        var view: UIView
-//        if section == 0 {
-//            view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: StyleConst.sectionHeaderHeight))
-//        } else {
-//            view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: UIScreen.main.bounds.size.height))
-//        }
-//        
-//        view.backgroundColor = StyleConst.backgroundColorForHeader
-//        view.layer.borderWidth = 1
-//        view.layer.borderColor = StyleConst.borderColorForHeader.cgColor
-//        return view
-//    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -530,7 +508,7 @@ UISearchBarDelegate {
             }
             
             let vc = TargetProfileViewController(type: ProfileType.targetProfile)
-            vc.userInfo = result!
+            vc.targetUserInfo = result!
             
             self.navigationController!.pushViewController(vc, animated: false)
         }

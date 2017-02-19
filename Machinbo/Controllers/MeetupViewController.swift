@@ -190,7 +190,7 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         let type = nowSegumentIndex <= 1 ? ProfileType.meetupProfile : ProfileType.receiveProfile
         let vc = TargetProfileViewController(type: type)
-        vc.userInfo = userInfoObject
+        vc.targetUserInfo = userInfoObject
         vc.gonowInfo = gonowData
 
         self.navigationController!.pushViewController(vc, animated: true)

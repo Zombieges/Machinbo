@@ -92,7 +92,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     
     func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
         let vc = TargetProfileViewController(type: ProfileType.targetProfile)
-        vc.userInfo = marker.userData! as? PFObject
+        vc.targetUserInfo = marker.userData! as? PFObject
         self.navigationController!.pushViewController(vc, animated: false)
     }
     

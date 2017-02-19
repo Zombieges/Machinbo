@@ -28,7 +28,7 @@ class TargetProfileViewController:
     GMSMapViewDelegate,
     TransisionProtocol {
     
-    var userInfo: PFObject?
+    var targetUserInfo: PFObject?
     var type = ProfileType.targetProfile
     //var targetGeoPoint = PFGeoPoint(latitude: 0, longitude: 0)
     var gonowInfo: GonowData?
@@ -49,8 +49,6 @@ class TargetProfileViewController:
     private let otherItems = ["待ち合わせ開始時間", "待ち合わせ終了時間", "到着時間", "場所", "特徴"]
     private let detailTableViewCellIdentifier = "DetailCell"
     private let mapTableViewCellIdentifier = "MapCell"
-    
-    private let sectionHeaderHeight: CGFloat = 40.0
     
     private lazy var dateFormatter: DateFormatter = {
         var formatter = DateFormatter()
@@ -104,7 +102,7 @@ class TargetProfileViewController:
             let userData = PersistentData.User()
             
             // 相手が自分のことをブロックしている場合
-            if let targetUserBlockList = self.userInfo?.object(forKey: "blockUserList") {
+            if let targetUserBlockList = self.targetUserInfo?.object(forKey: "blockUserList") {
                 guard !(targetUserBlockList as! [String]).contains(userData.objectId) else {
                     self.createBlockLabel()
                     return
@@ -112,11 +110,11 @@ class TargetProfileViewController:
             }
             
             // 自分が相手をブロックしている場合
-            let targetUserObjectId = self.userInfo?.objectId
+            let targetUserObjectId = self.targetUserInfo?.objectId
             guard !userData.blockUserList.contains(targetUserObjectId!) else {
                 return
             }
-
+            
             self.createGoNowButton()
         }
     }
@@ -129,38 +127,56 @@ class TargetProfileViewController:
         return sections[section] as? String
     }
     
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: sectionHeaderHeight))
-        let label = UILabel(frame: CGRect(x: 8, y: 0, width: tableView.frame.size.width - 16, height: sectionHeaderHeight))
-        label.font = UIFont(name: "Helvetica-Bold",size: CGFloat(13))
-        
-        label.text = self.tableView(tableView, titleForHeaderInSection: section)
-        label.textColor = StyleConst.textColorForHeader
-        view.addSubview(label)
-        view.backgroundColor = StyleConst.backgroundColorForHeader
-        view.layer.borderWidth = 1
-        view.layer.borderColor = StyleConst.borderColorForHeader.cgColor
-        return view
-    }
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> String? {
+//        return sections[section]
+//    }
     
-    func fontForHeader() -> UIFont? {
-        return UIFont(name: "BrandonGrotesque-Medium", size: 12.0)
-    }
+ //   func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: sectionHeaderHeight))
+//        let label = UILabel(frame: CGRect(x: 8, y: 0, width: tableView.frame.size.width - 16, height: sectionHeaderHeight))
+//        label.font = UIFont(name: "Helvetica-Bold",size: CGFloat(13))
+//        
+//        label.text = self.tableView(tableView, titleForHeaderInSection: section)
+//        label.textColor = StyleConst.textColorForHeader
+//        view.addSubview(label)
+//        view.backgroundColor = StyleConst.backgroundColorForHeader
+//        view.layer.borderWidth = 1
+//        view.layer.borderColor = StyleConst.borderColorForHeader.cgColor
+//        return view
+//    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return self.targetProfileItems.count
         } else if section == 1 {
-            //return type == ProfileType.meetupProfile ? imakuruItems.count : self.otherItems.count
             return self.otherItems.count
         }
         
         return 0
     }
     
+    func fontForHeader() -> UIFont? {
+        return UIFont(name: "BrandonGrotesque-Medium", size: 12.0)
+    }
+    
+//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+//        return StyleConst.sectionHeaderHeight
+//    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView()
+        let label = UILabel(frame: CGRect(x: 8, y: 0, width: tableView.frame.size.width - 16, height: StyleConst.sectionHeaderHeight))
+        label.font = UIFont(name: "Helvetica-Bold",size: CGFloat(13))
+        label.text = self.tableView(tableView, titleForHeaderInSection: section)
+        label.textColor = StyleConst.textColorForHeader
+        view.addSubview(label)
+        
+        return view
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
         let tableViewCellIdentifier = "Cell"
-        var cell: UITableViewCell? // nilになることがあるので、Optionalで宣言
+        var cell: UITableViewCell?
         
         if indexPath.section == 0 {
             if indexPath.row < 3 {
@@ -174,15 +190,15 @@ class TargetProfileViewController:
                 
                 if indexPath.row == 0 {
                     normalCell?.textLabel?.text = targetProfileItems[indexPath.row]
-                    normalCell?.detailTextLabel?.text = (self.userInfo as AnyObject).object(forKey: "Name") as? String
+                    normalCell?.detailTextLabel?.text = (self.targetUserInfo as AnyObject).object(forKey: "Name") as? String
                     
                 } else if indexPath.row == 1 {
                     normalCell?.textLabel?.text = targetProfileItems[indexPath.row]
-                    normalCell?.detailTextLabel?.text = (self.userInfo as AnyObject).object(forKey: "Gender") as? String
+                    normalCell?.detailTextLabel?.text = (self.targetUserInfo as AnyObject).object(forKey: "Gender") as? String
                     
                 } else if indexPath.row == 2 {
                     normalCell?.textLabel?.text = targetProfileItems[indexPath.row]
-                    normalCell?.detailTextLabel?.text = Parser.changeAgeRange(((self.userInfo as AnyObject).object(forKey: "Age") as? String)!)
+                    normalCell?.detailTextLabel?.text = Parser.changeAgeRange(((self.targetUserInfo as AnyObject).object(forKey: "Age") as? String)!)
                 }
                 
                 cell = normalCell
@@ -192,12 +208,14 @@ class TargetProfileViewController:
                 
                 if indexPath.row == 3 {
                     detailCell?.titleLabel.text = targetProfileItems[indexPath.row]
-                    detailCell?.valueLabel.text = (self.userInfo as AnyObject).object(forKey: "Comment") as? String
+                    detailCell?.valueLabel.text = (self.targetUserInfo as AnyObject).object(forKey: "Comment") as? String
                     
                 }
                 
                 cell = detailCell
             }
+            
+            return cell!
             
         } else if indexPath.section == 1 {
             
@@ -230,7 +248,7 @@ class TargetProfileViewController:
                 let detailCell = tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? DetailProfileTableViewCell
                 
                 detailCell?.titleLabel.text = otherItems[indexPath.row]
-                detailCell?.valueLabel.text = (self.userInfo as AnyObject).object(forKey: "PlaceDetail") as? String
+                detailCell?.valueLabel.text = (self.targetUserInfo as AnyObject).object(forKey: "PlaceDetail") as? String
                 
                 cell = detailCell
                 
@@ -238,17 +256,15 @@ class TargetProfileViewController:
                 let detailCell = tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? DetailProfileTableViewCell
                 
                 detailCell?.titleLabel.text = otherItems[indexPath.row]
-                detailCell?.valueLabel.text = (self.userInfo as AnyObject).object(forKey: "MyChar") as? String
+                detailCell?.valueLabel.text = (self.targetUserInfo as AnyObject).object(forKey: "MyChar") as? String
                 
                 cell = detailCell
             }
+            
+            return cell!
         }
         
-        return cell!
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return StyleConst.sectionHeaderHeight
+        return UITableViewCell()
     }
     
     func setNavigationButton() {
@@ -309,7 +325,7 @@ class TargetProfileViewController:
     
     func clickGoNowButton() {
         let vc = PickerViewController()
-        vc.palTargetUser = self.userInfo! as PFObject
+        vc.palTargetUser = self.targetUserInfo! as PFObject
         vc.palKind = "imaiku"
         
         self.navigationController!.pushViewController(vc, animated: true)
@@ -345,7 +361,7 @@ class TargetProfileViewController:
                 self.gonowInfo = GonowData(parseObject: loadedObject)
                 
                 
-                NotificationHelper.sendSpecificDevice( PersistentData.User().name + "さんより「承認」されました", deviceTokenAsString: self.userInfo?.object(forKey: "DeviceToken") as! String, badges: 0 as Int)
+                NotificationHelper.sendSpecificDevice( PersistentData.User().name + "さんより「承認」されました", deviceTokenAsString: self.targetUserInfo?.object(forKey: "DeviceToken") as! String, badges: 0 as Int)
                 
             } catch {}
             
@@ -524,8 +540,8 @@ class TargetProfileViewController:
         
         let address = ConfigHelper.getPlistKey("MACHINBO_MAIL") as String
         let toRecipients = [address]
-        let userObjectId = (userInfo as AnyObject).objectId as String!
-        let mailBody = "報告" + "\n" + "報告者：" + userObjectId! + "\n\n" + "報告内容（入力してください）：" 
+        let userObjectId = (targetUserInfo as AnyObject).objectId as String!
+        let mailBody = "報告" + "\n" + "報告者：" + userObjectId! + "\n\n" + "報告内容（入力してください）："
         
         let mail = MFMailComposeViewController()
         mail.mailComposeDelegate = self
@@ -575,27 +591,6 @@ class TargetProfileViewController:
         self.present(myAlert, animated: true, completion: nil)
     }
     
-    /*
-     スクロール時
-     */
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let isOutSectionHeaderScroll =
-            scrollView.contentOffset.y >= -innerViewHeight && scrollView.contentOffset.y <= innerViewHeight
-        let isInSectionHeaderScroll =
-            scrollView.contentOffset.y >= self.tableView.sectionHeaderHeight
-        
-        if isOutSectionHeaderScroll {
-            scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0)
-            
-        } else if isInSectionHeaderScroll {
-            scrollView.contentInset = UIEdgeInsetsMake(-self.tableView.sectionHeaderHeight, 0, 0, 0)
-        }
-        
-        if scrollView.contentOffset.y < -innerViewHeight {
-            self.myHeaderView.frame = CGRect(x: 0, y: scrollView.contentOffset.y, width: self.self.displayWidth, height: innerViewHeight)
-        }
-    }
-    
     func setHeader() {
         self.myHeaderView = UIView(frame: CGRect(x: 0, y: -innerViewHeight, width: self.self.displayHeight, height: innerViewHeight))
         self.myHeaderView.backgroundColor = UIColor.white
@@ -609,20 +604,13 @@ class TargetProfileViewController:
         self.tableView.rowHeight = UITableViewAutomaticDimension
         //tableViewの位置を 1 / 端末サイズ 下げる
         self.tableView.contentInset.top = self.innerViewHeight
-        
-        // 不要行の削除
-        let notUserRowView = UIView(frame: CGRect.zero)
-        notUserRowView.backgroundColor = UIColor.clear
-        self.tableView.tableFooterView = notUserRowView
-        self.tableView.tableHeaderView = notUserRowView
-        self.view.addSubview(self.tableView)
     }
     
     func setImageProfile() {
         let imageSize = round(UIScreen.main.bounds.size.width / 4)
         let imageY = mapViewHeight - round(imageSize / 2)
         
-        if let imageFile = (userInfo as AnyObject).value(forKey: "ProfilePicture") as? PFFile {
+        if let imageFile = (targetUserInfo as AnyObject).value(forKey: "ProfilePicture") as? PFFile {
             imageFile.getDataInBackground { (imageData, error) -> Void in
                 guard error == nil else { print("image no data error."); return }
                 
@@ -660,14 +648,14 @@ class TargetProfileViewController:
             //↓こっちは待ち合わせ画面から来た場合
             GoogleMapsHelper.setUserPin(gmaps, gonowInfo: (self.gonowInfo?.pfObject)!)
         } else {
-            GoogleMapsHelper.setUserMarker(gmaps, user: userInfo! as PFObject, isSelect: true)
+            GoogleMapsHelper.setUserMarker(gmaps, user: targetUserInfo! as PFObject, isSelect: true)
         }
         
         self.myHeaderView.addSubview(gmaps)
     }
     
     func getDateformatStringForUserInfo(keyString: String) -> String {
-        if let data = (self.userInfo as AnyObject).object(forKey: keyString) {
+        if let data = (self.targetUserInfo as AnyObject).object(forKey: keyString) {
             return dateFormatter.string(from: data as! Date)
         }
         
@@ -677,13 +665,13 @@ class TargetProfileViewController:
     func clickRemoveBlock() {
         UIAlertController.showAlertOKCancel("", message: "ブロックしています。ブロックを解除しますか？", actiontitle: "解除") { action in
             guard action == .ok else { return }
-        
+            
             MBProgressHUDHelper.show("Loading...")
             ParseHelper.getMyUserInfomation(PersistentData.User().objectId) { (error: NSError?, result: PFObject?) -> Void in
                 defer {  MBProgressHUDHelper.hide() }
                 guard let result = result else { return }
                 
-                result.remove(self.userInfo?.objectId! as Any, forKey: "blockUserList")
+                result.remove(self.targetUserInfo?.objectId! as Any, forKey: "blockUserList")
                 result.saveInBackground()
                 self.viewDidLoad()
             }

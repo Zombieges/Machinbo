@@ -26,7 +26,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     private let profileItems = ["名前", "性別", "生まれた年", "プロフィール"]
     private let snsItems = ["Twitter"]
     private let otherItems = ["待ち合わせ（何時から〜）", "待ち合わせ（〜何時まで）", "場所", "特徴"]
-    private let sections = ["プロフィール", "SNS", "待ち合わせ情報"]
+    private let sections = ["", "プロフィール", "SNS", "待ち合わせ情報"]
     
     let picker = UIImagePickerController()
     var window: UIWindow?
@@ -238,12 +238,15 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if section == 0 {
-            return profileItems.count
+            return 0
             
         } else if section == 1 {
+            return profileItems.count
+            
+        } else if section == 2 {
             return snsItems.count
         
-        } else if section == 2 {
+        } else if section == 3 {
             return otherItems.count
         }
         
@@ -284,9 +287,13 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         
         return view
     }
-//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//        return StyleConst.sectionHeaderHeight
-//    }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 0 {
+            return CGFloat.leastNormalMagnitude
+        }
+        return StyleConst.sectionHeaderHeight
+    }
 
     func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
         
@@ -296,7 +303,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             cell = UITableViewCell(style: .value1, reuseIdentifier: identifier)
         }
         
-        if indexPath.section == 0 {
+        if indexPath.section == 1 {
             if indexPath.row < 3 {
                 var normalCell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier)
                 if normalCell == nil {
@@ -339,7 +346,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             
             return cell!
             
-        } else if indexPath.section == 1 {
+        } else if indexPath.section == 2 {
             var normalCell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier)
             if normalCell == nil {
                 normalCell = UITableViewCell(style: .value1, reuseIdentifier: tableViewCellIdentifier)
@@ -358,7 +365,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             
             return cell!
             
-        } else if indexPath.section == 2 {
+        } else if indexPath.section == 3 {
             
             var normalCell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier)
             if normalCell == nil {
@@ -406,7 +413,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         let vc = PickerViewController()
         myItems = []
         
-        if indexPath.section == 0 {
+        if indexPath.section == 1 {
             if indexPath.row == 0 {
                 
                 vc.palmItems = myItems

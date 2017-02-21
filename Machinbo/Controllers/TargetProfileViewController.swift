@@ -35,14 +35,11 @@ class TargetProfileViewController:
     
     @IBOutlet var tableView: UITableView!
     private var refreshControl:UIRefreshControl!
-    private let modalTextLabel = UILabel()
-    private let lblName: String = ""
-    private var targetObjectID = ""
     private var myHeaderView = UIView()
     private var displayWidth = CGFloat()
     private var displayHeight = CGFloat()
     private var innerViewHeight: CGFloat!
-    private var sections = ["プロフィール", "待ち合わせ"]
+    private var sections = ["", "プロフィール", "待ち合わせ"]
     private var mapViewHeight: CGFloat!
     private let targetProfileItems = ["名前", "性別", "年齢", "プロフィール"]
     private let imakuruItems = ["到着時間"]
@@ -147,8 +144,10 @@ class TargetProfileViewController:
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return self.targetProfileItems.count
+            return 0
         } else if section == 1 {
+            return self.targetProfileItems.count
+        } else if section == 2 {
             return self.otherItems.count
         }
         
@@ -159,9 +158,12 @@ class TargetProfileViewController:
         return UIFont(name: "BrandonGrotesque-Medium", size: 12.0)
     }
     
-//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//        return StyleConst.sectionHeaderHeight
-//    }
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 0 {
+            return CGFloat.leastNormalMagnitude
+        }
+        return StyleConst.sectionHeaderHeight
+    }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView()
@@ -178,7 +180,7 @@ class TargetProfileViewController:
         let tableViewCellIdentifier = "Cell"
         var cell: UITableViewCell?
         
-        if indexPath.section == 0 {
+        if indexPath.section == 1 {
             if indexPath.row < 3 {
                 // セルを再利用する
                 var normalCell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier)
@@ -217,7 +219,7 @@ class TargetProfileViewController:
             
             return cell!
             
-        } else if indexPath.section == 1 {
+        } else if indexPath.section == 2 {
             
             var normalCell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier)
             if normalCell == nil {
@@ -600,8 +602,6 @@ class TargetProfileViewController:
     func initTableView() {
         let nibName = UINib(nibName: "DetailProfileTableViewCell", bundle: nil)
         self.tableView.register(nibName, forCellReuseIdentifier: detailTableViewCellIdentifier)
-        self.tableView.estimatedRowHeight = 100.0
-        self.tableView.rowHeight = UITableViewAutomaticDimension
         //tableViewの位置を 1 / 端末サイズ 下げる
         self.tableView.contentInset.top = self.innerViewHeight
     }

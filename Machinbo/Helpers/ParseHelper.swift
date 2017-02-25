@@ -59,6 +59,8 @@ class func getTargetUserGoNow(_ objectId: String, completion:((_ withError: NSEr
     query.whereKey("objectId", equalTo:objectId)
     query.includeKey("userGoNow")
     query.includeKey("targetGoNow")
+    query.includeKey("User")
+    query.includeKey("TargetUser")
     query.findObjectsInBackground { (objects, error) -> Void in
         if error == nil {
             completion?(error as NSError?, objects!.first)

@@ -87,7 +87,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         showAdmob()
     }
     
-    fileprivate func setRecruitment() {
+    private func setRecruitment() {
         let userData = PersistentData.User()
         
         guard !userData.markTimeFrom.isEmpty else {
@@ -112,7 +112,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         }
     }
     
-    fileprivate func showAdmob() {
+    private func showAdmob() {
         if self.isInternetConnect() {
             //広告を表示
             self.showAdmob(AdmobType.standard)
@@ -122,22 +122,23 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         }
     }
     
-    fileprivate func setProfileGesture() {
+    private func setProfileGesture() {
         // profilePicture をタップできるようにジェスチャーを設定
         profilePicture.isUserInteractionEnabled = true
         let myTap = UITapGestureRecognizer(target: self, action: #selector(tapGesture))
         profilePicture.addGestureRecognizer(myTap)
     }
     
-    fileprivate func initTableView() {
+    private func initTableView() {
         let nibName = UINib(nibName: "DetailProfileTableViewCell", bundle:nil)
-        tableView.register(nibName, forCellReuseIdentifier: detailTableViewCellIdentifier)
-        tableView.estimatedRowHeight = 200.0
-        tableView.rowHeight = UITableViewAutomaticDimension
+        self.tableView.register(nibName, forCellReuseIdentifier: detailTableViewCellIdentifier)
+        self.tableView.estimatedRowHeight = 200.0
+        self.tableView.rowHeight = UITableViewAutomaticDimension
+        self.tableView.backgroundColor = StyleConst.backgroundColorForHeader
         view.addSubview(tableView)
     }
     
-    fileprivate func setNavigationItemSettingButton() {
+    private func setNavigationItemSettingButton() {
         /* 設定ボタンを付与 */
         let settingsButton: UIButton = UIButton(type: .custom)
         settingsButton.setImage(UIImage(named: "santen.png"), for: UIControlState())
@@ -232,25 +233,14 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     
     internal func setSelectedDate(_ SelectedDate: Date) {}
     
-    /*
-     テーブルに表示する配列の総数を返す.
-     */
     internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        if section == 0 {
-            return 0
-            
-        } else if section == 1 {
-            return profileItems.count
-            
-        } else if section == 2 {
-            return snsItems.count
-        
-        } else if section == 3 {
-            return otherItems.count
+        switch section {
+        case 0: return 0
+        case 1: return profileItems.count
+        case 2: return snsItems.count
+        case 3: return otherItems.count
+        default: return 0
         }
-        
-        return 0
     }
     
     /*

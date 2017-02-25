@@ -192,6 +192,7 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let vc = TargetProfileViewController(type: type)
         vc.targetUserInfo = userInfoObject
         vc.gonowInfo = gonowData
+        vc.type = type
 
         self.navigationController!.pushViewController(vc, animated: true)
     }

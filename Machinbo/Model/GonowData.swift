@@ -41,8 +41,8 @@ class GonowData {
         set(v) { pfObject.setValue(v, forKey: "isDeleteTarget") }
     }
     
-    var TargetUserID: Bool {
-        get { return pfObject.object(forKey: "TargetUserID") as! Bool }
+    var TargetUserID: String {
+        get { return pfObject.object(forKey: "TargetUserID") as! String }
         set(v) { pfObject.setValue(v, forKey: "TargetUserID") }
     }
     

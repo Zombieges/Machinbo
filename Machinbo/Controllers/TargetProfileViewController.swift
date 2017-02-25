@@ -67,11 +67,6 @@ class TargetProfileViewController:
             self.view = view
         }
         
-        self.mapViewHeight = round(UIScreen.main.bounds.size.height / 5)
-        self.innerViewHeight = self.mapViewHeight + round(self.mapViewHeight / 2)
-        self.displayWidth = UIScreen.main.bounds.size.width
-        self.displayHeight = UIScreen.main.bounds.size.height
-        
         PersistentData.deleteUserIDForKey("imaikuFlag")
         
         self.setHeader()
@@ -440,7 +435,6 @@ class TargetProfileViewController:
         
         let userID = self.gonowInfo?.UserID
         let targetUserID = self.gonowInfo?.TargetUserID
-        let geoPoint = PFGeoPoint(latitude: latitude, longitude: longitude)
         
         ParseHelper.getTargetUserGoNow(objectid!) { (error: NSError?, result) -> Void in
             guard error == nil else { print("Error information"); return }
@@ -462,6 +456,9 @@ class TargetProfileViewController:
                         UIAlertController.showAlertView("", message: "現在位置を相手に送信しました")
                     }
                     
+                    result["updateAt"] = Date()
+                    result.saveInBackground()
+                    
                 } else {
                     defer { MBProgressHUDHelper.hide() }
                     
@@ -471,15 +468,14 @@ class TargetProfileViewController:
                         defer { MBProgressHUDHelper.hide() }
                         guard error == nil else { return }
                     }
+                    
                     result["userGoNow"] = gonowReceiveObject
+                    result["updateAt"] = Date()
                     result.saveInBackground { (success: Bool, error: Error?) -> Void in
                         defer { MBProgressHUDHelper.hide() }
                         guard error == nil else { return }
                     }
                 }
-                
-                result["updateAt"] = Date()
-                result.saveInBackground()
                 
             } else if targetUserID == PersistentData.User().userID {
                 if let query = result.object(forKey: "targetGoNow") as? PFObject {
@@ -491,6 +487,9 @@ class TargetProfileViewController:
                         UIAlertController.showAlertView("", message: "現在位置を相手に送信しました")
                     }
                     
+                    result["updateAt"] = Date()
+                    result.saveInBackground()
+                    
                 } else {
                     let gonowReceiveObject = PFObject(className: "GoNowSend")
                     gonowReceiveObject["userGeoPoint"] = geoPoint
@@ -498,15 +497,14 @@ class TargetProfileViewController:
                         defer { MBProgressHUDHelper.hide() }
                         guard error == nil else { return }
                     }
+                    
                     result["targetGoNow"] = gonowReceiveObject
+                    result["updateAt"] = Date()
                     result.saveInBackground { (success: Bool, error: Error?) -> Void in
                         defer { MBProgressHUDHelper.hide() }
                         guard error == nil else { return }
                     }
                 }
-                
-                result["updateAt"] = Date()
-                result.saveInBackground()
             }
         }
     }
@@ -556,20 +554,11 @@ class TargetProfileViewController:
     
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         switch result {
-        case MFMailComposeResult.cancelled:
-            print("Mail cancelled")
-            break
-        case MFMailComposeResult.saved:
-            print("Mail saved")
-            break
-        case MFMailComposeResult.sent:
-            print("Mail sent")
-            break
-        case MFMailComposeResult.failed:
-            print("Mail sent failure: \(error!.localizedDescription)")
-            break
-        default:
-            break
+        case MFMailComposeResult.cancelled: print("Mail cancelled");break
+        case MFMailComposeResult.saved: print("Mail saved"); break
+        case MFMailComposeResult.sent: print("Mail sent"); break
+        case MFMailComposeResult.failed: print("Mail sent failure: \(error!.localizedDescription)") ;break
+        default: break
         }
         
         controller.dismiss(animated: true, completion: nil)
@@ -594,6 +583,11 @@ class TargetProfileViewController:
     }
     
     func setHeader() {
+        self.mapViewHeight = round(UIScreen.main.bounds.size.height / 5)
+        self.innerViewHeight = self.mapViewHeight + round(self.mapViewHeight / 2)
+        self.displayWidth = UIScreen.main.bounds.size.width
+        self.displayHeight = UIScreen.main.bounds.size.height
+        
         self.myHeaderView = UIView(frame: CGRect(x: 0, y: -innerViewHeight, width: self.self.displayHeight, height: innerViewHeight))
         self.myHeaderView.backgroundColor = UIColor.white
         self.tableView.addSubview(self.myHeaderView)
@@ -602,6 +596,7 @@ class TargetProfileViewController:
     func initTableView() {
         let nibName = UINib(nibName: "DetailProfileTableViewCell", bundle: nil)
         self.tableView.register(nibName, forCellReuseIdentifier: detailTableViewCellIdentifier)
+        self.tableView.backgroundColor = StyleConst.backgroundColorForHeader
         //tableViewの位置を 1 / 端末サイズ 下げる
         self.tableView.contentInset.top = self.innerViewHeight
     }
@@ -685,7 +680,14 @@ class TargetProfileViewController:
     }
     
     func refresh() {
-        self.setGoogleMap()
-        self.refreshControl.endRefreshing()
+        ParseHelper.getTargetUserGoNow(self.gonowInfo!.ObjectId) { (error: NSError?, result: PFObject?) -> Void in
+            defer {  MBProgressHUDHelper.hide() }
+            guard let result = result else { return }
+
+            self.gonowInfo = GonowData(parseObject: result)
+            self.setGoogleMap()
+            self.setImageProfile()
+            self.refreshControl.endRefreshing()
+        }
     }
 }

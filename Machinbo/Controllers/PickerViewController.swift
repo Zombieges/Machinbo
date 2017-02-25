@@ -437,7 +437,6 @@ UISearchBarDelegate {
             query["TargetUserID"] = targetUserID
             query["User"] = result
             query["TargetUser"] = self.palTargetUser
-            query["unReadFlag"] = true
             query["IsApproved"] = false
             query["isDeleteUser"] = false
             query["isDeleteTarget"] = false

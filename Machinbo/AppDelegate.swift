@@ -47,6 +47,9 @@
         NotificationHelper.launch()
         ParseHelper.launch(launchOptions)
         
+        // BadgeNumber を０にする.
+        UIApplication.shared.applicationIconBadgeNumber = 0
+        
         let googleMapsKey = ConfigHelper.getPlistKey("GOOGLE_MAPS_API_KEY") as String
         NSLog("★google maps api key = " + googleMapsKey)
         

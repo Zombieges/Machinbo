@@ -452,21 +452,12 @@ UISearchBarDelegate {
                 
                 var userInfo = PersistentData.User()
                 userInfo.imaikuFlag = true
+
+                // イマ行く対象のIDを local DB へセット
+                userInfo.targetUserID = targetUserID!
                 
-                ParseHelper.countUnRead(targetUserID!){ (error: NSError?, result: Int?) -> Void in
-                    
-                    guard error == nil else {
-                        self.errorAction()
-                        return
-                    }
-                    
-                    // イマ行く対象のIDを local DB へセット
-                    var userInfo = PersistentData.User()
-                    userInfo.targetUserID = targetUserID!
-                    
-                    // Send Notification
-                    NotificationHelper.sendSpecificDevice(name! + "さんより「いまから行く」されました", deviceTokenAsString: targetDeviceToken!, badges: result! as Int)
-                }
+                // Send Notification
+                NotificationHelper.sendSpecificDevice(name! + "さんより「いまから行く」されました", deviceTokenAsString: targetDeviceToken!, badges: 1 as Int)
                 
                 // 表示完了時の処理
                 if self._interstitial!.isReady {

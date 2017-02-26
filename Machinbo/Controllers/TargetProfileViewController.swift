@@ -680,6 +680,12 @@ class TargetProfileViewController:
     }
     
     func refresh() {
+        guard self.gonowInfo != nil else {
+            MBProgressHUDHelper.hide()
+            self.refreshControl.endRefreshing()
+            return
+        }
+        
         ParseHelper.getTargetUserGoNow(self.gonowInfo!.ObjectId) { (error: NSError?, result: PFObject?) -> Void in
             defer {  MBProgressHUDHelper.hide() }
             guard let result = result else { return }

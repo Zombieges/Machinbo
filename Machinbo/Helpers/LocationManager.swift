@@ -70,10 +70,19 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        if (status == .notDetermined) {
+        if status == .notDetermined {
             if (self.locationManager_.responds(to: #selector(CLLocationManager.requestWhenInUseAuthorization))) {
                 self.locationManager_.requestWhenInUseAuthorization()
             }
+        } else if status == .denied {
+            UIAlertController.showAlertOKCancel("位置情報の利用許可を求めています", message: "このアプリは位置情報を必要とします", actiontitle: "設定する") { action in
+                if action == .cancel { return }
+                if let url = NSURL(string:UIApplicationOpenSettingsURLString) {
+                    UIApplication.shared.openURL(url as URL)
+                }
+            }
         }
     }
+    
+    
 }

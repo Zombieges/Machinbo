@@ -224,20 +224,7 @@ class func deleteUserInfo(_ userID: String, completion: @escaping () -> ()) {
         }
     }
 }
-
-class func countUnRead(_ targetObjectID: String, completion:((_ withError: NSError?, _ result: Int?)->Void)?) {
-    let query = PFQuery(className: "GoNow")
-    query.whereKey("TargetUserID", equalTo: targetObjectID)
-    query.whereKey("unReadFlag", equalTo: true)
-    query.countObjectsInBackground {
-        (number, error) in
-        
-        if error == nil {
-            completion?(error as NSError?, Int(number))
-        }
-    }
-}
-
+    
 func getErrorMessage(_ error:NSError?) -> String {
     var errorMessage = ""
     if error != nil {

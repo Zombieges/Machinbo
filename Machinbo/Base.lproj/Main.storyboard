@@ -17,11 +17,20 @@
                         <segue destination="eWK-e7-jlI" kind="presentation" identifier="profile" id="Kmr-a6-7U0"/>
                         <segue destination="Dga-88-Fra" kind="presentation" identifier="map" id="nDJ-9i-Rze"/>
                         <segue destination="sf1-lx-3Bo" kind="presentation" identifier="meetup" id="mDd-bq-u1U"/>
+                        <segue destination="yNG-EB-esq" kind="presentation" identifier="entry" id="mIs-8l-JeO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-316" y="-104"/>
+        </scene>
+        <!--Marker Draggable View Controller-->
+        <scene sceneID="OCr-Pl-VOm">
+            <objects>
+                <viewController storyboardIdentifier="entry" useStoryboardIdentifierAsRestorationIdentifier="YES" id="yNG-EB-esq" customClass="MarkerDraggableViewController" customModule="Machinbo" customModuleProvider="target" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MJi-Cr-fcz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-924" y="583"/>
         </scene>
         <!--Meetup View Controller-->
         <scene sceneID="oV9-Xs-4sM">

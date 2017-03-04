@@ -206,12 +206,18 @@ class GoNowViewController:
                 userData.mychar = self.inputChar
                 userData.isRecruitment = true //募集中フラグ
                 
-                UIAlertController.showAlertView("", message: "待ち合わせ登録をしました") { action in
-                    if self._interstitial!.isReady {
-                        self._interstitial!.present(fromRootViewController: self)
+                UIAlertController.showAlertOKCancel("", message: "待ち合わせ登録をしました。投稿内容を確認しますか？", actiontitle: "確認") { action in
+                    if action == .cancel {
+                        //self.performSegue(withIdentifier: "map", sender: nil)
+                        return
                     }
                     
-                    self.navigationController!.popToRootViewController(animated: true)
+                    let vc = TargetProfileViewController(type: .targetProfile)
+                    vc.targetUserInfo = result
+                    vc.type = .targetProfile
+                    
+                    self.navigationController!.pushViewController(vc, animated: true)
+                    
                 }
             }
         }

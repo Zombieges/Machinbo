@@ -15,6 +15,27 @@ import GoogleMobileAds
 
 //extension MapViewController: TransisionProtocol {}
 
+let kMapStyle = "[" +
+    "  {" +
+    "    \"featureType\": \"poi.business\"," +
+    "    \"elementType\": \"all\"," +
+    "    \"stylers\": [" +
+    "      {" +
+    "        \"visibility\": \"off\"" +
+    "      }" +
+    "    ]" +
+    "  }," +
+    "  {" +
+    "    \"featureType\": \"transit\"," +
+    "    \"elementType\": \"labels.icon\"," +
+    "    \"stylers\": [" +
+    "      {" +
+    "        \"visibility\": \"off\"" +
+    "      }" +
+    "    ]" +
+    "  }" +
+"]"
+
 class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManagerDelegate, GADBannerViewDelegate, GADInterstitialDelegate, UITabBarDelegate, TransisionProtocol {
     
     private var profileSettingButton: UIBarButtonItem!
@@ -134,7 +155,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         defer { NotificationCenter.default.removeObserver(self) }
 
         self.createGoogleMapForNearGeoPoint(notif: notif)
-        self.createupdateGeoPointButton()
+        //self.createupdateGeoPointButton()
     }
     
     private func createGoogleMapForNearGeoPoint(notif: Notification) {
@@ -147,6 +168,17 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         let myPosition = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         let camera = GMSCameraPosition(target: myPosition, zoom: 13, bearing: 0, viewingAngle: 0)
         let gmaps = GMSMapView()
+        do {
+            // Set the map style by passing the URL of the local file.
+            if let styleURL = Bundle.main.url(forResource: "style", withExtension: "json") {
+                gmaps.mapStyle = try GMSMapStyle(contentsOfFileURL: styleURL)
+                
+            } else {
+                NSLog("Unable to find style.json")
+            }
+        } catch {
+            NSLog("One or more of the map styles failed to load. \(error)")
+        }
         gmaps.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
         gmaps.isMyLocationEnabled = true
         gmaps.settings.myLocationButton = true
@@ -161,19 +193,19 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         }
     }
     
-    private func createupdateGeoPointButton() {
-        let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 200, height: 40))
-        btn.trackTouchLocation = true
-        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
-        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
-        btn.rippleColor = LayoutManager.getUIColorFromRGB(0xB54241)
-        btn.setTitle("待ち合わせ登録", for: UIControlState())
-        btn.addTarget(self, action: #selector(MapViewController.onClickImakoko), for: UIControlEvents.touchUpInside)
-        btn.layer.cornerRadius = 5.0
-        btn.layer.masksToBounds = true
-        btn.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height - self.view.bounds.height/7.3)
-        self.view.addSubview(btn)
-    }
+//    private func createupdateGeoPointButton() {
+//        let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 200, height: 40))
+//        btn.trackTouchLocation = true
+//        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
+//        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
+//        btn.rippleColor = LayoutManager.getUIColorFromRGB(0xB54241)
+//        btn.setTitle("待ち合わせ登録", for: UIControlState())
+//        btn.addTarget(self, action: #selector(MapViewController.onClickImakoko), for: UIControlEvents.touchUpInside)
+//        btn.layer.cornerRadius = 5.0
+//        btn.layer.masksToBounds = true
+//        btn.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height - self.view.bounds.height/7.3)
+//        self.view.addSubview(btn)
+//    }
     
     private func createNavigationItem() {
         let reloadButton = UIButton(type: .custom)

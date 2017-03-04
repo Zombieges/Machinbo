@@ -21,22 +21,34 @@ class MarkerDraggableViewController: UIViewController, GMSMapViewDelegate, CLLoc
     var marker: GMSMarker!
     var pinImage: UIImageView!
     
+    let displayWidth = UIScreen.main.bounds.size.width
+    
     override func viewDidLoad() {
         
         if let view = UINib(nibName: "MapView", bundle: nil).instantiate(withOwner: self, options: nil).first as? UIView {
             self.view = view
         }
         
-        self.navigationItem.title = "ピンをタップして位置を送信"
+        self.navigationItem.title = "ピンの場所を選択"
         
         if self.isInternetConnect() {
-            setGoogleMaps()
+            LocationManager.sharedInstance.startUpdatingLocation()
+            
+            let center = NotificationCenter.default as NotificationCenter
+            center.addObserver(self, selector: #selector(self.setGoogleMaps(_:)), name: NSNotification.Name(rawValue: LMLocationUpdateNotification as String as String), object: nil)
         }
     }
     
-    func setGoogleMaps() {
+    func setGoogleMaps(_ notif: Notification)  {
+        defer { NotificationCenter.default.removeObserver(self) }
+
+        let info = notif.userInfo as NSDictionary!
+        let location = info?[LMLocationInfoKey] as! CLLocation
+        let latitude = location.coordinate.latitude
+        let longitude = location.coordinate.longitude
+        
         //現在位置
-        let myPosition = CLLocationCoordinate2D(latitude: self.palGeoPoint.latitude, longitude: self.palGeoPoint.longitude)
+        let myPosition = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         let camera = GMSCameraPosition(target: myPosition, zoom: 13, bearing: 0, viewingAngle: 0)
         
         self.gmaps = GMSMapView()
@@ -68,14 +80,15 @@ class MarkerDraggableViewController: UIViewController, GMSMapViewDelegate, CLLoc
             self.pinImage = UIImageView(image: UIImage(named: "mappin.png"))
             self.pinImage.isUserInteractionEnabled = true
             
-            let gesture = UITapGestureRecognizer(target:self, action: #selector(self.didClickImageView))
-            self.pinImage.addGestureRecognizer(gesture)
+//            let gesture = UITapGestureRecognizer(target:self, action: #selector(self.didClickImageView))
+//            self.pinImage.addGestureRecognizer(gesture)
             
             self.view.addSubview(self.pinImage)
+            self.createEntryThisPointButton()
         }
 
         var mapViewPosition = mapView.projection.point(for: getMapCenterPosition(mapView))
-        mapViewPosition.y = mapViewPosition.y - self.pinImage.frame.height / 2
+        mapViewPosition.y = mapViewPosition.y - self.pinImage.frame.height / 3
         self.pinImage.center = mapViewPosition
     }
     
@@ -87,5 +100,19 @@ class MarkerDraggableViewController: UIViewController, GMSMapViewDelegate, CLLoc
         vc.palGeoPoint = PFGeoPoint(latitude: mapViewCenter.latitude, longitude: mapViewCenter.longitude)
         
         self.navigationController!.pushViewController(vc, animated: true)
+    }
+    
+    private func createEntryThisPointButton() {
+        let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: displayWidth - 20, height: 50))
+        btn.trackTouchLocation = true
+        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1)
+        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1)
+        btn.rippleColor = LayoutManager.getUIColorFromRGB(0x1976D2)
+        btn.setTitle("待ち合わせ場所決定", for: UIControlState())
+        btn.addTarget(self, action: #selector(self.didClickImageView), for: UIControlEvents.touchUpInside)
+        btn.layer.cornerRadius = 0
+        btn.layer.masksToBounds = true
+        btn.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height - self.view.bounds.height/7.3)
+        self.view.addSubview(btn)
     }
 }

@@ -11,6 +11,8 @@ import UIKit
 
 class LayoutManager {
     
+    let displayWidth: CGFloat = UIScreen.main.bounds.size.width
+    
     class func getUIColorFromRGB(_ rgbValue: UInt) -> UIColor {
         //RGB値からUIColorを生成
         return UIColor(

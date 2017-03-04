@@ -61,8 +61,8 @@ UISearchBarDelegate {
     var palInput: AnyObject = "" as AnyObject
     var palTargetUser: PFObject?
     
-    let displayWidth: CGFloat = UIScreen.main.bounds.size.width
-    let displayHeight: CGFloat = UIScreen.main.bounds.size.height
+    let displayWidth = UIScreen.main.bounds.size.width
+    let displayHeight = UIScreen.main.bounds.size.height
     
     var selectedItem: String!
     
@@ -101,7 +101,7 @@ UISearchBarDelegate {
         } else if self.kind == "name" {
             
             inputTextField.frame = CGRect(x: 10, y: 20, width: displayWidth - 20 , height: 30)
-            inputTextField.borderStyle = UITextBorderStyle.roundedRect
+            inputTextField.borderStyle = .roundedRect
             inputTextField.text = self.Input as? String
             self.view.addSubview(inputTextField)
             
@@ -192,7 +192,9 @@ UISearchBarDelegate {
     func createDatePickerField(_ displayWidth: CGFloat) {
         // UIDatePickerの設定
         self.inputMyDatePicker = UIDatePicker()
-        self.inputMyDatePicker.datePickerMode = UIDatePickerMode.dateAndTime
+        self.inputMyDatePicker.frame = CGRect(x: 0, y: 0, width: displayWidth, height: displayWidth / 2)
+        self.inputMyDatePicker.datePickerMode = .dateAndTime
+        self.inputMyDatePicker.backgroundColor = UIColor.white
         self.view.addSubview(self.inputMyDatePicker)
         
         createInsertDataButton(displayWidth, displayHeight: 300)
@@ -200,7 +202,7 @@ UISearchBarDelegate {
     
     func createCommentField(_ displayWidth: CGFloat, displayHeight: CGFloat) {
         
-        inputTextView.frame = CGRect(x: 10, y: 20, width: displayWidth - 20 ,height: 80)
+        inputTextView.frame = CGRect(x: 10, y: 20, width: displayWidth - 20 ,height: 60)
         inputTextView.text = self.Input as? String
         inputTextView.layer.masksToBounds = true
         inputTextView.layer.cornerRadius = 5.0
@@ -217,13 +219,13 @@ UISearchBarDelegate {
     }
     
     func createInsertDataButton(_ displayWidth: CGFloat, displayHeight: CGFloat) {
-        let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 150, height: 40))
+        let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: displayWidth - 20, height: 50))
         btn.trackTouchLocation = true
-        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
-        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
-        btn.rippleColor = LayoutManager.getUIColorFromRGB(0xB54241)
+        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1)
+        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1)
+        btn.rippleColor = LayoutManager.getUIColorFromRGB(0x1976D2)
         btn.setTitle("保存", for: UIControlState())
-        btn.layer.cornerRadius = 5.0
+        btn.layer.cornerRadius = 0
         btn.layer.masksToBounds = true
         btn.layer.position = CGPoint(x: displayWidth/2, y: displayHeight)
         btn.addTarget(self, action: #selector(onClickSaveButton), for: UIControlEvents.touchUpInside)

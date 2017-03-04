@@ -583,8 +583,8 @@ class TargetProfileViewController:
     }
     
     func setHeader() {
-        self.mapViewHeight = round(UIScreen.main.bounds.size.height / 5)
-        self.innerViewHeight = self.mapViewHeight + round(self.mapViewHeight / 2)
+        self.mapViewHeight = round(UIScreen.main.bounds.size.height / 3)
+        self.innerViewHeight = self.mapViewHeight + round(self.mapViewHeight / 3)
         self.displayWidth = UIScreen.main.bounds.size.width
         self.displayHeight = UIScreen.main.bounds.size.height
         

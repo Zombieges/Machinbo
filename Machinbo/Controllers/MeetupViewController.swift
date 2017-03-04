@@ -20,16 +20,32 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
     private var nowSegumentIndex = 0
     private var refreshControl:UIRefreshControl!
     private let detailTableViewCellIdentifier = "GoNowCell"
-    @IBOutlet weak var headerView: UIView!
+//    @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var tableView: UITableView!
+    
+    private lazy var segment: UISegmentedControl = {
+        let segment = UISegmentedControl(items: ["マッチング", "送信済み", "受信済み"])
+        segment.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width - 20, height: 40)
+        segment.setTitleTextAttributes(NSDictionary(object: UIFont.boldSystemFont(ofSize: 15), forKey: NSFontAttributeName as NSCopying) as? [AnyHashable : Any], for: .normal)
+        
+        segment.sizeToFit()
+        segment.selectedSegmentIndex = 0;
+        segment.addTarget(self, action: #selector(self.segmentChanged), for: .valueChanged)
+
+        return segment
+    }()
+
     
     override func viewDidLoad() {
         NotificationCenter.default.addObserver(self, selector: #selector(reloadData), name:NSNotification.Name(rawValue: "reloadData"), object: nil)
     }
     
     override func loadView() {
-        self.navigationItem.title = "いまから来る人リスト"
-        self.navigationController!.navigationBar.tintColor = UIColor.darkGray
+//        self.navigationItem.title = "いまから来る人リスト"
+//        self.navigationController!.navigationBar.tintColor = UIColor.darkGray
+        
+        
+        self.navigationItem.titleView = segment
         
         if let view = UINib(nibName: "GoNowListView", bundle: nil).instantiate(withOwner: self, options: nil).first as? UIView {
             self.view = view
@@ -37,7 +53,7 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         self.initTableView()
         self.createRefreshControl()
-        self.createHeaderBottomLine()
+//        self.createHeaderBottomLine()
         
         if self.isInternetConnect() {
             self.showAdmob(AdmobType.standard)
@@ -244,9 +260,9 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         return [deleteButton, blockButton]
     }
     
-    @IBAction func changeSegmentedControl(_ sender: UISegmentedControl) {
-        self.nowSegumentIndex = sender.selectedSegmentIndex
-
+    func segmentChanged(_ segcon: UISegmentedControl){
+        self.nowSegumentIndex = segcon.selectedSegmentIndex
+        
         switch self.nowSegumentIndex {
         case 0:
             if self.goNowList == nil { self.getApprovedMeetUpList() }
@@ -260,6 +276,22 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         self.tableView.reloadData()
     }
+//    @IBAction func changeSegmentedControl(_ sender: UISegmentedControl) {
+//        self.nowSegumentIndex = sender.selectedSegmentIndex
+//
+//        switch self.nowSegumentIndex {
+//        case 0:
+//            if self.goNowList == nil { self.getApprovedMeetUpList() }
+//        case 1:
+//            if self.meetupList == nil { self.getMeetUpList() }
+//        case 2:
+//            if self.recieveList == nil { self.getReceiveList() }
+//        default:
+//            break
+//        }
+//        
+//        self.tableView.reloadData()
+//    }
     
     private func initTableView() {
         let nibName = UINib(nibName: "GoNowTableViewCell", bundle:nil)
@@ -280,10 +312,10 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
 //        self.tableView.tableHeaderView = noUseCell
     }
     
-    private func createHeaderBottomLine() {
-        self.headerView.layer.borderWidth = 0.3
-        self.headerView.layer.borderColor = UIColor.lightGray.cgColor
-    }
+//    private func createHeaderBottomLine() {
+//        self.headerView.layer.borderWidth = 0.3
+//        self.headerView.layer.borderColor = UIColor.lightGray.cgColor
+//    }
     
     private func createRefreshControl() {
         self.refreshControl = UIRefreshControl()

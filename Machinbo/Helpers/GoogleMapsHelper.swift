@@ -32,8 +32,9 @@ class GoogleMapsHelper {
         }
         
         let marker = GMSMarker()
+        marker.icon = GMSMarker.markerImage(with: .black)
         marker.position = CLLocationCoordinate2DMake(geoPoint.latitude, geoPoint.longitude)
-        marker.appearAnimation = kGMSMarkerAnimationPop
+        marker.appearAnimation = .pop
         marker.map = map
         marker.userData = user
         
@@ -46,8 +47,9 @@ class GoogleMapsHelper {
     
     class func setDraggableUserMarker(_ map: GMSMapView, geoPoint: PFGeoPoint) {
         let marker = GMSMarker()
+        marker.icon = GMSMarker.markerImage(with: .black)
         marker.position = CLLocationCoordinate2DMake(geoPoint.latitude, geoPoint.longitude)
-        marker.appearAnimation = kGMSMarkerAnimationPop
+        marker.appearAnimation = .pop
         marker.map = map
         marker.title = "aaa"
         
@@ -69,7 +71,8 @@ class GoogleMapsHelper {
             
             let position = CLLocationCoordinate2DMake(meetingGeoPoint.latitude, meetingGeoPoint.longitude)
             let marker1 = GMSMarker(position: position)
-            marker1.appearAnimation = kGMSMarkerAnimationPop
+            marker1.icon = GMSMarker.markerImage(with: .black)
+            marker1.appearAnimation = .pop
             marker1.map = map
             marker1.title = "待ち合わせ場所"
             
@@ -84,7 +87,8 @@ class GoogleMapsHelper {
                 userGeoPoint = tempGeoPoint
                 let position = CLLocationCoordinate2DMake(userGeoPoint.latitude, userGeoPoint.longitude)
                 let marker2 = GMSMarker(position: position)
-                marker2.appearAnimation = kGMSMarkerAnimationPop
+                marker2.icon = GMSMarker.markerImage(with: .black)
+                marker2.appearAnimation = .pop
                 marker2.map = map
                 
                 if let user = gonowInfo.object(forKey: "User") as? PFObject {
@@ -101,7 +105,8 @@ class GoogleMapsHelper {
                 targetGeoPoint = tempGeoPoint
                 let position = CLLocationCoordinate2DMake(targetGeoPoint.latitude, targetGeoPoint.longitude)
                 let marker3 = GMSMarker(position: position)
-                marker3.appearAnimation = kGMSMarkerAnimationPop
+                marker3.icon = GMSMarker.markerImage(with: .black)
+                marker3.appearAnimation = .pop
                 marker3.map = map
                 
                 if let targetUser = gonowInfo.object(forKey: "TargetUser") as? PFObject {

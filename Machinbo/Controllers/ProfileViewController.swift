@@ -26,7 +26,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     private let profileItems = ["名前", "性別", "生まれた年", "プロフィール"]
     private let snsItems = ["Twitter"]
     private let otherItems = ["待ち合わせ（何時から〜）", "待ち合わせ（〜何時まで）", "場所", "特徴"]
-    private let sections = ["", "プロフィール", "SNS", "待ち合わせ情報"]
+    private var sections = ["", "プロフィール", "SNS", "待ち合わせ情報"]
     
     let picker = UIImagePickerController()
     var window: UIWindow?
@@ -66,6 +66,9 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.darkGray]
             self.imakokoButton.isHidden = true
             self.profilePicture.image = UIImage(named: "photo.png")
+            
+            self.sections = ["", "プロフィール", "SNS"]
+            
             return
         }
 
@@ -247,7 +250,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
      セクションの数を返す.
      */
     func numberOfSectionsInTableView(_ tableView: UITableView) -> Int {
-        return PersistentData.User().userID == "" ? 1 : sections.count
+        return sections.count
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {

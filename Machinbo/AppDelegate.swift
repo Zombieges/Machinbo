@@ -99,6 +99,19 @@
                                                              for: .default)
         mainNavigationCtrl.navigationBar.shadowImage = UIImage()
         mainNavigationCtrl.tabBarItem = UITabBarItem(title: "ホーム", image: UIImage(named: "home.png"), tag: 1)
+        
+        let markerDragConroller = storyboard.instantiateViewController(withIdentifier: "entry") as! MarkerDraggableViewController
+        
+        let editNavigationCtrl = UINavigationController(rootViewController: markerDragConroller)
+        editNavigationCtrl.navigationBar.barTintColor = UIColor.hex("fffffff", alpha: 1)
+        editNavigationCtrl.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.darkGray]
+        editNavigationCtrl.navigationBar.tintColor = UIColor.darkGray
+        editNavigationCtrl.navigationBar.isTranslucent = false
+        editNavigationCtrl.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        editNavigationCtrl.navigationBar.setBackgroundImage(UIImage(named: "BarBackground"),
+                                                            for: .default)
+        editNavigationCtrl.navigationBar.shadowImage = UIImage()
+        editNavigationCtrl.tabBarItem = UITabBarItem(title: "登録", image: UIImage(named: "edit.png"), tag: 1)
    
         let meetupViewController = storyboard.instantiateViewController(withIdentifier: "meetup") as! MeetupViewController
         
@@ -128,7 +141,7 @@
         
         
         let tabBarController = UITabBarController()
-        tabBarController.setViewControllers([mainNavigationCtrl, meetupNavigationCtrl, profileNavigationCtrl], animated: false)
+        tabBarController.setViewControllers([mainNavigationCtrl, editNavigationCtrl, meetupNavigationCtrl, profileNavigationCtrl], animated: false)
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
         self.window?.addSubview(tabBarController.view)

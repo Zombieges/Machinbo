@@ -1,0 +1,760 @@
+### Swift dependencies file v0 ###
+provides-top-level:
+- "DetailProfileTableViewCell"
+provides-nominal:
+- "C8Machinbo26DetailProfileTableViewCell"
+provides-member:
+- ["C8Machinbo26DetailProfileTableViewCell", ""]
+provides-dynamic-lookup:
+- "valueLabel"
+- "titleLabel"
+- "setSelected"
+- "awakeFromNib"
+depends-top-level:
+- "String"
+- "AssignmentPrecedence"
+- !private "UIColor"
+- "NSCoder"
+- "UITableViewCellStyle"
+- !private "UIViewAutoresizing"
+- "UILabel"
+- "DetailProfileTableViewCell"
+- "UITableViewCell"
+- "Bool"
+- !private "Array"
+depends-member:
+- !private ["Ps9AnyObject", "UIColor"]
+- !private ["Ps9AnyObject", "UIViewAutoresizing"]
+- !private ["Ps9AnyObject", "autoresizingMask"]
+- ["Ps9AnyObject", "awakeFromNib"]
+- !private ["Ps9AnyObject", "black"]
+- !private ["Ps9AnyObject", "contentView"]
+- !private ["Ps9AnyObject", "gray"]
+- ["Ps9AnyObject", "init"]
+- ["Ps9AnyObject", "setSelected"]
+- !private ["Ps9AnyObject", "textColor"]
+- ["Ps9AnyObject", "titleLabel"]
+- ["Ps9AnyObject", "valueLabel"]
+- ["Ps9AnyObject", ""]
+- ["Sb", "deinit"]
+- !private ["PSo15CALayerDelegate", "UIColor"]
+- !private ["PSo15CALayerDelegate", "UIViewAutoresizing"]
+- !private ["PSo15CALayerDelegate", "autoresizingMask"]
+- ["PSo15CALayerDelegate", "awakeFromNib"]
+- !private ["PSo15CALayerDelegate", "contentView"]
+- ["PSo15CALayerDelegate", "init"]
+- ["PSo15CALayerDelegate", "setSelected"]
+- !private ["PSo15CALayerDelegate", "textColor"]
+- ["PSo15CALayerDelegate", "titleLabel"]
+- ["PSo15CALayerDelegate", "valueLabel"]
+- ["PSo15CALayerDelegate", ""]
+- !private ["Ps7CVarArg", "UIColor"]
+- !private ["Ps7CVarArg", "UIViewAutoresizing"]
+- !private ["Ps7CVarArg", "autoresizingMask"]
+- ["Ps7CVarArg", "awakeFromNib"]
+- !private ["Ps7CVarArg", "black"]
+- !private ["Ps7CVarArg", "contentView"]
+- !private ["Ps7CVarArg", "gray"]
+- ["Ps7CVarArg", "init"]
+- ["Ps7CVarArg", "setSelected"]
+- !private ["Ps7CVarArg", "textColor"]
+- ["Ps7CVarArg", "titleLabel"]
+- ["Ps7CVarArg", "valueLabel"]
+- ["Ps7CVarArg", ""]
+- !private ["Ps28CustomDebugStringConvertible", "UIColor"]
+- !private ["Ps28CustomDebugStringConvertible", "UIViewAutoresizing"]
+- !private ["Ps28CustomDebugStringConvertible", "autoresizingMask"]
+- ["Ps28CustomDebugStringConvertible", "awakeFromNib"]
+- !private ["Ps28CustomDebugStringConvertible", "black"]
+- !private ["Ps28CustomDebugStringConvertible", "contentView"]
+- !private ["Ps28CustomDebugStringConvertible", "gray"]
+- ["Ps28CustomDebugStringConvertible", "init"]
+- ["Ps28CustomDebugStringConvertible", "setSelected"]
+- !private ["Ps28CustomDebugStringConvertible", "textColor"]
+- ["Ps28CustomDebugStringConvertible", "titleLabel"]
+- ["Ps28CustomDebugStringConvertible", "valueLabel"]
+- ["Ps28CustomDebugStringConvertible", ""]
+- !private ["Ps23CustomStringConvertible", "UIColor"]
+- !private ["Ps23CustomStringConvertible", "UIViewAutoresizing"]
+- !private ["Ps23CustomStringConvertible", "autoresizingMask"]
+- ["Ps23CustomStringConvertible", "awakeFromNib"]
+- !private ["Ps23CustomStringConvertible", "black"]
+- !private ["Ps23CustomStringConvertible", "contentView"]
+- !private ["Ps23CustomStringConvertible", "gray"]
+- ["Ps23CustomStringConvertible", "init"]
+- ["Ps23CustomStringConvertible", "setSelected"]
+- !private ["Ps23CustomStringConvertible", "textColor"]
+- ["Ps23CustomStringConvertible", "titleLabel"]
+- ["Ps23CustomStringConvertible", "valueLabel"]
+- ["Ps23CustomStringConvertible", ""]
+- ["C8Machinbo26DetailProfileTableViewCell", "Bool"]
+- ["C8Machinbo26DetailProfileTableViewCell", "NSCoder"]
+- ["C8Machinbo26DetailProfileTableViewCell", "String"]
+- !private ["C8Machinbo26DetailProfileTableViewCell", "UIColor"]
+- ["C8Machinbo26DetailProfileTableViewCell", "UILabel"]
+- ["C8Machinbo26DetailProfileTableViewCell", "UITableViewCellStyle"]
+- !private ["C8Machinbo26DetailProfileTableViewCell", "UIViewAutoresizing"]
+- ["C8Machinbo26DetailProfileTableViewCell", "awakeFromNib"]
+- !private ["C8Machinbo26DetailProfileTableViewCell", "contentView"]
+- ["C8Machinbo26DetailProfileTableViewCell", "deinit"]
+- ["C8Machinbo26DetailProfileTableViewCell", "init"]
+- ["C8Machinbo26DetailProfileTableViewCell", "setSelected"]
+- ["C8Machinbo26DetailProfileTableViewCell", "titleLabel"]
+- ["C8Machinbo26DetailProfileTableViewCell", "valueLabel"]
+- !private ["Ps9Equatable", "Element"]
+- !private ["Ps9Equatable", "UIColor"]
+- !private ["Ps9Equatable", "UIViewAutoresizing"]
+- !private ["Ps9Equatable", "autoresizingMask"]
+- ["Ps9Equatable", "awakeFromNib"]
+- !private ["Ps9Equatable", "black"]
+- !private ["Ps9Equatable", "contentView"]
+- !private ["Ps9Equatable", "flexibleHeight"]
+- !private ["Ps9Equatable", "flexibleWidth"]
+- !private ["Ps9Equatable", "gray"]
+- ["Ps9Equatable", "init"]
+- ["Ps9Equatable", "setSelected"]
+- !private ["Ps9Equatable", "textColor"]
+- ["Ps9Equatable", "titleLabel"]
+- ["Ps9Equatable", "valueLabel"]
+- ["Ps9Equatable", ""]
+- !private ["Ps25ExpressibleByArrayLiteral", "Element"]
+- !private ["Ps25ExpressibleByArrayLiteral", "flexibleHeight"]
+- !private ["Ps25ExpressibleByArrayLiteral", "flexibleWidth"]
+- !private ["Ps8Hashable", "UIColor"]
+- !private ["Ps8Hashable", "UIViewAutoresizing"]
+- !private ["Ps8Hashable", "autoresizingMask"]
+- ["Ps8Hashable", "awakeFromNib"]
+- !private ["Ps8Hashable", "black"]
+- !private ["Ps8Hashable", "contentView"]
+- !private ["Ps8Hashable", "gray"]
+- ["Ps8Hashable", "init"]
+- ["Ps8Hashable", "setSelected"]
+- !private ["Ps8Hashable", "textColor"]
+- ["Ps8Hashable", "titleLabel"]
+- ["Ps8Hashable", "valueLabel"]
+- ["Ps8Hashable", ""]
+- ["SQ", "deinit"]
+- ["CSo7NSCoder", "deinit"]
+- !private ["PSo8NSCoding", "UIColor"]
+- !private ["PSo8NSCoding", "UIViewAutoresizing"]
+- !private ["PSo8NSCoding", "autoresizingMask"]
+- ["PSo8NSCoding", "awakeFromNib"]
+- !private ["PSo8NSCoding", "black"]
+- !private ["PSo8NSCoding", "contentView"]
+- !private ["PSo8NSCoding", "gray"]
+- ["PSo8NSCoding", "init"]
+- ["PSo8NSCoding", "setSelected"]
+- !private ["PSo8NSCoding", "textColor"]
+- ["PSo8NSCoding", "titleLabel"]
+- ["PSo8NSCoding", "valueLabel"]
+- ["PSo8NSCoding", ""]
+- !private ["PSo9NSCopying", "black"]
+- !private ["PSo9NSCopying", "gray"]
+- ["CSo8NSObject", "Bool"]
+- ["CSo8NSObject", "NSCoder"]
+- ["CSo8NSObject", "String"]
+- !private ["CSo8NSObject", "UIColor"]
+- ["CSo8NSObject", "UILabel"]
+- ["CSo8NSObject", "UITableViewCellStyle"]
+- !private ["CSo8NSObject", "UIViewAutoresizing"]
+- !private ["CSo8NSObject", "autoresizingMask"]
+- ["CSo8NSObject", "awakeFromNib"]
+- !private ["CSo8NSObject", "black"]
+- !private ["CSo8NSObject", "contentView"]
+- !private ["CSo8NSObject", "gray"]
+- ["CSo8NSObject", "init"]
+- ["CSo8NSObject", "setSelected"]
+- !private ["CSo8NSObject", "textColor"]
+- ["CSo8NSObject", "titleLabel"]
+- ["CSo8NSObject", "valueLabel"]
+- !private ["PSo16NSObjectProtocol", "UIColor"]
+- !private ["PSo16NSObjectProtocol", "UIViewAutoresizing"]
+- !private ["PSo16NSObjectProtocol", "autoresizingMask"]
+- ["PSo16NSObjectProtocol", "awakeFromNib"]
+- !private ["PSo16NSObjectProtocol", "black"]
+- !private ["PSo16NSObjectProtocol", "contentView"]
+- !private ["PSo16NSObjectProtocol", "gray"]
+- ["PSo16NSObjectProtocol", "init"]
+- ["PSo16NSObjectProtocol", "setSelected"]
+- !private ["PSo16NSObjectProtocol", "textColor"]
+- ["PSo16NSObjectProtocol", "titleLabel"]
+- ["PSo16NSObjectProtocol", "valueLabel"]
+- ["PSo16NSObjectProtocol", ""]
+- !private ["PSo14NSSecureCoding", "black"]
+- !private ["PSo14NSSecureCoding", "gray"]
+- !private ["Ps9OptionSet", "Element"]
+- !private ["Ps9OptionSet", "flexibleHeight"]
+- !private ["Ps9OptionSet", "flexibleWidth"]
+- ["Sq", "deinit"]
+- !private ["Ps16RawRepresentable", "Element"]
+- !private ["Ps16RawRepresentable", "flexibleHeight"]
+- !private ["Ps16RawRepresentable", "flexibleWidth"]
+- !private ["Ps10SetAlgebra", "Element"]
+- !private ["Ps10SetAlgebra", "flexibleHeight"]
+- !private ["Ps10SetAlgebra", "flexibleWidth"]
+- !private ["PSo29UIAccessibilityIdentification", "UIColor"]
+- !private ["PSo29UIAccessibilityIdentification", "UIViewAutoresizing"]
+- !private ["PSo29UIAccessibilityIdentification", "autoresizingMask"]
+- ["PSo29UIAccessibilityIdentification", "awakeFromNib"]
+- !private ["PSo29UIAccessibilityIdentification", "contentView"]
+- ["PSo29UIAccessibilityIdentification", "init"]
+- ["PSo29UIAccessibilityIdentification", "setSelected"]
+- !private ["PSo29UIAccessibilityIdentification", "textColor"]
+- ["PSo29UIAccessibilityIdentification", "titleLabel"]
+- ["PSo29UIAccessibilityIdentification", "valueLabel"]
+- ["PSo29UIAccessibilityIdentification", ""]
+- !private ["PSo12UIAppearance", "UIColor"]
+- !private ["PSo12UIAppearance", "UIViewAutoresizing"]
+- !private ["PSo12UIAppearance", "autoresizingMask"]
+- ["PSo12UIAppearance", "awakeFromNib"]
+- !private ["PSo12UIAppearance", "contentView"]
+- ["PSo12UIAppearance", "init"]
+- ["PSo12UIAppearance", "setSelected"]
+- !private ["PSo12UIAppearance", "textColor"]
+- ["PSo12UIAppearance", "titleLabel"]
+- ["PSo12UIAppearance", "valueLabel"]
+- ["PSo12UIAppearance", ""]
+- !private ["PSo21UIAppearanceContainer", "UIColor"]
+- !private ["PSo21UIAppearanceContainer", "UIViewAutoresizing"]
+- !private ["PSo21UIAppearanceContainer", "autoresizingMask"]
+- ["PSo21UIAppearanceContainer", "awakeFromNib"]
+- !private ["PSo21UIAppearanceContainer", "contentView"]
+- ["PSo21UIAppearanceContainer", "init"]
+- ["PSo21UIAppearanceContainer", "setSelected"]
+- !private ["PSo21UIAppearanceContainer", "textColor"]
+- ["PSo21UIAppearanceContainer", "titleLabel"]
+- ["PSo21UIAppearanceContainer", "valueLabel"]
+- ["PSo21UIAppearanceContainer", ""]
+- !private ["CSo7UIColor", "black"]
+- ["CSo7UIColor", "deinit"]
+- !private ["CSo7UIColor", "gray"]
+- !private ["PSo30UIContentSizeCategoryAdjusting", "textColor"]
+- !private ["PSo17UICoordinateSpace", "UIColor"]
+- !private ["PSo17UICoordinateSpace", "UIViewAutoresizing"]
+- !private ["PSo17UICoordinateSpace", "autoresizingMask"]
+- ["PSo17UICoordinateSpace", "awakeFromNib"]
+- !private ["PSo17UICoordinateSpace", "contentView"]
+- ["PSo17UICoordinateSpace", "init"]
+- ["PSo17UICoordinateSpace", "setSelected"]
+- !private ["PSo17UICoordinateSpace", "textColor"]
+- ["PSo17UICoordinateSpace", "titleLabel"]
+- ["PSo17UICoordinateSpace", "valueLabel"]
+- ["PSo17UICoordinateSpace", ""]
+- !private ["PSo13UIDynamicItem", "UIColor"]
+- !private ["PSo13UIDynamicItem", "UIViewAutoresizing"]
+- !private ["PSo13UIDynamicItem", "autoresizingMask"]
+- ["PSo13UIDynamicItem", "awakeFromNib"]
+- !private ["PSo13UIDynamicItem", "contentView"]
+- ["PSo13UIDynamicItem", "init"]
+- ["PSo13UIDynamicItem", "setSelected"]
+- !private ["PSo13UIDynamicItem", "textColor"]
+- ["PSo13UIDynamicItem", "titleLabel"]
+- ["PSo13UIDynamicItem", "valueLabel"]
+- ["PSo13UIDynamicItem", ""]
+- !private ["PSo18UIFocusEnvironment", "UIColor"]
+- !private ["PSo18UIFocusEnvironment", "UIViewAutoresizing"]
+- !private ["PSo18UIFocusEnvironment", "autoresizingMask"]
+- ["PSo18UIFocusEnvironment", "awakeFromNib"]
+- !private ["PSo18UIFocusEnvironment", "contentView"]
+- ["PSo18UIFocusEnvironment", "init"]
+- ["PSo18UIFocusEnvironment", "setSelected"]
+- !private ["PSo18UIFocusEnvironment", "textColor"]
+- ["PSo18UIFocusEnvironment", "titleLabel"]
+- ["PSo18UIFocusEnvironment", "valueLabel"]
+- ["PSo18UIFocusEnvironment", ""]
+- !private ["PSo11UIFocusItem", "UIColor"]
+- !private ["PSo11UIFocusItem", "UIViewAutoresizing"]
+- !private ["PSo11UIFocusItem", "autoresizingMask"]
+- ["PSo11UIFocusItem", "awakeFromNib"]
+- !private ["PSo11UIFocusItem", "contentView"]
+- ["PSo11UIFocusItem", "init"]
+- ["PSo11UIFocusItem", "setSelected"]
+- !private ["PSo11UIFocusItem", "textColor"]
+- ["PSo11UIFocusItem", "titleLabel"]
+- ["PSo11UIFocusItem", "valueLabel"]
+- ["PSo11UIFocusItem", ""]
+- !private ["PSo27UIGestureRecognizerDelegate", "UIColor"]
+- !private ["PSo27UIGestureRecognizerDelegate", "UIViewAutoresizing"]
+- ["PSo27UIGestureRecognizerDelegate", "awakeFromNib"]
+- !private ["PSo27UIGestureRecognizerDelegate", "contentView"]
+- ["PSo27UIGestureRecognizerDelegate", "init"]
+- ["PSo27UIGestureRecognizerDelegate", "setSelected"]
+- ["PSo27UIGestureRecognizerDelegate", "titleLabel"]
+- ["PSo27UIGestureRecognizerDelegate", "valueLabel"]
+- ["PSo27UIGestureRecognizerDelegate", ""]
+- !private ["CSo7UILabel", "textColor"]
+- ["CSo11UIResponder", "Bool"]
+- ["CSo11UIResponder", "NSCoder"]
+- ["CSo11UIResponder", "String"]
+- !private ["CSo11UIResponder", "UIColor"]
+- ["CSo11UIResponder", "UILabel"]
+- ["CSo11UIResponder", "UITableViewCellStyle"]
+- !private ["CSo11UIResponder", "UIViewAutoresizing"]
+- !private ["CSo11UIResponder", "autoresizingMask"]
+- ["CSo11UIResponder", "awakeFromNib"]
+- !private ["CSo11UIResponder", "contentView"]
+- ["CSo11UIResponder", "init"]
+- ["CSo11UIResponder", "setSelected"]
+- !private ["CSo11UIResponder", "textColor"]
+- ["CSo11UIResponder", "titleLabel"]
+- ["CSo11UIResponder", "valueLabel"]
+- !private ["PSo30UIResponderStandardEditActions", "UIColor"]
+- !private ["PSo30UIResponderStandardEditActions", "UIViewAutoresizing"]
+- !private ["PSo30UIResponderStandardEditActions", "autoresizingMask"]
+- ["PSo30UIResponderStandardEditActions", "awakeFromNib"]
+- !private ["PSo30UIResponderStandardEditActions", "contentView"]
+- ["PSo30UIResponderStandardEditActions", "init"]
+- ["PSo30UIResponderStandardEditActions", "setSelected"]
+- !private ["PSo30UIResponderStandardEditActions", "textColor"]
+- ["PSo30UIResponderStandardEditActions", "titleLabel"]
+- ["PSo30UIResponderStandardEditActions", "valueLabel"]
+- ["PSo30UIResponderStandardEditActions", ""]
+- ["CSo15UITableViewCell", "Bool"]
+- ["CSo15UITableViewCell", "NSCoder"]
+- ["CSo15UITableViewCell", "String"]
+- !private ["CSo15UITableViewCell", "UIColor"]
+- ["CSo15UITableViewCell", "UILabel"]
+- ["CSo15UITableViewCell", "UITableViewCellStyle"]
+- !private ["CSo15UITableViewCell", "UIViewAutoresizing"]
+- ["CSo15UITableViewCell", "awakeFromNib"]
+- !private ["CSo15UITableViewCell", "contentView"]
+- ["CSo15UITableViewCell", "deinit"]
+- ["CSo15UITableViewCell", "init"]
+- ["CSo15UITableViewCell", "setSelected"]
+- ["CSo15UITableViewCell", "titleLabel"]
+- ["CSo15UITableViewCell", "valueLabel"]
+- ["CSo15UITableViewCell", ""]
+- ["OSC20UITableViewCellStyle", "deinit"]
+- !private ["PSo18UITraitEnvironment", "UIColor"]
+- !private ["PSo18UITraitEnvironment", "UIViewAutoresizing"]
+- !private ["PSo18UITraitEnvironment", "autoresizingMask"]
+- ["PSo18UITraitEnvironment", "awakeFromNib"]
+- !private ["PSo18UITraitEnvironment", "contentView"]
+- ["PSo18UITraitEnvironment", "init"]
+- ["PSo18UITraitEnvironment", "setSelected"]
+- !private ["PSo18UITraitEnvironment", "textColor"]
+- ["PSo18UITraitEnvironment", "titleLabel"]
+- ["PSo18UITraitEnvironment", "valueLabel"]
+- ["PSo18UITraitEnvironment", ""]
+- ["CSo6UIView", "Bool"]
+- ["CSo6UIView", "NSCoder"]
+- ["CSo6UIView", "String"]
+- !private ["CSo6UIView", "UIColor"]
+- ["CSo6UIView", "UILabel"]
+- ["CSo6UIView", "UITableViewCellStyle"]
+- !private ["CSo6UIView", "UIViewAutoresizing"]
+- !private ["CSo6UIView", "autoresizingMask"]
+- ["CSo6UIView", "awakeFromNib"]
+- !private ["CSo6UIView", "contentView"]
+- ["CSo6UIView", "deinit"]
+- ["CSo6UIView", "init"]
+- ["CSo6UIView", "setSelected"]
+- !private ["CSo6UIView", "textColor"]
+- ["CSo6UIView", "titleLabel"]
+- ["CSo6UIView", "valueLabel"]
+- !private ["VSC18UIViewAutoresizing", "Element"]
+- ["VSC18UIViewAutoresizing", "deinit"]
+- !private ["VSC18UIViewAutoresizing", "flexibleHeight"]
+- !private ["VSC18UIViewAutoresizing", "flexibleWidth"]
+- !private ["Ps37_DefaultCustomPlaygroundQuickLookable", "UIColor"]
+- !private ["Ps37_DefaultCustomPlaygroundQuickLookable", "UIViewAutoresizing"]
+- !private ["Ps37_DefaultCustomPlaygroundQuickLookable", "autoresizingMask"]
+- ["Ps37_DefaultCustomPlaygroundQuickLookable", "awakeFromNib"]
+- !private ["Ps37_DefaultCustomPlaygroundQuickLookable", "contentView"]
+- ["Ps37_DefaultCustomPlaygroundQuickLookable", "init"]
+- ["Ps37_DefaultCustomPlaygroundQuickLookable", "setSelected"]
+- !private ["Ps37_DefaultCustomPlaygroundQuickLookable", "textColor"]
+- ["Ps37_DefaultCustomPlaygroundQuickLookable", "titleLabel"]
+- ["Ps37_DefaultCustomPlaygroundQuickLookable", "valueLabel"]
+- ["Ps37_DefaultCustomPlaygroundQuickLookable", ""]
+- !private ["Ps26_ExpressibleByColorLiteral", "black"]
+- !private ["Ps26_ExpressibleByColorLiteral", "gray"]
+- !private ["Ps9_Hashable", "UIColor"]
+- !private ["Ps9_Hashable", "UIViewAutoresizing"]
+- !private ["Ps9_Hashable", "autoresizingMask"]
+- ["Ps9_Hashable", "awakeFromNib"]
+- !private ["Ps9_Hashable", "black"]
+- !private ["Ps9_Hashable", "contentView"]
+- !private ["Ps9_Hashable", "gray"]
+- ["Ps9_Hashable", "init"]
+- ["Ps9_Hashable", "setSelected"]
+- !private ["Ps9_Hashable", "textColor"]
+- ["Ps9_Hashable", "titleLabel"]
+- ["Ps9_Hashable", "valueLabel"]
+- ["Ps9_Hashable", ""]
+depends-nominal:
+- "Ps9AnyObject"
+- "Sb"
+- "PSo15CALayerDelegate"
+- "Ps7CVarArg"
+- "Ps28CustomDebugStringConvertible"
+- "Ps23CustomStringConvertible"
+- "C8Machinbo26DetailProfileTableViewCell"
+- "Ps9Equatable"
+- !private "Ps25ExpressibleByArrayLiteral"
+- "Ps8Hashable"
+- "SQ"
+- "CSo7NSCoder"
+- "PSo8NSCoding"
+- !private "PSo9NSCopying"
+- "CSo8NSObject"
+- "PSo16NSObjectProtocol"
+- !private "PSo14NSSecureCoding"
+- !private "Ps9OptionSet"
+- "Sq"
+- !private "Ps16RawRepresentable"
+- !private "Ps10SetAlgebra"
+- "PSo29UIAccessibilityIdentification"
+- "PSo12UIAppearance"
+- "PSo21UIAppearanceContainer"
+- "CSo7UIColor"
+- !private "PSo30UIContentSizeCategoryAdjusting"
+- "PSo17UICoordinateSpace"
+- "PSo13UIDynamicItem"
+- "PSo18UIFocusEnvironment"
+- "PSo11UIFocusItem"
+- "PSo27UIGestureRecognizerDelegate"
+- !private "CSo7UILabel"
+- "CSo11UIResponder"
+- "PSo30UIResponderStandardEditActions"
+- "CSo15UITableViewCell"
+- "OSC20UITableViewCellStyle"
+- "PSo18UITraitEnvironment"
+- "CSo6UIView"
+- "VSC18UIViewAutoresizing"
+- "Ps37_DefaultCustomPlaygroundQuickLookable"
+- !private "Ps26_ExpressibleByColorLiteral"
+- "Ps9_Hashable"
+depends-dynamic-lookup:
+depends-external:
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/Swift.swiftmodule"
+- "/Users/Yabecchi/Project/_Machinbo/Machinbo/Bridging_Header.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSTMCacheBackgroundTaskManager.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/NSError+AWSMTLModelException.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSMTLReflection.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSCognitoIdentityResources.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSCognitoIdentityModel.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSCognitoIdentityService.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSCognitoIdentity.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSSTSResources.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSSTSModel.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSSTSService.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSSTS.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSUICKeyChainStore.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSTMMemoryCache.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSTMDiskCache.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSTMCache.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSKSReachability.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSFMDatabaseQueue.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSFMDatabaseAdditions.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSFMDatabasePool.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSFMResultSet.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSFMDatabase.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSFMDB.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSGZIP.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSTaskCompletionSource.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSTask.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSExecutor.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSCancellationTokenSource.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSCancellationTokenRegistration.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSCancellationToken.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSBoltsVersion.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSBolts.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSInfo.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSValidation.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSURLRequestRetryHandler.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSSignature.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSURLSessionManager.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSURLResponseSerialization.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSURLRequestSerialization.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSSerialization.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSSynchronizedMutableDictionary.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSClientContext.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSLogging.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSCategory.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSIdentityProvider.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSCredentialsProvider.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/NSValueTransformer+AWSMTLPredefinedTransformerAdditions.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/NSValueTransformer+AWSMTLInversionAdditions.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/NSObject+AWSMTLComparisonAdditions.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/NSDictionary+AWSMTLManipulationAdditions.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/NSArray+AWSMTLManipulationAdditions.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSMTLValueTransformer.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSMTLModel+NSCoding.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSMTLModel.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSMTLManagedObjectAdapter.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSMTLJSONAdapter.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSMantle.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSModel.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSNetworking.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSService.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSServiceEnum.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSCore.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSCore-umbrella.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Modules/module.modulemap"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/UIKit.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/Foundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/Darwin.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/Dispatch.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/ObjectiveC.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/CoreGraphics.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/QuartzCore.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/CoreImage.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/CoreData.swiftmodule"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSSNS/AWSSNS.framework/Headers/AWSSNSResources.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSSNS/AWSSNS.framework/Headers/AWSSNSModel.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSSNS/AWSSNS.framework/Headers/AWSSNSService.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSSNS/AWSSNS.framework/Headers/AWSSNS.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSSNS/AWSSNS.framework/Headers/AWSSNS-umbrella.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSSNS/AWSSNS.framework/Modules/module.modulemap"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCognito/AWSCognito.framework/Headers/AWSCognitoConflict.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCognito/AWSCognito.framework/Headers/AWSCognitoRecord.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCognito/AWSCognito.framework/Headers/AWSCognitoDataset.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCognito/AWSCognito.framework/Headers/AWSCognitoSyncResources.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCognito/AWSCognito.framework/Headers/AWSCognitoSyncModel.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCognito/AWSCognito.framework/Headers/AWSCognitoSyncService.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCognito/AWSCognito.framework/Headers/AWSCognitoHandlers.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCognito/AWSCognito.framework/Headers/AWSCognitoService.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCognito/AWSCognito.framework/Headers/AWSCognito.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCognito/AWSCognito.framework/Headers/AWSCognito-umbrella.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCognito/AWSCognito.framework/Modules/module.modulemap"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/MBProgressHUD/MBProgressHUD.framework/Headers/MBProgressHUD.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/MBProgressHUD/MBProgressHUD.framework/Headers/MBProgressHUD-umbrella.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/MBProgressHUD/MBProgressHUD.framework/Modules/module.modulemap"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/SwiftOnoneSupport.swiftmodule"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Bolts/Bolts.framework/Headers/Bolts.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Bolts/Bolts.framework/Headers/BFTaskCompletionSource.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Bolts/Bolts.framework/Headers/BFTask.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Bolts/Bolts.framework/Headers/BFTask+Exceptions.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Bolts/Bolts.framework/Headers/BFExecutor.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Bolts/Bolts.framework/Headers/BFCancellationTokenSource.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Bolts/Bolts.framework/Headers/BFCancellationTokenRegistration.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Bolts/Bolts.framework/Headers/BFCancellationToken.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Bolts/Bolts.framework/Headers/BFWebViewAppLinkResolver.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Bolts/Bolts.framework/Headers/BFURL.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Bolts/Bolts.framework/Headers/BFMeasurementEvent.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Bolts/Bolts.framework/Headers/BFAppLinkTarget.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Bolts/Bolts.framework/Headers/BFAppLinkReturnToRefererView.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Bolts/Bolts.framework/Headers/BFAppLinkReturnToRefererController.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Bolts/Bolts.framework/Headers/BFAppLinkResolving.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Bolts/Bolts.framework/Headers/BFAppLinkNavigation.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Bolts/Bolts.framework/Headers/BFAppLink.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Bolts/Bolts.framework/Headers/Bolts-umbrella.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Bolts/Bolts.framework/Modules/module.modulemap"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFPurchase.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFProduct.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFPush+Deprecated.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFPush+Synchronous.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFPush.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFNetworkActivityIndicatorManager.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFInstallation.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFUserAuthenticationDelegate.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFUser+Deprecated.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFUser+Synchronous.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFSession.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFRole.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFRelation.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFQuery+Deprecated.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFQuery+Synchronous.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFQuery.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFObject+Deprecated.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFObject+Synchronous.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFObject+Subclass.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFGeoPoint.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFFile+Synchronous.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFFile+Deprecated.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFFile.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFConfig+Synchronous.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFConfig.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFCloud+Synchronous.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFCloud+Deprecated.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFCloud.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFAnonymousUtils+Deprecated.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFSubclassing.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFObject.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFUser.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFAnonymousUtils.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFAnalytics.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFACL.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFConstants.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/ParseClientConfiguration.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/Parse.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/Parse-umbrella.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Modules/module.modulemap"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/CoreLocation.swiftmodule"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Base/Frameworks/GoogleMapsBase.framework/Headers/GMSCoordinateBounds.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Base/Frameworks/GoogleMapsBase.framework/Headers/GMSCompatabilityMacros.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Base/Frameworks/GoogleMapsBase.framework/Headers/GoogleMapsBase.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Base/Frameworks/GoogleMapsBase.framework/Modules/module.modulemap"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSURLTileLayer.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSTileLayer.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSSyncTileLayer.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSServices.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSPolyline.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSPolygon.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSPanoramaView.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSPanoramaService.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSPanoramaLink.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSPanoramaLayer.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSPanoramaCameraUpdate.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSPanoramaCamera.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSPanorama.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSOrientation.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSMutablePath.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSMarkerLayer.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSMarker.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSUISettings.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSMapView.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSMapView+Animation.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSMapStyle.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSMapLayer.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSIndoorLevel.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSIndoorDisplay.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSIndoorBuilding.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSGroundOverlay.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSPath.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSGeometryUtils.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSGeocoder.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSProjection.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSCoordinateBounds+GoogleMaps.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSOverlay.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSCircle.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSCameraUpdate.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSCameraPosition.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSCALayer.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSDeprecationMacros.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSAddress.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GoogleMaps.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Modules/module.modulemap"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/MapKit.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/Photos.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/AVFoundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/CoreMedia.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/CoreAudio.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/SpriteKit.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/simd.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/GLKit.swiftmodule"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/Mediation/GADMRewardBasedVideoAdNetworkConnectorProtocol.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/Mediation/GADMRewardBasedVideoAdNetworkAdapterProtocol.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/Mediation/GADMEnums.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/Mediation/GADMediationAdRequest.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/Mediation/GADMAdNetworkConnectorProtocol.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/Mediation/GADMAdNetworkAdapterProtocol.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADRewardBasedVideoAdDelegate.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADRewardBasedVideoAd.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADAdReward.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADSearchRequest.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADSearchBannerView.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADDynamicHeightSearchRequest.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADMediatedNativeContentAd.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADMediatedNativeAppInstallAd.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADMediatedNativeAdNotificationSource.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADCustomEventParameters.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADMediatedNativeAdDelegate.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADMediatedNativeAd.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADCustomEventNativeAdDelegate.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADCustomEventNativeAd.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADCustomEventInterstitialDelegate.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADCustomEventInterstitial.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADCustomEventExtras.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADCustomEventRequest.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADCustomEventBannerDelegate.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADCustomEventBanner.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADNativeAdViewAdOptions.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADNativeAdImageAdLoaderOptions.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADNativeCustomTemplateAd.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADNativeContentAd.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADNativeAppInstallAd.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADNativeAdImage+Mediation.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADNativeAdImage.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADNativeAdDelegate.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADNativeAd.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADAdChoicesView.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADAdLoaderAdTypes.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/DFPRequest.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/DFPInterstitial.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/DFPCustomRenderedInterstitialDelegate.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/DFPCustomRenderedAd.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADAppEventDelegate.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/DFPCustomRenderedBannerViewDelegate.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/DFPBannerView.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADVideoOptions.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADVideoControllerDelegate.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADVideoController.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADNativeExpressAdViewDelegate.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADNativeExpressAdView.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADMobileAds.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADMediaView.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADInterstitialDelegate.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADInterstitial.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADInAppPurchase.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADExtras.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADDebugOptionsViewController.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADAdLoaderDelegate.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADAdLoader.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADCorrelatorAdLoaderOptions.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADCorrelator.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADRequestError.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADRequest.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADInAppPurchaseDelegate.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADBannerViewDelegate.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADAdSizeDelegate.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADBannerView.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADAdSize.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADAdNetworkExtras.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADAdDelegate.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GoogleMobileAdsDefines.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GoogleMobileAds.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Modules/module.modulemap"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterCore/iOS/TwitterCore.framework/Headers/TWTRSessionStore.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterCore/iOS/TwitterCore.framework/Headers/TWTRSession.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterCore/iOS/TwitterCore.framework/Headers/TWTRGuestSession.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterCore/iOS/TwitterCore.framework/Headers/TWTRCoreOAuthSigning.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterCore/iOS/TwitterCore.framework/Headers/TWTRConstants.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterCore/iOS/TwitterCore.framework/Headers/TWTRAuthSession.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterCore/iOS/TwitterCore.framework/Headers/TWTRAuthConfig.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterCore/iOS/TwitterCore.framework/Headers/TWTRAPIErrorCode.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterCore/iOS/TwitterCore.framework/Headers/TWTRDefines.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterCore/iOS/TwitterCore.framework/Headers/TwitterCore.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterCore/iOS/TwitterCore.framework/Modules/module.modulemap"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRVideoMetaData.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRUserTimelineDataSource.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRUser.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRTweetUserMentionEntity.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRTweetUrlEntity.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRTweetViewDelegate.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRTweetView.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRTweetTableViewCell.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRTweetHashtagEntity.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRTweetDetailViewController.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRTweetEntity.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRTweetCashtagEntity.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRTweet.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRTimelineViewController.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRTimelineFilter.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRTimelineDelegate.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRTimelineCursor.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRSearchTimelineDataSource.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTROAuthSigning.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRNotificationConstants.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRMoPubNativeAdContainerView.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRMoPubAdConfiguration.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRMediaEntitySize.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRLogInButton.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRListTimelineDataSource.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRJSONConvertible.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRComposerViewController.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRComposerTheme.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRComposer.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRTimelineType.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRTimelineDataSource.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRCollectionTimelineDataSource.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRCardConfiguration.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRAPIClient.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/Twitter.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TwitterKit.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Modules/module.modulemap"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Fabric/iOS/Fabric.framework/Headers/FABAttributes.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Fabric/iOS/Fabric.framework/Headers/Fabric.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Fabric/iOS/Fabric.framework/Modules/module.modulemap"
+interface-hash: "0ad92a4094264eda6ad91132fc9cefb0"

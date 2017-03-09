@@ -23,7 +23,6 @@ protocol PickerViewControllerDelegate{
     func setInputValue(_ inputValue: String, type: InputPickerType)
     func setSelectedValue(_ selectedIndex: Int, selectedValue: String, type: SelectPickerType)
     func setSelectedDate(_ SelectedDate: Date)
-    //func setSelectedDateTo(_ SelectedDate: Date)
 }
 
 class PickerViewController: UIViewController,
@@ -49,7 +48,7 @@ UISearchBarDelegate {
     var inputMyDatePicker = UIDatePicker()
     var realTextView = UITextView()
     
-    var searchBarField = UISearchBar()
+    private var searchBarField = UISearchBar()
     
     // Tableで使用する配列を設定する
     private var tableView: UITableView!
@@ -61,13 +60,10 @@ UISearchBarDelegate {
     var palInput: AnyObject = "" as AnyObject
     var palTargetUser: PFObject?
     
-    let displayWidth = UIScreen.main.bounds.size.width
-    let displayHeight = UIScreen.main.bounds.size.height
+    private let displayWidth = UIScreen.main.bounds.size.width
+    private let displayHeight = UIScreen.main.bounds.size.height
     
-    var selectedItem: String!
-    
-    let norificationView = "test"
-    
+    private var selectedItem: String!
     private let sections = [" ", " "]
     
     override func viewDidLoad() {
@@ -221,8 +217,8 @@ UISearchBarDelegate {
     func createInsertDataButton(_ displayWidth: CGFloat, displayHeight: CGFloat) {
         let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: displayWidth - 20, height: 50))
         btn.trackTouchLocation = true
-        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1)
-        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1)
+        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1, alpha: 0.8)
+        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1, alpha: 0.8)
         btn.rippleColor = LayoutManager.getUIColorFromRGB(0x1976D2)
         btn.setTitle("保存", for: UIControlState())
         btn.layer.cornerRadius = 0
@@ -512,9 +508,9 @@ UISearchBarDelegate {
     func createNotificationSettingsButton(displayWidth: CGFloat, displayHeight: CGFloat) {
         let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 350, height: 40))
         btn.trackTouchLocation = true
-        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
-        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
-        btn.rippleColor = LayoutManager.getUIColorFromRGB(0xB54241)
+        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1, alpha: 0.8)
+        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1, alpha: 0.8)
+        btn.rippleColor = LayoutManager.getUIColorFromRGB(0x1976D2)
         btn.setTitle("go to ios settings", for: .normal)
         btn.layer.cornerRadius = 5.0
         btn.layer.masksToBounds = true

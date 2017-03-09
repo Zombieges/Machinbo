@@ -1,0 +1,1527 @@
+### Swift dependencies file v0 ###
+provides-top-level:
+- "ReachabilityError"
+- "ReachabilityChangedNotification"
+- "callback"
+- "AMReachability"
+- "=="
+provides-nominal:
+- "O8Machinbo17ReachabilityError"
+- "C8Machinbo14AMReachability"
+- "OC8Machinbo14AMReachability13NetworkStatus"
+provides-member:
+- ["O8Machinbo17ReachabilityError", ""]
+- ["C8Machinbo14AMReachability", ""]
+- ["OC8Machinbo14AMReachability13NetworkStatus", ""]
+provides-dynamic-lookup:
+- "currentReachabilityString"
+- "isReachableViaWiFi"
+- "startNotifier"
+- "whenUnreachable"
+- "reachabilityForInternetConnection"
+- "isReachable"
+- "notificationCenter"
+- "description"
+- "whenReachable"
+- "isConnectionOnTrafficOrDemand"
+- "isReachableViaWWAN"
+- "reachableOnWWAN"
+- "stopNotifier"
+- "reachabilityForLocalWiFi"
+depends-top-level:
+- "ReachabilityChangedNotification"
+- "=="
+- "CastingPrecedence"
+- "AssignmentPrecedence"
+- !private "sockaddr"
+- !private "UInt32"
+- !private "SCNetworkReachabilitySetDispatchQueue"
+- "DispatchQueue"
+- "TernaryPrecedence"
+- !private "SCNetworkReachabilityCreateWithName"
+- "SCNetworkReachability"
+- !private "&&"
+- !private "UnsafeMutablePointer"
+- "SCNetworkReachabilityFlags"
+- "UnsafeMutableRawPointer"
+- !private "SCNetworkReachabilityGetFlags"
+- "Error"
+- "BooleanLiteralType"
+- "Bool"
+- !private "in_addr_t"
+- !private "withUnsafePointer"
+- "ReachabilityError"
+- "StringLiteralType"
+- "callback"
+- !private "sa_family_t"
+- "Array"
+- !private "!="
+- !private "Notification"
+- !private "__uint8_t"
+- !private "AF_INET"
+- "String"
+- "NotificationCenter"
+- !private "in_port_t"
+- "AMReachability"
+- !private "Unmanaged"
+- !private "Void"
+- !private "!"
+- !private "SCNetworkReachabilitySetCallback"
+- !private "withUnsafeMutablePointer"
+- "sockaddr_in"
+- !private "UnicodeScalarType"
+- !private "in_addr"
+- !private "NSString"
+- !private "SCNetworkReachabilityCreateWithAddress"
+- "NSObject"
+- !private "UInt8"
+- !private "SCNetworkReachabilityContext"
+- !private "MemoryLayout"
+- "CustomStringConvertible"
+depends-member:
+- !private ["C8Machinbo14AMReachability", "AF_INET"]
+- ["C8Machinbo14AMReachability", "AMReachability"]
+- ["C8Machinbo14AMReachability", "Bool"]
+- ["C8Machinbo14AMReachability", "CustomStringConvertible"]
+- ["C8Machinbo14AMReachability", "DispatchQueue"]
+- !private ["C8Machinbo14AMReachability", "MemoryLayout"]
+- !private ["C8Machinbo14AMReachability", "NSString"]
+- ["C8Machinbo14AMReachability", "NetworkReachable"]
+- ["C8Machinbo14AMReachability", "NetworkStatus"]
+- ["C8Machinbo14AMReachability", "NetworkUnreachable"]
+- !private ["C8Machinbo14AMReachability", "Notification"]
+- ["C8Machinbo14AMReachability", "NotificationCenter"]
+- !private ["C8Machinbo14AMReachability", "ReachabilityChangedNotification"]
+- !private ["C8Machinbo14AMReachability", "ReachabilityError"]
+- ["C8Machinbo14AMReachability", "SCNetworkReachability"]
+- !private ["C8Machinbo14AMReachability", "SCNetworkReachabilityContext"]
+- !private ["C8Machinbo14AMReachability", "SCNetworkReachabilityCreateWithAddress"]
+- !private ["C8Machinbo14AMReachability", "SCNetworkReachabilityCreateWithName"]
+- ["C8Machinbo14AMReachability", "SCNetworkReachabilityFlags"]
+- !private ["C8Machinbo14AMReachability", "SCNetworkReachabilityGetFlags"]
+- !private ["C8Machinbo14AMReachability", "SCNetworkReachabilitySetCallback"]
+- !private ["C8Machinbo14AMReachability", "SCNetworkReachabilitySetDispatchQueue"]
+- ["C8Machinbo14AMReachability", "String"]
+- !private ["C8Machinbo14AMReachability", "UInt32"]
+- !private ["C8Machinbo14AMReachability", "UInt8"]
+- !private ["C8Machinbo14AMReachability", "Unmanaged"]
+- !private ["C8Machinbo14AMReachability", "UnsafeMutablePointer"]
+- !private ["C8Machinbo14AMReachability", "Void"]
+- !private ["C8Machinbo14AMReachability", "__uint8_t"]
+- !private ["C8Machinbo14AMReachability", "callback"]
+- !private ["C8Machinbo14AMReachability", "connectionRequired"]
+- ["C8Machinbo14AMReachability", "currentReachabilityStatus"]
+- ["C8Machinbo14AMReachability", "currentReachabilityString"]
+- ["C8Machinbo14AMReachability", "deinit"]
+- ["C8Machinbo14AMReachability", "description"]
+- !private ["C8Machinbo14AMReachability", "in_addr"]
+- !private ["C8Machinbo14AMReachability", "in_addr_t"]
+- !private ["C8Machinbo14AMReachability", "in_port_t"]
+- ["C8Machinbo14AMReachability", "init"]
+- !private ["C8Machinbo14AMReachability", "isConnectionOnDemand"]
+- !private ["C8Machinbo14AMReachability", "isConnectionOnTraffic"]
+- ["C8Machinbo14AMReachability", "isConnectionOnTrafficOrDemand"]
+- !private ["C8Machinbo14AMReachability", "isConnectionRequired"]
+- !private ["C8Machinbo14AMReachability", "isConnectionRequiredOrTransient"]
+- !private ["C8Machinbo14AMReachability", "isDirect"]
+- !private ["C8Machinbo14AMReachability", "isInterventionRequired"]
+- !private ["C8Machinbo14AMReachability", "isLocalAddress"]
+- !private ["C8Machinbo14AMReachability", "isOnWWAN"]
+- ["C8Machinbo14AMReachability", "isReachable"]
+- ["C8Machinbo14AMReachability", "isReachableViaWWAN"]
+- ["C8Machinbo14AMReachability", "isReachableViaWiFi"]
+- !private ["C8Machinbo14AMReachability", "isReachableWithFlags"]
+- !private ["C8Machinbo14AMReachability", "isRunningOnDevice"]
+- !private ["C8Machinbo14AMReachability", "isTransientConnection"]
+- ["C8Machinbo14AMReachability", "notificationCenter"]
+- !private ["C8Machinbo14AMReachability", "notifierRunning"]
+- !private ["C8Machinbo14AMReachability", "previousFlags"]
+- !private ["C8Machinbo14AMReachability", "reachabilityChanged"]
+- !private ["C8Machinbo14AMReachability", "reachabilityFlags"]
+- ["C8Machinbo14AMReachability", "reachabilityForInternetConnection"]
+- ["C8Machinbo14AMReachability", "reachabilityForLocalWiFi"]
+- !private ["C8Machinbo14AMReachability", "reachabilityRef"]
+- !private ["C8Machinbo14AMReachability", "reachabilitySerialQueue"]
+- ["C8Machinbo14AMReachability", "reachableOnWWAN"]
+- !private ["C8Machinbo14AMReachability", "sa_family_t"]
+- !private ["C8Machinbo14AMReachability", "sockaddr"]
+- !private ["C8Machinbo14AMReachability", "sockaddr_in"]
+- ["C8Machinbo14AMReachability", "startNotifier"]
+- ["C8Machinbo14AMReachability", "stopNotifier"]
+- ["C8Machinbo14AMReachability", "whenReachable"]
+- ["C8Machinbo14AMReachability", "whenUnreachable"]
+- !private ["C8Machinbo14AMReachability", "withUnsafeMutablePointer"]
+- !private ["C8Machinbo14AMReachability", "withUnsafePointer"]
+- !private ["Ps9AnyObject", "AF_INET"]
+- !private ["Ps9AnyObject", "AMReachability"]
+- ["Ps9AnyObject", "DispatchQueue"]
+- !private ["Ps9AnyObject", "MemoryLayout"]
+- !private ["Ps9AnyObject", "Notification"]
+- ["Ps9AnyObject", "NotificationCenter"]
+- !private ["Ps9AnyObject", "ReachabilityChangedNotification"]
+- !private ["Ps9AnyObject", "ReachabilityError"]
+- !private ["Ps9AnyObject", "SCNetworkReachabilityContext"]
+- !private ["Ps9AnyObject", "SCNetworkReachabilityCreateWithAddress"]
+- !private ["Ps9AnyObject", "SCNetworkReachabilityCreateWithName"]
+- !private ["Ps9AnyObject", "SCNetworkReachabilityFlags"]
+- !private ["Ps9AnyObject", "SCNetworkReachabilityGetFlags"]
+- !private ["Ps9AnyObject", "SCNetworkReachabilitySetCallback"]
+- !private ["Ps9AnyObject", "SCNetworkReachabilitySetDispatchQueue"]
+- !private ["Ps9AnyObject", "UInt8"]
+- !private ["Ps9AnyObject", "Unmanaged"]
+- !private ["Ps9AnyObject", "UnsafeMutablePointer"]
+- !private ["Ps9AnyObject", "__uint8_t"]
+- !private ["Ps9AnyObject", "async"]
+- !private ["Ps9AnyObject", "callback"]
+- ["Ps9AnyObject", "connectionRequired"]
+- ["Ps9AnyObject", "currentReachabilityStatus"]
+- ["Ps9AnyObject", "currentReachabilityString"]
+- ["Ps9AnyObject", "default"]
+- ["Ps9AnyObject", "description"]
+- !private ["Ps9AnyObject", "in_addr"]
+- !private ["Ps9AnyObject", "in_addr_t"]
+- !private ["Ps9AnyObject", "in_port_t"]
+- ["Ps9AnyObject", "init"]
+- ["Ps9AnyObject", "isConnectionOnDemand"]
+- ["Ps9AnyObject", "isConnectionOnTraffic"]
+- ["Ps9AnyObject", "isConnectionOnTrafficOrDemand"]
+- ["Ps9AnyObject", "isConnectionRequired"]
+- ["Ps9AnyObject", "isConnectionRequiredOrTransient"]
+- ["Ps9AnyObject", "isDirect"]
+- ["Ps9AnyObject", "isInterventionRequired"]
+- ["Ps9AnyObject", "isLocalAddress"]
+- ["Ps9AnyObject", "isOnWWAN"]
+- ["Ps9AnyObject", "isReachable"]
+- ["Ps9AnyObject", "isReachableViaWWAN"]
+- ["Ps9AnyObject", "isReachableViaWiFi"]
+- ["Ps9AnyObject", "isReachableWithFlags"]
+- ["Ps9AnyObject", "isRunningOnDevice"]
+- ["Ps9AnyObject", "isTransientConnection"]
+- !private ["Ps9AnyObject", "main"]
+- ["Ps9AnyObject", "notificationCenter"]
+- ["Ps9AnyObject", "notifierRunning"]
+- !private ["Ps9AnyObject", "post"]
+- ["Ps9AnyObject", "previousFlags"]
+- ["Ps9AnyObject", "reachabilityChanged"]
+- ["Ps9AnyObject", "reachabilityFlags"]
+- ["Ps9AnyObject", "reachabilityForInternetConnection"]
+- ["Ps9AnyObject", "reachabilityForLocalWiFi"]
+- ["Ps9AnyObject", "reachabilityRef"]
+- ["Ps9AnyObject", "reachabilitySerialQueue"]
+- ["Ps9AnyObject", "reachableOnWWAN"]
+- !private ["Ps9AnyObject", "sa_family_t"]
+- !private ["Ps9AnyObject", "sockaddr"]
+- !private ["Ps9AnyObject", "sockaddr_in"]
+- ["Ps9AnyObject", "startNotifier"]
+- ["Ps9AnyObject", "stopNotifier"]
+- !private ["Ps9AnyObject", "utf8String"]
+- ["Ps9AnyObject", "whenReachable"]
+- ["Ps9AnyObject", "whenUnreachable"]
+- !private ["Ps9AnyObject", "withUnsafeMutablePointer"]
+- !private ["Ps9AnyObject", "withUnsafePointer"]
+- ["Ps9AnyObject", ""]
+- ["VE8DispatchCSo13DispatchQueue10Attributes", "Element"]
+- ["VE8DispatchCSo13DispatchQueue10Attributes", "deinit"]
+- !private ["Ps17BitwiseOperations", "bigEndian"]
+- !private ["Ps17BitwiseOperations", "hashValue"]
+- !private ["Ps17BitwiseOperations", "init"]
+- !private ["Sb", "_getBuiltinLogicValue"]
+- ["Sb", "deinit"]
+- !private ["Ps7CVarArg", "AF_INET"]
+- !private ["Ps7CVarArg", "AMReachability"]
+- ["Ps7CVarArg", "DispatchQueue"]
+- !private ["Ps7CVarArg", "MemoryLayout"]
+- !private ["Ps7CVarArg", "Notification"]
+- ["Ps7CVarArg", "NotificationCenter"]
+- !private ["Ps7CVarArg", "ReachabilityChangedNotification"]
+- !private ["Ps7CVarArg", "ReachabilityError"]
+- !private ["Ps7CVarArg", "SCNetworkReachabilityContext"]
+- !private ["Ps7CVarArg", "SCNetworkReachabilityCreateWithAddress"]
+- !private ["Ps7CVarArg", "SCNetworkReachabilityCreateWithName"]
+- !private ["Ps7CVarArg", "SCNetworkReachabilityFlags"]
+- !private ["Ps7CVarArg", "SCNetworkReachabilityGetFlags"]
+- !private ["Ps7CVarArg", "SCNetworkReachabilitySetCallback"]
+- !private ["Ps7CVarArg", "SCNetworkReachabilitySetDispatchQueue"]
+- !private ["Ps7CVarArg", "UInt8"]
+- !private ["Ps7CVarArg", "Unmanaged"]
+- !private ["Ps7CVarArg", "UnsafeMutablePointer"]
+- !private ["Ps7CVarArg", "__uint8_t"]
+- !private ["Ps7CVarArg", "async"]
+- !private ["Ps7CVarArg", "bigEndian"]
+- !private ["Ps7CVarArg", "callback"]
+- ["Ps7CVarArg", "connectionRequired"]
+- ["Ps7CVarArg", "currentReachabilityStatus"]
+- ["Ps7CVarArg", "currentReachabilityString"]
+- ["Ps7CVarArg", "default"]
+- ["Ps7CVarArg", "description"]
+- !private ["Ps7CVarArg", "hashValue"]
+- !private ["Ps7CVarArg", "in_addr"]
+- !private ["Ps7CVarArg", "in_addr_t"]
+- !private ["Ps7CVarArg", "in_port_t"]
+- ["Ps7CVarArg", "init"]
+- ["Ps7CVarArg", "isConnectionOnDemand"]
+- ["Ps7CVarArg", "isConnectionOnTraffic"]
+- ["Ps7CVarArg", "isConnectionOnTrafficOrDemand"]
+- ["Ps7CVarArg", "isConnectionRequired"]
+- ["Ps7CVarArg", "isConnectionRequiredOrTransient"]
+- ["Ps7CVarArg", "isDirect"]
+- ["Ps7CVarArg", "isInterventionRequired"]
+- ["Ps7CVarArg", "isLocalAddress"]
+- ["Ps7CVarArg", "isOnWWAN"]
+- ["Ps7CVarArg", "isReachable"]
+- ["Ps7CVarArg", "isReachableViaWWAN"]
+- ["Ps7CVarArg", "isReachableViaWiFi"]
+- ["Ps7CVarArg", "isReachableWithFlags"]
+- ["Ps7CVarArg", "isRunningOnDevice"]
+- ["Ps7CVarArg", "isTransientConnection"]
+- !private ["Ps7CVarArg", "main"]
+- ["Ps7CVarArg", "notificationCenter"]
+- ["Ps7CVarArg", "notifierRunning"]
+- !private ["Ps7CVarArg", "post"]
+- ["Ps7CVarArg", "previousFlags"]
+- ["Ps7CVarArg", "reachabilityChanged"]
+- ["Ps7CVarArg", "reachabilityFlags"]
+- ["Ps7CVarArg", "reachabilityForInternetConnection"]
+- ["Ps7CVarArg", "reachabilityForLocalWiFi"]
+- ["Ps7CVarArg", "reachabilityRef"]
+- ["Ps7CVarArg", "reachabilitySerialQueue"]
+- ["Ps7CVarArg", "reachableOnWWAN"]
+- !private ["Ps7CVarArg", "sa_family_t"]
+- !private ["Ps7CVarArg", "sockaddr"]
+- !private ["Ps7CVarArg", "sockaddr_in"]
+- ["Ps7CVarArg", "startNotifier"]
+- ["Ps7CVarArg", "stopNotifier"]
+- !private ["Ps7CVarArg", "utf8String"]
+- ["Ps7CVarArg", "whenReachable"]
+- ["Ps7CVarArg", "whenUnreachable"]
+- !private ["Ps7CVarArg", "withMemoryRebound"]
+- !private ["Ps7CVarArg", "withUnsafeMutablePointer"]
+- !private ["Ps7CVarArg", "withUnsafePointer"]
+- ["Ps7CVarArg", ""]
+- !private ["Vs9Character", "deinit"]
+- !private ["Ps10Comparable", "bigEndian"]
+- !private ["Ps10Comparable", "hashValue"]
+- ["Ps10Comparable", "init"]
+- !private ["Ps10Comparable", "withMemoryRebound"]
+- !private ["Ps28CustomDebugStringConvertible", "AF_INET"]
+- !private ["Ps28CustomDebugStringConvertible", "AMReachability"]
+- ["Ps28CustomDebugStringConvertible", "DispatchQueue"]
+- !private ["Ps28CustomDebugStringConvertible", "MemoryLayout"]
+- !private ["Ps28CustomDebugStringConvertible", "Name"]
+- !private ["Ps28CustomDebugStringConvertible", "Notification"]
+- ["Ps28CustomDebugStringConvertible", "NotificationCenter"]
+- !private ["Ps28CustomDebugStringConvertible", "ReachabilityChangedNotification"]
+- !private ["Ps28CustomDebugStringConvertible", "ReachabilityError"]
+- !private ["Ps28CustomDebugStringConvertible", "SCNetworkReachabilityContext"]
+- !private ["Ps28CustomDebugStringConvertible", "SCNetworkReachabilityCreateWithAddress"]
+- !private ["Ps28CustomDebugStringConvertible", "SCNetworkReachabilityCreateWithName"]
+- !private ["Ps28CustomDebugStringConvertible", "SCNetworkReachabilityFlags"]
+- !private ["Ps28CustomDebugStringConvertible", "SCNetworkReachabilityGetFlags"]
+- !private ["Ps28CustomDebugStringConvertible", "SCNetworkReachabilitySetCallback"]
+- !private ["Ps28CustomDebugStringConvertible", "SCNetworkReachabilitySetDispatchQueue"]
+- !private ["Ps28CustomDebugStringConvertible", "UInt8"]
+- !private ["Ps28CustomDebugStringConvertible", "Unmanaged"]
+- !private ["Ps28CustomDebugStringConvertible", "UnsafeMutablePointer"]
+- !private ["Ps28CustomDebugStringConvertible", "__uint8_t"]
+- !private ["Ps28CustomDebugStringConvertible", "async"]
+- !private ["Ps28CustomDebugStringConvertible", "callback"]
+- ["Ps28CustomDebugStringConvertible", "connectionRequired"]
+- ["Ps28CustomDebugStringConvertible", "currentReachabilityStatus"]
+- ["Ps28CustomDebugStringConvertible", "currentReachabilityString"]
+- ["Ps28CustomDebugStringConvertible", "default"]
+- ["Ps28CustomDebugStringConvertible", "description"]
+- !private ["Ps28CustomDebugStringConvertible", "in_addr"]
+- !private ["Ps28CustomDebugStringConvertible", "in_addr_t"]
+- !private ["Ps28CustomDebugStringConvertible", "in_port_t"]
+- ["Ps28CustomDebugStringConvertible", "init"]
+- ["Ps28CustomDebugStringConvertible", "isConnectionOnDemand"]
+- ["Ps28CustomDebugStringConvertible", "isConnectionOnTraffic"]
+- ["Ps28CustomDebugStringConvertible", "isConnectionOnTrafficOrDemand"]
+- ["Ps28CustomDebugStringConvertible", "isConnectionRequired"]
+- ["Ps28CustomDebugStringConvertible", "isConnectionRequiredOrTransient"]
+- ["Ps28CustomDebugStringConvertible", "isDirect"]
+- ["Ps28CustomDebugStringConvertible", "isInterventionRequired"]
+- ["Ps28CustomDebugStringConvertible", "isLocalAddress"]
+- ["Ps28CustomDebugStringConvertible", "isOnWWAN"]
+- ["Ps28CustomDebugStringConvertible", "isReachable"]
+- ["Ps28CustomDebugStringConvertible", "isReachableViaWWAN"]
+- ["Ps28CustomDebugStringConvertible", "isReachableViaWiFi"]
+- ["Ps28CustomDebugStringConvertible", "isReachableWithFlags"]
+- ["Ps28CustomDebugStringConvertible", "isRunningOnDevice"]
+- ["Ps28CustomDebugStringConvertible", "isTransientConnection"]
+- !private ["Ps28CustomDebugStringConvertible", "main"]
+- ["Ps28CustomDebugStringConvertible", "notificationCenter"]
+- ["Ps28CustomDebugStringConvertible", "notifierRunning"]
+- !private ["Ps28CustomDebugStringConvertible", "post"]
+- ["Ps28CustomDebugStringConvertible", "previousFlags"]
+- ["Ps28CustomDebugStringConvertible", "reachabilityChanged"]
+- ["Ps28CustomDebugStringConvertible", "reachabilityFlags"]
+- ["Ps28CustomDebugStringConvertible", "reachabilityForInternetConnection"]
+- ["Ps28CustomDebugStringConvertible", "reachabilityForLocalWiFi"]
+- ["Ps28CustomDebugStringConvertible", "reachabilityRef"]
+- ["Ps28CustomDebugStringConvertible", "reachabilitySerialQueue"]
+- ["Ps28CustomDebugStringConvertible", "reachableOnWWAN"]
+- !private ["Ps28CustomDebugStringConvertible", "sa_family_t"]
+- !private ["Ps28CustomDebugStringConvertible", "sockaddr"]
+- !private ["Ps28CustomDebugStringConvertible", "sockaddr_in"]
+- ["Ps28CustomDebugStringConvertible", "startNotifier"]
+- ["Ps28CustomDebugStringConvertible", "stopNotifier"]
+- !private ["Ps28CustomDebugStringConvertible", "utf8String"]
+- ["Ps28CustomDebugStringConvertible", "whenReachable"]
+- ["Ps28CustomDebugStringConvertible", "whenUnreachable"]
+- !private ["Ps28CustomDebugStringConvertible", "withMemoryRebound"]
+- !private ["Ps28CustomDebugStringConvertible", "withUnsafeMutablePointer"]
+- !private ["Ps28CustomDebugStringConvertible", "withUnsafePointer"]
+- ["Ps28CustomDebugStringConvertible", ""]
+- !private ["Ps29CustomPlaygroundQuickLookable", "_getBuiltinLogicValue"]
+- !private ["Ps29CustomPlaygroundQuickLookable", "bigEndian"]
+- !private ["Ps29CustomPlaygroundQuickLookable", "hashValue"]
+- ["Ps29CustomPlaygroundQuickLookable", "init"]
+- !private ["Ps29CustomPlaygroundQuickLookable", "utf8String"]
+- !private ["Ps29CustomPlaygroundQuickLookable", "withMemoryRebound"]
+- !private ["Ps17CustomReflectable", "Name"]
+- !private ["Ps17CustomReflectable", "_getBuiltinLogicValue"]
+- !private ["Ps17CustomReflectable", "bigEndian"]
+- !private ["Ps17CustomReflectable", "hashValue"]
+- ["Ps17CustomReflectable", "init"]
+- !private ["Ps17CustomReflectable", "withMemoryRebound"]
+- !private ["Ps23CustomStringConvertible", "AF_INET"]
+- !private ["Ps23CustomStringConvertible", "AMReachability"]
+- ["Ps23CustomStringConvertible", "DispatchQueue"]
+- !private ["Ps23CustomStringConvertible", "MemoryLayout"]
+- !private ["Ps23CustomStringConvertible", "Name"]
+- !private ["Ps23CustomStringConvertible", "Notification"]
+- ["Ps23CustomStringConvertible", "NotificationCenter"]
+- !private ["Ps23CustomStringConvertible", "ReachabilityChangedNotification"]
+- !private ["Ps23CustomStringConvertible", "ReachabilityError"]
+- !private ["Ps23CustomStringConvertible", "SCNetworkReachabilityContext"]
+- !private ["Ps23CustomStringConvertible", "SCNetworkReachabilityCreateWithAddress"]
+- !private ["Ps23CustomStringConvertible", "SCNetworkReachabilityCreateWithName"]
+- !private ["Ps23CustomStringConvertible", "SCNetworkReachabilityFlags"]
+- !private ["Ps23CustomStringConvertible", "SCNetworkReachabilityGetFlags"]
+- !private ["Ps23CustomStringConvertible", "SCNetworkReachabilitySetCallback"]
+- !private ["Ps23CustomStringConvertible", "SCNetworkReachabilitySetDispatchQueue"]
+- !private ["Ps23CustomStringConvertible", "UInt8"]
+- !private ["Ps23CustomStringConvertible", "Unmanaged"]
+- !private ["Ps23CustomStringConvertible", "UnsafeMutablePointer"]
+- !private ["Ps23CustomStringConvertible", "__uint8_t"]
+- !private ["Ps23CustomStringConvertible", "_getBuiltinLogicValue"]
+- ["Ps23CustomStringConvertible", "_toAnyHashable"]
+- !private ["Ps23CustomStringConvertible", "async"]
+- !private ["Ps23CustomStringConvertible", "bigEndian"]
+- !private ["Ps23CustomStringConvertible", "callback"]
+- ["Ps23CustomStringConvertible", "connectionRequired"]
+- ["Ps23CustomStringConvertible", "currentReachabilityStatus"]
+- ["Ps23CustomStringConvertible", "currentReachabilityString"]
+- ["Ps23CustomStringConvertible", "default"]
+- ["Ps23CustomStringConvertible", "description"]
+- ["Ps23CustomStringConvertible", "hashValue"]
+- !private ["Ps23CustomStringConvertible", "in_addr"]
+- !private ["Ps23CustomStringConvertible", "in_addr_t"]
+- !private ["Ps23CustomStringConvertible", "in_port_t"]
+- ["Ps23CustomStringConvertible", "init"]
+- ["Ps23CustomStringConvertible", "isConnectionOnDemand"]
+- ["Ps23CustomStringConvertible", "isConnectionOnTraffic"]
+- ["Ps23CustomStringConvertible", "isConnectionOnTrafficOrDemand"]
+- ["Ps23CustomStringConvertible", "isConnectionRequired"]
+- ["Ps23CustomStringConvertible", "isConnectionRequiredOrTransient"]
+- ["Ps23CustomStringConvertible", "isDirect"]
+- ["Ps23CustomStringConvertible", "isInterventionRequired"]
+- ["Ps23CustomStringConvertible", "isLocalAddress"]
+- ["Ps23CustomStringConvertible", "isOnWWAN"]
+- ["Ps23CustomStringConvertible", "isReachable"]
+- ["Ps23CustomStringConvertible", "isReachableViaWWAN"]
+- ["Ps23CustomStringConvertible", "isReachableViaWiFi"]
+- ["Ps23CustomStringConvertible", "isReachableWithFlags"]
+- ["Ps23CustomStringConvertible", "isRunningOnDevice"]
+- ["Ps23CustomStringConvertible", "isTransientConnection"]
+- !private ["Ps23CustomStringConvertible", "main"]
+- ["Ps23CustomStringConvertible", "notReachable"]
+- ["Ps23CustomStringConvertible", "notificationCenter"]
+- ["Ps23CustomStringConvertible", "notifierRunning"]
+- !private ["Ps23CustomStringConvertible", "post"]
+- ["Ps23CustomStringConvertible", "previousFlags"]
+- ["Ps23CustomStringConvertible", "reachabilityChanged"]
+- ["Ps23CustomStringConvertible", "reachabilityFlags"]
+- ["Ps23CustomStringConvertible", "reachabilityForInternetConnection"]
+- ["Ps23CustomStringConvertible", "reachabilityForLocalWiFi"]
+- ["Ps23CustomStringConvertible", "reachabilityRef"]
+- ["Ps23CustomStringConvertible", "reachabilitySerialQueue"]
+- ["Ps23CustomStringConvertible", "reachableOnWWAN"]
+- ["Ps23CustomStringConvertible", "reachableViaWWAN"]
+- ["Ps23CustomStringConvertible", "reachableViaWiFi"]
+- !private ["Ps23CustomStringConvertible", "sa_family_t"]
+- !private ["Ps23CustomStringConvertible", "sockaddr"]
+- !private ["Ps23CustomStringConvertible", "sockaddr_in"]
+- ["Ps23CustomStringConvertible", "startNotifier"]
+- ["Ps23CustomStringConvertible", "stopNotifier"]
+- !private ["Ps23CustomStringConvertible", "utf8String"]
+- ["Ps23CustomStringConvertible", "whenReachable"]
+- ["Ps23CustomStringConvertible", "whenUnreachable"]
+- !private ["Ps23CustomStringConvertible", "withUnsafeMutablePointer"]
+- !private ["Ps23CustomStringConvertible", "withUnsafePointer"]
+- ["Ps23CustomStringConvertible", ""]
+- !private ["CSo14DispatchObject", "async"]
+- ["CSo14DispatchObject", "init"]
+- !private ["CSo14DispatchObject", "main"]
+- !private ["CSo13DispatchQueue", "async"]
+- ["CSo13DispatchQueue", "deinit"]
+- ["CSo13DispatchQueue", "init"]
+- !private ["CSo13DispatchQueue", "main"]
+- !private ["Sd", "deinit"]
+- !private ["Ps9Equatable", "AF_INET"]
+- !private ["Ps9Equatable", "AMReachability"]
+- ["Ps9Equatable", "DispatchQueue"]
+- ["Ps9Equatable", "Element"]
+- !private ["Ps9Equatable", "MemoryLayout"]
+- !private ["Ps9Equatable", "Name"]
+- !private ["Ps9Equatable", "Notification"]
+- ["Ps9Equatable", "NotificationCenter"]
+- !private ["Ps9Equatable", "RawValue"]
+- !private ["Ps9Equatable", "ReachabilityChangedNotification"]
+- !private ["Ps9Equatable", "ReachabilityError"]
+- !private ["Ps9Equatable", "SCNetworkReachabilityContext"]
+- !private ["Ps9Equatable", "SCNetworkReachabilityCreateWithAddress"]
+- !private ["Ps9Equatable", "SCNetworkReachabilityCreateWithName"]
+- !private ["Ps9Equatable", "SCNetworkReachabilityFlags"]
+- !private ["Ps9Equatable", "SCNetworkReachabilityGetFlags"]
+- !private ["Ps9Equatable", "SCNetworkReachabilitySetCallback"]
+- !private ["Ps9Equatable", "SCNetworkReachabilitySetDispatchQueue"]
+- !private ["Ps9Equatable", "UInt8"]
+- !private ["Ps9Equatable", "Unmanaged"]
+- !private ["Ps9Equatable", "UnsafeMutablePointer"]
+- !private ["Ps9Equatable", "__uint8_t"]
+- !private ["Ps9Equatable", "_getBuiltinLogicValue"]
+- ["Ps9Equatable", "_toAnyHashable"]
+- !private ["Ps9Equatable", "async"]
+- !private ["Ps9Equatable", "bigEndian"]
+- !private ["Ps9Equatable", "callback"]
+- !private ["Ps9Equatable", "connectionOnDemand"]
+- !private ["Ps9Equatable", "connectionOnTraffic"]
+- ["Ps9Equatable", "connectionRequired"]
+- !private ["Ps9Equatable", "contains"]
+- ["Ps9Equatable", "currentReachabilityStatus"]
+- ["Ps9Equatable", "currentReachabilityString"]
+- ["Ps9Equatable", "default"]
+- ["Ps9Equatable", "description"]
+- ["Ps9Equatable", "hashValue"]
+- !private ["Ps9Equatable", "in_addr"]
+- !private ["Ps9Equatable", "in_addr_t"]
+- !private ["Ps9Equatable", "in_port_t"]
+- ["Ps9Equatable", "init"]
+- !private ["Ps9Equatable", "intersection"]
+- !private ["Ps9Equatable", "interventionRequired"]
+- ["Ps9Equatable", "isConnectionOnDemand"]
+- ["Ps9Equatable", "isConnectionOnTraffic"]
+- ["Ps9Equatable", "isConnectionOnTrafficOrDemand"]
+- ["Ps9Equatable", "isConnectionRequired"]
+- ["Ps9Equatable", "isConnectionRequiredOrTransient"]
+- ["Ps9Equatable", "isDirect"]
+- !private ["Ps9Equatable", "isEmpty"]
+- ["Ps9Equatable", "isInterventionRequired"]
+- ["Ps9Equatable", "isLocalAddress"]
+- ["Ps9Equatable", "isOnWWAN"]
+- ["Ps9Equatable", "isReachable"]
+- ["Ps9Equatable", "isReachableViaWWAN"]
+- ["Ps9Equatable", "isReachableViaWiFi"]
+- ["Ps9Equatable", "isReachableWithFlags"]
+- ["Ps9Equatable", "isRunningOnDevice"]
+- ["Ps9Equatable", "isTransientConnection"]
+- !private ["Ps9Equatable", "isWWAN"]
+- !private ["Ps9Equatable", "main"]
+- ["Ps9Equatable", "notReachable"]
+- ["Ps9Equatable", "notificationCenter"]
+- ["Ps9Equatable", "notifierRunning"]
+- !private ["Ps9Equatable", "post"]
+- ["Ps9Equatable", "previousFlags"]
+- ["Ps9Equatable", "reachabilityChanged"]
+- ["Ps9Equatable", "reachabilityFlags"]
+- ["Ps9Equatable", "reachabilityForInternetConnection"]
+- ["Ps9Equatable", "reachabilityForLocalWiFi"]
+- ["Ps9Equatable", "reachabilityRef"]
+- ["Ps9Equatable", "reachabilitySerialQueue"]
+- !private ["Ps9Equatable", "reachable"]
+- ["Ps9Equatable", "reachableOnWWAN"]
+- ["Ps9Equatable", "reachableViaWWAN"]
+- ["Ps9Equatable", "reachableViaWiFi"]
+- !private ["Ps9Equatable", "sa_family_t"]
+- !private ["Ps9Equatable", "sockaddr"]
+- !private ["Ps9Equatable", "sockaddr_in"]
+- ["Ps9Equatable", "startNotifier"]
+- ["Ps9Equatable", "stopNotifier"]
+- !private ["Ps9Equatable", "transientConnection"]
+- !private ["Ps9Equatable", "utf8String"]
+- ["Ps9Equatable", "whenReachable"]
+- ["Ps9Equatable", "whenUnreachable"]
+- !private ["Ps9Equatable", "withMemoryRebound"]
+- !private ["Ps9Equatable", "withUnsafeMutablePointer"]
+- !private ["Ps9Equatable", "withUnsafePointer"]
+- ["Ps9Equatable", ""]
+- ["Ps5Error", "_code"]
+- ["Ps5Error", "_domain"]
+- ["Ps5Error", "_getEmbeddedNSError"]
+- ["Ps5Error", "_userInfo"]
+- !private ["Ps5Error", "failedToCreateWithHostname"]
+- !private ["Ps5Error", "unableToSetCallback"]
+- !private ["Ps5Error", "unableToSetDispatchQueue"]
+- ["Ps5Error", ""]
+- ["Ps25ExpressibleByArrayLiteral", "Element"]
+- !private ["Ps25ExpressibleByArrayLiteral", "RawValue"]
+- !private ["Ps25ExpressibleByArrayLiteral", "connectionOnDemand"]
+- !private ["Ps25ExpressibleByArrayLiteral", "connectionOnTraffic"]
+- !private ["Ps25ExpressibleByArrayLiteral", "connectionRequired"]
+- !private ["Ps25ExpressibleByArrayLiteral", "contains"]
+- !private ["Ps25ExpressibleByArrayLiteral", "init"]
+- !private ["Ps25ExpressibleByArrayLiteral", "intersection"]
+- !private ["Ps25ExpressibleByArrayLiteral", "interventionRequired"]
+- !private ["Ps25ExpressibleByArrayLiteral", "isDirect"]
+- !private ["Ps25ExpressibleByArrayLiteral", "isEmpty"]
+- !private ["Ps25ExpressibleByArrayLiteral", "isLocalAddress"]
+- !private ["Ps25ExpressibleByArrayLiteral", "isWWAN"]
+- !private ["Ps25ExpressibleByArrayLiteral", "reachable"]
+- !private ["Ps25ExpressibleByArrayLiteral", "transientConnection"]
+- !private ["Ps27ExpressibleByBooleanLiteral", "_getBuiltinLogicValue"]
+- ["Ps43ExpressibleByExtendedGraphemeClusterLiteral", "init"]
+- !private ["Ps43ExpressibleByExtendedGraphemeClusterLiteral", "utf8String"]
+- !private ["Ps27ExpressibleByIntegerLiteral", "bigEndian"]
+- !private ["Ps27ExpressibleByIntegerLiteral", "hashValue"]
+- !private ["Ps27ExpressibleByIntegerLiteral", "init"]
+- ["Ps32ExpressibleByStringInterpolation", "init"]
+- ["Ps26ExpressibleByStringLiteral", "init"]
+- !private ["Ps26ExpressibleByStringLiteral", "utf8String"]
+- ["Ps33ExpressibleByUnicodeScalarLiteral", "init"]
+- !private ["Ps33ExpressibleByUnicodeScalarLiteral", "utf8String"]
+- !private ["Sf", "deinit"]
+- !private ["Ps8Hashable", "AF_INET"]
+- !private ["Ps8Hashable", "AMReachability"]
+- ["Ps8Hashable", "DispatchQueue"]
+- !private ["Ps8Hashable", "MemoryLayout"]
+- !private ["Ps8Hashable", "Name"]
+- !private ["Ps8Hashable", "Notification"]
+- ["Ps8Hashable", "NotificationCenter"]
+- !private ["Ps8Hashable", "ReachabilityChangedNotification"]
+- !private ["Ps8Hashable", "ReachabilityError"]
+- !private ["Ps8Hashable", "SCNetworkReachabilityContext"]
+- !private ["Ps8Hashable", "SCNetworkReachabilityCreateWithAddress"]
+- !private ["Ps8Hashable", "SCNetworkReachabilityCreateWithName"]
+- !private ["Ps8Hashable", "SCNetworkReachabilityFlags"]
+- !private ["Ps8Hashable", "SCNetworkReachabilityGetFlags"]
+- !private ["Ps8Hashable", "SCNetworkReachabilitySetCallback"]
+- !private ["Ps8Hashable", "SCNetworkReachabilitySetDispatchQueue"]
+- !private ["Ps8Hashable", "UInt8"]
+- !private ["Ps8Hashable", "Unmanaged"]
+- !private ["Ps8Hashable", "UnsafeMutablePointer"]
+- !private ["Ps8Hashable", "__uint8_t"]
+- !private ["Ps8Hashable", "_getBuiltinLogicValue"]
+- ["Ps8Hashable", "_toAnyHashable"]
+- !private ["Ps8Hashable", "async"]
+- !private ["Ps8Hashable", "bigEndian"]
+- !private ["Ps8Hashable", "callback"]
+- ["Ps8Hashable", "connectionRequired"]
+- ["Ps8Hashable", "currentReachabilityStatus"]
+- ["Ps8Hashable", "currentReachabilityString"]
+- ["Ps8Hashable", "default"]
+- ["Ps8Hashable", "description"]
+- ["Ps8Hashable", "hashValue"]
+- !private ["Ps8Hashable", "in_addr"]
+- !private ["Ps8Hashable", "in_addr_t"]
+- !private ["Ps8Hashable", "in_port_t"]
+- ["Ps8Hashable", "init"]
+- ["Ps8Hashable", "isConnectionOnDemand"]
+- ["Ps8Hashable", "isConnectionOnTraffic"]
+- ["Ps8Hashable", "isConnectionOnTrafficOrDemand"]
+- ["Ps8Hashable", "isConnectionRequired"]
+- ["Ps8Hashable", "isConnectionRequiredOrTransient"]
+- ["Ps8Hashable", "isDirect"]
+- ["Ps8Hashable", "isInterventionRequired"]
+- ["Ps8Hashable", "isLocalAddress"]
+- ["Ps8Hashable", "isOnWWAN"]
+- ["Ps8Hashable", "isReachable"]
+- ["Ps8Hashable", "isReachableViaWWAN"]
+- ["Ps8Hashable", "isReachableViaWiFi"]
+- ["Ps8Hashable", "isReachableWithFlags"]
+- ["Ps8Hashable", "isRunningOnDevice"]
+- ["Ps8Hashable", "isTransientConnection"]
+- !private ["Ps8Hashable", "main"]
+- ["Ps8Hashable", "notReachable"]
+- ["Ps8Hashable", "notificationCenter"]
+- ["Ps8Hashable", "notifierRunning"]
+- !private ["Ps8Hashable", "post"]
+- ["Ps8Hashable", "previousFlags"]
+- ["Ps8Hashable", "reachabilityChanged"]
+- ["Ps8Hashable", "reachabilityFlags"]
+- ["Ps8Hashable", "reachabilityForInternetConnection"]
+- ["Ps8Hashable", "reachabilityForLocalWiFi"]
+- ["Ps8Hashable", "reachabilityRef"]
+- ["Ps8Hashable", "reachabilitySerialQueue"]
+- ["Ps8Hashable", "reachableOnWWAN"]
+- ["Ps8Hashable", "reachableViaWWAN"]
+- ["Ps8Hashable", "reachableViaWiFi"]
+- !private ["Ps8Hashable", "sa_family_t"]
+- !private ["Ps8Hashable", "sockaddr"]
+- !private ["Ps8Hashable", "sockaddr_in"]
+- ["Ps8Hashable", "startNotifier"]
+- ["Ps8Hashable", "stopNotifier"]
+- !private ["Ps8Hashable", "utf8String"]
+- ["Ps8Hashable", "whenReachable"]
+- ["Ps8Hashable", "whenUnreachable"]
+- !private ["Ps8Hashable", "withMemoryRebound"]
+- !private ["Ps8Hashable", "withUnsafeMutablePointer"]
+- !private ["Ps8Hashable", "withUnsafePointer"]
+- ["Ps8Hashable", ""]
+- ["Si", "deinit"]
+- !private ["Si", "hashValue"]
+- !private ["Vs5Int16", "deinit"]
+- ["Vs5Int32", "deinit"]
+- !private ["Vs5Int64", "deinit"]
+- ["Vs4Int8", "deinit"]
+- !private ["Ps7Integer", "bigEndian"]
+- !private ["Ps7Integer", "hashValue"]
+- !private ["Ps7Integer", "init"]
+- !private ["Ps17IntegerArithmetic", "bigEndian"]
+- !private ["Ps17IntegerArithmetic", "hashValue"]
+- !private ["Ps17IntegerArithmetic", "init"]
+- !private ["Ps25LosslessStringConvertible", "_getBuiltinLogicValue"]
+- ["Ps25LosslessStringConvertible", "init"]
+- !private ["Os12MemoryLayout", "size"]
+- !private ["Ps10MirrorPath", "hashValue"]
+- ["Ps10MirrorPath", "init"]
+- ["PSo8NSCoding", "init"]
+- !private ["PSo8NSCoding", "utf8String"]
+- ["PSo9NSCopying", "init"]
+- !private ["PSo9NSCopying", "utf8String"]
+- ["PSo16NSMutableCopying", "init"]
+- !private ["PSo16NSMutableCopying", "utf8String"]
+- !private ["CSo8NSObject", "AF_INET"]
+- ["CSo8NSObject", "AMReachability"]
+- ["CSo8NSObject", "Bool"]
+- ["CSo8NSObject", "CustomStringConvertible"]
+- ["CSo8NSObject", "DispatchQueue"]
+- !private ["CSo8NSObject", "MemoryLayout"]
+- !private ["CSo8NSObject", "NSString"]
+- ["CSo8NSObject", "NetworkReachable"]
+- ["CSo8NSObject", "NetworkStatus"]
+- ["CSo8NSObject", "NetworkUnreachable"]
+- !private ["CSo8NSObject", "Notification"]
+- ["CSo8NSObject", "NotificationCenter"]
+- !private ["CSo8NSObject", "ReachabilityChangedNotification"]
+- !private ["CSo8NSObject", "ReachabilityError"]
+- ["CSo8NSObject", "SCNetworkReachability"]
+- !private ["CSo8NSObject", "SCNetworkReachabilityContext"]
+- !private ["CSo8NSObject", "SCNetworkReachabilityCreateWithAddress"]
+- !private ["CSo8NSObject", "SCNetworkReachabilityCreateWithName"]
+- ["CSo8NSObject", "SCNetworkReachabilityFlags"]
+- !private ["CSo8NSObject", "SCNetworkReachabilityGetFlags"]
+- !private ["CSo8NSObject", "SCNetworkReachabilitySetCallback"]
+- !private ["CSo8NSObject", "SCNetworkReachabilitySetDispatchQueue"]
+- ["CSo8NSObject", "String"]
+- !private ["CSo8NSObject", "UInt32"]
+- !private ["CSo8NSObject", "UInt8"]
+- !private ["CSo8NSObject", "Unmanaged"]
+- !private ["CSo8NSObject", "UnsafeMutablePointer"]
+- !private ["CSo8NSObject", "Void"]
+- !private ["CSo8NSObject", "__uint8_t"]
+- !private ["CSo8NSObject", "async"]
+- !private ["CSo8NSObject", "callback"]
+- ["CSo8NSObject", "connectionRequired"]
+- ["CSo8NSObject", "currentReachabilityStatus"]
+- ["CSo8NSObject", "currentReachabilityString"]
+- ["CSo8NSObject", "default"]
+- ["CSo8NSObject", "deinit"]
+- ["CSo8NSObject", "description"]
+- !private ["CSo8NSObject", "in_addr"]
+- !private ["CSo8NSObject", "in_addr_t"]
+- !private ["CSo8NSObject", "in_port_t"]
+- ["CSo8NSObject", "init"]
+- ["CSo8NSObject", "isConnectionOnDemand"]
+- ["CSo8NSObject", "isConnectionOnTraffic"]
+- ["CSo8NSObject", "isConnectionOnTrafficOrDemand"]
+- ["CSo8NSObject", "isConnectionRequired"]
+- ["CSo8NSObject", "isConnectionRequiredOrTransient"]
+- ["CSo8NSObject", "isDirect"]
+- ["CSo8NSObject", "isInterventionRequired"]
+- ["CSo8NSObject", "isLocalAddress"]
+- ["CSo8NSObject", "isOnWWAN"]
+- ["CSo8NSObject", "isReachable"]
+- ["CSo8NSObject", "isReachableViaWWAN"]
+- ["CSo8NSObject", "isReachableViaWiFi"]
+- ["CSo8NSObject", "isReachableWithFlags"]
+- ["CSo8NSObject", "isRunningOnDevice"]
+- ["CSo8NSObject", "isTransientConnection"]
+- !private ["CSo8NSObject", "main"]
+- ["CSo8NSObject", "notificationCenter"]
+- ["CSo8NSObject", "notifierRunning"]
+- !private ["CSo8NSObject", "post"]
+- ["CSo8NSObject", "previousFlags"]
+- ["CSo8NSObject", "reachabilityChanged"]
+- ["CSo8NSObject", "reachabilityFlags"]
+- ["CSo8NSObject", "reachabilityForInternetConnection"]
+- ["CSo8NSObject", "reachabilityForLocalWiFi"]
+- ["CSo8NSObject", "reachabilityRef"]
+- ["CSo8NSObject", "reachabilitySerialQueue"]
+- ["CSo8NSObject", "reachableOnWWAN"]
+- !private ["CSo8NSObject", "sa_family_t"]
+- !private ["CSo8NSObject", "sockaddr"]
+- !private ["CSo8NSObject", "sockaddr_in"]
+- ["CSo8NSObject", "startNotifier"]
+- ["CSo8NSObject", "stopNotifier"]
+- !private ["CSo8NSObject", "utf8String"]
+- ["CSo8NSObject", "whenReachable"]
+- ["CSo8NSObject", "whenUnreachable"]
+- !private ["CSo8NSObject", "withUnsafeMutablePointer"]
+- !private ["CSo8NSObject", "withUnsafePointer"]
+- ["CSo8NSObject", ""]
+- !private ["PSo16NSObjectProtocol", "AF_INET"]
+- !private ["PSo16NSObjectProtocol", "AMReachability"]
+- ["PSo16NSObjectProtocol", "DispatchQueue"]
+- !private ["PSo16NSObjectProtocol", "MemoryLayout"]
+- !private ["PSo16NSObjectProtocol", "Notification"]
+- ["PSo16NSObjectProtocol", "NotificationCenter"]
+- !private ["PSo16NSObjectProtocol", "ReachabilityChangedNotification"]
+- !private ["PSo16NSObjectProtocol", "ReachabilityError"]
+- !private ["PSo16NSObjectProtocol", "SCNetworkReachabilityContext"]
+- !private ["PSo16NSObjectProtocol", "SCNetworkReachabilityCreateWithAddress"]
+- !private ["PSo16NSObjectProtocol", "SCNetworkReachabilityCreateWithName"]
+- !private ["PSo16NSObjectProtocol", "SCNetworkReachabilityFlags"]
+- !private ["PSo16NSObjectProtocol", "SCNetworkReachabilityGetFlags"]
+- !private ["PSo16NSObjectProtocol", "SCNetworkReachabilitySetCallback"]
+- !private ["PSo16NSObjectProtocol", "SCNetworkReachabilitySetDispatchQueue"]
+- !private ["PSo16NSObjectProtocol", "UInt8"]
+- !private ["PSo16NSObjectProtocol", "Unmanaged"]
+- !private ["PSo16NSObjectProtocol", "UnsafeMutablePointer"]
+- !private ["PSo16NSObjectProtocol", "__uint8_t"]
+- !private ["PSo16NSObjectProtocol", "async"]
+- !private ["PSo16NSObjectProtocol", "callback"]
+- ["PSo16NSObjectProtocol", "connectionRequired"]
+- ["PSo16NSObjectProtocol", "currentReachabilityStatus"]
+- ["PSo16NSObjectProtocol", "currentReachabilityString"]
+- ["PSo16NSObjectProtocol", "default"]
+- ["PSo16NSObjectProtocol", "description"]
+- !private ["PSo16NSObjectProtocol", "in_addr"]
+- !private ["PSo16NSObjectProtocol", "in_addr_t"]
+- !private ["PSo16NSObjectProtocol", "in_port_t"]
+- ["PSo16NSObjectProtocol", "init"]
+- ["PSo16NSObjectProtocol", "isConnectionOnDemand"]
+- ["PSo16NSObjectProtocol", "isConnectionOnTraffic"]
+- ["PSo16NSObjectProtocol", "isConnectionOnTrafficOrDemand"]
+- ["PSo16NSObjectProtocol", "isConnectionRequired"]
+- ["PSo16NSObjectProtocol", "isConnectionRequiredOrTransient"]
+- ["PSo16NSObjectProtocol", "isDirect"]
+- ["PSo16NSObjectProtocol", "isInterventionRequired"]
+- ["PSo16NSObjectProtocol", "isLocalAddress"]
+- ["PSo16NSObjectProtocol", "isOnWWAN"]
+- ["PSo16NSObjectProtocol", "isReachable"]
+- ["PSo16NSObjectProtocol", "isReachableViaWWAN"]
+- ["PSo16NSObjectProtocol", "isReachableViaWiFi"]
+- ["PSo16NSObjectProtocol", "isReachableWithFlags"]
+- ["PSo16NSObjectProtocol", "isRunningOnDevice"]
+- ["PSo16NSObjectProtocol", "isTransientConnection"]
+- !private ["PSo16NSObjectProtocol", "main"]
+- ["PSo16NSObjectProtocol", "notificationCenter"]
+- ["PSo16NSObjectProtocol", "notifierRunning"]
+- !private ["PSo16NSObjectProtocol", "post"]
+- ["PSo16NSObjectProtocol", "previousFlags"]
+- ["PSo16NSObjectProtocol", "reachabilityChanged"]
+- ["PSo16NSObjectProtocol", "reachabilityFlags"]
+- ["PSo16NSObjectProtocol", "reachabilityForInternetConnection"]
+- ["PSo16NSObjectProtocol", "reachabilityForLocalWiFi"]
+- ["PSo16NSObjectProtocol", "reachabilityRef"]
+- ["PSo16NSObjectProtocol", "reachabilitySerialQueue"]
+- ["PSo16NSObjectProtocol", "reachableOnWWAN"]
+- !private ["PSo16NSObjectProtocol", "sa_family_t"]
+- !private ["PSo16NSObjectProtocol", "sockaddr"]
+- !private ["PSo16NSObjectProtocol", "sockaddr_in"]
+- ["PSo16NSObjectProtocol", "startNotifier"]
+- ["PSo16NSObjectProtocol", "stopNotifier"]
+- !private ["PSo16NSObjectProtocol", "utf8String"]
+- ["PSo16NSObjectProtocol", "whenReachable"]
+- ["PSo16NSObjectProtocol", "whenUnreachable"]
+- !private ["PSo16NSObjectProtocol", "withUnsafeMutablePointer"]
+- !private ["PSo16NSObjectProtocol", "withUnsafePointer"]
+- ["PSo16NSObjectProtocol", ""]
+- ["PSo14NSSecureCoding", "init"]
+- !private ["PSo14NSSecureCoding", "utf8String"]
+- ["CSo8NSString", "deinit"]
+- ["CSo8NSString", "init"]
+- !private ["CSo8NSString", "utf8String"]
+- !private ["VCSo14NSNotification4Name", "deinit"]
+- !private ["VCSo14NSNotification4Name", "init"]
+- ["OC8Machinbo14AMReachability13NetworkStatus", "=="]
+- ["OC8Machinbo14AMReachability13NetworkStatus", "String"]
+- ["OC8Machinbo14AMReachability13NetworkStatus", "_toAnyHashable"]
+- ["OC8Machinbo14AMReachability13NetworkStatus", "deinit"]
+- ["OC8Machinbo14AMReachability13NetworkStatus", "description"]
+- ["OC8Machinbo14AMReachability13NetworkStatus", "hashValue"]
+- ["OC8Machinbo14AMReachability13NetworkStatus", "notReachable"]
+- ["OC8Machinbo14AMReachability13NetworkStatus", "reachableViaWWAN"]
+- ["OC8Machinbo14AMReachability13NetworkStatus", "reachableViaWiFi"]
+- ["Os5Never", "deinit"]
+- !private ["V10Foundation12Notification", "Name"]
+- ["CSo18NotificationCenter", "default"]
+- ["CSo18NotificationCenter", "deinit"]
+- !private ["CSo18NotificationCenter", "post"]
+- !private ["CSo9OS_object", "async"]
+- ["CSo9OS_object", "init"]
+- !private ["CSo9OS_object", "main"]
+- ["Ps9OptionSet", "Element"]
+- !private ["Ps9OptionSet", "RawValue"]
+- !private ["Ps9OptionSet", "connectionOnDemand"]
+- !private ["Ps9OptionSet", "connectionOnTraffic"]
+- !private ["Ps9OptionSet", "connectionRequired"]
+- !private ["Ps9OptionSet", "contains"]
+- !private ["Ps9OptionSet", "init"]
+- !private ["Ps9OptionSet", "intersection"]
+- !private ["Ps9OptionSet", "interventionRequired"]
+- !private ["Ps9OptionSet", "isDirect"]
+- !private ["Ps9OptionSet", "isEmpty"]
+- !private ["Ps9OptionSet", "isLocalAddress"]
+- !private ["Ps9OptionSet", "isWWAN"]
+- !private ["Ps9OptionSet", "reachable"]
+- !private ["Ps9OptionSet", "transientConnection"]
+- ["Sq", "deinit"]
+- ["Ps16RawRepresentable", "Element"]
+- !private ["Ps16RawRepresentable", "RawValue"]
+- !private ["Ps16RawRepresentable", "connectionOnDemand"]
+- !private ["Ps16RawRepresentable", "connectionOnTraffic"]
+- !private ["Ps16RawRepresentable", "connectionRequired"]
+- !private ["Ps16RawRepresentable", "contains"]
+- !private ["Ps16RawRepresentable", "init"]
+- !private ["Ps16RawRepresentable", "intersection"]
+- !private ["Ps16RawRepresentable", "interventionRequired"]
+- !private ["Ps16RawRepresentable", "isDirect"]
+- !private ["Ps16RawRepresentable", "isEmpty"]
+- !private ["Ps16RawRepresentable", "isLocalAddress"]
+- !private ["Ps16RawRepresentable", "isWWAN"]
+- !private ["Ps16RawRepresentable", "reachable"]
+- !private ["Ps16RawRepresentable", "transientConnection"]
+- ["O8Machinbo17ReachabilityError", "String"]
+- ["O8Machinbo17ReachabilityError", "_code"]
+- ["O8Machinbo17ReachabilityError", "_domain"]
+- ["O8Machinbo17ReachabilityError", "_getEmbeddedNSError"]
+- ["O8Machinbo17ReachabilityError", "_userInfo"]
+- ["O8Machinbo17ReachabilityError", "deinit"]
+- ["O8Machinbo17ReachabilityError", "failedToCreateWithAddress"]
+- ["O8Machinbo17ReachabilityError", "failedToCreateWithHostname"]
+- ["O8Machinbo17ReachabilityError", "sockaddr_in"]
+- ["O8Machinbo17ReachabilityError", "unableToSetCallback"]
+- ["O8Machinbo17ReachabilityError", "unableToSetDispatchQueue"]
+- !private ["P10Foundation20ReferenceConvertible", "Name"]
+- ["CSo21SCNetworkReachability", "deinit"]
+- ["VSC28SCNetworkReachabilityContext", "deinit"]
+- !private ["VSC28SCNetworkReachabilityContext", "info"]
+- !private ["VSC28SCNetworkReachabilityContext", "init"]
+- !private ["VSC26SCNetworkReachabilityFlags", "Element"]
+- !private ["VSC26SCNetworkReachabilityFlags", "RawValue"]
+- !private ["VSC26SCNetworkReachabilityFlags", "connectionOnDemand"]
+- !private ["VSC26SCNetworkReachabilityFlags", "connectionOnTraffic"]
+- !private ["VSC26SCNetworkReachabilityFlags", "connectionRequired"]
+- !private ["VSC26SCNetworkReachabilityFlags", "contains"]
+- ["VSC26SCNetworkReachabilityFlags", "deinit"]
+- !private ["VSC26SCNetworkReachabilityFlags", "init"]
+- !private ["VSC26SCNetworkReachabilityFlags", "intersection"]
+- !private ["VSC26SCNetworkReachabilityFlags", "interventionRequired"]
+- !private ["VSC26SCNetworkReachabilityFlags", "isDirect"]
+- !private ["VSC26SCNetworkReachabilityFlags", "isEmpty"]
+- !private ["VSC26SCNetworkReachabilityFlags", "isLocalAddress"]
+- !private ["VSC26SCNetworkReachabilityFlags", "isWWAN"]
+- !private ["VSC26SCNetworkReachabilityFlags", "reachable"]
+- !private ["VSC26SCNetworkReachabilityFlags", "transientConnection"]
+- ["Ps10SetAlgebra", "Element"]
+- !private ["Ps10SetAlgebra", "RawValue"]
+- !private ["Ps10SetAlgebra", "connectionOnDemand"]
+- !private ["Ps10SetAlgebra", "connectionOnTraffic"]
+- !private ["Ps10SetAlgebra", "connectionRequired"]
+- !private ["Ps10SetAlgebra", "contains"]
+- !private ["Ps10SetAlgebra", "init"]
+- !private ["Ps10SetAlgebra", "intersection"]
+- !private ["Ps10SetAlgebra", "interventionRequired"]
+- !private ["Ps10SetAlgebra", "isDirect"]
+- !private ["Ps10SetAlgebra", "isEmpty"]
+- !private ["Ps10SetAlgebra", "isLocalAddress"]
+- !private ["Ps10SetAlgebra", "isWWAN"]
+- !private ["Ps10SetAlgebra", "reachable"]
+- !private ["Ps10SetAlgebra", "transientConnection"]
+- !private ["Ps13SignedInteger", "hashValue"]
+- !private ["Ps12SignedNumber", "hashValue"]
+- ["Vs12StaticString", "deinit"]
+- !private ["Vs12StaticString", "init"]
+- !private ["Ps10Strideable", "bigEndian"]
+- !private ["Ps10Strideable", "hashValue"]
+- !private ["Ps10Strideable", "init"]
+- !private ["Ps10Strideable", "withMemoryRebound"]
+- ["SS", "deinit"]
+- ["SS", "init"]
+- ["Ps16TextOutputStream", "init"]
+- ["Ps20TextOutputStreamable", "init"]
+- ["Su", "deinit"]
+- ["Vs6UInt16", "deinit"]
+- !private ["Vs6UInt16", "init"]
+- !private ["Vs6UInt32", "bigEndian"]
+- ["Vs6UInt32", "deinit"]
+- !private ["Vs6UInt32", "init"]
+- !private ["Vs6UInt64", "deinit"]
+- ["Vs5UInt8", "deinit"]
+- !private ["Vs5UInt8", "init"]
+- !private ["Sc", "deinit"]
+- ["Vs9Unmanaged", "deinit"]
+- !private ["Vs9Unmanaged", "fromOpaque"]
+- !private ["Vs9Unmanaged", "passUnretained"]
+- !private ["Vs9Unmanaged", "takeUnretainedValue"]
+- !private ["Vs9Unmanaged", "toOpaque"]
+- !private ["Sp", "deinit"]
+- !private ["Sp", "init"]
+- ["Sv", "deinit"]
+- ["SP", "deinit"]
+- !private ["SP", "withMemoryRebound"]
+- !private ["Ps15UnsignedInteger", "bigEndian"]
+- !private ["Ps15UnsignedInteger", "init"]
+- !private ["Ps28_DisallowMixedSignArithmetic", "bigEndian"]
+- !private ["Ps28_DisallowMixedSignArithmetic", "init"]
+- !private ["Ps35_ExpressibleByBuiltinBooleanLiteral", "_getBuiltinLogicValue"]
+- ["Ps51_ExpressibleByBuiltinExtendedGraphemeClusterLiteral", "init"]
+- !private ["Ps35_ExpressibleByBuiltinIntegerLiteral", "bigEndian"]
+- !private ["Ps35_ExpressibleByBuiltinIntegerLiteral", "hashValue"]
+- !private ["Ps35_ExpressibleByBuiltinIntegerLiteral", "init"]
+- ["Ps34_ExpressibleByBuiltinStringLiteral", "init"]
+- ["Ps39_ExpressibleByBuiltinUTF16StringLiteral", "init"]
+- ["Ps41_ExpressibleByBuiltinUnicodeScalarLiteral", "init"]
+- ["Ps35_HasCustomAnyHashableRepresentation", "init"]
+- !private ["Ps35_HasCustomAnyHashableRepresentation", "utf8String"]
+- !private ["Ps9_Hashable", "AF_INET"]
+- !private ["Ps9_Hashable", "AMReachability"]
+- ["Ps9_Hashable", "DispatchQueue"]
+- !private ["Ps9_Hashable", "MemoryLayout"]
+- !private ["Ps9_Hashable", "Name"]
+- !private ["Ps9_Hashable", "Notification"]
+- ["Ps9_Hashable", "NotificationCenter"]
+- !private ["Ps9_Hashable", "ReachabilityChangedNotification"]
+- !private ["Ps9_Hashable", "ReachabilityError"]
+- !private ["Ps9_Hashable", "SCNetworkReachabilityContext"]
+- !private ["Ps9_Hashable", "SCNetworkReachabilityCreateWithAddress"]
+- !private ["Ps9_Hashable", "SCNetworkReachabilityCreateWithName"]
+- !private ["Ps9_Hashable", "SCNetworkReachabilityFlags"]
+- !private ["Ps9_Hashable", "SCNetworkReachabilityGetFlags"]
+- !private ["Ps9_Hashable", "SCNetworkReachabilitySetCallback"]
+- !private ["Ps9_Hashable", "SCNetworkReachabilitySetDispatchQueue"]
+- !private ["Ps9_Hashable", "UInt8"]
+- !private ["Ps9_Hashable", "Unmanaged"]
+- !private ["Ps9_Hashable", "UnsafeMutablePointer"]
+- !private ["Ps9_Hashable", "__uint8_t"]
+- !private ["Ps9_Hashable", "_getBuiltinLogicValue"]
+- ["Ps9_Hashable", "_toAnyHashable"]
+- !private ["Ps9_Hashable", "async"]
+- !private ["Ps9_Hashable", "bigEndian"]
+- !private ["Ps9_Hashable", "callback"]
+- ["Ps9_Hashable", "connectionRequired"]
+- ["Ps9_Hashable", "currentReachabilityStatus"]
+- ["Ps9_Hashable", "currentReachabilityString"]
+- ["Ps9_Hashable", "default"]
+- ["Ps9_Hashable", "description"]
+- ["Ps9_Hashable", "hashValue"]
+- !private ["Ps9_Hashable", "in_addr"]
+- !private ["Ps9_Hashable", "in_addr_t"]
+- !private ["Ps9_Hashable", "in_port_t"]
+- ["Ps9_Hashable", "init"]
+- ["Ps9_Hashable", "isConnectionOnDemand"]
+- ["Ps9_Hashable", "isConnectionOnTraffic"]
+- ["Ps9_Hashable", "isConnectionOnTrafficOrDemand"]
+- ["Ps9_Hashable", "isConnectionRequired"]
+- ["Ps9_Hashable", "isConnectionRequiredOrTransient"]
+- ["Ps9_Hashable", "isDirect"]
+- ["Ps9_Hashable", "isInterventionRequired"]
+- ["Ps9_Hashable", "isLocalAddress"]
+- ["Ps9_Hashable", "isOnWWAN"]
+- ["Ps9_Hashable", "isReachable"]
+- ["Ps9_Hashable", "isReachableViaWWAN"]
+- ["Ps9_Hashable", "isReachableViaWiFi"]
+- ["Ps9_Hashable", "isReachableWithFlags"]
+- ["Ps9_Hashable", "isRunningOnDevice"]
+- ["Ps9_Hashable", "isTransientConnection"]
+- !private ["Ps9_Hashable", "main"]
+- ["Ps9_Hashable", "notReachable"]
+- ["Ps9_Hashable", "notificationCenter"]
+- ["Ps9_Hashable", "notifierRunning"]
+- !private ["Ps9_Hashable", "post"]
+- ["Ps9_Hashable", "previousFlags"]
+- ["Ps9_Hashable", "reachabilityChanged"]
+- ["Ps9_Hashable", "reachabilityFlags"]
+- ["Ps9_Hashable", "reachabilityForInternetConnection"]
+- ["Ps9_Hashable", "reachabilityForLocalWiFi"]
+- ["Ps9_Hashable", "reachabilityRef"]
+- ["Ps9_Hashable", "reachabilitySerialQueue"]
+- ["Ps9_Hashable", "reachableOnWWAN"]
+- ["Ps9_Hashable", "reachableViaWWAN"]
+- ["Ps9_Hashable", "reachableViaWiFi"]
+- !private ["Ps9_Hashable", "sa_family_t"]
+- !private ["Ps9_Hashable", "sockaddr"]
+- !private ["Ps9_Hashable", "sockaddr_in"]
+- ["Ps9_Hashable", "startNotifier"]
+- ["Ps9_Hashable", "stopNotifier"]
+- !private ["Ps9_Hashable", "utf8String"]
+- ["Ps9_Hashable", "whenReachable"]
+- ["Ps9_Hashable", "whenUnreachable"]
+- !private ["Ps9_Hashable", "withMemoryRebound"]
+- !private ["Ps9_Hashable", "withUnsafeMutablePointer"]
+- !private ["Ps9_Hashable", "withUnsafePointer"]
+- ["Ps9_Hashable", ""]
+- !private ["Ps14_Incrementable", "bigEndian"]
+- !private ["Ps14_Incrementable", "hashValue"]
+- !private ["Ps14_Incrementable", "init"]
+- !private ["Ps8_Integer", "bigEndian"]
+- !private ["Ps8_Integer", "hashValue"]
+- !private ["Ps8_Integer", "init"]
+- !private ["Ps18_IntegerArithmetic", "bigEndian"]
+- !private ["Ps18_IntegerArithmetic", "hashValue"]
+- !private ["Ps18_IntegerArithmetic", "init"]
+- !private ["Ps21_ObjectiveCBridgeable", "Name"]
+- !private ["Ps21_ObjectiveCBridgeable", "_getBuiltinLogicValue"]
+- !private ["Ps21_ObjectiveCBridgeable", "bigEndian"]
+- !private ["Ps21_ObjectiveCBridgeable", "hashValue"]
+- ["Ps21_ObjectiveCBridgeable", "init"]
+- !private ["Ps8_Pointer", "init"]
+- !private ["Ps8_Pointer", "withMemoryRebound"]
+- !private ["Ps14_SignedInteger", "hashValue"]
+- !private ["Ps11_Strideable", "bigEndian"]
+- !private ["Ps11_Strideable", "hashValue"]
+- !private ["Ps11_Strideable", "init"]
+- !private ["Ps11_Strideable", "withMemoryRebound"]
+- !private ["Ps14_StringElement", "init"]
+- !private ["Ps20_SwiftNewtypeWrapper", "init"]
+- ["VSC7in_addr", "deinit"]
+- !private ["VSC7in_addr", "init"]
+- !private ["VSC7in_addr", "s_addr"]
+- ["VSC11sockaddr_in", "deinit"]
+- !private ["VSC11sockaddr_in", "init"]
+- !private ["VSC11sockaddr_in", "sin_addr"]
+- !private ["VSC11sockaddr_in", "sin_family"]
+- !private ["VSC11sockaddr_in", "sin_len"]
+depends-nominal:
+- "C8Machinbo14AMReachability"
+- "Ps9AnyObject"
+- "VE8DispatchCSo13DispatchQueue10Attributes"
+- !private "Ps17BitwiseOperations"
+- "Sb"
+- "Ps7CVarArg"
+- !private "Vs9Character"
+- "Ps10Comparable"
+- "Ps28CustomDebugStringConvertible"
+- "Ps29CustomPlaygroundQuickLookable"
+- "Ps17CustomReflectable"
+- "Ps23CustomStringConvertible"
+- "CSo14DispatchObject"
+- "CSo13DispatchQueue"
+- !private "Sd"
+- "Ps9Equatable"
+- "Ps5Error"
+- "Ps25ExpressibleByArrayLiteral"
+- !private "Ps27ExpressibleByBooleanLiteral"
+- "Ps43ExpressibleByExtendedGraphemeClusterLiteral"
+- !private "Ps27ExpressibleByIntegerLiteral"
+- "Ps32ExpressibleByStringInterpolation"
+- "Ps26ExpressibleByStringLiteral"
+- "Ps33ExpressibleByUnicodeScalarLiteral"
+- !private "Sf"
+- "Ps8Hashable"
+- "Si"
+- !private "Vs5Int16"
+- "Vs5Int32"
+- !private "Vs5Int64"
+- "Vs4Int8"
+- !private "Ps7Integer"
+- !private "Ps17IntegerArithmetic"
+- "Ps25LosslessStringConvertible"
+- !private "Os12MemoryLayout"
+- "Ps10MirrorPath"
+- "PSo8NSCoding"
+- "PSo9NSCopying"
+- "PSo16NSMutableCopying"
+- "CSo8NSObject"
+- "PSo16NSObjectProtocol"
+- "PSo14NSSecureCoding"
+- "CSo8NSString"
+- !private "VCSo14NSNotification4Name"
+- "OC8Machinbo14AMReachability13NetworkStatus"
+- "Os5Never"
+- !private "V10Foundation12Notification"
+- "CSo18NotificationCenter"
+- "CSo9OS_object"
+- "Ps9OptionSet"
+- "Sq"
+- "Ps16RawRepresentable"
+- "O8Machinbo17ReachabilityError"
+- !private "P10Foundation20ReferenceConvertible"
+- "CSo21SCNetworkReachability"
+- "VSC28SCNetworkReachabilityContext"
+- "VSC26SCNetworkReachabilityFlags"
+- "Ps10SetAlgebra"
+- !private "Ps13SignedInteger"
+- !private "Ps12SignedNumber"
+- "Vs12StaticString"
+- !private "Ps10Strideable"
+- "SS"
+- "Ps16TextOutputStream"
+- "Ps20TextOutputStreamable"
+- "Su"
+- "Vs6UInt16"
+- "Vs6UInt32"
+- !private "Vs6UInt64"
+- "Vs5UInt8"
+- !private "Sc"
+- "Vs9Unmanaged"
+- !private "Sp"
+- "Sv"
+- "SP"
+- !private "Ps15UnsignedInteger"
+- !private "Ps28_DisallowMixedSignArithmetic"
+- !private "Ps35_ExpressibleByBuiltinBooleanLiteral"
+- "Ps51_ExpressibleByBuiltinExtendedGraphemeClusterLiteral"
+- !private "Ps35_ExpressibleByBuiltinIntegerLiteral"
+- "Ps34_ExpressibleByBuiltinStringLiteral"
+- "Ps39_ExpressibleByBuiltinUTF16StringLiteral"
+- "Ps41_ExpressibleByBuiltinUnicodeScalarLiteral"
+- "Ps35_HasCustomAnyHashableRepresentation"
+- "Ps9_Hashable"
+- !private "Ps14_Incrementable"
+- !private "Ps8_Integer"
+- !private "Ps18_IntegerArithmetic"
+- "Ps21_ObjectiveCBridgeable"
+- !private "Ps8_Pointer"
+- !private "Ps14_SignedInteger"
+- !private "Ps11_Strideable"
+- !private "Ps14_StringElement"
+- !private "Ps20_SwiftNewtypeWrapper"
+- "VSC7in_addr"
+- "VSC11sockaddr_in"
+depends-dynamic-lookup:
+depends-external:
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/Swift.swiftmodule"
+- "/Users/Yabecchi/Project/_Machinbo/Machinbo/Bridging_Header.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSTMCacheBackgroundTaskManager.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/NSError+AWSMTLModelException.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSMTLReflection.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSCognitoIdentityResources.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSCognitoIdentityModel.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSCognitoIdentityService.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSCognitoIdentity.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSSTSResources.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSSTSModel.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSSTSService.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSSTS.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSUICKeyChainStore.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSTMMemoryCache.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSTMDiskCache.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSTMCache.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSKSReachability.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSFMDatabaseQueue.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSFMDatabaseAdditions.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSFMDatabasePool.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSFMResultSet.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSFMDatabase.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSFMDB.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSGZIP.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSTaskCompletionSource.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSTask.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSExecutor.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSCancellationTokenSource.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSCancellationTokenRegistration.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSCancellationToken.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSBoltsVersion.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSBolts.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSInfo.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSValidation.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSURLRequestRetryHandler.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSSignature.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSURLSessionManager.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSURLResponseSerialization.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSURLRequestSerialization.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSSerialization.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSSynchronizedMutableDictionary.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSClientContext.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSLogging.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSCategory.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSIdentityProvider.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSCredentialsProvider.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/NSValueTransformer+AWSMTLPredefinedTransformerAdditions.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/NSValueTransformer+AWSMTLInversionAdditions.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/NSObject+AWSMTLComparisonAdditions.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/NSDictionary+AWSMTLManipulationAdditions.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/NSArray+AWSMTLManipulationAdditions.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSMTLValueTransformer.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSMTLModel+NSCoding.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSMTLModel.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSMTLManagedObjectAdapter.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSMTLJSONAdapter.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSMantle.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSModel.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSNetworking.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSService.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSServiceEnum.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSCore.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Headers/AWSCore-umbrella.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCore/AWSCore.framework/Modules/module.modulemap"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/UIKit.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/Foundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/Darwin.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/Dispatch.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/ObjectiveC.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/CoreGraphics.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/QuartzCore.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/CoreImage.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/CoreData.swiftmodule"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSSNS/AWSSNS.framework/Headers/AWSSNSResources.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSSNS/AWSSNS.framework/Headers/AWSSNSModel.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSSNS/AWSSNS.framework/Headers/AWSSNSService.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSSNS/AWSSNS.framework/Headers/AWSSNS.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSSNS/AWSSNS.framework/Headers/AWSSNS-umbrella.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSSNS/AWSSNS.framework/Modules/module.modulemap"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCognito/AWSCognito.framework/Headers/AWSCognitoConflict.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCognito/AWSCognito.framework/Headers/AWSCognitoRecord.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCognito/AWSCognito.framework/Headers/AWSCognitoDataset.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCognito/AWSCognito.framework/Headers/AWSCognitoSyncResources.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCognito/AWSCognito.framework/Headers/AWSCognitoSyncModel.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCognito/AWSCognito.framework/Headers/AWSCognitoSyncService.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCognito/AWSCognito.framework/Headers/AWSCognitoHandlers.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCognito/AWSCognito.framework/Headers/AWSCognitoService.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCognito/AWSCognito.framework/Headers/AWSCognito.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCognito/AWSCognito.framework/Headers/AWSCognito-umbrella.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/AWSCognito/AWSCognito.framework/Modules/module.modulemap"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/MBProgressHUD/MBProgressHUD.framework/Headers/MBProgressHUD.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/MBProgressHUD/MBProgressHUD.framework/Headers/MBProgressHUD-umbrella.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/MBProgressHUD/MBProgressHUD.framework/Modules/module.modulemap"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/SwiftOnoneSupport.swiftmodule"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Bolts/Bolts.framework/Headers/Bolts.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Bolts/Bolts.framework/Headers/BFTaskCompletionSource.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Bolts/Bolts.framework/Headers/BFTask.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Bolts/Bolts.framework/Headers/BFTask+Exceptions.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Bolts/Bolts.framework/Headers/BFExecutor.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Bolts/Bolts.framework/Headers/BFCancellationTokenSource.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Bolts/Bolts.framework/Headers/BFCancellationTokenRegistration.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Bolts/Bolts.framework/Headers/BFCancellationToken.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Bolts/Bolts.framework/Headers/BFWebViewAppLinkResolver.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Bolts/Bolts.framework/Headers/BFURL.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Bolts/Bolts.framework/Headers/BFMeasurementEvent.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Bolts/Bolts.framework/Headers/BFAppLinkTarget.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Bolts/Bolts.framework/Headers/BFAppLinkReturnToRefererView.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Bolts/Bolts.framework/Headers/BFAppLinkReturnToRefererController.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Bolts/Bolts.framework/Headers/BFAppLinkResolving.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Bolts/Bolts.framework/Headers/BFAppLinkNavigation.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Bolts/Bolts.framework/Headers/BFAppLink.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Bolts/Bolts.framework/Headers/Bolts-umbrella.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Bolts/Bolts.framework/Modules/module.modulemap"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFPurchase.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFProduct.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFPush+Deprecated.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFPush+Synchronous.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFPush.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFNetworkActivityIndicatorManager.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFInstallation.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFUserAuthenticationDelegate.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFUser+Deprecated.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFUser+Synchronous.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFSession.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFRole.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFRelation.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFQuery+Deprecated.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFQuery+Synchronous.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFQuery.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFObject+Deprecated.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFObject+Synchronous.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFObject+Subclass.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFGeoPoint.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFFile+Synchronous.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFFile+Deprecated.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFFile.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFConfig+Synchronous.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFConfig.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFCloud+Synchronous.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFCloud+Deprecated.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFCloud.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFAnonymousUtils+Deprecated.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFSubclassing.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFObject.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFUser.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFAnonymousUtils.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFAnalytics.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFACL.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/PFConstants.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/ParseClientConfiguration.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/Parse.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Headers/Parse-umbrella.h"
+- "/Users/Yabecchi/Project/_Machinbo/Build/Products/Debug-iphoneos/Parse/Parse.framework/Modules/module.modulemap"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/CoreLocation.swiftmodule"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Base/Frameworks/GoogleMapsBase.framework/Headers/GMSCoordinateBounds.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Base/Frameworks/GoogleMapsBase.framework/Headers/GMSCompatabilityMacros.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Base/Frameworks/GoogleMapsBase.framework/Headers/GoogleMapsBase.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Base/Frameworks/GoogleMapsBase.framework/Modules/module.modulemap"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSURLTileLayer.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSTileLayer.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSSyncTileLayer.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSServices.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSPolyline.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSPolygon.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSPanoramaView.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSPanoramaService.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSPanoramaLink.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSPanoramaLayer.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSPanoramaCameraUpdate.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSPanoramaCamera.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSPanorama.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSOrientation.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSMutablePath.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSMarkerLayer.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSMarker.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSUISettings.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSMapView.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSMapView+Animation.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSMapStyle.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSMapLayer.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSIndoorLevel.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSIndoorDisplay.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSIndoorBuilding.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSGroundOverlay.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSPath.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSGeometryUtils.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSGeocoder.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSProjection.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSCoordinateBounds+GoogleMaps.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSOverlay.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSCircle.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSCameraUpdate.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSCameraPosition.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSCALayer.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSDeprecationMacros.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GMSAddress.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Headers/GoogleMaps.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Modules/module.modulemap"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/MapKit.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/Photos.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/AVFoundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/CoreMedia.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/CoreAudio.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/SpriteKit.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/simd.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/GLKit.swiftmodule"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/Mediation/GADMRewardBasedVideoAdNetworkConnectorProtocol.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/Mediation/GADMRewardBasedVideoAdNetworkAdapterProtocol.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/Mediation/GADMEnums.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/Mediation/GADMediationAdRequest.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/Mediation/GADMAdNetworkConnectorProtocol.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/Mediation/GADMAdNetworkAdapterProtocol.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADRewardBasedVideoAdDelegate.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADRewardBasedVideoAd.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADAdReward.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADSearchRequest.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADSearchBannerView.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADDynamicHeightSearchRequest.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADMediatedNativeContentAd.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADMediatedNativeAppInstallAd.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADMediatedNativeAdNotificationSource.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADCustomEventParameters.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADMediatedNativeAdDelegate.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADMediatedNativeAd.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADCustomEventNativeAdDelegate.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADCustomEventNativeAd.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADCustomEventInterstitialDelegate.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADCustomEventInterstitial.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADCustomEventExtras.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADCustomEventRequest.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADCustomEventBannerDelegate.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADCustomEventBanner.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADNativeAdViewAdOptions.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADNativeAdImageAdLoaderOptions.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADNativeCustomTemplateAd.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADNativeContentAd.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADNativeAppInstallAd.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADNativeAdImage+Mediation.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADNativeAdImage.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADNativeAdDelegate.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADNativeAd.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADAdChoicesView.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADAdLoaderAdTypes.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/DFPRequest.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/DFPInterstitial.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/DFPCustomRenderedInterstitialDelegate.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/DFPCustomRenderedAd.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADAppEventDelegate.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/DFPCustomRenderedBannerViewDelegate.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/DFPBannerView.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADVideoOptions.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADVideoControllerDelegate.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADVideoController.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADNativeExpressAdViewDelegate.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADNativeExpressAdView.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADMobileAds.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADMediaView.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADInterstitialDelegate.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADInterstitial.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADInAppPurchase.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADExtras.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADDebugOptionsViewController.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADAdLoaderDelegate.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADAdLoader.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADCorrelatorAdLoaderOptions.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADCorrelator.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADRequestError.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADRequest.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADInAppPurchaseDelegate.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADBannerViewDelegate.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADAdSizeDelegate.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADBannerView.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADAdSize.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADAdNetworkExtras.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GADAdDelegate.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GoogleMobileAdsDefines.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Headers/GoogleMobileAds.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Google-Mobile-Ads-SDK/Frameworks/frameworks/GoogleMobileAds.framework/Modules/module.modulemap"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterCore/iOS/TwitterCore.framework/Headers/TWTRSessionStore.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterCore/iOS/TwitterCore.framework/Headers/TWTRSession.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterCore/iOS/TwitterCore.framework/Headers/TWTRGuestSession.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterCore/iOS/TwitterCore.framework/Headers/TWTRCoreOAuthSigning.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterCore/iOS/TwitterCore.framework/Headers/TWTRConstants.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterCore/iOS/TwitterCore.framework/Headers/TWTRAuthSession.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterCore/iOS/TwitterCore.framework/Headers/TWTRAuthConfig.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterCore/iOS/TwitterCore.framework/Headers/TWTRAPIErrorCode.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterCore/iOS/TwitterCore.framework/Headers/TWTRDefines.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterCore/iOS/TwitterCore.framework/Headers/TwitterCore.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterCore/iOS/TwitterCore.framework/Modules/module.modulemap"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRVideoMetaData.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRUserTimelineDataSource.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRUser.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRTweetUserMentionEntity.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRTweetUrlEntity.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRTweetViewDelegate.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRTweetView.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRTweetTableViewCell.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRTweetHashtagEntity.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRTweetDetailViewController.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRTweetEntity.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRTweetCashtagEntity.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRTweet.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRTimelineViewController.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRTimelineFilter.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRTimelineDelegate.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRTimelineCursor.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRSearchTimelineDataSource.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTROAuthSigning.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRNotificationConstants.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRMoPubNativeAdContainerView.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRMoPubAdConfiguration.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRMediaEntitySize.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRLogInButton.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRListTimelineDataSource.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRJSONConvertible.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRComposerViewController.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRComposerTheme.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRComposer.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRTimelineType.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRTimelineDataSource.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRCollectionTimelineDataSource.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRCardConfiguration.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TWTRAPIClient.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/Twitter.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Headers/TwitterKit.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/TwitterKit/iOS/TwitterKit.framework/Modules/module.modulemap"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Fabric/iOS/Fabric.framework/Headers/FABAttributes.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Fabric/iOS/Fabric.framework/Headers/Fabric.h"
+- "/Users/Yabecchi/Project/_Machinbo/Pods/Fabric/iOS/Fabric.framework/Modules/module.modulemap"
+interface-hash: "baddd165cbcf21a8dd1c52e6cc4a10ee"

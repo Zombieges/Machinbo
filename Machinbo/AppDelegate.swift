@@ -68,7 +68,7 @@
     
     func createNavigationItem() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-
+        
         guard PersistentData.User().userID != "" else {
             let firstViewController = storyboard.instantiateViewController(withIdentifier: "profile") as! ProfileViewController
             let mainNavigationCtrl = UINavigationController(rootViewController: firstViewController)
@@ -86,9 +86,9 @@
             self.window?.makeKeyAndVisible()
             return
         }
- 
+        
         let mapViewController = storyboard.instantiateViewController(withIdentifier: "map") as! MapViewController
-
+        
         let mainNavigationCtrl = UINavigationController(rootViewController: mapViewController)
         mainNavigationCtrl.navigationBar.barTintColor = UIColor.hex("fffffff", alpha: 1)
         mainNavigationCtrl.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.darkGray]
@@ -96,9 +96,9 @@
         mainNavigationCtrl.navigationBar.isTranslucent = false
         mainNavigationCtrl.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         mainNavigationCtrl.navigationBar.setBackgroundImage(UIImage(named: "BarBackground"),
-                                                             for: .default)
+                                                            for: .default)
         mainNavigationCtrl.navigationBar.shadowImage = UIImage()
-        mainNavigationCtrl.tabBarItem = UITabBarItem(title: "ホーム", image: UIImage(named: "home.png"), tag: 1)
+        mainNavigationCtrl.tabBarItem = UITabBarItem(title: "ホーム", image: UIImage(named: "home@2x.png"), tag: 1)
         
         let markerDragConroller = storyboard.instantiateViewController(withIdentifier: "entry") as! MarkerDraggableViewController
         
@@ -111,8 +111,8 @@
         editNavigationCtrl.navigationBar.setBackgroundImage(UIImage(named: "BarBackground"),
                                                             for: .default)
         editNavigationCtrl.navigationBar.shadowImage = UIImage()
-        editNavigationCtrl.tabBarItem = UITabBarItem(title: "登録", image: UIImage(named: "edit.png"), tag: 1)
-   
+        editNavigationCtrl.tabBarItem = UITabBarItem(title: "登録", image: UIImage(named: "edit@2x.png"), tag: 1)
+        
         let meetupViewController = storyboard.instantiateViewController(withIdentifier: "meetup") as! MeetupViewController
         
         let meetupNavigationCtrl = UINavigationController(rootViewController: meetupViewController)
@@ -122,9 +122,9 @@
         meetupNavigationCtrl.navigationBar.isTranslucent = false
         meetupNavigationCtrl.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         meetupNavigationCtrl.navigationBar.setBackgroundImage(UIImage(named: "BarBackground"),
-                                                                for: .default)
+                                                              for: .default)
         meetupNavigationCtrl.navigationBar.shadowImage = UIImage()
-        meetupNavigationCtrl.tabBarItem = UITabBarItem(title: "待ち合わせ", image: UIImage(named: "meetup.png"), tag: 2)
+        meetupNavigationCtrl.tabBarItem = UITabBarItem(title: "待ち合わせ", image: UIImage(named: "meetup@2x.png"), tag: 2)
         
         let profileViewController = storyboard.instantiateViewController(withIdentifier: "profile") as! ProfileViewController
         
@@ -135,9 +135,9 @@
         profileNavigationCtrl.navigationBar.isTranslucent = false
         profileNavigationCtrl.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         profileNavigationCtrl.navigationBar.setBackgroundImage(UIImage(named: "BarBackground"),
-                                                                for: .default)
+                                                               for: .default)
         profileNavigationCtrl.navigationBar.shadowImage = UIImage()
-        profileNavigationCtrl.tabBarItem = UITabBarItem(title: "プロフィール", image: UIImage(named: "profile_icon.png"), tag: 3)
+        profileNavigationCtrl.tabBarItem = UITabBarItem(title: "プロフィール", image: UIImage(named: "profile_icon@2x.png"), tag: 3)
         
         
         let tabBarController = UITabBarController()
@@ -180,7 +180,7 @@
     
     func application( _ application: UIApplication,
                       didReceiveRemoteNotification userInfo: [AnyHashable: Any],
-                                                   fetchCompletionHandler handler: @escaping (UIBackgroundFetchResult) -> Void) {
+                      fetchCompletionHandler handler: @escaping (UIBackgroundFetchResult) -> Void) {
         print("Notification receiveda: \(userInfo)")
         
         
@@ -190,7 +190,7 @@
         
         // [END_EXCLUDE]
     }
-
+    
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.

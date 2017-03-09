@@ -15,27 +15,6 @@ import GoogleMobileAds
 
 //extension MapViewController: TransisionProtocol {}
 
-let kMapStyle = "[" +
-    "  {" +
-    "    \"featureType\": \"poi.business\"," +
-    "    \"elementType\": \"all\"," +
-    "    \"stylers\": [" +
-    "      {" +
-    "        \"visibility\": \"off\"" +
-    "      }" +
-    "    ]" +
-    "  }," +
-    "  {" +
-    "    \"featureType\": \"transit\"," +
-    "    \"elementType\": \"labels.icon\"," +
-    "    \"stylers\": [" +
-    "      {" +
-    "        \"visibility\": \"off\"" +
-    "      }" +
-    "    ]" +
-    "  }" +
-"]"
-
 class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManagerDelegate, GADBannerViewDelegate, GADInterstitialDelegate, UITabBarDelegate, TransisionProtocol {
     
     private var profileSettingButton: UIBarButtonItem!
@@ -52,7 +31,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
             self.view = view
         }
         
-        self.navigationItem.title = "ホーム"
+        self.navigationItem.title = "Machinbo"
         self.navigationController!.navigationBar.tintColor = UIColor.darkGray
         self.createNavigationItem()
         
@@ -170,7 +149,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         let gmaps = GMSMapView()
         do {
             // Set the map style by passing the URL of the local file.
-            if let styleURL = Bundle.main.url(forResource: "style", withExtension: "json") {
+            if let styleURL = Bundle.main.url(forResource: "style", withExtension: "geojson") {
                 gmaps.mapStyle = try GMSMapStyle(contentsOfFileURL: styleURL)
                 
             } else {
@@ -209,29 +188,32 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     
     private func createNavigationItem() {
         let reloadButton = UIButton(type: .custom)
-        reloadButton.setImage(UIImage(named: "reload.png"), for: UIControlState())
+        reloadButton.setImage(UIImage(named: "reload@2x.png"), for: UIControlState())
         reloadButton.setTitleColor(.darkGray, for: UIControlState())
         reloadButton.addTarget(self, action: #selector(onClickReload), for: .touchUpInside)
         reloadButton.frame = CGRect(x: 0, y: 0, width: 22, height: 22)
         reloadButton.imageView?.contentMode = .scaleAspectFit
         
+        self.navigationItem.leftBarButtonItems =
+            [UIBarButtonItem(customView: reloadButton)]
+        
         let seachButton = UIButton(type: .custom)
-        seachButton.setImage(UIImage(named: "search.png"), for: UIControlState())
+        seachButton.setImage(UIImage(named: "search@2x.png"), for: UIControlState())
         seachButton.setTitleColor(.darkGray, for: UIControlState())
         seachButton.addTarget(self, action: #selector(onClickSearch), for: .touchUpInside)
         seachButton.frame = CGRect(x: 0, y: 0, width: 22, height: 22)
         seachButton.imageView?.contentMode = .scaleAspectFit
         
         self.navigationItem.rightBarButtonItems =
-            [UIBarButtonItem(customView: seachButton), UIBarButtonItem(customView: reloadButton)]
+            [UIBarButtonItem(customView: seachButton)]
     }
     
     internal func createRefreshButton() {
         let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 150, height: 40))
         btn.trackTouchLocation = true
-        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
-        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
-        btn.rippleColor = LayoutManager.getUIColorFromRGB(0xB54241)
+        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1, alpha: 0.8)
+        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1, alpha: 0.8)
+        btn.rippleColor = LayoutManager.getUIColorFromRGB(0x1976D2)
         btn.setTitle("再表示", for: UIControlState())
         btn.addTarget(self, action: #selector(self.refresh), for: .touchUpInside)
         btn.layer.cornerRadius = 5.0

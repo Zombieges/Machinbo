@@ -34,8 +34,6 @@ class SettingsViewController: UIViewController, UINavigationControllerDelegate, 
             self.view = view
         }
         
-        self.navigationItem.title = "オプション"
-        
         let noCreateView = UIView(frame: CGRect.zero)
         noCreateView.backgroundColor = UIColor.clear
         self.tableView.tableFooterView = noCreateView

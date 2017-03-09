@@ -1,6 +1,44 @@
-{
-    "type": "MultiPolygon",
-    "coordinates": [
-        
-    ]
-}
+ [
+  {
+  "featureType": "road.arterial",
+  "elementType": "labels",
+  "stylers": [
+              {
+              "visibility": "off"
+              }
+              ]
+  },
+  {
+  "featureType": "road.highway",
+  "stylers": [
+              {
+              "color": "#c9ccc7"
+              }
+              ]
+  },
+  {
+  "featureType": "road.highway",
+  "elementType": "labels",
+  "stylers": [
+              {
+              "visibility": "off"
+              }
+              ]
+  },
+  {
+  "featureType": "road.local",
+  "stylers": [
+              {
+              "visibility": "off"
+              }
+              ]
+  },
+  {
+  "featureType": "water",
+  "stylers": [
+              {
+              "color": "#c3ddff"
+              }
+              ]
+  }
+  ]

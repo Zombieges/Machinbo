@@ -25,9 +25,14 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     private lazy var segment: UISegmentedControl = {
         let segment = UISegmentedControl(items: ["マッチング", "送信済み", "受信済み"])
-        segment.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width - 20, height: 40)
         segment.setTitleTextAttributes(NSDictionary(object: UIFont.boldSystemFont(ofSize: 15), forKey: NSFontAttributeName as NSCopying) as? [AnyHashable : Any], for: .normal)
-        
+        Array(0..<3).forEach {
+            segment.setWidth((UIScreen.main.bounds.size.width - 20) / 3, forSegmentAt: $0)
+        }
+        segment.backgroundColor = .white
+        segment.layer.cornerRadius = 5.0
+        segment.clipsToBounds = true
+        segment.tintColor = LayoutManager.getUIColorFromRGB(0x0D47A1, alpha: 0.8)
         segment.sizeToFit()
         segment.selectedSegmentIndex = 0;
         segment.addTarget(self, action: #selector(self.segmentChanged), for: .valueChanged)

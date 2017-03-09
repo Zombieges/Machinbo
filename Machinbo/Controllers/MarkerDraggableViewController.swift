@@ -29,7 +29,7 @@ class MarkerDraggableViewController: UIViewController, GMSMapViewDelegate, CLLoc
             self.view = view
         }
         
-        self.navigationItem.title = "ピンの場所を選択"
+        //self.navigationItem.title = "ピンの場所を選択"
         
         if self.isInternetConnect() {
             LocationManager.sharedInstance.startUpdatingLocation()
@@ -57,6 +57,17 @@ class MarkerDraggableViewController: UIViewController, GMSMapViewDelegate, CLLoc
         self.gmaps.settings.myLocationButton = true
         self.gmaps.camera = camera
         self.gmaps.delegate = self
+        do {
+            // Set the map style by passing the URL of the local file.
+            if let styleURL = Bundle.main.url(forResource: "style", withExtension: "geojson") {
+                gmaps.mapStyle = try GMSMapStyle(contentsOfFileURL: styleURL)
+                
+            } else {
+                NSLog("Unable to find style.json")
+            }
+        } catch {
+            NSLog("One or more of the map styles failed to load. \(error)")
+        }
         self.gmaps.animate(toLocation: myPosition)
         
         self.view.addSubview(self.gmaps)
@@ -77,7 +88,7 @@ class MarkerDraggableViewController: UIViewController, GMSMapViewDelegate, CLLoc
         
         if self.pinImage == nil {
             
-            self.pinImage = UIImageView(image: UIImage(named: "mappin.png"))
+            self.pinImage = UIImageView(image: UIImage(named: "mappin@2x.png"))
             self.pinImage.isUserInteractionEnabled = true
             
 //            let gesture = UITapGestureRecognizer(target:self, action: #selector(self.didClickImageView))
@@ -105,8 +116,8 @@ class MarkerDraggableViewController: UIViewController, GMSMapViewDelegate, CLLoc
     private func createEntryThisPointButton() {
         let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: displayWidth - 20, height: 50))
         btn.trackTouchLocation = true
-        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1)
-        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1)
+        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1, alpha: 0.8)
+        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1, alpha: 0.8)
         btn.rippleColor = LayoutManager.getUIColorFromRGB(0x1976D2)
         btn.setTitle("待ち合わせ場所決定", for: UIControlState())
         btn.addTarget(self, action: #selector(self.didClickImageView), for: UIControlEvents.touchUpInside)

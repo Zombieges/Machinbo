@@ -55,7 +55,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         self.initTableView()
         
         
-        self.navigationItem.title = "プロフィール"
+        //self.navigationItem.title = "プロフィール"
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.darkGray]
         navigationController?.navigationBar.tintColor = UIColor.darkGray
         
@@ -144,7 +144,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     private func setNavigationItemSettingButton() {
         /* 設定ボタンを付与 */
         let settingsButton: UIButton = UIButton(type: .custom)
-        settingsButton.setImage(UIImage(named: "santen.png"), for: UIControlState())
+        settingsButton.setImage(UIImage(named: "settings@2x.png"), for: UIControlState())
         settingsButton.addTarget(self, action: #selector(ProfileViewController.onClickSettingView), for: UIControlEvents.touchUpInside)
         settingsButton.frame = CGRect(x: 0, y: 0, width: 22, height: 22)
         

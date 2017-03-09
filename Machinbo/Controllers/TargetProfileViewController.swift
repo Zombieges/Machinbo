@@ -638,6 +638,17 @@ class TargetProfileViewController:
         gmaps.isMyLocationEnabled = false
         gmaps.settings.myLocationButton = false
         gmaps.delegate = self
+        do {
+            // Set the map style by passing the URL of the local file.
+            if let styleURL = Bundle.main.url(forResource: "style", withExtension: "geojson") {
+                gmaps.mapStyle = try GMSMapStyle(contentsOfFileURL: styleURL)
+                
+            } else {
+                NSLog("Unable to find style.json")
+            }
+        } catch {
+            NSLog("One or more of the map styles failed to load. \(error)")
+        }
         
         if type == ProfileType.meetupProfile || type == ProfileType.receiveProfile {
             //↓こっちは待ち合わせ画面から来た場合

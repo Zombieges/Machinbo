@@ -5,7 +5,7 @@ use_frameworks!
 
 target 'Machinbo' do
     pod 'Bolts'
-    pod 'GoogleMaps’, “1.13.2”
+    pod 'GoogleMaps’
     pod 'MBProgressHUD'
     pod 'Parse'
     pod 'Google-Mobile-Ads-SDK'

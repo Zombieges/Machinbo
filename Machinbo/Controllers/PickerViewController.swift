@@ -155,7 +155,7 @@ UISearchBarDelegate {
         } else if self.kind == "notificationSettings" {
             let status = UIApplication.shared.currentUserNotificationSettings?.types
             if (status?.contains(.alert))! {
-                print("Alert ON")
+               /* print("Alert ON")
                 
                 let navHaight = self.navigationController?.navigationBar.frame.size.height
                 self.tableView = UITableView(frame: CGRect(x: 0, y: 0, width: displayWidth, height: displayHeight - navHaight!))
@@ -168,7 +168,40 @@ UISearchBarDelegate {
                 self.tableView.tableFooterView = notificationTableView
                 self.tableView.tableHeaderView = notificationTableView
                 self.view.addSubview(self.tableView)
-                self.tableView.reloadData()
+                self.tableView.reloadData()*/
+                
+                
+                
+                let label = UILabel(frame: CGRect(x: 10, y: 20, width:  displayWidth - 10,height:  10));
+                label.text = "Machinbo から通知を受信する設定になっています。通知を受信をしたくない場合は、アプリの設定を無効にしてください。"
+                label.font = UIFont.italicSystemFont(ofSize: UIFont.labelFontSize)
+                label.numberOfLines = 0
+                label.sizeToFit()
+                self.view.addSubview(label)
+                
+                
+                
+                let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: displayWidth - 20, height: 50))
+                btn.trackTouchLocation = true
+                
+                btn.layer.borderColor = LayoutManager.getUIColorFromRGB(0x0D47A1).cgColor
+                btn.layer.borderWidth = 1.0
+                btn.setTitleColor(LayoutManager.getUIColorFromRGB(0x0D47A1), for: UIControlState())
+                btn.setTitle("通知設定画面", for: UIControlState())
+                
+                btn.layer.cornerRadius = 0
+                btn.layer.masksToBounds = true
+                btn.layer.position = CGPoint(x: displayWidth/2, y: 200)
+                
+                btn.addTarget(self, action: #selector(openAppSettingPage), for: UIControlEvents.touchUpInside)
+                
+                
+                
+                self.view.addSubview(btn)
+
+                
+                // open app setting buttom
+                //createNotificationSettingsButton(displayWidth: displayWidth, displayHeight: 200,backgroundColor: 0x0D47A1,rippleColor:  0x1976D2)
                 
             } else{
                 
@@ -179,8 +212,26 @@ UISearchBarDelegate {
                 label.sizeToFit()
                 self.view.addSubview(label)
                 
+                
+                let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: displayWidth - 20, height: 50))
+                btn.trackTouchLocation = true
+                btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1, alpha: 0.8)
+                btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1, alpha: 0.8)
+                btn.rippleColor = LayoutManager.getUIColorFromRGB(0x1976D2)
+                btn.setTitle("通知設定画面", for: UIControlState())
+                //btn.addTarget(self, action: #selector(self.didClickImageView), for: UIControlEvents.touchUpInside)
+                btn.layer.cornerRadius = 0
+                btn.layer.masksToBounds = true
+                btn.layer.position = CGPoint(x: displayWidth/2, y: 200)
+                
+                btn.addTarget(self, action: #selector(openAppSettingPage), for: UIControlEvents.touchUpInside)
+                
+                
+                
+                self.view.addSubview(btn)
+                
                 // open app setting buttom
-                createNotificationSettingsButton(displayWidth: displayWidth, displayHeight: 200)
+                //createNotificationSettingsButton(displayWidth: displayWidth, displayHeight: 200,backgroundColor: 0x0D47A1,rippleColor: 0x1976D2)
             }
         }
     }
@@ -453,6 +504,7 @@ UISearchBarDelegate {
                 // イマ行く対象のIDを local DB へセット
                 userInfo.targetUserID = targetUserID!
                 
+                
                 // Send Notification
                 NotificationHelper.sendSpecificDevice(name! + "さんより「いまから行く」されました", deviceTokenAsString: targetDeviceToken!, badges: 1 as Int)
                 
@@ -505,17 +557,23 @@ UISearchBarDelegate {
     }
     
     
-    func createNotificationSettingsButton(displayWidth: CGFloat, displayHeight: CGFloat) {
-        let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 350, height: 40))
+    func createNotificationSettingsButton(displayWidth: CGFloat, displayHeight: CGFloat, backgroundColor: CGFloat,rippleColor: CGFloat) {
+        
+        
+        let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: displayWidth - 20, height: 50))
         btn.trackTouchLocation = true
-        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1, alpha: 0.8)
-        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1, alpha: 0.8)
-        btn.rippleColor = LayoutManager.getUIColorFromRGB(0x1976D2)
-        btn.setTitle("go to ios settings", for: .normal)
-        btn.layer.cornerRadius = 5.0
+        btn.backgroundColor = LayoutManager.getUIColorFromRGB(UInt(backgroundColor), alpha: 0.8)
+        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(UInt(backgroundColor), alpha: 0.8)
+        btn.rippleColor = LayoutManager.getUIColorFromRGB(UInt(rippleColor))
+        btn.setTitle("通知設定画面", for: UIControlState())
+        //btn.addTarget(self, action: #selector(self.didClickImageView), for: UIControlEvents.touchUpInside)
+        btn.layer.cornerRadius = 0
         btn.layer.masksToBounds = true
         btn.layer.position = CGPoint(x: displayWidth/2, y: displayHeight)
+
         btn.addTarget(self, action: #selector(openAppSettingPage), for: UIControlEvents.touchUpInside)
+        
+        
         
         self.view.addSubview(btn)
     }

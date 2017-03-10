@@ -155,21 +155,6 @@ UISearchBarDelegate {
         } else if self.kind == "notificationSettings" {
             let status = UIApplication.shared.currentUserNotificationSettings?.types
             if (status?.contains(.alert))! {
-               /* print("Alert ON")
-                
-                let navHaight = self.navigationController?.navigationBar.frame.size.height
-                self.tableView = UITableView(frame: CGRect(x: 0, y: 0, width: displayWidth, height: displayHeight - navHaight!))
-                self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
-                self.tableView.dataSource = self
-                self.tableView.delegate = self
-                
-                let notificationTableView = UIView(frame: CGRect.zero)
-                notificationTableView.backgroundColor = UIColor.clear
-                self.tableView.tableFooterView = notificationTableView
-                self.tableView.tableHeaderView = notificationTableView
-                self.view.addSubview(self.tableView)
-                self.tableView.reloadData()*/
-                
                 
                 
                 let label = UILabel(frame: CGRect(x: 10, y: 20, width:  displayWidth - 10,height:  10));
@@ -195,13 +180,8 @@ UISearchBarDelegate {
                 
                 btn.addTarget(self, action: #selector(openAppSettingPage), for: UIControlEvents.touchUpInside)
                 
-                
-                
                 self.view.addSubview(btn)
 
-                
-                // open app setting buttom
-                //createNotificationSettingsButton(displayWidth: displayWidth, displayHeight: 200,backgroundColor: 0x0D47A1,rippleColor:  0x1976D2)
                 
             } else{
                 
@@ -226,12 +206,8 @@ UISearchBarDelegate {
                 
                 btn.addTarget(self, action: #selector(openAppSettingPage), for: UIControlEvents.touchUpInside)
                 
-                
-                
                 self.view.addSubview(btn)
                 
-                // open app setting buttom
-                //createNotificationSettingsButton(displayWidth: displayWidth, displayHeight: 200,backgroundColor: 0x0D47A1,rippleColor: 0x1976D2)
             }
         }
     }
@@ -554,28 +530,6 @@ UISearchBarDelegate {
         }
         
         self.view.endEditing(true)
-    }
-    
-    
-    func createNotificationSettingsButton(displayWidth: CGFloat, displayHeight: CGFloat, backgroundColor: CGFloat,rippleColor: CGFloat) {
-        
-        
-        let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: displayWidth - 20, height: 50))
-        btn.trackTouchLocation = true
-        btn.backgroundColor = LayoutManager.getUIColorFromRGB(UInt(backgroundColor), alpha: 0.8)
-        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(UInt(backgroundColor), alpha: 0.8)
-        btn.rippleColor = LayoutManager.getUIColorFromRGB(UInt(rippleColor))
-        btn.setTitle("通知設定画面", for: UIControlState())
-        //btn.addTarget(self, action: #selector(self.didClickImageView), for: UIControlEvents.touchUpInside)
-        btn.layer.cornerRadius = 0
-        btn.layer.masksToBounds = true
-        btn.layer.position = CGPoint(x: displayWidth/2, y: displayHeight)
-
-        btn.addTarget(self, action: #selector(openAppSettingPage), for: UIControlEvents.touchUpInside)
-        
-        
-        
-        self.view.addSubview(btn)
     }
     
     func openAppSettingPage() -> Void {

@@ -54,8 +54,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         self.setProfileGesture()
         self.initTableView()
         
-        
-        //self.navigationItem.title = "プロフィール"
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.darkGray]
         navigationController?.navigationBar.tintColor = UIColor.darkGray
         
@@ -72,6 +70,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             return
         }
 
+        
         self.startButton.isHidden = true
         
         // 通常の画面遷移
@@ -83,6 +82,8 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         self.selectedGender = String(userData.gender)
         self.inputComment = userData.comment
         self.twitterName = userData.twitterName
+        
+        self.navigationItem.title = self.inputName
         
         setNavigationItemSettingButton()
         setRecruitment()

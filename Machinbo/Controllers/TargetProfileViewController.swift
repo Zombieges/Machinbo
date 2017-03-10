@@ -267,7 +267,7 @@ class TargetProfileViewController:
     func setNavigationButton() {
         let settingsButton = UIButton(type: .custom)
         settingsButton.setImage(UIImage(named: "santen.png"), for: UIControlState())
-        settingsButton.addTarget(self, action: #selector(TargetProfileViewController.onClickSettingAction), for: .touchUpInside)
+        settingsButton.addTarget(self, action: #selector(self.onClickSettingAction), for: .touchUpInside)
         settingsButton.frame = CGRect(x: 0, y: 0, width: 22, height: 22)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: settingsButton)
     }
@@ -329,16 +329,16 @@ class TargetProfileViewController:
     }
     
     func createApprovedButton(mapViewHeight: CGFloat) {
-        let btn = UIButton()
-        btn.addTarget(self, action: #selector(self.clickApproveButton), for: .touchUpInside)
-        btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.center
+        let btn = ZFRippleButton()
+        btn.trackTouchLocation = true
+        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1, alpha: 0.8)
+        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1, alpha: 0.8)
+        btn.rippleColor = LayoutManager.getUIColorFromRGB(0x1976D2)
         btn.setTitle("承認する", for: UIControlState())
-        btn.titleLabel!.font = UIFont.systemFont(ofSize: 15)
-        btn.layer.cornerRadius = 5.0
-        btn.layer.borderColor = UIView().tintColor.cgColor
-        btn.layer.borderWidth = 1.0
-        btn.tintColor = UIView().tintColor
-        btn.setTitleColor(UIView().tintColor, for: UIControlState())
+        btn.addTarget(self, action: #selector(self.clickApproveButton), for: .touchUpInside)
+        btn.layer.cornerRadius = 0
+        btn.layer.masksToBounds = true
+        btn.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height - self.view.bounds.height/7.3)
         
         let imadokoBtnX = self.displayWidth - round(self.displayWidth / 3.8)
         let imadokoBtnWidth = round(self.displayWidth / 4)
@@ -369,16 +369,13 @@ class TargetProfileViewController:
     }
     
     func createSendGeoPointButton(mapViewHeight: CGFloat) {
-        let btn = UIButton()
-        btn.addTarget(self, action: #selector(self.clickimakokoButton), for: .touchUpInside)
-        btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.center
+        let btn = ZFRippleButton()
+        btn.trackTouchLocation = true
+        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1, alpha: 0.8)
+        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1, alpha: 0.8)
+        btn.rippleColor = LayoutManager.getUIColorFromRGB(0x1976D2)
         btn.setTitle("位置送信", for: UIControlState())
-        btn.titleLabel!.font = UIFont.systemFont(ofSize: 15)
-        btn.layer.cornerRadius = 5.0
-        btn.layer.borderColor = UIView().tintColor.cgColor
-        btn.layer.borderWidth = 1.0
-        btn.tintColor = UIView().tintColor
-        btn.setTitleColor(UIView().tintColor, for: UIControlState())
+        btn.addTarget(self, action: #selector(self.clickimakokoButton), for: .touchUpInside)
         
         let imadokoBtnX = self.displayWidth - round(self.displayWidth / 3.5)
         let imadokoBtnWidth = round(self.displayWidth / 4)
@@ -393,15 +390,13 @@ class TargetProfileViewController:
         let imadokoBtnWidth = round(self.displayWidth / 4)
         let imadokotnHeight = round(self.displayHeight / 17)
         
-        let btn = ZFRippleButton(frame: CGRect(x: imadokoBtnX, y: mapViewHeight + 10, width: imadokoBtnWidth, height: imadokotnHeight))
-        btn.setTitle("位置確認", for: UIControlState())
+        let btn = UIButton(frame:  CGRect(x: imadokoBtnX, y: mapViewHeight + 10, width: imadokoBtnWidth, height: imadokotnHeight))
         btn.addTarget(self, action: #selector(self.clickimadokoButton), for: .touchUpInside)
-        btn.trackTouchLocation = true
-        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1)
-        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1)
-        btn.rippleColor = LayoutManager.getUIColorFromRGB(0x1976D2)
-        btn.layer.cornerRadius = 5.0
-        btn.layer.masksToBounds = true
+        btn.contentHorizontalAlignment = UIControlContentHorizontalAlignment.center
+        btn.setTitle("位置確認", for: UIControlState())
+        btn.layer.borderColor = LayoutManager.getUIColorFromRGB(0x0D47A1).cgColor
+        btn.layer.borderWidth = 1.0
+        btn.setTitleColor(LayoutManager.getUIColorFromRGB(0x0D47A1), for: UIControlState())
         
         self.myHeaderView.addSubview(btn)
     }
@@ -440,19 +435,21 @@ class TargetProfileViewController:
             guard error == nil else { print("Error information"); return }
             guard let result = result else { print("no data"); return }
             
-            let userID = result.object(forKey: "UserID") as! String
-            let targetUserID = result.object(forKey: "TargetUserID") as! String
+            self.gonowInfo = GonowData(parseObject: result)
+            
+            let userID = self.gonowInfo?.UserID
+            let targetUserID = self.gonowInfo?.TargetUserID
             let geoPoint = PFGeoPoint(latitude: latitude, longitude: longitude)
             
             //現在位置確認をする際、この待ち合わせを募集した人はuserGoNow→GoNowReceiveへ値を更新し、
             //募集に対していまから行くをした人は、targetGoNow→GoNowSendへ値を更新する
             if userID == PersistentData.User().userID {
-                if let query = result.object(forKey: "userGoNow") as? PFObject {
+                if let query = self.gonowInfo?.UserGoNow {
                     query["userGeoPoint"] = geoPoint
                     query.saveInBackground { (success: Bool, error: Error?) -> Void in
                         defer { MBProgressHUDHelper.hide() }
                         guard error == nil else { return }
-                        
+
                         UIAlertController.showAlertView("", message: "現在位置を相手に送信しました")
                     }
                     
@@ -478,7 +475,7 @@ class TargetProfileViewController:
                 }
                 
             } else if targetUserID == PersistentData.User().userID {
-                if let query = result.object(forKey: "targetGoNow") as? PFObject {
+                if let query = self.gonowInfo?.TargetGoNow {
                     query["userGeoPoint"] = geoPoint
                     query.saveInBackground { (success: Bool, error: Error?) -> Void in
                         defer { MBProgressHUDHelper.hide() }
@@ -506,6 +503,10 @@ class TargetProfileViewController:
                     }
                 }
             }
+            
+            self.setGoogleMap()
+            self.setImageProfile()
+            self.refreshControl.endRefreshing()
         }
     }
     
@@ -639,7 +640,6 @@ class TargetProfileViewController:
         gmaps.settings.myLocationButton = false
         gmaps.delegate = self
         do {
-            // Set the map style by passing the URL of the local file.
             if let styleURL = Bundle.main.url(forResource: "style", withExtension: "geojson") {
                 gmaps.mapStyle = try GMSMapStyle(contentsOfFileURL: styleURL)
                 
@@ -653,6 +653,7 @@ class TargetProfileViewController:
         if type == ProfileType.meetupProfile || type == ProfileType.receiveProfile {
             //↓こっちは待ち合わせ画面から来た場合
             GoogleMapsHelper.setUserPin(gmaps, gonowInfo: (self.gonowInfo?.pfObject)!)
+            
         } else {
             GoogleMapsHelper.setUserMarker(gmaps, user: targetUserInfo! as PFObject, isSelect: true)
         }

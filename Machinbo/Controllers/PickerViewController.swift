@@ -390,18 +390,6 @@ UISearchBarDelegate {
             
             cell?.textLabel!.text = "\(self.myItems[indexPath.row])"
             
-            if self.kind == "notificationSettings" {
-                
-                // settings able
-                let sw = UISwitch(frame: CGRect(x:0,y: 0,width: 60,height: 40))
-                
-                //sw.center = CGPointMake(displayWidth - 50, cell!.frame.height/2)
-                sw.center = CGPoint(x: displayWidth - 50,y: cell!.frame.height/2)
-                
-                sw.addTarget(self, action: #selector(PickerViewController.onChangeNotificationSwich), for: UIControlEvents.touchUpInside)
-                cell?.addSubview(sw)
-            }
-            
             return cell!
         }
         
@@ -541,11 +529,5 @@ UISearchBarDelegate {
         } else {
             UIApplication.shared.openURL(url as URL)
         }
-    }
-    func onChangeNotificationSwich(sender: UISwitch) {
-        
-        // save to local db
-        var userInfo = PersistentData.User()
-        userInfo.isReceiveMassageHide = sender.isOn
     }
 }

@@ -98,7 +98,11 @@
         mainNavigationCtrl.navigationBar.setBackgroundImage(UIImage(named: "BarBackground"),
                                                             for: .default)
         mainNavigationCtrl.navigationBar.shadowImage = UIImage()
-        mainNavigationCtrl.tabBarItem = UITabBarItem(title: "ホーム", image: UIImage(named: "home@2x.png"), tag: 1)
+        
+        let mainTabBar = UITabBarItem(title: "ホーム", image: UIImage(named: "home@2x.png"), tag: 0)
+        mainTabBar.setTitleTextAttributes([NSForegroundColorAttributeName : LayoutManager.getUIColorFromRGB(0x0D47A1)], for: .selected)
+        mainNavigationCtrl.tabBarItem = mainTabBar
+        
         
         let markerDragConroller = storyboard.instantiateViewController(withIdentifier: "entry") as! MarkerDraggableViewController
         
@@ -111,8 +115,12 @@
         editNavigationCtrl.navigationBar.setBackgroundImage(UIImage(named: "BarBackground"),
                                                             for: .default)
         editNavigationCtrl.navigationBar.shadowImage = UIImage()
-        editNavigationCtrl.tabBarItem = UITabBarItem(title: "登録", image: UIImage(named: "edit@2x.png"), tag: 1)
         
+        let editTabBar = UITabBarItem(title: "登録", image: UIImage(named: "edit@2x.png"), tag: 1)
+        editTabBar.setTitleTextAttributes([NSForegroundColorAttributeName : LayoutManager.getUIColorFromRGB(0x0D47A1)], for: .selected)
+        editNavigationCtrl.tabBarItem = editTabBar
+        
+
         let meetupViewController = storyboard.instantiateViewController(withIdentifier: "meetup") as! MeetupViewController
         
         let meetupNavigationCtrl = UINavigationController(rootViewController: meetupViewController)
@@ -124,7 +132,11 @@
         meetupNavigationCtrl.navigationBar.setBackgroundImage(UIImage(named: "BarBackground"),
                                                               for: .default)
         meetupNavigationCtrl.navigationBar.shadowImage = UIImage()
-        meetupNavigationCtrl.tabBarItem = UITabBarItem(title: "待ち合わせ", image: UIImage(named: "meetup@2x.png"), tag: 2)
+        
+        let meetupTabBar = UITabBarItem(title: "待ち合わせ", image: UIImage(named: "meetup@2x.png"), tag: 2)
+        meetupTabBar.setTitleTextAttributes([NSForegroundColorAttributeName : LayoutManager.getUIColorFromRGB(0x0D47A1)], for: .selected)
+        meetupNavigationCtrl.tabBarItem = meetupTabBar
+        
         
         let profileViewController = storyboard.instantiateViewController(withIdentifier: "profile") as! ProfileViewController
         
@@ -137,8 +149,11 @@
         profileNavigationCtrl.navigationBar.setBackgroundImage(UIImage(named: "BarBackground"),
                                                                for: .default)
         profileNavigationCtrl.navigationBar.shadowImage = UIImage()
-        profileNavigationCtrl.tabBarItem = UITabBarItem(title: "プロフィール", image: UIImage(named: "profile_icon@2x.png"), tag: 3)
+        let profileTabBar = UITabBarItem(title: "プロフィール", image: UIImage(named: "profile_icon@2x.png"), tag: 3)
+        profileTabBar.setTitleTextAttributes([NSForegroundColorAttributeName : LayoutManager.getUIColorFromRGB(0x0D47A1)], for: .selected)
+        profileNavigationCtrl.tabBarItem = profileTabBar
         
+        UITabBar.appearance().tintColor = LayoutManager.getUIColorFromRGB(0x0D47A1)
         
         let tabBarController = UITabBarController()
         tabBarController.setViewControllers([mainNavigationCtrl, editNavigationCtrl, meetupNavigationCtrl, profileNavigationCtrl], animated: false)

@@ -46,13 +46,13 @@ class GonowData {
         set(v) { pfObject.setValue(v, forKey: "TargetUserID") }
     }
     
-    var UserGoNow: PFObject {
-        get { return pfObject.object(forKey: "userGoNow") as! PFObject }
+    var UserGoNow: PFObject? {
+        get { return pfObject.object(forKey: "userGoNow") as? PFObject }
         set(v) { pfObject.setValue(v, forKey: "userGoNow") }
     }
     
-    var TargetGoNow: PFObject {
-        get { return pfObject.object(forKey: "targetGoNow") as! PFObject }
+    var TargetGoNow: PFObject? {
+        get { return pfObject.object(forKey: "targetGoNow") as? PFObject }
         set(v) { pfObject.setValue(v, forKey: "targetGoNow") }
     }
 }

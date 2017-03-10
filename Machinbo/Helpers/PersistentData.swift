@@ -213,15 +213,6 @@ class PersistentData {
                 UserDefaults.standard.synchronize()
             }
         }
-        var isReceiveMassageHide : Bool {
-            get {
-                return UserDefaults.standard.bool(forKey: "targetDeviceToken")
-            }
-            set {
-                UserDefaults.standard.set(newValue , forKey: "isReceiveMassageHide")
-                UserDefaults.standard.synchronize()
-            }
-        }
         var blockUserList: [String] {
             get {
                 return UserDefaults.standard.stringArray(forKey: "blockUserList") ?? []

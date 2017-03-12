@@ -115,8 +115,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     }
     
     func onClickSearch() {
-        let vc = PickerViewController()
-        vc.palKind = "search"
+        let vc = PickerViewController(kind: PickerKind.search)
         self.navigationController!.pushViewController(vc, animated: false)
     }
     

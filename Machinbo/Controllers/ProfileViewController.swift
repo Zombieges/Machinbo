@@ -31,7 +31,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     let picker = UIImagePickerController()
     var window: UIWindow?
     var FarstTimeStart = false
-    var myItems = [String]()
     
     var gender = ""
     var age = ""
@@ -404,49 +403,29 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     
     // セルがタップされた時
     internal func tableView(_ table: UITableView, didSelectRowAt indexPath:IndexPath) {
-        let vc = PickerViewController()
-        myItems = []
+        
         
         if indexPath.section == 1 {
             if indexPath.row == 0 {
-                
-                vc.palmItems = myItems
-                vc.palKind = "name"
-                vc.palInput = inputName as AnyObject
+                let vc = PickerViewController(kind: PickerKind.name, inputValue: inputName as AnyObject)
                 vc.delegate = self
                 
                 navigationController?.pushViewController(vc, animated: true)
                 
             } else if indexPath.row == 1 {
-                
-                myItems = ["男性","女性"]
-                vc.palmItems = myItems
-                vc.palKind = "gender"
+                let vc = PickerViewController(kind: PickerKind.gender)
                 vc.delegate = self
                 
                 navigationController?.pushViewController(vc, animated: true)
                 
             } else if indexPath.row == 2 {
-                
-                let date = Date()      // 現在日時
-                let calendar = Calendar.current
-                let comp : DateComponents = (calendar as NSCalendar).components(
-                    NSCalendar.Unit.year, from: date)
-                
-                for i in 0...50 {
-                    myItems.append((String(comp.year! - i)))
-                }
-                
-                vc.palmItems = myItems
-                vc.palKind = "age"
+                let vc = PickerViewController(kind: PickerKind.age)
                 vc.delegate = self
                 
                 navigationController?.pushViewController(vc, animated: true)
                 
             } else if indexPath.row == 3 {
-                vc.palmItems = myItems
-                vc.palKind = "comment"
-                vc.palInput = inputComment as AnyObject
+                let vc = PickerViewController(kind: PickerKind.comment, inputValue: inputComment as AnyObject)
                 vc.delegate = self
                 
                 navigationController?.pushViewController(vc, animated: true)
@@ -462,15 +441,16 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     
     
     @IBAction func pushStart(_ sender: AnyObject) {
-        // 必須チェック
         guard !inputName.isEmpty else {
             UIAlertController.showAlertView("", message: "名前を入力してください")
             return
         }
+        
         guard !selectedGender.isEmpty else {
             UIAlertController.showAlertView("", message: "性別を選択してください")
             return
         }
+        
         guard !selectedAge.isEmpty else {
             UIAlertController.showAlertView("", message: "生まれた年を選択してください")
             return

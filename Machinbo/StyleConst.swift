@@ -26,4 +26,21 @@ final class StyleConst {
     }
     
     //-----------------------------------------------------<
+    
+    static var displayWideZFRippleButton = { (title: String!) -> ZFRippleButton in
+        let displayWidth = UIScreen.main.bounds.size.width
+        
+        let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: displayWidth - 20, height: 50))
+        btn.trackTouchLocation = true
+        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1, alpha: 0.8)
+        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1, alpha: 0.8)
+        btn.rippleColor = LayoutManager.getUIColorFromRGB(0x1976D2)
+        btn.setTitle(title, for: UIControlState())
+        btn.layer.cornerRadius = 0
+        btn.layer.masksToBounds = true
+        btn.layer.position = CGPoint(x: displayWidth/2, y: 200)
+        
+        return btn
+    }
+    
 }

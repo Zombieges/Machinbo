@@ -141,17 +141,12 @@ class SettingsViewController: UIViewController, UINavigationControllerDelegate, 
             
         }  else if indexPath.section == 1 {
             
-            let vc = PickerViewController()
-            vc.palKind = "notificationSettings"
-            vc.palmItems = ["メッセージ内容の表示"]
-            
+            let vc = PickerViewController(kind: PickerKind.notificationSettings)
             self.navigationController!.pushViewController(vc, animated: true)
             
         } else if indexPath.section == 2 {
             if indexPath.row == 0 {
-                let vc = PickerViewController()
-                vc.palKind = "yakkan"
-                
+                let vc = PickerViewController(kind: PickerKind.yakkan)
                 self.navigationController!.pushViewController(vc, animated: true)
             }
             

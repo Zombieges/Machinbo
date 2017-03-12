@@ -14,10 +14,25 @@ import MBProgressHUD
 import GoogleMobileAds
 import UserNotifications
 
-extension PickerViewController: TransisionProtocol {}
-
 enum SelectPickerType { case gender, age }
 enum InputPickerType { case comment, name }
+
+enum PickerKind {
+    case gender
+    case age
+    case name
+    case comment
+    case imakokoDateFrom
+    case imakokoDateTo
+    case imakoko
+    case imaiku
+    case imageView
+    case search
+    case notificationSettings
+    case yakkan
+}
+
+extension PickerViewController: TransisionProtocol {}
 
 protocol PickerViewControllerDelegate{
     func setInputValue(_ inputValue: String, type: InputPickerType)
@@ -33,38 +48,41 @@ class PickerViewController: UIViewController,
 UISearchBarDelegate {
     
     var delegate: PickerViewControllerDelegate?
-    
     var _interstitial: GADInterstitial?
-    let saveButton = UIButton()
-    var selectedAgeIndex: Int?
-    var selectedAge:String = ""
-    var selectedGenderIndex: Int?
-    var selectedGender: String = ""
     
-    var inputTextField = UITextField()
-    var inputTextView = UITextView()
-    var inputPlace = UITextView()
-    var inputMyCodinate = UITextView()
-    var inputMyDatePicker = UIDatePicker()
-    var realTextView = UITextView()
-    
+    private var inputTextView = UITextView()
+    private var inputTextField = UITextField()
+    private var inputPlace = UITextView()
+    private var inputMyCodinate = UITextView()
+    private var inputMyDatePicker = UIDatePicker()
+    private var realTextView = UITextView()
     private var searchBarField = UISearchBar()
     
     // Tableで使用する配列を設定する
     private var tableView: UITableView!
-    private var myItems: NSArray = []
-    private var kind: String = ""
-    private var Input: AnyObject = "" as AnyObject
-    var palmItems:[String] = []
-    var palKind: String = ""
-    var palInput: AnyObject = "" as AnyObject
-    var palTargetUser: PFObject?
-    
+    private var myItems = [String]()
+    private var inputValue: AnyObject = "" as AnyObject
+
     private let displayWidth = UIScreen.main.bounds.size.width
     private let displayHeight = UIScreen.main.bounds.size.height
     
-    private var selectedItem: String!
     private let sections = [" ", " "]
+    
+    var palKind: PickerKind!
+    var palInput: AnyObject = "" as AnyObject
+    var palTargetUser: PFObject?
+    
+    init(kind: PickerKind, inputValue: AnyObject = "" as AnyObject) {
+        self.palKind = kind
+        self.palInput = inputValue
+        //self.palTargetUser = targetUser
+        
+        super.init(nibName: nil, bundle: nil)  
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,47 +94,48 @@ UISearchBarDelegate {
         //フル画面広告を取得
         _interstitial = showFullAdmob()
         
-        self.myItems = palmItems as NSArray
-        self.kind = palKind
-        self.Input = palInput
+        self.inputValue = palInput
         
-        let navBarHeight = self.navigationController?.navigationBar.frame.size.height
-        
-        
-        if (self.kind == "gender" || self.kind == "age") {
-            // TableViewの生成す
-            let rect = CGRect(x: 0, y: 0, width: displayWidth, height: displayHeight - navBarHeight!)
-            self.tableView = UITableView(frame:rect, style: .grouped)
-            self.tableView.layer.backgroundColor = UIColor.lightGray.cgColor
-            self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
-            self.tableView.dataSource = self   // DataSourceの設定をする.
-            self.tableView.delegate = self     // Delegateを設定する.
+        if self.palKind == .gender {
+            self.navigationItem.title = "性別"
+            self.myItems = ["男性","女性"]
+            self.setTableView()
 
-            self.view.addSubview(tableView)
+        } else if self.palKind == .age {
+            self.navigationItem.title = "年齢"
+            let comp = (Calendar.current as NSCalendar).components(NSCalendar.Unit.year, from: Date())
+            for i in 0...50 {
+                self.myItems.append((String(comp.year! - i)))
+            }
+            self.setTableView()
+
+        } else if self.palKind == .name {
+            self.navigationItem.title = "名前"
             
-        } else if self.kind == "name" {
-            
-            inputTextField.frame = CGRect(x: 10, y: 20, width: displayWidth - 20 , height: 30)
-            inputTextField.borderStyle = .roundedRect
-            inputTextField.text = self.Input as? String
-            self.view.addSubview(inputTextField)
+            self.inputTextField = UITextField()
+            self.inputTextField.frame = CGRect(x: 10, y: 20, width: UIScreen.main.bounds.size.width - 20 , height: 30)
+            self.inputTextField.borderStyle = .roundedRect
+            self.inputTextField.text = self.inputValue as? String
+            self.view.addSubview(self.inputTextField)
             
             createInsertDataButton(displayWidth, displayHeight: 200)
-            
-        } else if self.kind == "comment" {
+        
+        } else if self.palKind == .comment {
             createCommentField(displayWidth, displayHeight: 200)
             
-        } else if self.kind == "imakokoDateFrom" {
+        } else if self.palKind == .imakokoDateFrom {
+            self.navigationItem.title = "待ち合わせ開始時間"
             createDatePickerField(displayWidth)
             
-        } else if self.kind == "imakokoDateTo" {
+        } else if self.palKind == .imakokoDateTo {
+            self.navigationItem.title = "待ち合わせ終了時間"
             createDatePickerField(displayWidth)
             
-        } else if self.kind == "imakoko" {
+        } else if self.palKind == .imakoko {
             createCommentField(displayWidth, displayHeight: 200)
             
             
-        } else if self.kind == "imaiku" {
+        } else if self.palKind == .imaiku {
             createDatePickerField(displayWidth)
             //            self.navigationItem.title = "待ち合わせまでにかかる時間"
             //            self.navigationController!.navigationBar.tintColor = UIColor.white
@@ -133,7 +152,7 @@ UISearchBarDelegate {
             //            tableView.tableHeaderView = view
             //            self.view.addSubview(tableView)
             
-        } else if self.kind == "imageView" {
+        } else if self.palKind == .imageView {
             let displaySize = UIScreen.main.bounds.size.width
             
             let image = self.palInput as! UIImageView
@@ -142,7 +161,7 @@ UISearchBarDelegate {
             image.frame = CGRect(x: 0, y: 0, width: displaySize, height: displaySize);
             self.view.addSubview(image)
             
-        } else if self.kind == "search" {
+        } else if self.palKind == .search {
             self.navigationItem.title = "Twitter検索"
             self.searchBarField = UISearchBar()
             self.searchBarField.delegate = self
@@ -152,7 +171,7 @@ UISearchBarDelegate {
             self.searchBarField.placeholder = "Twitter ID を入力してください"
             self.view.addSubview(self.searchBarField)
             
-        } else if self.kind == "notificationSettings" {
+        } else if self.palKind == .notificationSettings {
             let status = UIApplication.shared.currentUserNotificationSettings?.types
             if (status?.contains(.alert))! {
                 
@@ -165,19 +184,15 @@ UISearchBarDelegate {
                 self.view.addSubview(label)
                 
                 
-                
                 let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: displayWidth - 20, height: 50))
                 btn.trackTouchLocation = true
-                
                 btn.layer.borderColor = LayoutManager.getUIColorFromRGB(0x0D47A1).cgColor
                 btn.layer.borderWidth = 1.0
                 btn.setTitleColor(LayoutManager.getUIColorFromRGB(0x0D47A1), for: UIControlState())
                 btn.setTitle("通知設定画面", for: UIControlState())
-                
                 btn.layer.cornerRadius = 0
                 btn.layer.masksToBounds = true
                 btn.layer.position = CGPoint(x: displayWidth/2, y: 200)
-                
                 btn.addTarget(self, action: #selector(openAppSettingPage), for: UIControlEvents.touchUpInside)
                 
                 self.view.addSubview(btn)
@@ -203,13 +218,23 @@ UISearchBarDelegate {
                 btn.layer.cornerRadius = 0
                 btn.layer.masksToBounds = true
                 btn.layer.position = CGPoint(x: displayWidth/2, y: 200)
-                
                 btn.addTarget(self, action: #selector(openAppSettingPage), for: UIControlEvents.touchUpInside)
                 
                 self.view.addSubview(btn)
-                
             }
         }
+    }
+    
+    func setTableView() {
+        let navBarHeight = self.navigationController?.navigationBar.frame.size.height
+        let rect = CGRect(x: 0, y: 0, width: displayWidth, height: displayHeight - navBarHeight!)
+        self.tableView = UITableView(frame:rect, style: .grouped)
+        self.tableView.layer.backgroundColor = UIColor.lightGray.cgColor
+        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
+        self.tableView.dataSource = self   // DataSourceの設定をする.
+        self.tableView.delegate = self     // Delegateを設定する.
+        
+        self.view.addSubview(tableView)
     }
     
     func createDatePickerField(_ displayWidth: CGFloat) {
@@ -226,7 +251,7 @@ UISearchBarDelegate {
     func createCommentField(_ displayWidth: CGFloat, displayHeight: CGFloat) {
         
         inputTextView.frame = CGRect(x: 10, y: 20, width: displayWidth - 20 ,height: 60)
-        inputTextView.text = self.Input as? String
+        inputTextView.text = self.inputValue as? String
         inputTextView.layer.masksToBounds = true
         inputTextView.layer.cornerRadius = 5.0
         inputTextView.layer.borderWidth = 1
@@ -262,7 +287,7 @@ UISearchBarDelegate {
     
     
     internal func onClickSaveButton(_ sender: UIButton){
-        if (self.kind == "name") {
+        if self.palKind == PickerKind.name {
             if self.inputTextField.text!.isEmpty {
                 UIAlertController.showAlertView("", message: "名前を入力してください") { _ in
                     return
@@ -292,7 +317,7 @@ UISearchBarDelegate {
             }
             
             
-        } else if (self.kind == "comment") {
+        } else if self.palKind == PickerKind.comment {
             
             if self.inputTextView.text.isEmpty {
                 UIAlertController.showAlertView("", message: "コメントを入力してください") { _ in
@@ -322,19 +347,19 @@ UISearchBarDelegate {
                 self.navigationController!.popViewController(animated: true)
             }
             
-        } else if self.kind == "imakokoDateFrom" {
+        } else if self.palKind == PickerKind.imakokoDateFrom {
             self.delegate!.setSelectedDate(self.inputMyDatePicker.date)
             self.navigationController!.popViewController(animated: true)
             
-        } else if self.kind == "imakokoDateTo" {
+        } else if self.palKind == PickerKind.imakokoDateTo {
             self.delegate!.setSelectedDate(self.inputMyDatePicker.date)
             self.navigationController!.popViewController(animated: true)
             
-        } else if self.kind == "imakoko" {
+        } else if self.palKind == PickerKind.imakoko {
             self.delegate!.setInputValue(self.inputTextView.text, type: .comment)
             self.navigationController!.popViewController(animated: true)
             
-        } else if self.kind == "imaiku" {
+        } else if self.palKind == PickerKind.imaiku {
             MBProgressHUDHelper.show("Loading...")
 
             let center = NotificationCenter.default as NotificationCenter
@@ -398,15 +423,14 @@ UISearchBarDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if (self.kind == "age"){
+        if self.palKind == PickerKind.age {
             if let selected = myItems[indexPath.row] as? String {
                 self.delegate!.setSelectedValue(indexPath.row, selectedValue: selected.uppercased(), type: .age)
                 self.navigationController!.popViewController(animated: true)
                 
             }
             
-        } else if (self.kind == "gender"){
-            
+        } else if self.palKind == PickerKind.gender {
             if let selected = myItems[indexPath.row] as? String {
                 self.delegate!.setSelectedValue(indexPath.row, selectedValue: selected.uppercased(), type: .gender)
                 self.navigationController!.popViewController(animated: true)

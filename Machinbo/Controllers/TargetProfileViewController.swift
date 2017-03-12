@@ -409,6 +409,13 @@ class TargetProfileViewController:
                 name: NSNotification.Name(rawValue: LMLocationUpdateNotification as String as String),
                 object: nil
             )
+            // Notification push
+            if let deviceToken = self.targetUserInfo?.object(forKey: "DeviceToken"){
+                print("Device token = \(deviceToken)")
+                
+                NotificationHelper.sendSpecificDevice(PersistentData.User().name + "さんが現在地を送信しました", deviceTokenAsString: deviceToken as! String, badges: 1 as Int)
+                
+            }
         }
     }
     
@@ -529,6 +536,16 @@ class TargetProfileViewController:
             //
             //                UIAlertController.showAlertView("", message: "相手に現在位置確認を送信しました")
             //            }
+            
+            
+            // Notification push
+            if let deviceToken = self.targetUserInfo?.object(forKey: "DeviceToken"){
+                print("Device token = \(deviceToken)")
+                
+                NotificationHelper.sendSpecificDevice(PersistentData.User().name + "さんから現在地確認を受信しました", deviceTokenAsString: deviceToken as! String, badges: 1 as Int)
+                
+            }
+
         }
     }
     

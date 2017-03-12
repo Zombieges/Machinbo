@@ -68,16 +68,40 @@ UISearchBarDelegate {
     
     private let sections = [" ", " "]
     
-    var palKind: PickerKind!
-    var palInput: AnyObject = "" as AnyObject
-    var palTargetUser: PFObject?
+    private var palKind: PickerKind!
+    private var palInput: AnyObject = "" as AnyObject
+    private var palTargetUser: PFObject?
+    
+    private var wideZFRippleButton = { (title: String!, positionY: CGFloat, action: Selector) -> ZFRippleButton in
+        let displayWidth = UIScreen.main.bounds.size.width
+        let displayHeight = UIScreen.main.bounds.size.height
+        
+        let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: displayWidth - 20, height: 50))
+        btn.trackTouchLocation = true
+        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1, alpha: 0.8)
+        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1, alpha: 0.8)
+        btn.rippleColor = LayoutManager.getUIColorFromRGB(0x1976D2)
+        btn.setTitle(title, for: UIControlState())
+        btn.layer.cornerRadius = 0
+        btn.layer.masksToBounds = true
+        btn.layer.position = CGPoint(x: displayWidth/2, y: positionY)
+        btn.addTarget(self, action: action, for: UIControlEvents.touchUpInside)
+        
+        return btn
+    }
     
     init(kind: PickerKind, inputValue: AnyObject = "" as AnyObject) {
         self.palKind = kind
         self.palInput = inputValue
-        //self.palTargetUser = targetUser
         
         super.init(nibName: nil, bundle: nil)  
+    }
+    
+    init(kind: PickerKind, targetUser: PFObject?) {
+        self.palKind = kind
+        self.palTargetUser = targetUser
+        
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -184,17 +208,7 @@ UISearchBarDelegate {
                 self.view.addSubview(label)
                 
                 
-                let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: displayWidth - 20, height: 50))
-                btn.trackTouchLocation = true
-                btn.layer.borderColor = LayoutManager.getUIColorFromRGB(0x0D47A1).cgColor
-                btn.layer.borderWidth = 1.0
-                btn.setTitleColor(LayoutManager.getUIColorFromRGB(0x0D47A1), for: UIControlState())
-                btn.setTitle("通知設定画面", for: UIControlState())
-                btn.layer.cornerRadius = 0
-                btn.layer.masksToBounds = true
-                btn.layer.position = CGPoint(x: displayWidth/2, y: 200)
-                btn.addTarget(self, action: #selector(openAppSettingPage), for: UIControlEvents.touchUpInside)
-                
+                let btn: ZFRippleButton = wideZFRippleButton("通知設定画面", 200, #selector(openAppSettingPage))
                 self.view.addSubview(btn)
 
                 
@@ -208,18 +222,7 @@ UISearchBarDelegate {
                 self.view.addSubview(label)
                 
                 
-                let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: displayWidth - 20, height: 50))
-                btn.trackTouchLocation = true
-                btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1, alpha: 0.8)
-                btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1, alpha: 0.8)
-                btn.rippleColor = LayoutManager.getUIColorFromRGB(0x1976D2)
-                btn.setTitle("通知設定画面", for: UIControlState())
-                //btn.addTarget(self, action: #selector(self.didClickImageView), for: UIControlEvents.touchUpInside)
-                btn.layer.cornerRadius = 0
-                btn.layer.masksToBounds = true
-                btn.layer.position = CGPoint(x: displayWidth/2, y: 200)
-                btn.addTarget(self, action: #selector(openAppSettingPage), for: UIControlEvents.touchUpInside)
-                
+                let btn: ZFRippleButton = wideZFRippleButton("通知設定画面", 200, #selector(openAppSettingPage))
                 self.view.addSubview(btn)
             }
         }
@@ -267,17 +270,7 @@ UISearchBarDelegate {
     }
     
     func createInsertDataButton(_ displayWidth: CGFloat, displayHeight: CGFloat) {
-        let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: displayWidth - 20, height: 50))
-        btn.trackTouchLocation = true
-        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1, alpha: 0.8)
-        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1, alpha: 0.8)
-        btn.rippleColor = LayoutManager.getUIColorFromRGB(0x1976D2)
-        btn.setTitle("保存", for: UIControlState())
-        btn.layer.cornerRadius = 0
-        btn.layer.masksToBounds = true
-        btn.layer.position = CGPoint(x: displayWidth/2, y: displayHeight)
-        btn.addTarget(self, action: #selector(onClickSaveButton), for: UIControlEvents.touchUpInside)
-        
+        let btn: ZFRippleButton = wideZFRippleButton("保存", displayHeight, #selector(onClickSaveButton))
         self.view.addSubview(btn)
     }
     
@@ -288,10 +281,11 @@ UISearchBarDelegate {
     
     internal func onClickSaveButton(_ sender: UIButton){
         if self.palKind == PickerKind.name {
-            if self.inputTextField.text!.isEmpty {
+            guard self.inputTextField.text != "" else {
                 UIAlertController.showAlertView("", message: "名前を入力してください") { _ in
                     return
                 }
+                return
             }
             
             var userInfo = PersistentData.User()
@@ -303,9 +297,7 @@ UISearchBarDelegate {
             }
             
             ParseHelper.getMyUserInfomation(PersistentData.User().userID) { (error: NSError?, result: PFObject?) -> Void in
-                guard let result = result else {
-                    return
-                }
+                guard let result = result else { return }
                 
                 result["Name"] = self.inputTextField.text
                 result.saveInBackground()
@@ -319,10 +311,11 @@ UISearchBarDelegate {
             
         } else if self.palKind == PickerKind.comment {
             
-            if self.inputTextView.text.isEmpty {
+            guard self.inputTextView.text != "" else {
                 UIAlertController.showAlertView("", message: "コメントを入力してください") { _ in
                     return
                 }
+                return
             }
             
             var userInfo = PersistentData.User()

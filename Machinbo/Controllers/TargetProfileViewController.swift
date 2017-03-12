@@ -321,8 +321,7 @@ class TargetProfileViewController:
     }
     
     func clickGoNowButton() {
-        let vc = PickerViewController(kind: PickerKind.imaiku)
-        vc.palTargetUser = self.targetUserInfo!
+        let vc = PickerViewController(kind: .imaiku, targetUser: self.targetUserInfo!)
         self.navigationController!.pushViewController(vc, animated: true)
     }
     
@@ -623,7 +622,7 @@ class TargetProfileViewController:
     
     func didClickImageView(_ recognizer: UIGestureRecognizer) {
         if let imageView = recognizer.view as? UIImageView {
-            let vc = PickerViewController(kind: PickerKind.imageView, inputValue: UIImageView(image: imageView.image))
+            let vc = PickerViewController(kind: .imageView, inputValue: UIImageView(image: imageView.image))
             self.navigationController!.pushViewController(vc, animated: true)
         }
     }

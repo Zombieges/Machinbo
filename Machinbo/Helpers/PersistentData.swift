@@ -34,6 +34,7 @@ class PersistentData {
         userDefault.removeObject(forKey: "targetUserID")
         userDefault.removeObject(forKey: "twitterName")
         userDefault.removeObject(forKey: "blockUserList")
+        userDefault.removeObject(forKey: "imaikuUserList")
         
         userDefault.synchronize()
     }
@@ -219,6 +220,15 @@ class PersistentData {
             }
             set {
                 UserDefaults.standard.set(newValue, forKey: "blockUserList")
+                UserDefaults.standard.synchronize()
+            }
+        }
+        var imaikuUserList: [String] {
+            get {
+                return UserDefaults.standard.stringArray(forKey: "imaikuUserList") ?? []
+            }
+            set {
+                UserDefaults.standard.set(newValue, forKey: "imaikuUserList")
                 UserDefaults.standard.synchronize()
             }
         }

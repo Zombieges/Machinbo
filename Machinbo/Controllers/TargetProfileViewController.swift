@@ -321,6 +321,15 @@ class TargetProfileViewController:
     }
     
     func clickGoNowButton() {
+        
+        // 既にイマ行く済みの相手には「約束」できない
+        var userInfo = PersistentData.User()
+        print("imaikuUserList \(userInfo.imaikuUserList)")
+        if userInfo.imaikuUserList.contains((self.targetUserInfo?.objectId)!){
+            UIAlertController.showAlertView("", message: "既にこのユーザへ約束を送信済みです")
+            return
+        }
+        
         let vc = PickerViewController(kind: .imaiku, targetUser: self.targetUserInfo!)
         self.navigationController!.pushViewController(vc, animated: true)
     }

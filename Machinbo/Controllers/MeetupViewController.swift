@@ -12,7 +12,7 @@ import Parse
 import GoogleMobileAds
 import MBProgressHUD
 
-class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, GADBannerViewDelegate, GADInterstitialDelegate, UITabBarDelegate, TransisionProtocol {
+class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, GADBannerViewDelegate, GADInterstitialDelegate, UITabBarDelegate, TransisionProtocol, TargetProfileViewControllerDelegate {
     
     private var goNowList: [AnyObject]?
     private var meetupList: [AnyObject]?
@@ -71,7 +71,7 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func viewWillEnterForeground(notification: NSNotification?) {
         if (self.isViewLoaded && (self.view.window != nil)) {
-            self.refresh()
+            self.refreshAction()
             print("foreground........................>")
         }
     }
@@ -90,6 +90,11 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
             self.tableView.backgroundView = nil
         }
 
+    }
+    
+    // TargetProfileViewから戻ってきた時の処理
+    func postTargetViewControllerDismissionAction() {
+        refreshAction()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -141,6 +146,7 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
         
         let gonowCell = tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? GoNowTableViewCell
+        
         let userInfoObject = self.getUserInfomation(index: indexPath.row)
         
         let gonowObject = self.getGonowObject(row: indexPath.row)
@@ -149,12 +155,19 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let userID = gonowObject.object(forKey: "UserID") as! String
         let targetUserID = gonowObject.object(forKey: "TargetUserID") as! String
         
+        //相手から削除された場合（自分で削除した場合は、Parseの取得で弾く）
         let isDelete = (userID == PersistentData.User().userID && isDeleteTarget) ||
             (targetUserID == PersistentData.User().userID && isDeleteUser)
+        
         guard !isDelete else {
-            gonowCell?.titleLabel.text = "ユーザから拒否されました"
+            gonowCell?.titleLabel.text = "ユーザから削除されました"
             gonowCell?.valueLabel.text = ""
             gonowCell?.entryTime.text = ""
+            gonowCell?.profileImage.image = UIImage(named: "photo@2x.png")
+            gonowCell?.profileImage.layer.borderColor = UIColor.white.cgColor
+            gonowCell?.profileImage.layer.borderWidth = 3
+            gonowCell?.profileImage.layer.cornerRadius = 10
+            gonowCell?.profileImage.layer.masksToBounds = true
             
             return gonowCell!
             
@@ -164,6 +177,11 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
             gonowCell?.titleLabel.text = "このユーザは存在しません"
             gonowCell?.valueLabel.text = ""
             gonowCell?.entryTime.text = ""
+            gonowCell?.profileImage.image = UIImage(named: "photo@2x.png")
+            gonowCell?.profileImage.layer.borderColor = UIColor.white.cgColor
+            gonowCell?.profileImage.layer.borderWidth = 3
+            gonowCell?.profileImage.layer.cornerRadius = 10
+            gonowCell?.profileImage.layer.masksToBounds = true
             
             return gonowCell!
         }
@@ -172,7 +190,7 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
             imageFile.getDataInBackground { (imageData, error) -> Void in
                 guard error == nil else { print("Error information"); return }
                 
-                gonowCell?.profileImage.image = UIImage(data: imageData!)!
+                gonowCell?.profileImage.image = UIImage(data: (imageData)!)
                 gonowCell?.profileImage.layer.borderColor = UIColor.white.cgColor
                 gonowCell?.profileImage.layer.borderWidth = 3
                 gonowCell?.profileImage.layer.cornerRadius = 10
@@ -194,7 +212,10 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let userInfoObject = self.getUserInfomation(index: indexPath.row)
         
         guard userInfoObject != nil else {
-            UIAlertController.showAlertView("", message: "ユーザが存在しません。")
+            UIAlertController.showAlertOKCancel("", message: "ユーザが存在しません。削除しますか？", actiontitle: "削除") { action in
+                guard action == .ok else { return }
+                self.deleteGoNow(row: indexPath.row)
+            }
             return
         }
         
@@ -324,7 +345,7 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     private func createRefreshControl() {
         self.refreshControl = UIRefreshControl()
-        self.refreshControl.addTarget(self, action: #selector(self.refresh), for: .valueChanged)
+        self.refreshControl.addTarget(self, action: #selector(self.refreshAction), for: .valueChanged)
         self.tableView.addSubview(refreshControl)
     }
     
@@ -333,7 +354,7 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.tableView.reloadData()
     }
     
-    func refresh() {
+    func refreshAction() {
         switch self.nowSegumentIndex {
         case 0:
             self.getApprovedMeetUpList()
@@ -390,10 +411,12 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func getApprovedMeetUpList() {
         MBProgressHUDHelper.show("Loading...")
+        
         ParseHelper.getApprovedMeetupList(PersistentData.User().userID) { (error: NSError?, result) -> Void in
             MBProgressHUDHelper.hide()
             
             guard error == nil else { print("Error information"); return }
+            
             self.goNowList = result
             self.tableView.reloadData()
         }
@@ -401,10 +424,12 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func getMeetUpList() {
         MBProgressHUDHelper.show("Loading...")
+        
         ParseHelper.getMeetupList(PersistentData.User().userID) { (error: NSError?, result) -> Void in
             MBProgressHUDHelper.hide()
             
             guard error == nil else { print("Error information"); return }
+            
             self.meetupList = result
             self.tableView.reloadData()
         }
@@ -412,10 +437,12 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func getReceiveList() {
         MBProgressHUDHelper.show("Loading...")
+        
         ParseHelper.getReceiveList(PersistentData.User().userID) { (error: NSError?, result) -> Void in
             MBProgressHUDHelper.hide()
             
             guard error == nil else { print("Error information"); return }
+            
             self.recieveList = result
             self.tableView.reloadData()
         }
@@ -427,6 +454,7 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let isDeleteTarget = gonowObject.object(forKey: "isDeleteTarget") as! Bool
         
         MBProgressHUDHelper.show("Loading...")
+        
         defer { MBProgressHUDHelper.hide() }
         
         guard !isDeleteUser && !isDeleteTarget else {
@@ -439,9 +467,11 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         if userID == PersistentData.User().userID {
             gonowObject["isDeleteUser"] = true
+            
         } else if targetUserID == PersistentData.User().userID {
             gonowObject["isDeleteTarget"] = true
         }
+        
         gonowObject.saveInBackground()
 
         switch self.nowSegumentIndex {
@@ -460,6 +490,7 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     private func deleteGoNow(row: Int) {
         let gonowObject = getGonowObject(row: row) as! PFObject
+        
         ParseHelper.deleteGoNow(gonowObject.objectId!) { () -> () in
             switch self.nowSegumentIndex {
             case 0:

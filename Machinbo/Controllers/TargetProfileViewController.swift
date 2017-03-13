@@ -18,6 +18,10 @@ enum ProfileType {
     case targetProfile, imaikuTargetProfile, meetupProfile, receiveProfile
 }
 
+protocol TargetProfileViewControllerDelegate {
+    func postTargetViewControllerDismissionAction()
+}
+
 class TargetProfileViewController:
     UIViewController,
     UITableViewDelegate,
@@ -32,6 +36,7 @@ class TargetProfileViewController:
     var type = ProfileType.targetProfile
     //var targetGeoPoint = PFGeoPoint(latitude: 0, longitude: 0)
     var gonowInfo: GonowData?
+    var delegate: TargetProfileViewControllerDelegate?
     
     @IBOutlet var tableView: UITableView!
     private var refreshControl:UIRefreshControl!
@@ -329,6 +334,10 @@ class TargetProfileViewController:
             UIAlertController.showAlertView("", message: "既にこのユーザへ約束を送信済みです")
             return
         }
+        
+        self.dismiss(animated: true, completion: {
+            self.delegate?.postTargetViewControllerDismissionAction()
+        })
         
         let vc = PickerViewController(kind: .imaiku, targetUser: self.targetUserInfo!)
         self.navigationController!.pushViewController(vc, animated: true)

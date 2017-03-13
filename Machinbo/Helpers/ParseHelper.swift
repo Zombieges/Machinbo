@@ -98,7 +98,8 @@ class func getMeetupList(_ loginUser: String, completion:((_ withError: NSError?
     
     let query = PFQuery(className: "GoNow")
     query.whereKey("UserID", equalTo: loginUser)
-    query.whereKey("IsApproved", equalTo: false)
+    query.whereKey("IsApproved", equalTo: false)//承認済みのユーザは除外
+    query.whereKey("isDeleteUser", equalTo: false)//自分で削除したユーザは除外
     query.includeKey("TargetUser")
     query.includeKey("targetGoNow")
     query.order(byDescending: "updatedAt")
@@ -120,7 +121,8 @@ class func getReceiveList(_ loginUser: String, completion:((_ withError: NSError
     
     let query = PFQuery(className: "GoNow")
     query.whereKey("TargetUserID", equalTo: loginUser)
-    query.whereKey("IsApproved", equalTo: false)
+    query.whereKey("IsApproved", equalTo: false)//承認したユーザは除外
+    query.whereKey("isDeleteTarget", equalTo: false)//自分で削除したユーザは除外
     query.includeKey("User")
     query.includeKey("userGoNow")
     query.order(byDescending: "updatedAt")

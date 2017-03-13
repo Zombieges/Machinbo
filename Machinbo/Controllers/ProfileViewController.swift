@@ -62,7 +62,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             self.navigationItem.title = "プロフィールを登録してください"
             self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.darkGray]
             self.imakokoButton.isHidden = true
-            self.profilePicture.image = UIImage(named: "photo.png")
+            self.profilePicture.image = UIImage(named: "photo@2x.png")
             
             self.sections = ["", "プロフィール", "SNS"]
             

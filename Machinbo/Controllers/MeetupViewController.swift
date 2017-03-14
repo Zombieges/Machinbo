@@ -464,6 +464,7 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         let userID = gonowObject.object(forKey: "UserID") as! String
         let targetUserID = gonowObject.object(forKey: "TargetUserID") as! String
+        let targetUserObjectId = gonowObject.object(forKey: "TargetUser") as! PFObject
         
         if userID == PersistentData.User().userID {
             gonowObject["isDeleteUser"] = true
@@ -483,6 +484,15 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
             self.recieveList?.remove(at: row)
         default:
             break
+        }
+        
+        // イマ行くリストの削除
+        var userInfo = PersistentData.User()
+        print("imaikuUserList \(userInfo.imaikuUserList)")
+
+        
+        if let index = userInfo.imaikuUserList.index(of: targetUserObjectId.objectId!) {
+            userInfo.imaikuUserList.remove(at: index)
         }
         
         self.tableView.reloadData()

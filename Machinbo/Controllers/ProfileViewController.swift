@@ -487,7 +487,10 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             deviceToken: userInfo.deviceToken
         )
         
-        LayoutManager.createNavigationAndTabItems()
+        let tabBarConrtoller: UITabBarController = LayoutManager.createNavigationAndTabItems()
+        UIApplication.shared.keyWindow?.addSubview((tabBarConrtoller.view)!)
+        UIApplication.shared.keyWindow?.rootViewController = tabBarConrtoller
+        UIApplication.shared.keyWindow?.makeKeyAndVisible()
     }
     
     fileprivate func imageMolding(_ target : UIImageView){

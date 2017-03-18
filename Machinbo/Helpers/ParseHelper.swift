@@ -37,6 +37,7 @@ class func launch(_ launchOptions: [AnyHashable: Any]?) {
 class func getNearUserInfomation(_ myLocation: CLLocationCoordinate2D, completion:((_ withError: NSError?, _ result:[PFObject]?)->Void)?) {
     //50km圏内、近くから300件取得
     let myGeoPoint = PFGeoPoint(latitude: myLocation.latitude, longitude: myLocation.longitude)
+    let now = Date()
     
     var data = PersistentData.User()
     print("*************************>")
@@ -44,6 +45,8 @@ class func getNearUserInfomation(_ myLocation: CLLocationCoordinate2D, completio
     let query = PFQuery(className: "UserInfo")
     query.whereKey("GPS", nearGeoPoint: myGeoPoint, withinKilometers: 25.0)
     query.whereKey("IsRecruitment", equalTo: true)
+    query.whereKey("MarkTimeTo", greaterThanOrEqualTo: now)
+    query.whereKey("MarkTime", lessThanOrEqualTo: now)
     query.whereKey("objectId", notContainedIn: data.blockUserList)
     query.limit = 100
     query.order(byAscending: "MarkTime")

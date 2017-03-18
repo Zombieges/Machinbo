@@ -85,6 +85,23 @@ class TargetProfileViewController:
             self.showAdmob(AdmobType.standard)
         }
         
+        //ブロックされている場合はここでボタン非表示にする
+        let userData = PersistentData.User()
+        
+        // 相手が自分のことをブロックしている場合
+        if let targetUserBlockList = self.targetUserInfo?.object(forKey: "blockUserList") {
+            guard !(targetUserBlockList as! [String]).contains(PersistentData.User().objectId) else {
+                self.createBlockLabel()
+                return
+            }
+        }
+        
+        // 自分が相手をブロックしている場合
+        let targetUserObjectId = self.targetUserInfo?.objectId
+        guard !userData.blockUserList.contains(targetUserObjectId!) else {
+            return
+        }
+        
         if type == .meetupProfile {
             if (self.gonowInfo?.IsApproved)! {
                 self.createSendGeoPointButton(mapViewHeight: self.mapViewHeight)
@@ -101,23 +118,6 @@ class TargetProfileViewController:
         } else {
             if type == .entryTarget {
                 self.navigationItem.hidesBackButton = true
-            }
-            
-            //ブロックされている場合はここでボタン非表示にする
-            let userData = PersistentData.User()
-            
-            // 相手が自分のことをブロックしている場合
-            if let targetUserBlockList = self.targetUserInfo?.object(forKey: "blockUserList") {
-                guard !(targetUserBlockList as! [String]).contains(userData.objectId) else {
-                    self.createBlockLabel()
-                    return
-                }
-            }
-            
-            // 自分が相手をブロックしている場合
-            let targetUserObjectId = self.targetUserInfo?.objectId
-            guard !userData.blockUserList.contains(targetUserObjectId!) else {
-                return
             }
             
             self.createGoNowButton()

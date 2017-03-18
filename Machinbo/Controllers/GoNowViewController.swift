@@ -201,16 +201,14 @@ class GoNowViewController:
                 
                 UIAlertController.showAlertOKCancel("", message: "待ち合わせ登録をしました。投稿内容を確認しますか？", actiontitle: "確認") { action in
                     if action == .cancel {
-                        //self.performSegue(withIdentifier: "map", sender: nil)
+                        let vc = MapViewController()
+                        self.navigationController?.pushViewController(vc, animated: true)
                         return
                     }
-                    
-                    let vc = TargetProfileViewController(type: .targetProfile)
+                 
+                    let vc = TargetProfileViewController(type: .entryTarget)
                     vc.targetUserInfo = result
-                    vc.type = .targetProfile
-                    
-                    self.navigationController!.pushViewController(vc, animated: true)
-                    
+                    self.navigationController?.pushViewController(vc, animated: true)
                 }
             }
         }

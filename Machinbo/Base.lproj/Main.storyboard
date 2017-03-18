@@ -27,10 +27,22 @@
         <!--Marker Draggable View Controller-->
         <scene sceneID="OCr-Pl-VOm">
             <objects>
-                <viewController storyboardIdentifier="entry" useStoryboardIdentifierAsRestorationIdentifier="YES" id="yNG-EB-esq" customClass="MarkerDraggableViewController" customModule="Machinbo" customModuleProvider="target" sceneMemberID="viewController"/>
+                <viewController storyboardIdentifier="entry" useStoryboardIdentifierAsRestorationIdentifier="YES" id="yNG-EB-esq" customClass="MarkerDraggableViewController" customModule="Machinbo" customModuleProvider="target" sceneMemberID="viewController">
+                    <connections>
+                        <segue destination="Mpd-Nk-2jP" kind="presentation" identifier="entryTarget" id="97B-cQ-pQG"/>
+                    </connections>
+                </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MJi-Cr-fcz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-924" y="583"/>
+            <point key="canvasLocation" x="-1929" y="714"/>
+        </scene>
+        <!--Target Profile View Controller-->
+        <scene sceneID="awz-Ac-Hhi">
+            <objects>
+                <viewController id="Mpd-Nk-2jP" customClass="TargetProfileViewController" customModule="Machinbo" customModuleProvider="target" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2EH-13-YSg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1119" y="714"/>
         </scene>
         <!--Meetup View Controller-->
         <scene sceneID="oV9-Xs-4sM">

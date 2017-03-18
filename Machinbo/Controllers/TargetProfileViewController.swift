@@ -15,7 +15,7 @@ import MessageUI
 import GoogleMaps
 
 enum ProfileType {
-    case targetProfile, imaikuTargetProfile, meetupProfile, receiveProfile
+    case targetProfile, imaikuTargetProfile, meetupProfile, receiveProfile, entryTarget
 }
 
 protocol TargetProfileViewControllerDelegate {
@@ -94,7 +94,15 @@ class TargetProfileViewController:
         } else if type == .receiveProfile {
             self.createApprovedButton(mapViewHeight: self.mapViewHeight)
             
+        } else if type == .entryTarget {
+            self.navigationItem.hidesBackButton = true
+            self.navigationItem.title = "登録情報"
+            
         } else {
+            if type == .entryTarget {
+                self.navigationItem.hidesBackButton = true
+            }
+            
             //ブロックされている場合はここでボタン非表示にする
             let userData = PersistentData.User()
             

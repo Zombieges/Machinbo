@@ -211,7 +211,7 @@ class func deleteUserInfo(_ userID: String, completion: @escaping () -> ()) {
     ParseHelper.getMyUserInfomation(userID) { (error: Error?, result: PFObject?) -> Void in
         
         guard let theResult = result else {
-            MBProgressHUDHelper.hide()
+            MBProgressHUDHelper.sharedInstance.hide()
             //local db の削除
             PersistentData.deleteUserID()
             return

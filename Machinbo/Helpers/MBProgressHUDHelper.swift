@@ -15,23 +15,13 @@ class MBProgressHUDHelper: NSObject {
     var progressHud: MBProgressHUD?
     
     
-    override init() {
-        
-    }
-    
-    static func show(_ label: String) {
-        
-    }
-    
+    override init() {}
+
     func show(_ view: UIView) {
         self.progressHud = MBProgressHUD.showAdded(to: view, animated: true)
         self.progressHud?.label.text = "Loading..."
         self.progressHud?.progress = 0.0
         self.progressHud?.WSStyle()
-    }
-    
-    static func hide() {
-    
     }
     
     func hide() {
@@ -40,7 +30,7 @@ class MBProgressHUDHelper: NSObject {
                 self.progressHud?.hide(true)
             }
         }
-    }
+    }   
 }
 
 extension MBProgressHUD {

@@ -490,10 +490,8 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         var userInfo = PersistentData.User()
         print("imaikuUserList \(userInfo.imaikuUserList)")
 
+        userInfo.imaikuUserList.removeValue(forKey: targetUserObjectId.objectId!)
         
-        if let index = userInfo.imaikuUserList.index(of: targetUserObjectId.objectId!) {
-            userInfo.imaikuUserList.remove(at: index)
-        }
         
         self.tableView.reloadData()
     }

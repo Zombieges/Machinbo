@@ -223,9 +223,9 @@ class PersistentData {
                 UserDefaults.standard.synchronize()
             }
         }
-        var imaikuUserList: [String] {
+        var imaikuUserList: [String:Date] {
             get {
-                return UserDefaults.standard.stringArray(forKey: "imaikuUserList") ?? []
+                return UserDefaults.standard.dictionary(forKey: "imaikuUserList") as! [String : Date]? ?? [:]
             }
             set {
                 UserDefaults.standard.set(newValue, forKey: "imaikuUserList")

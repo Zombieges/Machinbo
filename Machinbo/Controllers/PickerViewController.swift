@@ -458,6 +458,7 @@ UISearchBarDelegate {
             let userID = result?.object(forKey: "UserID") as? String
             let targetUserID = self.palTargetUser?.object(forKey: "UserID") as? String
             let targetUserObjectID = self.palTargetUser?.objectId
+            let timeTargetIsAvailable = self.palTargetUser?.object(forKey: "MarkTimeTo") as? Date
             let targetUserUpdatedAt = self.palTargetUser?.updatedAt
             let targetDeviceToken = self.palTargetUser?.object(forKey: "DeviceToken") as? String
             let name = result?.object(forKey: "Name") as? String
@@ -487,7 +488,7 @@ UISearchBarDelegate {
                 userInfo.targetUserID = targetUserID!
                 
                 // イマ行くリストを Local DB へセット
-                userInfo.imaikuUserList.append(targetUserObjectID!)
+                userInfo.imaikuUserList[targetUserObjectID!] = timeTargetIsAvailable
                 
                 // Send Notification
                 NotificationHelper.sendSpecificDevice(name! + "さんより「いまから行く」されました", deviceTokenAsString: targetDeviceToken!, badges: 1 as Int)

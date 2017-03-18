@@ -330,9 +330,13 @@ class TargetProfileViewController:
         // 既にイマ行く済みの相手には「約束」できない
         var userInfo = PersistentData.User()
         print("imaikuUserList \(userInfo.imaikuUserList)")
-        if userInfo.imaikuUserList.contains((self.targetUserInfo?.objectId)!){
-            UIAlertController.showAlertView("", message: "既にこのユーザへ約束を送信済みです")
-            return
+        if let timeTargetAvailable = userInfo.imaikuUserList[(self.targetUserInfo?.objectId)!]{
+            // 現在日付取得 && 比較
+            let now = Date()
+            if timeTargetAvailable > now as Date {
+                UIAlertController.showAlertView("", message: "既にこのユーザへ約束を送信済みです")
+                return
+            }
         }
         
         self.dismiss(animated: true, completion: {

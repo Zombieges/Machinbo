@@ -442,7 +442,7 @@ class TargetProfileViewController:
         
         //TODO:この処理だといまから行くが複数ある場合、送信する対象が異なってしまう恐れあり。ParseIDで見ないと駄目かも
         
-        MBProgressHUDHelper.show("Loading...")
+        MBProgressHUDHelper.sharedInstance.show(self.view)
         
         let info = notif.userInfo as NSDictionary!
         let location = info?[LMLocationInfoKey] as! CLLocation
@@ -469,7 +469,7 @@ class TargetProfileViewController:
                 if let query = self.gonowInfo?.UserGoNow {
                     query["userGeoPoint"] = geoPoint
                     query.saveInBackground { (success: Bool, error: Error?) -> Void in
-                        defer { MBProgressHUDHelper.hide() }
+                        defer { MBProgressHUDHelper.sharedInstance.hide() }
                         guard error == nil else { return }
 
                         UIAlertController.showAlertView("", message: "現在位置を相手に送信しました")
@@ -479,19 +479,19 @@ class TargetProfileViewController:
                     result.saveInBackground()
                     
                 } else {
-                    defer { MBProgressHUDHelper.hide() }
+                    defer { MBProgressHUDHelper.sharedInstance.hide() }
                     
                     let gonowReceiveObject = PFObject(className: "GoNowReceive")
                     gonowReceiveObject["userGeoPoint"] = geoPoint
                     gonowReceiveObject.saveInBackground { (success: Bool, error: Error?) -> Void in
-                        defer { MBProgressHUDHelper.hide() }
+                        defer { MBProgressHUDHelper.sharedInstance.hide() }
                         guard error == nil else { return }
                     }
                     
                     result["userGoNow"] = gonowReceiveObject
                     result["updateAt"] = Date()
                     result.saveInBackground { (success: Bool, error: Error?) -> Void in
-                        defer { MBProgressHUDHelper.hide() }
+                        defer { MBProgressHUDHelper.sharedInstance.hide() }
                         guard error == nil else { return }
                     }
                 }
@@ -500,7 +500,7 @@ class TargetProfileViewController:
                 if let query = self.gonowInfo?.TargetGoNow {
                     query["userGeoPoint"] = geoPoint
                     query.saveInBackground { (success: Bool, error: Error?) -> Void in
-                        defer { MBProgressHUDHelper.hide() }
+                        defer { MBProgressHUDHelper.sharedInstance.hide() }
                         guard error == nil else { return }
                         
                         UIAlertController.showAlertView("", message: "現在位置を相手に送信しました")
@@ -513,14 +513,14 @@ class TargetProfileViewController:
                     let gonowReceiveObject = PFObject(className: "GoNowSend")
                     gonowReceiveObject["userGeoPoint"] = geoPoint
                     gonowReceiveObject.saveInBackground { (success: Bool, error: Error?) -> Void in
-                        defer { MBProgressHUDHelper.hide() }
+                        defer { MBProgressHUDHelper.sharedInstance.hide() }
                         guard error == nil else { return }
                     }
                     
                     result["targetGoNow"] = gonowReceiveObject
                     result["updateAt"] = Date()
                     result.saveInBackground { (success: Bool, error: Error?) -> Void in
-                        defer { MBProgressHUDHelper.hide() }
+                        defer { MBProgressHUDHelper.sharedInstance.hide() }
                         guard error == nil else { return }
                     }
                 }
@@ -702,9 +702,9 @@ class TargetProfileViewController:
         UIAlertController.showAlertOKCancel("", message: "ブロックしています。ブロックを解除しますか？", actiontitle: "解除") { action in
             guard action == .ok else { return }
             
-            MBProgressHUDHelper.show("Loading...")
+            MBProgressHUDHelper.sharedInstance.show(self.view)
             ParseHelper.getMyUserInfomation(PersistentData.User().objectId) { (error: NSError?, result: PFObject?) -> Void in
-                defer {  MBProgressHUDHelper.hide() }
+                defer {  MBProgressHUDHelper.sharedInstance.hide() }
                 guard let result = result else { return }
                 
                 result.remove(self.targetUserInfo?.objectId! as Any, forKey: "blockUserList")
@@ -722,13 +722,13 @@ class TargetProfileViewController:
     
     func refresh() {
         guard self.gonowInfo != nil else {
-            MBProgressHUDHelper.hide()
+            MBProgressHUDHelper.sharedInstance.hide()
             self.refreshControl.endRefreshing()
             return
         }
         
         ParseHelper.getTargetUserGoNow(self.gonowInfo!.ObjectId) { (error: NSError?, result: PFObject?) -> Void in
-            defer {  MBProgressHUDHelper.hide() }
+            defer {  MBProgressHUDHelper.sharedInstance.hide() }
             guard let result = result else { return }
 
             self.gonowInfo = GonowData(parseObject: result)

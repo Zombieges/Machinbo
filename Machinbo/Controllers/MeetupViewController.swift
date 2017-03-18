@@ -12,7 +12,7 @@ import Parse
 import GoogleMobileAds
 import MBProgressHUD
 
-class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, GADBannerViewDelegate, GADInterstitialDelegate, UITabBarDelegate, TransisionProtocol, TargetProfileViewControllerDelegate {
+class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, GADBannerViewDelegate, GADInterstitialDelegate, UITabBarDelegate, TransisionProtocol, TargetProfileViewControllerDelegate, UIWebViewDelegate {
     
     private var goNowList: [AnyObject]?
     private var meetupList: [AnyObject]?
@@ -410,10 +410,10 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func getApprovedMeetUpList() {
-        MBProgressHUDHelper.show("Loading...")
+        MBProgressHUDHelper.sharedInstance.show(self.view)
         
         ParseHelper.getApprovedMeetupList(PersistentData.User().userID) { (error: NSError?, result) -> Void in
-            MBProgressHUDHelper.hide()
+            MBProgressHUDHelper.sharedInstance.hide()
             
             guard error == nil else { print("Error information"); return }
             
@@ -423,10 +423,10 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func getMeetUpList() {
-        MBProgressHUDHelper.show("Loading...")
+        MBProgressHUDHelper.sharedInstance.show(self.view)
         
         ParseHelper.getMeetupList(PersistentData.User().userID) { (error: NSError?, result) -> Void in
-            MBProgressHUDHelper.hide()
+            MBProgressHUDHelper.sharedInstance.hide()
             
             guard error == nil else { print("Error information"); return }
             
@@ -436,10 +436,10 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func getReceiveList() {
-        MBProgressHUDHelper.show("Loading...")
+        MBProgressHUDHelper.sharedInstance.show(self.view)
         
         ParseHelper.getReceiveList(PersistentData.User().userID) { (error: NSError?, result) -> Void in
-            MBProgressHUDHelper.hide()
+            MBProgressHUDHelper.sharedInstance.hide()
             
             guard error == nil else { print("Error information"); return }
             
@@ -453,9 +453,9 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let isDeleteUser = gonowObject.object(forKey: "isDeleteUser") as! Bool
         let isDeleteTarget = gonowObject.object(forKey: "isDeleteTarget") as! Bool
         
-        MBProgressHUDHelper.show("Loading...")
+        MBProgressHUDHelper.sharedInstance.show(self.view)
         
-        defer { MBProgressHUDHelper.hide() }
+        defer { MBProgressHUDHelper.sharedInstance.hide() }
         
         guard !isDeleteUser && !isDeleteTarget else {
             self.deleteGoNow(row: row)

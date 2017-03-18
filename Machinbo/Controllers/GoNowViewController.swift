@@ -167,7 +167,7 @@ class GoNowViewController:
             return
         }
         
-        MBProgressHUDHelper.show("Loading...")
+        MBProgressHUDHelper.sharedInstance.show(self.view)
         
         var userInfo = PersistentData.User()
         ParseHelper.getMyUserInfomation(userInfo.userID) { (error: NSError?, result: PFObject?) -> Void in
@@ -181,7 +181,7 @@ class GoNowViewController:
             query["MyChar"] = self.inputChar
             query["IsRecruitment"] = true
             query.saveInBackground { (success: Bool, error: Error?) -> Void in
-                defer { MBProgressHUDHelper.hide() }
+                defer { MBProgressHUDHelper.sharedInstance.hide() }
                 guard error == nil else { print("Error information"); return }
                 
                 var userData = PersistentData.User()

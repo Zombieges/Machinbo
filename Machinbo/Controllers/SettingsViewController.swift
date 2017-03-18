@@ -158,12 +158,12 @@ class SettingsViewController: UIViewController, UINavigationControllerDelegate, 
     }
     
     func deleteAccount() {
-        MBProgressHUDHelper.show("Loading...")
+        MBProgressHUDHelper.sharedInstance.show(self.view)
         
         UIAlertController.showAlertOKCancel("", message: "アカウントを削除しますと、いままでの履歴が削除されてしまいます。本当にアカウントを削除してもよろしいですか？", actiontitle: "削除") { action in
             
             if action == .cancel {
-                MBProgressHUDHelper.hide()
+                MBProgressHUDHelper.sharedInstance.hide()
                 return
             }
             

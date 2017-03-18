@@ -456,9 +456,9 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             return
         }
         
-        MBProgressHUDHelper.show("Loading...")
+        MBProgressHUDHelper.sharedInstance.show(self.view)
         
-        defer { MBProgressHUDHelper.hide() }
+        defer { MBProgressHUDHelper.sharedInstance.hide() }
         
         let imageData = UIImagePNGRepresentation(profilePicture.image!)
         let imageFile = PFFile(name:"image.png", data:imageData!)
@@ -529,11 +529,11 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     }
     
     private func recruitmentAction(_ isRecruitment: Bool) {
-        MBProgressHUDHelper.show("Loading...")
+        MBProgressHUDHelper.sharedInstance.show(self.view)
         
         var userData = PersistentData.User()
         ParseHelper.getMyUserInfomation(userData.userID) { (error: NSError?, result: PFObject?) -> Void in
-            defer {  MBProgressHUDHelper.hide() }
+            defer {  MBProgressHUDHelper.sharedInstance.hide() }
             guard let result = result else { return }
             
             result["IsRecruitment"] = isRecruitment
@@ -614,17 +614,17 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             return
         }
         
-        MBProgressHUDHelper.show("Loading...")
+        MBProgressHUDHelper.sharedInstance.show(self.view)
         
         ParseHelper.getMyUserInfomation(PersistentData.User().userID) { (error: NSError?, result: PFObject?) -> Void in
             guard let result = result else {
-                MBProgressHUDHelper.hide()
+                MBProgressHUDHelper.sharedInstance.hide()
                 return
             }
             
             result["Twitter"] = self.twitterName
             result.saveInBackground { (success: Bool, error: Error?) -> Void in
-                defer { MBProgressHUDHelper.hide() }
+                defer { MBProgressHUDHelper.sharedInstance.hide() }
                 
                 var userInfo = PersistentData.User()
                 userInfo.twitterName = self.twitterName

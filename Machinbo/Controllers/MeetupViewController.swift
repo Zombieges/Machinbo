@@ -12,6 +12,10 @@ import Parse
 import GoogleMobileAds
 import MBProgressHUD
 
+enum MeetType {
+    case match, send, receive
+}
+
 class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, GADBannerViewDelegate, GADInterstitialDelegate, UITabBarDelegate, TransisionProtocol, TargetProfileViewControllerDelegate, UIWebViewDelegate {
     
     private var goNowList: [AnyObject]?
@@ -39,7 +43,19 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
         return segment
     }()
-
+    
+    init(type: MeetType) {
+        super.init(nibName: nil, bundle: nil)
+        
+        if type == .match {
+            self.navigationItem.hidesBackButton = true
+            self.nowSegumentIndex = 0
+        }
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
     
     override func viewDidLoad() {
         NotificationCenter.default.addObserver(self, selector: #selector(reloadData), name:NSNotification.Name(rawValue: "reloadData"), object: nil)

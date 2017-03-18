@@ -353,7 +353,7 @@ UISearchBarDelegate {
             self.navigationController!.popViewController(animated: true)
             
         } else if self.palKind == PickerKind.imaiku {
-            MBProgressHUDHelper.show("Loading...")
+            MBProgressHUDHelper.sharedInstance.show(self.view)
 
             let center = NotificationCenter.default as NotificationCenter
             LocationManager.sharedInstance.startUpdatingLocation()
@@ -478,7 +478,7 @@ UISearchBarDelegate {
             
             query.saveInBackground { (success: Bool, error: Error?) -> Void in
                 
-                defer { MBProgressHUDHelper.hide() }
+                defer { MBProgressHUDHelper.sharedInstance.hide() }
                 guard error == nil else { self.errorAction();return }
                 
                 var userInfo = PersistentData.User()
@@ -507,7 +507,7 @@ UISearchBarDelegate {
     }
     
     func errorAction() {
-        MBProgressHUDHelper.hide()
+        MBProgressHUDHelper.sharedInstance.hide()
         UIAlertController.showAlertView("", message: "通信エラーが発生しました。再実行してください。") { action in
             self.navigationController!.popToRootViewController(animated: true)
         }
@@ -519,12 +519,12 @@ UISearchBarDelegate {
             return
         }
         
-        MBProgressHUDHelper.show("Loading...")
+        MBProgressHUDHelper.sharedInstance.show(self.view)
         
         ParseHelper.getUserInfomationFromTwitter(searchStr) { (error: NSError?, result: PFObject?) -> Void in
             
             defer {
-                MBProgressHUDHelper.hide()
+                MBProgressHUDHelper.sharedInstance.hide()
             }
             
             guard result != nil else {

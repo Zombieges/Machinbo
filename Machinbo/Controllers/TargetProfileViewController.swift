@@ -382,6 +382,7 @@ class TargetProfileViewController:
                 let loadedObject = try query.getObjectWithId(id)
                 loadedObject["IsApproved"] = true
                 loadedObject.saveInBackground()
+                
                 self.gonowInfo = GonowData(parseObject: loadedObject)
                 
                 
@@ -390,7 +391,8 @@ class TargetProfileViewController:
             } catch {}
             
             UIAlertController.showAlertView("", message: "承認しました") { _ in
-                self.navigationController!.popToRootViewController(animated: true)
+                let vc = MeetupViewController(type: .match)
+                self.navigationController!.pushViewController(vc, animated: true)
             }
         }
     }

@@ -136,8 +136,10 @@ UISearchBarDelegate {
         } else if self.palKind == .name {
             self.navigationItem.title = "名前"
             
+            
+            //TableViewにする？
             self.inputTextField = UITextField()
-            self.inputTextField.frame = CGRect(x: 10, y: 20, width: UIScreen.main.bounds.size.width - 20 , height: 30)
+            self.inputTextField.frame = CGRect(x: 0, y: 20, width: UIScreen.main.bounds.size.width, height: 45)
             self.inputTextField.borderStyle = .roundedRect
             self.inputTextField.text = self.inputValue as? String
             self.view.addSubview(self.inputTextField)
@@ -253,12 +255,10 @@ UISearchBarDelegate {
     
     func createCommentField(_ displayWidth: CGFloat, displayHeight: CGFloat) {
         
-        inputTextView.frame = CGRect(x: 10, y: 20, width: displayWidth - 20 ,height: 60)
+        inputTextView.frame = CGRect(x: 0, y: 20, width: displayWidth, height: 60)
         inputTextView.text = self.inputValue as? String
         inputTextView.layer.masksToBounds = true
-        inputTextView.layer.cornerRadius = 5.0
-        inputTextView.layer.borderWidth = 1
-        inputTextView.layer.borderColor = UIColor.gray.cgColor
+        inputTextView.layer.borderColor = UIColor.clear.cgColor
         inputTextView.font = UIFont.systemFont(ofSize: CGFloat(15))
         inputTextView.textAlignment = NSTextAlignment.left
         inputTextView.selectedRange = NSMakeRange(0, 0)

@@ -47,9 +47,6 @@
         NotificationHelper.launch()
         ParseHelper.launch(launchOptions)
         
-        // BadgeNumber を０にする.
-        UIApplication.shared.applicationIconBadgeNumber = 0
-        
         let googleMapsKey = ConfigHelper.getPlistKey("GOOGLE_MAPS_API_KEY") as String
         NSLog("★google maps api key = " + googleMapsKey)
         
@@ -105,17 +102,20 @@
             name: Notification.Name(rawValue: registrationKey), object: nil, userInfo: userInfo)
     }
     
-    
+    // The FUNCTION IS FOR RECIVING NOTIFICATION
     func application( _ application: UIApplication,
                       didReceiveRemoteNotification userInfo: [AnyHashable: Any],
                       fetchCompletionHandler handler: @escaping (UIBackgroundFetchResult) -> Void) {
         print("Notification receiveda: \(userInfo)")
         
+        print("Notification receiveda: \(userInfo)")
+        if let aps = userInfo["aps"] as? [String:Any] {
+            print("alert: \(aps["alert"] as? String)")
+            UIAlertController.showAlertView("", message: (aps["alert"] as! String))
+            
+        }
         
-        // to do notification off 時の処理を追記
-        NotificationCenter.default.post(name: Notification.Name(rawValue: "CognitoPushNotification"), object: userInfo)
         handler(UIBackgroundFetchResult.noData);
-        
         // [END_EXCLUDE]
     }
     

@@ -72,6 +72,7 @@
 		BB8B07241E4B273400CD02E8 /* GonowData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8B07231E4B273400CD02E8 /* GonowData.swift */; };
 		BB8B07271E504E9700CD02E8 /* StyleConst.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8B07261E504E9700CD02E8 /* StyleConst.swift */; };
 		BB97CA971E7F837300C09006 /* machinbo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BB97CA961E7F837300C09006 /* machinbo@2x.png */; };
+		BB97CA9D1E80118700C09006 /* machinbo_title@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BB97CA9C1E80118700C09006 /* machinbo_title@2x.png */; };
 		BBA5C4941B3542F3005D062B /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBA5C4931B3542F3005D062B /* GoogleMaps.framework */; };
 		BBC3A3EE1B3E7BB6002CBBE9 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBC3A3ED1B3E7BB6002CBBE9 /* AVFoundation.framework */; };
 		BBC3A3F01B3E7BC1002CBBE9 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBC3A3EF1B3E7BC1002CBBE9 /* CoreData.framework */; };
@@ -178,6 +179,7 @@
 		BB8B07231E4B273400CD02E8 /* GonowData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GonowData.swift; sourceTree = "<group>"; };
 		BB8B07261E504E9700CD02E8 /* StyleConst.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StyleConst.swift; sourceTree = "<group>"; };
 		BB97CA961E7F837300C09006 /* machinbo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "machinbo@2x.png"; sourceTree = "<group>"; };
+		BB97CA9C1E80118700C09006 /* machinbo_title@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "machinbo_title@2x.png"; sourceTree = "<group>"; };
 		BBA5C4931B3542F3005D062B /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMaps.framework; path = Pods/GoogleMaps/Frameworks/GoogleMaps.framework; sourceTree = "<group>"; };
 		BBC3A3ED1B3E7BB6002CBBE9 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		BBC3A3EF1B3E7BC1002CBBE9 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -442,6 +444,7 @@
 				BB58C8D11E7059D800557B32 /* edit@2x.png */,
 				BB58C8D21E7059D800557B32 /* fukidashi.png */,
 				BB58C8D31E7059D800557B32 /* home@2x.png */,
+				BB97CA9C1E80118700C09006 /* machinbo_title@2x.png */,
 				BB58C8D41E7059D800557B32 /* logo_fb.png */,
 				BB58C8D51E7059D800557B32 /* logo_twitter.png */,
 				BB56B7F81E75A0B50095AD6C /* photo@2x.png */,
@@ -595,6 +598,7 @@
 				BB58C8E21E7059D800557B32 /* mappin@2x.png in Resources */,
 				BB58C8E11E7059D800557B32 /* logo_twitter.png in Resources */,
 				9409F7961B2D994D0069DAE8 /* LaunchScreen.xib in Resources */,
+				BB97CA9D1E80118700C09006 /* machinbo_title@2x.png in Resources */,
 				BB6FDDE81C3E97E100C366A2 /* GoNowListView.xib in Resources */,
 				BB58C8E71E7059D800557B32 /* search@2x.png in Resources */,
 				BB58C8E51E7059D800557B32 /* profile_icon@2x.png in Resources */,

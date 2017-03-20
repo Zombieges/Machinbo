@@ -31,8 +31,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
             self.view = view
         }
         
-        self.navigationItem.title = "Machinbo"
-        self.navigationController!.navigationBar.tintColor = UIColor.darkGray
         self.createNavigationItem()
         
         if self.isInternetConnect() {
@@ -186,6 +184,14 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
 //    }
     
     private func createNavigationItem() {
+        //self.navigationItem.title = "Machinbo"
+        self.navigationController!.navigationBar.tintColor = UIColor.darkGray
+        
+        let titleView = UIImageView(frame:CGRect(x: 0, y: 0, width: 30, height: 30))
+        titleView.image = UIImage(named: "machinbo_title@2x.png")
+        titleView.contentMode = .scaleAspectFit
+        self.navigationItem.titleView = titleView
+        
         let reloadButton = UIButton(type: .custom)
         reloadButton.setImage(UIImage(named: "reload@2x.png"), for: UIControlState())
         reloadButton.setTitleColor(.darkGray, for: UIControlState())

@@ -569,12 +569,16 @@ class TargetProfileViewController:
             //                UIAlertController.showAlertView("", message: "相手に現在位置確認を送信しました")
             //            }
             
-            
+            MBProgressHUDHelper.sharedInstance.show(self.view)
             // Notification push
             if let deviceToken = self.targetUserInfo?.object(forKey: "DeviceToken"){
                 print("Device token = \(deviceToken)")
                 
                 NotificationHelper.sendSpecificDevice(PersistentData.User().name + "さんから現在地確認を受信しました", deviceTokenAsString: deviceToken as! String, badges: 1 as Int)
+                
+                UIAlertController.showAlertView("", message: "相手に現在位置確認を送信しました")
+                
+                MBProgressHUDHelper.sharedInstance.hide()
                 
             }
 

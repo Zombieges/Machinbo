@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		21565CE3717E47A0479B49DF /* Pods_MachinboTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 998B8F3B9A497577B3C7CA6E /* Pods_MachinboTests.framework */; };
 		3A3F2150C031256EB68D9076 /* Pods_Machinbo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C275108A6ABA651FAA2DEFE /* Pods_Machinbo.framework */; };
-		9409F7931B2D994D0069DAE8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9409F7921B2D994D0069DAE8 /* Images.xcassets */; };
+		9409F7931B2D994D0069DAE8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9409F7921B2D994D0069DAE8 /* Assets.xcassets */; };
 		9409F7961B2D994D0069DAE8 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9409F7941B2D994D0069DAE8 /* LaunchScreen.xib */; };
 		9409F7A21B2D994D0069DAE8 /* MachinboTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9409F7A11B2D994D0069DAE8 /* MachinboTests.swift */; };
 		9484EBDA1CC38BC800DEC7A4 /* AMReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9484EBD91CC38BC800DEC7A4 /* AMReachability.swift */; };
@@ -71,6 +71,7 @@
 		BB8B07221E4A144700CD02E8 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8B07211E4A144700CD02E8 /* UserData.swift */; };
 		BB8B07241E4B273400CD02E8 /* GonowData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8B07231E4B273400CD02E8 /* GonowData.swift */; };
 		BB8B07271E504E9700CD02E8 /* StyleConst.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8B07261E504E9700CD02E8 /* StyleConst.swift */; };
+		BB97CA971E7F837300C09006 /* machinbo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BB97CA961E7F837300C09006 /* machinbo@2x.png */; };
 		BBA5C4941B3542F3005D062B /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBA5C4931B3542F3005D062B /* GoogleMaps.framework */; };
 		BBC3A3EE1B3E7BB6002CBBE9 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBC3A3ED1B3E7BB6002CBBE9 /* AVFoundation.framework */; };
 		BBC3A3F01B3E7BC1002CBBE9 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBC3A3EF1B3E7BC1002CBBE9 /* CoreData.framework */; };
@@ -108,7 +109,7 @@
 		2C275108A6ABA651FAA2DEFE /* Pods_Machinbo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Machinbo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		630EC4F74C0D5E7636DD6777 /* Pods-MachinboTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MachinboTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MachinboTests/Pods-MachinboTests.debug.xcconfig"; sourceTree = "<group>"; };
 		9409F7841B2D994D0069DAE8 /* Machinbo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Machinbo.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		9409F7921B2D994D0069DAE8 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		9409F7921B2D994D0069DAE8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9409F7951B2D994D0069DAE8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		9409F79B1B2D994D0069DAE8 /* MachinboTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MachinboTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9409F7A01B2D994D0069DAE8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -176,6 +177,7 @@
 		BB8B07211E4A144700CD02E8 /* UserData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		BB8B07231E4B273400CD02E8 /* GonowData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GonowData.swift; sourceTree = "<group>"; };
 		BB8B07261E504E9700CD02E8 /* StyleConst.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StyleConst.swift; sourceTree = "<group>"; };
+		BB97CA961E7F837300C09006 /* machinbo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "machinbo@2x.png"; sourceTree = "<group>"; };
 		BBA5C4931B3542F3005D062B /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMaps.framework; path = Pods/GoogleMaps/Frameworks/GoogleMaps.framework; sourceTree = "<group>"; };
 		BBC3A3ED1B3E7BB6002CBBE9 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		BBC3A3EF1B3E7BC1002CBBE9 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -330,7 +332,7 @@
 				BB6FDDC51C3E92FD00C366A2 /* Classes */,
 				BBEFA89A1B57BE99002EFC7A /* AppDelegate.swift */,
 				BBFEC6D71B92B7D90069137A /* Main.storyboard */,
-				9409F7921B2D994D0069DAE8 /* Images.xcassets */,
+				9409F7921B2D994D0069DAE8 /* Assets.xcassets */,
 				9409F7941B2D994D0069DAE8 /* LaunchScreen.xib */,
 				9409F7871B2D994D0069DAE8 /* Supporting Files */,
 			);
@@ -446,6 +448,7 @@
 				BB58C8D61E7059D800557B32 /* mappin@2x.png */,
 				BB58C8D71E7059D800557B32 /* meetup@2x.png */,
 				BB58C8D91E7059D800557B32 /* profile_icon@2x.png */,
+				BB97CA961E7F837300C09006 /* machinbo@2x.png */,
 				BB58C8DA1E7059D800557B32 /* reload@2x.png */,
 				BB58C8DB1E7059D800557B32 /* search@2x.png */,
 				BB58C8DC1E7059D800557B32 /* settings@2x.png */,
@@ -577,6 +580,7 @@
 				BB1A1E5D1CF515A90090E72D /* UserPolicy.txt in Resources */,
 				BB6FDDEA1C3E97E100C366A2 /* GoNowTableViewCell.xib in Resources */,
 				BB58C8DF1E7059D800557B32 /* home@2x.png in Resources */,
+				BB97CA971E7F837300C09006 /* machinbo@2x.png in Resources */,
 				BB7A35441D9DCFE4008C1444 /* TwitterKitResources.bundle in Resources */,
 				BB56B7F91E75A0B50095AD6C /* photo@2x.png in Resources */,
 				BB6FDDF21C3E97E100C366A2 /* TargetProfileView.xib in Resources */,
@@ -595,7 +599,7 @@
 				BB58C8E71E7059D800557B32 /* search@2x.png in Resources */,
 				BB58C8E51E7059D800557B32 /* profile_icon@2x.png in Resources */,
 				BB58C8DE1E7059D800557B32 /* fukidashi.png in Resources */,
-				9409F7931B2D994D0069DAE8 /* Images.xcassets in Resources */,
+				9409F7931B2D994D0069DAE8 /* Assets.xcassets in Resources */,
 				BB6FDDEF1C3E97E100C366A2 /* ProfileView.xib in Resources */,
 				BB6FDDEB1C3E97E100C366A2 /* MapView.xib in Resources */,
 				BBC5E3A71E32150900EDE432 /* Info.plist in Resources */,

@@ -88,7 +88,7 @@ class MarkerDraggableViewController: UIViewController, GMSMapViewDelegate, CLLoc
         
         if self.pinImage == nil {
             
-            self.pinImage = UIImageView(image: UIImage(named: "mappin@2x.png"))
+            self.pinImage = UIImageView(image: UIImage(named: "mappin_blue_big@2x.png"))
             self.pinImage.isUserInteractionEnabled = true
             
 //            let gesture = UITapGestureRecognizer(target:self, action: #selector(self.didClickImageView))
@@ -116,12 +116,12 @@ class MarkerDraggableViewController: UIViewController, GMSMapViewDelegate, CLLoc
     private func createEntryThisPointButton() {
         let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: displayWidth - 20, height: 50))
         btn.trackTouchLocation = true
-        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1, alpha: 0.8)
-        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1, alpha: 0.8)
+        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x476EB3, alpha: 1.0)
+        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x476EB3, alpha: 1.0)
         btn.rippleColor = LayoutManager.getUIColorFromRGB(0x1976D2)
         btn.setTitle("待ち合わせ場所決定", for: UIControlState())
         btn.addTarget(self, action: #selector(self.didClickImageView), for: UIControlEvents.touchUpInside)
-        btn.layer.cornerRadius = 0
+        btn.layer.cornerRadius = 2
         btn.layer.masksToBounds = true
         btn.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height - self.view.bounds.height/7.3)
         self.view.addSubview(btn)

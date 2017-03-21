@@ -29,7 +29,6 @@
 		BB58C8DF1E7059D800557B32 /* home@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BB58C8D31E7059D800557B32 /* home@2x.png */; };
 		BB58C8E01E7059D800557B32 /* logo_fb.png in Resources */ = {isa = PBXBuildFile; fileRef = BB58C8D41E7059D800557B32 /* logo_fb.png */; };
 		BB58C8E11E7059D800557B32 /* logo_twitter.png in Resources */ = {isa = PBXBuildFile; fileRef = BB58C8D51E7059D800557B32 /* logo_twitter.png */; };
-		BB58C8E21E7059D800557B32 /* mappin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BB58C8D61E7059D800557B32 /* mappin@2x.png */; };
 		BB58C8E31E7059D800557B32 /* meetup@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BB58C8D71E7059D800557B32 /* meetup@2x.png */; };
 		BB58C8E51E7059D800557B32 /* profile_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BB58C8D91E7059D800557B32 /* profile_icon@2x.png */; };
 		BB58C8E61E7059D800557B32 /* reload@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BB58C8DA1E7059D800557B32 /* reload@2x.png */; };
@@ -73,6 +72,10 @@
 		BB8B07271E504E9700CD02E8 /* StyleConst.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8B07261E504E9700CD02E8 /* StyleConst.swift */; };
 		BB97CA971E7F837300C09006 /* machinbo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BB97CA961E7F837300C09006 /* machinbo@2x.png */; };
 		BB97CA9D1E80118700C09006 /* machinbo_title@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BB97CA9C1E80118700C09006 /* machinbo_title@2x.png */; };
+		BB97CA9F1E80143700C09006 /* mappin_blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BB97CA9E1E80143700C09006 /* mappin_blue@2x.png */; };
+		BB97CAA11E814C9F00C09006 /* mappin_red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BB97CAA01E814C9F00C09006 /* mappin_red@2x.png */; };
+		BB97CAA31E814E0C00C09006 /* mappin_green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BB97CAA21E814E0C00C09006 /* mappin_green@2x.png */; };
+		BB97CAA51E814EA000C09006 /* mappin_blue_big@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BB97CAA41E814EA000C09006 /* mappin_blue_big@2x.png */; };
 		BBA5C4941B3542F3005D062B /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBA5C4931B3542F3005D062B /* GoogleMaps.framework */; };
 		BBC3A3EE1B3E7BB6002CBBE9 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBC3A3ED1B3E7BB6002CBBE9 /* AVFoundation.framework */; };
 		BBC3A3F01B3E7BC1002CBBE9 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBC3A3EF1B3E7BC1002CBBE9 /* CoreData.framework */; };
@@ -135,7 +138,6 @@
 		BB58C8D31E7059D800557B32 /* home@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "home@2x.png"; sourceTree = "<group>"; };
 		BB58C8D41E7059D800557B32 /* logo_fb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_fb.png; sourceTree = "<group>"; };
 		BB58C8D51E7059D800557B32 /* logo_twitter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_twitter.png; sourceTree = "<group>"; };
-		BB58C8D61E7059D800557B32 /* mappin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mappin@2x.png"; sourceTree = "<group>"; };
 		BB58C8D71E7059D800557B32 /* meetup@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "meetup@2x.png"; sourceTree = "<group>"; };
 		BB58C8D91E7059D800557B32 /* profile_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profile_icon@2x.png"; sourceTree = "<group>"; };
 		BB58C8DA1E7059D800557B32 /* reload@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reload@2x.png"; sourceTree = "<group>"; };
@@ -180,6 +182,10 @@
 		BB8B07261E504E9700CD02E8 /* StyleConst.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StyleConst.swift; sourceTree = "<group>"; };
 		BB97CA961E7F837300C09006 /* machinbo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "machinbo@2x.png"; sourceTree = "<group>"; };
 		BB97CA9C1E80118700C09006 /* machinbo_title@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "machinbo_title@2x.png"; sourceTree = "<group>"; };
+		BB97CA9E1E80143700C09006 /* mappin_blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mappin_blue@2x.png"; sourceTree = "<group>"; };
+		BB97CAA01E814C9F00C09006 /* mappin_red@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mappin_red@2x.png"; sourceTree = "<group>"; };
+		BB97CAA21E814E0C00C09006 /* mappin_green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mappin_green@2x.png"; sourceTree = "<group>"; };
+		BB97CAA41E814EA000C09006 /* mappin_blue_big@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mappin_blue_big@2x.png"; sourceTree = "<group>"; };
 		BBA5C4931B3542F3005D062B /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMaps.framework; path = Pods/GoogleMaps/Frameworks/GoogleMaps.framework; sourceTree = "<group>"; };
 		BBC3A3ED1B3E7BB6002CBBE9 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		BBC3A3EF1B3E7BC1002CBBE9 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -448,7 +454,10 @@
 				BB58C8D41E7059D800557B32 /* logo_fb.png */,
 				BB58C8D51E7059D800557B32 /* logo_twitter.png */,
 				BB56B7F81E75A0B50095AD6C /* photo@2x.png */,
-				BB58C8D61E7059D800557B32 /* mappin@2x.png */,
+				BB97CA9E1E80143700C09006 /* mappin_blue@2x.png */,
+				BB97CAA01E814C9F00C09006 /* mappin_red@2x.png */,
+				BB97CAA21E814E0C00C09006 /* mappin_green@2x.png */,
+				BB97CAA41E814EA000C09006 /* mappin_blue_big@2x.png */,
 				BB58C8D71E7059D800557B32 /* meetup@2x.png */,
 				BB58C8D91E7059D800557B32 /* profile_icon@2x.png */,
 				BB97CA961E7F837300C09006 /* machinbo@2x.png */,
@@ -586,16 +595,19 @@
 				BB97CA971E7F837300C09006 /* machinbo@2x.png in Resources */,
 				BB7A35441D9DCFE4008C1444 /* TwitterKitResources.bundle in Resources */,
 				BB56B7F91E75A0B50095AD6C /* photo@2x.png in Resources */,
+				BB97CAA51E814EA000C09006 /* mappin_blue_big@2x.png in Resources */,
 				BB6FDDF21C3E97E100C366A2 /* TargetProfileView.xib in Resources */,
 				BBFEC6D91B92B7D90069137A /* Main.storyboard in Resources */,
 				BB8474FA1CCEDC110001FFB8 /* ImakokoView.xib in Resources */,
 				BB58C8FE1E705AA300557B32 /* style.geojson in Resources */,
 				BB58C8E81E7059D800557B32 /* settings@2x.png in Resources */,
+				BB97CAA31E814E0C00C09006 /* mappin_green@2x.png in Resources */,
+				BB97CAA11E814C9F00C09006 /* mappin_red@2x.png in Resources */,
 				BB6FDDE71C3E97E100C366A2 /* DetailProfileTableViewCell.xib in Resources */,
 				BB58C8E31E7059D800557B32 /* meetup@2x.png in Resources */,
+				BB97CA9F1E80143700C09006 /* mappin_blue@2x.png in Resources */,
 				BB6FDDEE1C3E97E100C366A2 /* PickerView.xib in Resources */,
 				BBD353581CDDCCB1007B1A1C /* SettingsView.xib in Resources */,
-				BB58C8E21E7059D800557B32 /* mappin@2x.png in Resources */,
 				BB58C8E11E7059D800557B32 /* logo_twitter.png in Resources */,
 				9409F7961B2D994D0069DAE8 /* LaunchScreen.xib in Resources */,
 				BB97CA9D1E80118700C09006 /* machinbo_title@2x.png in Resources */,

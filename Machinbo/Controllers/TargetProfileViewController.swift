@@ -194,9 +194,9 @@ class TargetProfileViewController:
                 var normalCell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier)
                 if normalCell == nil {
                     normalCell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: tableViewCellIdentifier)
-                    normalCell!.textLabel!.font = UIFont(name: "Arial", size: 15)
-                    normalCell!.detailTextLabel!.font = UIFont(name: "Arial", size: 15)
                 }
+                normalCell!.textLabel!.font = UIFont.systemFont(ofSize: 16)
+                normalCell!.detailTextLabel!.font = UIFont.systemFont(ofSize: 16)
                 
                 if indexPath.row == 0 {
                     normalCell?.textLabel?.text = targetProfileItems[indexPath.row]
@@ -232,9 +232,9 @@ class TargetProfileViewController:
             var normalCell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier)
             if normalCell == nil {
                 normalCell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: tableViewCellIdentifier)
-                normalCell!.textLabel!.font = UIFont(name: "Arial", size: 14)
-                normalCell!.detailTextLabel!.font = UIFont(name: "Arial", size: 14)
             }
+            normalCell!.textLabel!.font = UIFont.systemFont(ofSize: 16)
+            normalCell!.detailTextLabel!.font = UIFont.systemFont(ofSize: 16)
             
             if indexPath.row == 0 {
                 normalCell?.textLabel?.text = otherItems[indexPath.row]
@@ -250,7 +250,9 @@ class TargetProfileViewController:
                 
             } else if indexPath.row == 2 {
                 normalCell?.textLabel?.text = otherItems[indexPath.row]
-                normalCell?.detailTextLabel?.text = self.getDateformatStringForUserInfo(keyString: "gotoAt")
+                if let data = self.gonowInfo?.GotoAt {
+                    normalCell?.detailTextLabel?.text = dateFormatter.string(from: data)
+                }
                 
                 cell = normalCell
                 
@@ -363,7 +365,7 @@ class TargetProfileViewController:
         btn.rippleColor = LayoutManager.getUIColorFromRGB(0x1976D2)
         btn.setTitle("承認する", for: UIControlState())
         btn.addTarget(self, action: #selector(self.clickApproveButton), for: .touchUpInside)
-        btn.layer.cornerRadius = 0
+        btn.layer.cornerRadius = 5.0
         btn.layer.masksToBounds = true
         btn.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height - self.view.bounds.height/7.3)
         
@@ -403,6 +405,8 @@ class TargetProfileViewController:
         btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1, alpha: 0.8)
         btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1, alpha: 0.8)
         btn.rippleColor = LayoutManager.getUIColorFromRGB(0x1976D2)
+        btn.layer.cornerRadius = 5.0
+        btn.layer.masksToBounds = true
         btn.setTitle("位置送信", for: UIControlState())
         btn.addTarget(self, action: #selector(self.clickimakokoButton), for: .touchUpInside)
         
@@ -425,6 +429,8 @@ class TargetProfileViewController:
         btn.setTitle("位置確認", for: UIControlState())
         btn.layer.borderColor = LayoutManager.getUIColorFromRGB(0x0D47A1).cgColor
         btn.layer.borderWidth = 1.0
+        btn.layer.cornerRadius = 5.0
+        btn.layer.masksToBounds = true
         btn.setTitleColor(LayoutManager.getUIColorFromRGB(0x0D47A1), for: UIControlState())
         
         self.myHeaderView.addSubview(btn)
@@ -715,7 +721,7 @@ class TargetProfileViewController:
         
         return ""
     }
-    
+
     func clickRemoveBlock() {
         UIAlertController.showAlertOKCancel("", message: "ブロックしています。ブロックを解除しますか？", actiontitle: "解除") { action in
             guard action == .ok else { return }

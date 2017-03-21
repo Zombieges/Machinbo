@@ -364,6 +364,8 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             if normalCell == nil {
                 normalCell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: tableViewCellIdentifier)
             }
+            normalCell!.textLabel!.font = UIFont.systemFont(ofSize: 16)
+            normalCell!.detailTextLabel!.font = UIFont.systemFont(ofSize: 16)
             
             let userData = PersistentData.User()
             if indexPath.row == 0 {
@@ -507,13 +509,13 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     
     @IBAction func imakokoAction(_ sender: AnyObject) {
         if PersistentData.User().isRecruitment! {
-            UIAlertController.showAlertOKCancel("", message: "待ち合わせ募集を停止してもよろしいですか？", actiontitle: "停止") { action in
+            UIAlertController.showAlertOKCancel("", message: "登録した待ち合わせ募集を停止してもよろしいですか？", actiontitle: "停止") { action in
                 if action == .cancel { return }
                 self.recruitmentStop()
             }
             
         } else {
-            UIAlertController.showAlertOKCancel("", message: "待ち合わせ募集を再開してもよろしいですか？", actiontitle: "再開") { action in
+            UIAlertController.showAlertOKCancel("", message: "登録した待ち合わせ募集を再開してもよろしいですか？", actiontitle: "再開") { action in
                 if action == .cancel { return }
                 self.recruitmentStart()
             }

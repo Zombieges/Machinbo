@@ -55,4 +55,9 @@ class GonowData {
         get { return pfObject.object(forKey: "targetGoNow") as? PFObject }
         set(v) { pfObject.setValue(v, forKey: "targetGoNow") }
     }
+    
+    var GotoAt: Date? {
+        get { return pfObject.object(forKey: "gotoAt") as? Date }
+        set(v) { pfObject.setValue(v, forKey: "gotoAt") }
+    }
 }

@@ -13,6 +13,30 @@ import MapKit
 
 class GoogleMapsHelper {
     
+    static var gmsMapView = { (gmsDelegate: GMSMapViewDelegate, position: CLLocationCoordinate2D) -> GMSMapView in
+        let camera = GMSCameraPosition(target: position, zoom: 12, bearing: 0, viewingAngle: 0)
+        
+        let gmaps = GMSMapView()
+        gmaps.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
+        gmaps.isMyLocationEnabled = true
+        gmaps.settings.myLocationButton = true
+        gmaps.delegate = gmsDelegate
+        gmaps.camera = camera
+        gmaps.animate(toLocation: position)
+        do {
+            if let styleURL = Bundle.main.url(forResource: "style", withExtension: "geojson") {
+                gmaps.mapStyle = try GMSMapStyle(contentsOfFileURL: styleURL)
+                
+            } else {
+                NSLog("Unable to find style.json")
+            }
+        } catch {
+            NSLog("One or more of the map styles failed to load. \(error)")
+        }
+        
+        return gmaps
+    }
+    
     class func setAnyUserMarker(_ map: GMSMapView, userObjects: [PFObject]) {
         
         //MBProgressHUDHelper.show("Loading...")
@@ -77,7 +101,7 @@ class GoogleMapsHelper {
             marker1.title = "待ち合わせ場所"
             
             map.selectedMarker = marker1
-            let camera = GMSCameraPosition(target: position, zoom: 9, bearing: 0, viewingAngle: 0)
+            let camera = GMSCameraPosition(target: position, zoom: 10, bearing: 0, viewingAngle: 0)
             map.camera = camera
         }
         

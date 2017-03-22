@@ -141,26 +141,9 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         self.longitude = location.coordinate.longitude
         
         NSLog("位置情報取得成功！-> latiitude: \(latitude) , longitude: \(longitude)")
+        
         let myPosition = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-        let camera = GMSCameraPosition(target: myPosition, zoom: 13, bearing: 0, viewingAngle: 0)
-        let gmaps = GMSMapView()
-        do {
-            // Set the map style by passing the URL of the local file.
-            if let styleURL = Bundle.main.url(forResource: "style", withExtension: "geojson") {
-                gmaps.mapStyle = try GMSMapStyle(contentsOfFileURL: styleURL)
-                
-            } else {
-                NSLog("Unable to find style.json")
-            }
-        } catch {
-            NSLog("One or more of the map styles failed to load. \(error)")
-        }
-        gmaps.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
-        gmaps.isMyLocationEnabled = true
-        gmaps.settings.myLocationButton = true
-        gmaps.camera = camera
-        gmaps.delegate = self
-        gmaps.animate(toLocation: myPosition)
+        let gmaps = GoogleMapsHelper.gmsMapView(self, myPosition)
         self.view.addSubview(gmaps)
         
         FeedData.mainData().refreshMapFeed(myPosition) { () -> () in

@@ -29,20 +29,29 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     private var sections = ["", "プロフィール", "SNS", "待ち合わせ情報"]
     
     let picker = UIImagePickerController()
-    var window: UIWindow?
-    var FarstTimeStart = false
     
-    var gender = ""
-    var age = ""
-    var inputName = ""
-    var selectedAge = ""
-    var selectedGender = ""
-    var inputComment = ""
-    var twitterName = ""
+    private var gender = ""
+    private var age = ""
+    private var inputName = ""
+    private var selectedAge = ""
+    private var selectedGender = ""
+    private var inputComment = ""
+    private var twitterName = ""
+    private var inputDateFrom = ""
+    private var inputDateTo = ""
+    private var inputPlace = ""
+    private var inputChar = ""
+    private var selectedRow: Int = 0
     
-    let identifier = "Cell"
-    var cell: UITableViewCell?
-    let detailTableViewCellIdentifier: String = "DetailCell"
+    private let identifier = "Cell"
+    private var cell: UITableViewCell?
+    private let detailTableViewCellIdentifier: String = "DetailCell"
+    
+    private lazy var dateFormatter: DateFormatter = {
+        var formatter = DateFormatter()
+        formatter.dateFormat = "yyyy年M月d日 H:mm"
+        return formatter
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,7 +90,9 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         self.selectedGender = String(userData.gender)
         self.inputComment = userData.comment
         self.twitterName = userData.twitterName
-        
+        self.inputDateFrom = userData.markTimeFrom
+        self.inputDateTo = userData.markTimeTo
+
         self.navigationItem.title = self.inputName
         
         setNavigationItemSettingButton()
@@ -234,8 +245,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         }
     }
     
-    internal func setSelectedDate(_ SelectedDate: Date) {}
-    
     internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0: return 0
@@ -370,13 +379,13 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             let userData = PersistentData.User()
             if indexPath.row == 0 {
                 normalCell?.textLabel?.text = otherItems[indexPath.row]
-                normalCell?.detailTextLabel?.text = userData.markTimeFrom
+                normalCell?.detailTextLabel?.text = self.inputDateFrom
                 
                 cell = normalCell
                 
             } else if indexPath.row == 1 {
                 normalCell?.textLabel?.text = otherItems[indexPath.row]
-                normalCell?.detailTextLabel?.text = userData.markTimeTo
+                normalCell?.detailTextLabel?.text = self.inputDateTo
                 
                 cell = normalCell
                 
@@ -405,7 +414,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     
     // セルがタップされた時
     internal func tableView(_ table: UITableView, didSelectRowAt indexPath:IndexPath) {
-        
+        self.selectedRow = indexPath.row
         
         if indexPath.section == 1 {
             if indexPath.row == 0 {
@@ -433,14 +442,38 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
                 navigationController?.pushViewController(vc, animated: true)
             }
             
-        } else if indexPath.section == 1 {
+        } else if indexPath.section == 2 {
             if indexPath.row == 0 {
                 //Twitter認証
                 loginTwitter()
             }
+            
+        } else if indexPath.section == 3 {
+            if indexPath.row == 0 {
+                let vc = PickerViewController(kind: PickerKind.imakokoDateFrom, inputValue: inputDateFrom as AnyObject)
+                vc.delegate = self
+                
+                self.navigationController?.pushViewController(vc, animated: true)
+                
+            } else if indexPath.row == 1 {
+                let vc = PickerViewController(kind: PickerKind.imakokoDateFrom, inputValue: inputDateTo as AnyObject)
+                vc.delegate = self
+                
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
         }
     }
     
+    internal func setSelectedDate(_ selectedDate: Date) {
+        if selectedRow == 0 {
+           self.inputDateFrom  = self.dateFormatter.string(from: selectedDate)
+            
+        } else if selectedRow == 1 {
+            self.inputDateTo  = self.dateFormatter.string(from: selectedDate)
+        }
+        
+        self.tableView.reloadData()
+    }
     
     @IBAction func pushStart(_ sender: AnyObject) {
         guard !inputName.isEmpty else {

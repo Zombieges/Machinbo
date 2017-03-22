@@ -153,8 +153,10 @@ class TargetProfileViewController:
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return 0
+            
         } else if section == 1 {
             return self.targetProfileItems.count
+            
         } else if section == 2 {
             return self.otherItems.count
         }
@@ -170,6 +172,7 @@ class TargetProfileViewController:
         if section == 0 {
             return CGFloat.leastNormalMagnitude
         }
+        
         return StyleConst.sectionHeaderHeight
     }
     

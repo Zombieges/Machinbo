@@ -112,6 +112,7 @@ class LayoutManager {
         
         let tabBarController = UITabBarController()
         tabBarController.setViewControllers([mainNavigationCtrl, editNavigationCtrl, meetupNavigationCtrl, profileNavigationCtrl], animated: false)
+        tabBarController.tabBar.isTranslucent = false
         
         return tabBarController
     }

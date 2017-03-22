@@ -18,46 +18,46 @@ class GonowData {
     
     var ObjectId: String {
         get { return pfObject.objectId! }
-        set(v) { pfObject.objectId = v }
+        set { pfObject.objectId = newValue }
     }
     
     var UserID: String {
         get { return pfObject.object(forKey: "UserID") as! String }
-        set(v) { pfObject.setValue(v, forKey: "UserID") }
+        set { pfObject.setValue(newValue, forKey: "UserID") }
     }
     
     var IsApproved: Bool {
         get { return pfObject.object(forKey: "IsApproved") as! Bool }
-        set(v) { pfObject.setValue(v, forKey: "IsApproved") }
+        set { pfObject.setValue(newValue, forKey: "IsApproved") }
     }
     
     var IsDeleteUser: Bool {
         get { return pfObject.object(forKey: "isDeleteUser") as! Bool }
-        set(v) { pfObject.setValue(v, forKey: "isDeleteUser") }
+        set { pfObject.setValue(newValue, forKey: "isDeleteUser") }
     }
     
     var IsDeleteTarget: Bool {
         get { return pfObject.object(forKey: "isDeleteTarget") as! Bool }
-        set(v) { pfObject.setValue(v, forKey: "isDeleteTarget") }
+        set { pfObject.setValue(newValue, forKey: "isDeleteTarget") }
     }
     
     var TargetUserID: String {
         get { return pfObject.object(forKey: "TargetUserID") as! String }
-        set(v) { pfObject.setValue(v, forKey: "TargetUserID") }
+        set { pfObject.setValue(newValue, forKey: "TargetUserID") }
     }
     
     var UserGoNow: PFObject? {
         get { return pfObject.object(forKey: "userGoNow") as? PFObject }
-        set(v) { pfObject.setValue(v, forKey: "userGoNow") }
+        set { pfObject.setValue(newValue, forKey: "userGoNow") }
     }
     
     var TargetGoNow: PFObject? {
         get { return pfObject.object(forKey: "targetGoNow") as? PFObject }
-        set(v) { pfObject.setValue(v, forKey: "targetGoNow") }
+        set { pfObject.setValue(newValue, forKey: "targetGoNow") }
     }
     
     var GotoAt: Date? {
         get { return pfObject.object(forKey: "gotoAt") as? Date }
-        set(v) { pfObject.setValue(v, forKey: "gotoAt") }
+        set { pfObject.setValue(newValue, forKey: "gotoAt") }
     }
 }

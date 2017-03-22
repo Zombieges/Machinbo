@@ -74,8 +74,8 @@ extension TransisionProtocol where
         // AdMob Sample Start
         let AdMobID = ConfigHelper.getPlistKey("ADMOB_ID") as String    //ID をInfoPlist より取得
         //let TEST_DEVICE_ID = "61b0154xxxxxxxxxxxxxxxxxxxxxxxe0"
-        let AdMobTest:Bool = true
-        let SimulatorTest:Bool = true
+        let AdMobTest = true
+        let SimulatorTest = false
         
         // Admob のビューを生成
         //var admobView: GADBannerView = GADBannerView()
@@ -93,12 +93,20 @@ extension TransisionProtocol where
             let admobRequest:GADRequest = GADRequest()
             
             if AdMobTest {
+                // simulator テスト
                 if SimulatorTest {
                     admobRequest.testDevices = [kGADSimulatorID]
+                    print("simulator")
+                }
+                    // 実機テスト
+                else {
+                    admobRequest.testDevices = [""]
+                    print("device")
                 }
             }
-            
+
             admobView.load(admobRequest)
+
             self.view.addSubview(admobView)
             
         } else if type == AdmobType.full {
@@ -109,8 +117,15 @@ extension TransisionProtocol where
             let admobRequest:GADRequest = GADRequest()
             
             if AdMobTest {
+                // simulator テスト
                 if SimulatorTest {
                     admobRequest.testDevices = [kGADSimulatorID]
+                    print("simulator")
+                }
+                    // 実機テスト
+                else {
+                    admobRequest.testDevices = [""]
+                    print("device")
                 }
             }
             

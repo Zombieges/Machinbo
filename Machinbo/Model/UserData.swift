@@ -18,7 +18,7 @@ class UserData {
     
     var name: String {
         get {return pfObject.object(forKey: "name") as! String}
-        set(v) {pfObject.setValue(v, forKey: "name")}
+        set {pfObject.setValue(newValue, forKey: "name")}
     }
     
     

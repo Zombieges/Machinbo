@@ -29,13 +29,20 @@ class MarkerDraggableViewController: UIViewController, GMSMapViewDelegate, CLLoc
             self.view = view
         }
         
-        //self.navigationItem.title = "ピンの場所を選択"
+        let backButton = UIBarButtonItem()
+        backButton.title = ""
+        self.navigationItem.backBarButtonItem = backButton
+        self.navigationItem.title = "待ち合わせ場所を選択"
         
-        if self.isInternetConnect() {
+        if isInternetConnect() {
             LocationManager.sharedInstance.startUpdatingLocation()
             
             let center = NotificationCenter.default as NotificationCenter
-            center.addObserver(self, selector: #selector(self.setGoogleMaps(_:)), name: NSNotification.Name(rawValue: LMLocationUpdateNotification as String as String), object: nil)
+            center.addObserver(
+                self,
+                selector: #selector(self.setGoogleMaps(_:)),
+                name: NSNotification.Name(rawValue: LMLocationUpdateNotification as String),
+                object: nil)
         }
     }
     
@@ -47,29 +54,9 @@ class MarkerDraggableViewController: UIViewController, GMSMapViewDelegate, CLLoc
         let latitude = location.coordinate.latitude
         let longitude = location.coordinate.longitude
         
-        //現在位置
         let myPosition = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-        let camera = GMSCameraPosition(target: myPosition, zoom: 13, bearing: 0, viewingAngle: 0)
-        
-        self.gmaps = GMSMapView()
-        self.gmaps.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
-        self.gmaps.isMyLocationEnabled = true
-        self.gmaps.settings.myLocationButton = true
-        self.gmaps.camera = camera
-        self.gmaps.delegate = self
-        do {
-            // Set the map style by passing the URL of the local file.
-            if let styleURL = Bundle.main.url(forResource: "style", withExtension: "geojson") {
-                gmaps.mapStyle = try GMSMapStyle(contentsOfFileURL: styleURL)
-                
-            } else {
-                NSLog("Unable to find style.json")
-            }
-        } catch {
-            NSLog("One or more of the map styles failed to load. \(error)")
-        }
-        self.gmaps.animate(toLocation: myPosition)
-        
+        //地図作成
+        self.gmaps = GoogleMapsHelper.gmsMapView(self, myPosition)
         self.view.addSubview(self.gmaps)
     }
     

@@ -146,8 +146,8 @@ class SettingsViewController: UIViewController, UINavigationControllerDelegate, 
             
         } else if indexPath.section == 2 {
             if indexPath.row == 0 {
-                let vc = PickerViewController(kind: PickerKind.yakkan)
-                self.navigationController!.pushViewController(vc, animated: true)
+                //let vc = PickerViewController(kind: PickerKind.yakkan)
+                self.goToRulesPages()
             }
             
         } else if indexPath.section == 3 {
@@ -156,6 +156,17 @@ class SettingsViewController: UIViewController, UINavigationControllerDelegate, 
             }
         }
     }
+    
+    func goToRulesPages() {
+        
+        let url = URL(string: "https://www.facebook.com/notes/machinbo/%E8%A6%8F%E7%B4%84/425584321122503")!
+        if #available(iOS 10.0, *) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        } else {
+            UIApplication.shared.openURL(url)
+        }
+    }
+    
     
     func deleteAccount() {
         MBProgressHUDHelper.sharedInstance.show(self.view)

@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MeetupViewController" customModule="Machinbo" customModuleProvider="target">
             <connections>
+                <outlet property="bannerView" destination="dXg-zH-duU" id="XyB-wK-7Xz"/>
                 <outlet property="tableView" destination="TxA-Ya-UCe" id="jVI-2N-I0H"/>
             </connections>
         </placeholder>
@@ -19,21 +20,31 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="default" rowHeight="70" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="TxA-Ya-UCe">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" style="grouped" separatorStyle="default" rowHeight="70" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="TxA-Ya-UCe">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="609"/>
                     <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="TN6-oV-pdZ"/>
                         <outlet property="delegate" destination="-1" id="dWh-1l-BTR"/>
                     </connections>
                 </tableView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dXg-zH-duU" customClass="GADBannerView">
+                    <rect key="frame" x="0.0" y="617" width="375" height="50"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="R7L-xP-9FZ"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" red="0.92156862750000001" green="0.92156862750000001" blue="0.94509803920000002" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="TxA-Ya-UCe" secondAttribute="trailing" id="C8X-yp-lSE"/>
+                <constraint firstAttribute="trailing" secondItem="dXg-zH-duU" secondAttribute="trailing" id="Hf2-Al-P4i"/>
                 <constraint firstItem="TxA-Ya-UCe" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="JiD-lc-fgg"/>
                 <constraint firstItem="TxA-Ya-UCe" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="KLV-q3-em9"/>
-                <constraint firstAttribute="bottom" secondItem="TxA-Ya-UCe" secondAttribute="bottom" id="bq5-pp-g5w"/>
+                <constraint firstAttribute="bottom" secondItem="dXg-zH-duU" secondAttribute="bottom" id="O25-W8-Uu3"/>
+                <constraint firstItem="dXg-zH-duU" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="P9G-2E-OSc"/>
+                <constraint firstItem="TxA-Ya-UCe" firstAttribute="bottom" secondItem="dXg-zH-duU" secondAttribute="top" id="sT1-5y-kuP"/>
             </constraints>
             <point key="canvasLocation" x="32.5" y="-251.5"/>
         </view>

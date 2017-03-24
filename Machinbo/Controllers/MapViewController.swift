@@ -17,14 +17,13 @@ import GoogleMobileAds
 
 class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManagerDelegate, GADBannerViewDelegate, GADInterstitialDelegate, UITabBarDelegate, TransisionProtocol {
     
-    private var profileSettingButton: UIBarButtonItem!
-    private var lm : CLLocationManager!
     private var longitude: CLLocationDegrees!
     private var latitude: CLLocationDegrees!
     private var markWindow = MarkWindow()
-    private var mainNavigationCtrl: UINavigationController?
     
-    @IBOutlet weak var mapViewContainer: UIView!
+    
+    @IBOutlet weak var gmsMapView: GMSMapView!
+    @IBOutlet weak var bannerView: GADBannerView!
     
     override func viewDidLoad() {
         if let view = UINib(nibName: "MapView", bundle: nil).instantiate(withOwner: self, options: nil).first as? UIView {
@@ -37,6 +36,11 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
             let center = NotificationCenter.default as NotificationCenter
             LocationManager.sharedInstance.startUpdatingLocation()
             center.addObserver(self, selector: #selector(self.foundLocation(_:)), name: NSNotification.Name(rawValue: LMLocationUpdateNotification as String as String), object: nil)
+            
+            let AdMobUnitID = ConfigHelper.getPlistKey("ADMOB_UNIT_ID") as String
+            bannerView.adUnitID = AdMobUnitID
+            bannerView.rootViewController = self
+            bannerView.load(GADRequest())
         }
     }
     
@@ -143,12 +147,21 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         NSLog("位置情報取得成功！-> latiitude: \(latitude) , longitude: \(longitude)")
         
         let myPosition = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        //GoogleMap set GMSMapView
         let gmaps = GoogleMapsHelper.gmsMapView(self, myPosition)
-        self.view.addSubview(gmaps)
+        self.gmsMapView.addSubview(gmaps)
         
         FeedData.mainData().refreshMapFeed(myPosition) { () -> () in
+            //GoogleMaps Set User Marker
             GoogleMapsHelper.setAnyUserMarker(gmaps, userObjects: FeedData.mainData().feedItems)
-            self.showAdmob(AdmobType.full)
+            
+            //Full AdMob
+            let AdMobUnitID = ConfigHelper.getPlistKey("ADMOB_UNIT_ID") as String
+            let fullBannerView = GADInterstitial(adUnitID: AdMobUnitID)
+            fullBannerView.load(GADRequest())
+            if fullBannerView.isReady {
+                fullBannerView.present(fromRootViewController: self)
+            }
         }
     }
     

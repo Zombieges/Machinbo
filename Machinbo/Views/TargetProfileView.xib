@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TargetProfileViewController" customModule="Machinbo" customModuleProvider="target">
             <connections>
+                <outlet property="bannerView" destination="KSq-au-qHp" id="fKv-Pk-Lb9"/>
                 <outlet property="tableView" destination="3WK-ds-zQ9" id="aEd-h6-Qt5"/>
             </connections>
         </placeholder>
@@ -20,7 +21,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" style="grouped" separatorStyle="default" sectionIndexMinimumDisplayRowCount="2" rowHeight="55" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="3WK-ds-zQ9">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="667"/>
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="601"/>
                     <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="260" id="Coo-GM-orc"/>
@@ -35,11 +36,19 @@
                         <outlet property="delegate" destination="-1" id="d33-Hy-Voj"/>
                     </connections>
                 </tableView>
+                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KSq-au-qHp" customClass="GADBannerView">
+                    <rect key="frame" x="0.0" y="609" width="375" height="58"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstAttribute="bottom" secondItem="KSq-au-qHp" secondAttribute="bottom" id="9eG-Bg-pWG"/>
                 <constraint firstItem="3WK-ds-zQ9" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Knz-je-8PU"/>
                 <constraint firstAttribute="bottom" secondItem="3WK-ds-zQ9" secondAttribute="bottom" constant="60" id="PDV-bN-fQI"/>
+                <constraint firstItem="KSq-au-qHp" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="eLT-rq-cut"/>
+                <constraint firstAttribute="trailing" secondItem="KSq-au-qHp" secondAttribute="trailing" id="g73-i1-D73"/>
+                <constraint firstItem="KSq-au-qHp" firstAttribute="top" secondItem="3WK-ds-zQ9" secondAttribute="bottom" id="mMA-PS-dbe"/>
                 <constraint firstItem="3WK-ds-zQ9" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="nQ0-13-sVI"/>
                 <constraint firstAttribute="trailing" secondItem="3WK-ds-zQ9" secondAttribute="trailing" id="tPE-mh-wbK"/>
             </constraints>

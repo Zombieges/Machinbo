@@ -39,6 +39,8 @@ class TargetProfileViewController:
     var delegate: TargetProfileViewControllerDelegate?
     
     @IBOutlet var tableView: UITableView!
+    @IBOutlet weak var bannerView: GADBannerView!
+    
     private var refreshControl:UIRefreshControl!
     private var myHeaderView = UIView()
     private var displayWidth = CGFloat()
@@ -82,7 +84,10 @@ class TargetProfileViewController:
         self.setGoogleMap()
         
         if self.isInternetConnect() {
-            self.showAdmob(AdmobType.standard)
+            let AdMobUnitID = ConfigHelper.getPlistKey("ADMOB_UNIT_ID") as String
+            bannerView.adUnitID = AdMobUnitID
+            bannerView.rootViewController = self
+            bannerView.load(GADRequest())
         }
         
         //ブロックされている場合はここでボタン非表示にする
@@ -339,14 +344,13 @@ class TargetProfileViewController:
     }
     
     func clickGoNowButton() {
-        
         // 既にイマ行く済みの相手には「約束」できない
         var userInfo = PersistentData.User()
         print("imaikuUserList \(userInfo.imaikuUserList)")
+        
         if let timeTargetAvailable = userInfo.imaikuUserList[(self.targetUserInfo?.objectId)!]{
             // 現在日付取得 && 比較
-            let now = Date()
-            if timeTargetAvailable > now as Date {
+            if timeTargetAvailable > Date() {
                 UIAlertController.showAlertView("", message: "既にこのユーザへ約束を送信済みです")
                 return
             }

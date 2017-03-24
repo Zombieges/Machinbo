@@ -15,6 +15,8 @@ import GoogleMobileAds
 
 class MarkerDraggableViewController: UIViewController, GMSMapViewDelegate, CLLocationManagerDelegate, GADBannerViewDelegate, GADInterstitialDelegate, UIGestureRecognizerDelegate, TransisionProtocol {
     
+    @IBOutlet weak var bannerView: GADBannerView!
+    
     var gmaps: GMSMapView!
     var palGeoPoint: PFGeoPoint!
     var palUserInfo: PFObject!
@@ -24,8 +26,7 @@ class MarkerDraggableViewController: UIViewController, GMSMapViewDelegate, CLLoc
     let displayWidth = UIScreen.main.bounds.size.width
     
     override func viewDidLoad() {
-        
-        if let view = UINib(nibName: "MapView", bundle: nil).instantiate(withOwner: self, options: nil).first as? UIView {
+        if let view = UINib(nibName: "MarkerMapView", bundle: nil).instantiate(withOwner: self, options: nil).first as? UIView {
             self.view = view
         }
         
@@ -77,10 +78,7 @@ class MarkerDraggableViewController: UIViewController, GMSMapViewDelegate, CLLoc
             
             self.pinImage = UIImageView(image: UIImage(named: "mappin_blue_big@2x.png"))
             self.pinImage.isUserInteractionEnabled = true
-            
-//            let gesture = UITapGestureRecognizer(target:self, action: #selector(self.didClickImageView))
-//            self.pinImage.addGestureRecognizer(gesture)
-            
+
             self.view.addSubview(self.pinImage)
             self.createEntryThisPointButton()
         }
@@ -91,7 +89,6 @@ class MarkerDraggableViewController: UIViewController, GMSMapViewDelegate, CLLoc
     }
     
     func didClickImageView(_ recognizer: UIGestureRecognizer) {
-
         let mapViewCenter = getMapCenterPosition(self.gmaps)
         
         let vc = GoNowViewController()
@@ -101,16 +98,9 @@ class MarkerDraggableViewController: UIViewController, GMSMapViewDelegate, CLLoc
     }
     
     private func createEntryThisPointButton() {
-        let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: displayWidth - 20, height: 50))
-        btn.trackTouchLocation = true
-        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x476EB3, alpha: 1.0)
-        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x476EB3, alpha: 1.0)
-        btn.rippleColor = LayoutManager.getUIColorFromRGB(0x1976D2)
-        btn.setTitle("待ち合わせ場所決定", for: UIControlState())
+        let btn: ZFRippleButton = StyleConst.displayWideZFRippleButton("待ち合わせ場所決定")
         btn.addTarget(self, action: #selector(self.didClickImageView), for: UIControlEvents.touchUpInside)
-        btn.layer.cornerRadius = 2
-        btn.layer.masksToBounds = true
-        btn.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height - self.view.bounds.height/7.3)
+        btn.layer.position = CGPoint(x: self.view.bounds.width/2, y: self.view.bounds.height - 50)
         self.view.addSubview(btn)
     }
 }

@@ -77,6 +77,8 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             
             return
         }
+        
+        self.tableView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
 
         
         self.startButton.isHidden = true
@@ -98,7 +100,10 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         setNavigationItemSettingButton()
         setRecruitment()
         imageMolding(profilePicture)
-        showAdmob()
+        
+        if !self.isInternetConnect() {
+            self.createRefreshButton()
+        }
     }
     
     private func setRecruitment() {
@@ -126,16 +131,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         }
     }
     
-    private func showAdmob() {
-        if self.isInternetConnect() {
-            //広告を表示
-            self.showAdmob(AdmobType.standard)
-            
-        } else {
-            self.createRefreshButton()
-        }
-    }
-    
     private func setProfileGesture() {
         // profilePicture をタップできるようにジェスチャーを設定
         profilePicture.isUserInteractionEnabled = true
@@ -149,6 +144,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         self.tableView.estimatedRowHeight = 200.0
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.backgroundColor = StyleConst.backgroundColorForHeader
+
         view.addSubview(tableView)
     }
     

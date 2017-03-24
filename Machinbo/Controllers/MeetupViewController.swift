@@ -26,6 +26,7 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
     private let detailTableViewCellIdentifier = "GoNowCell"
 //    @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var bannerView: GADBannerView!
     
     private lazy var segment: UISegmentedControl = {
         let segment = UISegmentedControl(items: ["マッチング", "送信済み", "受信済み"])
@@ -77,7 +78,10 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
 //        self.createHeaderBottomLine()
         
         if self.isInternetConnect() {
-            self.showAdmob(AdmobType.standard)
+            let AdMobUnitID = ConfigHelper.getPlistKey("ADMOB_UNIT_ID") as String
+            bannerView.adUnitID = AdMobUnitID
+            bannerView.rootViewController = self
+            bannerView.load(GADRequest())
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(viewWillEnterForeground), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)

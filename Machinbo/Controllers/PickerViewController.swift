@@ -48,7 +48,7 @@ class PickerViewController: UIViewController,
 UISearchBarDelegate {
     
     var delegate: PickerViewControllerDelegate?
-    var _interstitial: GADInterstitial?
+    var interstitial: GADInterstitial?
     
     private var inputTextView = UITextView()
     private var inputTextField = UITextField()
@@ -115,9 +115,6 @@ UISearchBarDelegate {
             self.view = view
         }
         
-        //フル画面広告を取得
-        _interstitial = showFullAdmob()
-        
         self.inputValue = palInput
         
         if self.palKind == .gender {
@@ -162,21 +159,15 @@ UISearchBarDelegate {
             
             
         } else if self.palKind == .imaiku {
+            //フル画面広告を取得
+            let adMobID = ConfigHelper.getPlistKey("ADMOB_FULL_UNIT_ID") as String
+            interstitial = GADInterstitial(adUnitID: adMobID)
+            interstitial?.delegate = self
+            let admobRequest:GADRequest = GADRequest()
+            admobRequest.testDevices = [kGADSimulatorID]
+            interstitial?.load(admobRequest)
+            
             createDatePickerField(displayWidth)
-            //            self.navigationItem.title = "待ち合わせまでにかかる時間"
-            //            self.navigationController!.navigationBar.tintColor = UIColor.white
-            //
-            //            tableView = UITableView(frame: CGRect(x: 0, y: navBarHeight!, width: displayWidth, height: displayHeight - navBarHeight!))
-            //
-            //            tableView.register(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
-            //            tableView.dataSource = self
-            //            tableView.delegate = self
-            //
-            //            let view:UIView = UIView(frame: CGRect.zero)
-            //            view.backgroundColor = UIColor.clear
-            //            tableView.tableFooterView = view
-            //            tableView.tableHeaderView = view
-            //            self.view.addSubview(tableView)
             
         } else if self.palKind == .imageView {
             let displaySize = UIScreen.main.bounds.size.width
@@ -280,7 +271,7 @@ UISearchBarDelegate {
     
     
     internal func onClickSaveButton(_ sender: UIButton){
-        if self.palKind == PickerKind.name {
+        if self.palKind == .name {
             guard self.inputTextField.text != "" else {
                 UIAlertController.showAlertView("", message: "名前を入力してください") { _ in
                     return
@@ -309,7 +300,7 @@ UISearchBarDelegate {
             }
             
             
-        } else if self.palKind == PickerKind.comment {
+        } else if self.palKind == .comment {
             
             guard self.inputTextView.text != "" else {
                 UIAlertController.showAlertView("", message: "コメントを入力してください") { _ in
@@ -319,7 +310,7 @@ UISearchBarDelegate {
             }
             
             var userInfo = PersistentData.User()
-            if userInfo.userID == "" {
+            guard userInfo.userID != "" else {
                 self.delegate!.setInputValue(self.inputTextView.text, type: .comment)
                 self.navigationController!.popViewController(animated: true)
                 return
@@ -340,24 +331,84 @@ UISearchBarDelegate {
                 self.navigationController!.popViewController(animated: true)
             }
             
-        } else if self.palKind == PickerKind.imakokoDateFrom {
+        } else if self.palKind == .imakokoDateFrom {
             self.delegate!.setSelectedDate(self.inputMyDatePicker.date)
             self.navigationController!.popViewController(animated: true)
             
-        } else if self.palKind == PickerKind.imakokoDateTo {
+        } else if self.palKind == .imakokoDateTo {
             self.delegate!.setSelectedDate(self.inputMyDatePicker.date)
             self.navigationController!.popViewController(animated: true)
             
-        } else if self.palKind == PickerKind.imakoko {
+        } else if self.palKind == .imakoko {
             self.delegate!.setInputValue(self.inputTextView.text, type: .comment)
             self.navigationController!.popViewController(animated: true)
             
-        } else if self.palKind == PickerKind.imaiku {
+        } else if self.palKind == .imaiku {
             MBProgressHUDHelper.sharedInstance.show(self.view)
 
-            let center = NotificationCenter.default as NotificationCenter
-            LocationManager.sharedInstance.startUpdatingLocation()
-            center.addObserver(self, selector: #selector(self.foundLocation(_:)), name: NSNotification.Name(rawValue: LMLocationUpdateNotification as String as String), object: nil)
+            ParseHelper.getMyUserInfomation(PersistentData.User().userID) { (error: NSError?, result) -> Void in
+                
+                guard error == nil else { self.errorAction(); return }
+                
+                let userID = result?.object(forKey: "UserID") as? String
+                let targetUserID = self.palTargetUser?.object(forKey: "UserID") as? String
+                let targetUserObjectID = self.palTargetUser?.objectId
+                let timeTargetIsAvailable = self.palTargetUser?.object(forKey: "MarkTimeTo") as? Date
+                let targetUserUpdatedAt = self.palTargetUser?.updatedAt
+                let targetDeviceToken = self.palTargetUser?.object(forKey: "DeviceToken") as? String
+                let name = result?.object(forKey: "Name") as? String
+                let gps = self.palTargetUser?.object(forKey: "GPS") as? PFGeoPoint
+                
+                let query = PFObject(className: "GoNow")
+                query["UserID"] = userID
+                query["TargetUserID"] = targetUserID
+                query["User"] = result
+                query["TargetUser"] = self.palTargetUser
+                query["IsApproved"] = false
+                query["isDeleteUser"] = false
+                query["isDeleteTarget"] = false
+                query["gotoAt"] = self.inputMyDatePicker.date
+                query["imakokoAt"] = targetUserUpdatedAt
+                query["meetingGeoPoint"] = gps
+                
+                query.saveInBackground { (success: Bool, error: Error?) -> Void in
+                    
+                    defer { MBProgressHUDHelper.sharedInstance.hide() }
+                    guard error == nil else { self.errorAction();return }
+                    
+                    var userInfo = PersistentData.User()
+                    userInfo.imaikuFlag = true
+                    
+                    // イマ行く対象のIDを local DB へセット
+                    userInfo.targetUserID = targetUserID!
+                    
+                    // イマ行くリストを Local DB へセット
+                    userInfo.imaikuUserList[targetUserObjectID!] = timeTargetIsAvailable
+                    
+                    // Send Notification
+                    NotificationHelper.sendSpecificDevice(name! + "さんより「いまから行く」されました", deviceTokenAsString: targetDeviceToken!, badges: 1 as Int)
+                    
+                    let alertMessage = "待ち合わせを申請しました。もっと高確率で出会えるサイトがありますが、確認しますか？"
+                    UIAlertController.showAlertOKCancel("", message: alertMessage, actiontitle: "サイトを確認する") { action in
+                        
+                        if action == .cancel {
+                            self.navigationController!.popToRootViewController(animated: true)
+                            return
+                        }
+                        
+                        self.navigationController!.popToRootViewController(animated: true)
+                        
+                        // 表示完了時の処理
+                        if self.interstitial!.isReady {
+                            self.interstitial!.present(fromRootViewController: self)
+                        }
+                    }
+                }
+            }
+//            
+//            let center = NotificationCenter.default as NotificationCenter
+//            LocationManager.sharedInstance.startUpdatingLocation()
+//            center.addObserver(self, selector: #selector(self.foundLocation(_:)), name: NSNotification.Name(rawValue: LMLocationUpdateNotification as String as String), object: nil)
             
         }
     }
@@ -451,59 +502,20 @@ UISearchBarDelegate {
             NotificationCenter.default.removeObserver(self)
         }
         
-        ParseHelper.getMyUserInfomation(PersistentData.User().userID) { (error: NSError?, result) -> Void in
-            
-            guard error == nil else { self.errorAction(); return }
-            
-            let userID = result?.object(forKey: "UserID") as? String
-            let targetUserID = self.palTargetUser?.object(forKey: "UserID") as? String
-            let targetUserObjectID = self.palTargetUser?.objectId
-            let timeTargetIsAvailable = self.palTargetUser?.object(forKey: "MarkTimeTo") as? Date
-            let targetUserUpdatedAt = self.palTargetUser?.updatedAt
-            let targetDeviceToken = self.palTargetUser?.object(forKey: "DeviceToken") as? String
-            let name = result?.object(forKey: "Name") as? String
-            let gps = self.palTargetUser?.object(forKey: "GPS") as? PFGeoPoint
-            
-            let query = PFObject(className: "GoNow")
-            query["UserID"] = userID
-            query["TargetUserID"] = targetUserID
-            query["User"] = result
-            query["TargetUser"] = self.palTargetUser
-            query["IsApproved"] = false
-            query["isDeleteUser"] = false
-            query["isDeleteTarget"] = false
-            query["gotoAt"] = self.inputMyDatePicker.date
-            query["imakokoAt"] = targetUserUpdatedAt
-            query["meetingGeoPoint"] = gps
-            
-            query.saveInBackground { (success: Bool, error: Error?) -> Void in
-                
-                defer { MBProgressHUDHelper.sharedInstance.hide() }
-                guard error == nil else { self.errorAction();return }
-                
-                var userInfo = PersistentData.User()
-                userInfo.imaikuFlag = true
-
-                // イマ行く対象のIDを local DB へセット
-                userInfo.targetUserID = targetUserID!
-                
-                // イマ行くリストを Local DB へセット
-                userInfo.imaikuUserList[targetUserObjectID!] = timeTargetIsAvailable
-                
-                // Send Notification
-                NotificationHelper.sendSpecificDevice(name! + "さんより「いまから行く」されました", deviceTokenAsString: targetDeviceToken!, badges: 1 as Int)
-                
-                // 表示完了時の処理
-                if self._interstitial!.isReady {
-                    self._interstitial!.present(fromRootViewController: self)
-                }
-                
-                self.navigationController!.popToRootViewController(animated: true)
-                
-                UIAlertController.showAlertView("", message: "待ち合わせを申請しました")
-            }
-        }
         
+    }
+    
+    func interstitialDidDismissScreen(ad: GADInterstitial!) {
+        print("interstitialDidDismissScreen")
+        self.navigationController!.popToRootViewController(animated: true)
+    }
+    
+    func interstitialDidReceiveAd(ad: GADInterstitial!) {
+        print("interstitialDidReceiveAd")
+    }
+    
+    func interstitial(ad: GADInterstitial!, didFailToReceiveAdWithError error: GADRequestError!) {
+        print(error.localizedDescription)
     }
     
     func errorAction() {

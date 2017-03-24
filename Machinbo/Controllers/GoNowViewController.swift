@@ -34,7 +34,6 @@ class GoNowViewController:
     private let normalTableViewCellIdentifier = "NormalCell"
     private let detailTableViewCellIdentifier = "DetailCell"
     private let targetProfileItems = ["待ち合わせ（何時から〜）", "待ち合わせ（〜何時まで）", "待ち合わせ場所", "自分の特徴"]
-    private var _interstitial: GADInterstitial?
     private var selectedRow: Int = 0
     private lazy var dateFormatter: DateFormatter = {
         var formatter = DateFormatter()
@@ -51,11 +50,6 @@ class GoNowViewController:
         self.navigationController!.navigationBar.tintColor = UIColor.darkGray
         
         self.initTableView()
-        
-        if isInternetConnect() {
-            self.showAdmob(AdmobType.standard)
-            _interstitial = self.showFullAdmob()
-        }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -230,6 +224,7 @@ class GoNowViewController:
     internal func setSelectedDate(_ selectedDate: Date) {
         if selectedRow == 0 {
             self.inputDateFrom = selectedDate
+            
         } else if selectedRow == 1 {
             self.inputDateTo = selectedDate
         }

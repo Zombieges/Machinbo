@@ -5,12 +5,14 @@
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11762"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MapViewController" customModule="Machinbo" customModuleProvider="target">
             <connections>
+                <outlet property="bannerView" destination="gfW-2i-MNn" id="J3q-9a-P3R"/>
+                <outlet property="gmsMapView" destination="oNX-9y-TxM" id="QEB-8y-cdI"/>
                 <outlet property="view" destination="iN0-l3-epB" id="uzX-HK-cHC"/>
             </connections>
         </placeholder>
@@ -18,7 +20,32 @@
         <view contentMode="scaleToFill" id="iN0-l3-epB">
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oNX-9y-TxM" customClass="GMSMapView">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="609"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gfW-2i-MNn" customClass="GADBannerView">
+                    <rect key="frame" x="0.0" y="617" width="375" height="50"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="rSw-jJ-soQ"/>
+                    </constraints>
+                </view>
+            </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="gfW-2i-MNn" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="1CY-hF-6an"/>
+                <constraint firstAttribute="bottom" secondItem="gfW-2i-MNn" secondAttribute="bottom" id="5L1-CC-14c"/>
+                <constraint firstAttribute="trailing" secondItem="oNX-9y-TxM" secondAttribute="trailing" id="JaO-S8-1p0"/>
+                <constraint firstAttribute="trailing" secondItem="gfW-2i-MNn" secondAttribute="trailing" id="LUR-lq-hA8"/>
+                <constraint firstItem="oNX-9y-TxM" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="TaT-Ox-1MX"/>
+                <constraint firstItem="oNX-9y-TxM" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="VCQ-7r-YQw"/>
+                <constraint firstItem="oNX-9y-TxM" firstAttribute="trailing" secondItem="gfW-2i-MNn" secondAttribute="trailing" id="XyS-YQ-NCt"/>
+                <constraint firstItem="gfW-2i-MNn" firstAttribute="top" secondItem="oNX-9y-TxM" secondAttribute="bottom" id="c1O-bI-OZb"/>
+                <constraint firstItem="oNX-9y-TxM" firstAttribute="leading" secondItem="gfW-2i-MNn" secondAttribute="leading" id="wkH-S0-MdO"/>
+            </constraints>
+            <point key="canvasLocation" x="34.5" y="138.5"/>
         </view>
     </objects>
 </document>

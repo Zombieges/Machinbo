@@ -72,64 +72,58 @@ extension TransisionProtocol where
     func showAdmob(_ type: AdmobType) {
         
         // AdMob Sample Start
-        let AdMobID = ConfigHelper.getPlistKey("ADMOB_ID") as String    //ID をInfoPlist より取得
-        //let TEST_DEVICE_ID = "61b0154xxxxxxxxxxxxxxxxxxxxxxxe0"
-        let AdMobTest = true
-        let SimulatorTest = false
-        
-        // Admob のビューを生成
-        //var admobView: GADBannerView = GADBannerView()
+        let AdMobUnitID = ConfigHelper.getPlistKey("ADMOB_UNIT_ID") as String
         
         if type == AdmobType.standard {
             let admobView = GADBannerView(adSize:kGADAdSizeBanner)
             admobView.frame.origin = CGPoint(x: 0, y: UIScreen.main.bounds.size.height - 50)
             admobView.frame.size = CGSize(width: UIScreen.main.bounds.size.width, height: admobView.frame.height)
             
-            admobView.adUnitID = AdMobID
-            admobView.delegate = self
+            admobView.adUnitID = AdMobUnitID
+            //admobView.delegate = self
             admobView.rootViewController = self
             
-            // Admob ヘリクエスト
-            let admobRequest:GADRequest = GADRequest()
-            
-            if AdMobTest {
-                // simulator テスト
-                if SimulatorTest {
-                    admobRequest.testDevices = [kGADSimulatorID]
-                    print("simulator")
-                }
-                    // 実機テスト
-                else {
-                    admobRequest.testDevices = [""]
-                    print("device")
-                }
-            }
+//            // Admob ヘリクエスト
+//            let admobRequest:GADRequest = GADRequest()
+//            
+//            if AdMobTest {
+//                // simulator テスト
+//                if SimulatorTest {
+//                    admobRequest.testDevices = [kGADSimulatorID]
+//                    print("simulator")
+//                }
+//                    // 実機テスト
+//                else {
+//                    admobRequest.testDevices = [""]
+//                    print("device")
+//                }
+//            }
 
-            admobView.load(admobRequest)
+            admobView.load(GADRequest())
 
             self.view.addSubview(admobView)
             
         } else if type == AdmobType.full {
-            let interstitial = GADInterstitial(adUnitID: AdMobID)
+            let interstitial = GADInterstitial(adUnitID: AdMobUnitID)
             interstitial.delegate = self
             
-            // Admob ヘリクエスト
-            let admobRequest:GADRequest = GADRequest()
+//            // Admob ヘリクエスト
+//            let admobRequest:GADRequest = GADRequest()
+//            
+//            if AdMobTest {
+//                // simulator テスト
+//                if SimulatorTest {
+//                    admobRequest.testDevices = [kGADSimulatorID]
+//                    print("simulator")
+//                }
+//                    // 実機テスト
+//                else {
+//                    admobRequest.testDevices = [""]
+//                    print("device")
+//                }
+//            }
             
-            if AdMobTest {
-                // simulator テスト
-                if SimulatorTest {
-                    admobRequest.testDevices = [kGADSimulatorID]
-                    print("simulator")
-                }
-                    // 実機テスト
-                else {
-                    admobRequest.testDevices = [""]
-                    print("device")
-                }
-            }
-            
-            interstitial.load(admobRequest)
+            interstitial.load(GADRequest())
             
             if interstitial.isReady {
                 interstitial.present(fromRootViewController: self)
@@ -140,14 +134,11 @@ extension TransisionProtocol where
     }
     
     func showFullAdmob() -> GADInterstitial {
-        let adMobID = ConfigHelper.getPlistKey("ADMOB_ID") as String
+        let adMobID = ConfigHelper.getPlistKey("ADMOB_FULL_UNIT_ID") as String
         let interstitial = GADInterstitial(adUnitID: adMobID)
         interstitial.delegate = self
-        
-        //TODOTEST：Admob ヘリクエスト
         let admobRequest:GADRequest = GADRequest()
         admobRequest.testDevices = [kGADSimulatorID]
-        
         interstitial.load(admobRequest)
         
         return interstitial

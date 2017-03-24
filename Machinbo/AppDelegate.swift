@@ -14,6 +14,7 @@
  import Fabric
  import TwitterKit
  import UserNotifications
+ import GoogleMobileAds
  
  @UIApplicationMain
  class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -48,10 +49,16 @@
         ParseHelper.launch(launchOptions)
         
         let googleMapsKey = ConfigHelper.getPlistKey("GOOGLE_MAPS_API_KEY") as String
-        NSLog("★google maps api key = " + googleMapsKey)
+        print("★google maps api key = " + googleMapsKey)
         
         //GoogleMaps
         GMSServices.provideAPIKey(googleMapsKey)
+        
+        //AdMob
+        let AdMobAppID = ConfigHelper.getPlistKey("ADMOB_APP_ID") as String
+        GADMobileAds.configure(withApplicationID: AdMobAppID)
+        print("★google admob app id = " + AdMobAppID)
+        
         
         //Fabric認証
         Fabric.with([Twitter()])

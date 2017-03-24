@@ -660,6 +660,8 @@ class TargetProfileViewController:
     func initTableView() {
         let nibName = UINib(nibName: "DetailProfileTableViewCell", bundle: nil)
         self.tableView.register(nibName, forCellReuseIdentifier: detailTableViewCellIdentifier)
+        self.tableView.estimatedRowHeight = 200.0
+        self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.backgroundColor = StyleConst.backgroundColorForHeader
         //tableViewの位置を 1 / 端末サイズ 下げる
         self.tableView.contentInset.top = self.innerViewHeight

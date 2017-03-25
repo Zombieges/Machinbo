@@ -195,7 +195,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             return
         }
         
-        ParseHelper.getMyUserInfomation(userInfo.userID) { (error: Error?, result: PFObject?) -> Void in
+        ParseHelper.getMyUserInfomation(userInfo.userID) { (error: NSError?, result: PFObject?) -> Void in
             if let result = result {
                 let imageData = UIImagePNGRepresentation(self.profilePicture.image!)
                 let imageFile = PFFile(name:"image.png", data:imageData!)
@@ -233,6 +233,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     internal func setInputValue(_ inputValue: String, type: InputPickerType) {
         if type == .name {
             self.inputName = inputValue
+            self.navigationItem.title = inputValue
             tableView.reloadData()
             
         } else if type == .comment {

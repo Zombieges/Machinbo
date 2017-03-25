@@ -79,7 +79,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         }
         
         self.tableView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
-
+        
         
         self.startButton.isHidden = true
         
@@ -94,7 +94,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         self.twitterName = userData.twitterName
         self.inputDateFrom = userData.markTimeFrom
         self.inputDateTo = userData.markTimeTo
-
+        
         self.navigationItem.title = self.inputName
         
         setNavigationItemSettingButton()
@@ -144,7 +144,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         self.tableView.estimatedRowHeight = 200.0
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.backgroundColor = StyleConst.backgroundColorForHeader
-
+        
         view.addSubview(tableView)
     }
     
@@ -263,19 +263,19 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         return sections[section] as? String
     }
     
-//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: StyleConst.sectionHeaderHeight))
-//        let label = UILabel(frame: CGRect(x: 8, y: 0, width: tableView.frame.size.width - 16, height: StyleConst.sectionHeaderHeight))
-//        label.font = UIFont(name: "Helvetica-Bold",size: CGFloat(13))
-//        
-//        label.text = self.tableView(tableView, titleForHeaderInSection: section)
-//        label.textColor = StyleConst.textColorForHeader
-//        view.addSubview(label)
-//        view.backgroundColor = StyleConst.backgroundColorForHeader
-//        view.layer.borderWidth = 1
-//        view.layer.borderColor = StyleConst.borderColorForHeader.cgColor
-//        return view
-//    }
+    //    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    //        let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: StyleConst.sectionHeaderHeight))
+    //        let label = UILabel(frame: CGRect(x: 8, y: 0, width: tableView.frame.size.width - 16, height: StyleConst.sectionHeaderHeight))
+    //        label.font = UIFont(name: "Helvetica-Bold",size: CGFloat(13))
+    //
+    //        label.text = self.tableView(tableView, titleForHeaderInSection: section)
+    //        label.textColor = StyleConst.textColorForHeader
+    //        view.addSubview(label)
+    //        view.backgroundColor = StyleConst.backgroundColorForHeader
+    //        view.layer.borderWidth = 1
+    //        view.layer.borderColor = StyleConst.borderColorForHeader.cgColor
+    //        return view
+    //    }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView()
         let label = UILabel(frame: CGRect(x: 8, y: 0, width: tableView.frame.size.width - 16, height: StyleConst.sectionHeaderHeight))
@@ -286,14 +286,14 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         
         return view
     }
-
+    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if section == 0 {
             return CGFloat.leastNormalMagnitude
         }
         return StyleConst.sectionHeaderHeight
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
         
         let tableViewCellIdentifier = "Cell"
@@ -463,7 +463,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     
     internal func setSelectedDate(_ selectedDate: Date) {
         if selectedRow == 0 {
-           self.inputDateFrom  = self.dateFormatter.string(from: selectedDate)
+            self.inputDateFrom  = self.dateFormatter.string(from: selectedDate)
             
         } else if selectedRow == 1 {
             self.inputDateTo  = self.dateFormatter.string(from: selectedDate)
@@ -491,22 +491,12 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         MBProgressHUDHelper.sharedInstance.show(self.view)
         
         defer { MBProgressHUDHelper.sharedInstance.hide() }
-        
-        let imageData = UIImagePNGRepresentation(profilePicture.image!)
-        let imageFile = PFFile(name:"image.png", data:imageData!)
         let uuid = UUID().uuidString
         
         NSLog("UUID" + uuid)
         
-        // save to local db
+        
         var userInfo = PersistentData.User()
-        userInfo.userID = uuid
-        userInfo.name = inputName
-        userInfo.gender = selectedGender
-        userInfo.age = selectedAge
-        userInfo.comment = inputComment
-        userInfo.twitterName = twitterName
-        userInfo.profileImage = profilePicture.image!
         
         ParseHelper.setUserInfomation(
             uuid,
@@ -515,7 +505,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             age: selectedAge,
             twitter: twitterName,
             comment: inputComment,
-            photo: imageFile!,
+            photo: profilePicture.image!,
             deviceToken: userInfo.deviceToken
         )
         
@@ -575,7 +565,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
                 UIAlertController.showAlertView("", message: message) { _ in
                     self.viewDidLoad()
                 }
-
+                
             }
         }
     }
@@ -630,7 +620,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             
         })
         myAlert.addAction(destructiveAction_1)
-
+        
         let cancelAction: UIAlertAction = UIAlertAction(title: "cancel", style: UIAlertActionStyle.cancel, handler:{
             (action: UIAlertAction!) -> Void in
             print("cancelAction")

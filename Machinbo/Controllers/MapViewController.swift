@@ -44,25 +44,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         }
     }
     
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        NSLog("didChangeAuthorizationStatus");
-        var statusStr = "";
-        switch (status) {
-        case .notDetermined:
-            statusStr = "NotDetermined"
-        case .restricted:
-            statusStr = "Restricted"
-        case .denied:
-            statusStr = "Denied"
-        case .authorizedAlways:
-            statusStr = "AuthorizedAlways"
-        case .authorizedWhenInUse:
-            statusStr = "AuthorizedWhenInUse"
-        }
-        
-        NSLog(" CLAuthorizationStatus: \(statusStr)")
-    }
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -102,14 +83,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         return false
     }
     
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        NSLog("位置情報取得失敗")
-        UIAlertController.showAlertView("エラー", message:"位置情報の取得が失敗しました。アプリを再起動してください。") { _ in
-            manager.stopUpdatingLocation()
-            self.createRefreshButton()
-        }
-    }
-    
     func onClickImakoko(){
         let vc = MarkerDraggableViewController()
         vc.palGeoPoint = PFGeoPoint(latitude: latitude, longitude: longitude)
@@ -135,7 +108,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         defer { NotificationCenter.default.removeObserver(self) }
 
         self.createGoogleMapForNearGeoPoint(notif: notif)
-        //self.createupdateGeoPointButton()
     }
     
     private func createGoogleMapForNearGeoPoint(notif: Notification) {
@@ -154,30 +126,8 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         FeedData.mainData().refreshMapFeed(myPosition) { () -> () in
             //GoogleMaps Set User Marker
             GoogleMapsHelper.setAnyUserMarker(gmaps, userObjects: FeedData.mainData().feedItems)
-            
-            //Full AdMob
-            let AdMobUnitID = ConfigHelper.getPlistKey("ADMOB_UNIT_ID") as String
-            let fullBannerView = GADInterstitial(adUnitID: AdMobUnitID)
-            fullBannerView.load(GADRequest())
-            if fullBannerView.isReady {
-                fullBannerView.present(fromRootViewController: self)
-            }
         }
     }
-    
-//    private func createupdateGeoPointButton() {
-//        let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 200, height: 40))
-//        btn.trackTouchLocation = true
-//        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
-//        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
-//        btn.rippleColor = LayoutManager.getUIColorFromRGB(0xB54241)
-//        btn.setTitle("待ち合わせ登録", for: UIControlState())
-//        btn.addTarget(self, action: #selector(MapViewController.onClickImakoko), for: UIControlEvents.touchUpInside)
-//        btn.layer.cornerRadius = 5.0
-//        btn.layer.masksToBounds = true
-//        btn.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height - self.view.bounds.height/7.3)
-//        self.view.addSubview(btn)
-//    }
     
     private func createNavigationItem() {
         //self.navigationItem.title = "Machinbo"

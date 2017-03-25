@@ -32,6 +32,8 @@ class TargetProfileViewController:
     GMSMapViewDelegate,
     TransisionProtocol {
     
+    var interstitial: GADInterstitial?
+    
     var targetUserInfo: PFObject?
     var type = ProfileType.targetProfile
     //var targetGeoPoint = PFGeoPoint(latitude: 0, longitude: 0)
@@ -59,6 +61,12 @@ class TargetProfileViewController:
         formatter.dateFormat = "yyyy年M月d日 H:mm"
         return formatter
     }()
+
+    private lazy var dateFormatterYYYYMMDD: DateFormatter = {
+        var formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-M-d"
+        return formatter
+    }()
     
     init (type: ProfileType) {
         super.init(nibName: nil, bundle: nil)
@@ -84,10 +92,17 @@ class TargetProfileViewController:
         self.setGoogleMap()
         
         if self.isInternetConnect() {
-            let AdMobUnitID = ConfigHelper.getPlistKey("ADMOB_UNIT_ID") as String
-            bannerView.adUnitID = AdMobUnitID
+            //バナー広告
+            bannerView.adUnitID = ConfigHelper.getPlistKey("ADMOB_UNIT_ID") as String
             bannerView.rootViewController = self
             bannerView.load(GADRequest())
+            
+            //フル画面広告を取得
+            interstitial = GADInterstitial(adUnitID: ConfigHelper.getPlistKey("ADMOB_FULL_UNIT_ID") as String)
+            interstitial?.delegate = self
+            let admobRequest:GADRequest = GADRequest()
+            admobRequest.testDevices = [kGADSimulatorID]
+            interstitial?.load(admobRequest)
         }
         
         //ブロックされている場合はここでボタン非表示にする
@@ -289,7 +304,7 @@ class TargetProfileViewController:
     
     func setNavigationButton() {
         let settingsButton = UIButton(type: .custom)
-        settingsButton.setImage(UIImage(named: "santen.png"), for: UIControlState())
+        settingsButton.setImage(UIImage(named: "santen@2x.png"), for: UIControlState())
         settingsButton.addTarget(self, action: #selector(self.onClickSettingAction), for: .touchUpInside)
         settingsButton.frame = CGRect(x: 0, y: 0, width: 22, height: 22)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: settingsButton)
@@ -348,7 +363,26 @@ class TargetProfileViewController:
         var userInfo = PersistentData.User()
         print("imaikuUserList \(userInfo.imaikuUserList)")
         
-        if let timeTargetAvailable = userInfo.imaikuUserList[(self.targetUserInfo?.objectId)!]{
+        if let imaikuClickDate = userInfo.isImaikuClick {
+            let imaikuClickDateYYYYMMDD = dateFormatterYYYYMMDD.string(from: imaikuClickDate)
+            let nowDateYYYYMMDD = dateFormatterYYYYMMDD.string(from: Date())
+            
+            if imaikuClickDateYYYYMMDD == nowDateYYYYMMDD {
+                UIAlertController.showAlertOKCancel("", message: "一日に複数回約束をすることができません", actiontitle: "動画を見て約束を開放する") { action in
+                    if action == .cancel { return }
+                    
+                    if self.interstitial!.isReady {
+                        //isImaikuClick update
+                        userInfo.isImaikuClick = nil
+                        self.interstitial!.present(fromRootViewController: self)
+                    }
+                }
+                
+                return
+            }
+        }
+        
+        if let timeTargetAvailable = userInfo.imaikuUserList[(self.targetUserInfo?.objectId)!] {
             // 現在日付取得 && 比較
             if timeTargetAvailable > Date() {
                 UIAlertController.showAlertView("", message: "既にこのユーザへ約束を送信済みです")
@@ -356,12 +390,18 @@ class TargetProfileViewController:
             }
         }
         
+        //isImaikuClick
+        
         self.dismiss(animated: true, completion: {
             self.delegate?.postTargetViewControllerDismissionAction()
         })
         
         let vc = PickerViewController(kind: .imaiku, targetUser: self.targetUserInfo!)
         self.navigationController!.pushViewController(vc, animated: true)
+    }
+    
+    func interstitialWillDismissScreen(ad: GADInterstitial!) {
+        UIAlertController.showAlertView("", message: "約束できるようになりました！")
     }
     
     func createApprovedButton(mapViewHeight: CGFloat) {

@@ -62,7 +62,7 @@ UISearchBarDelegate {
     private var tableView: UITableView!
     private var myItems = [String]()
     private var inputValue: AnyObject = "" as AnyObject
-
+    
     private let displayWidth = UIScreen.main.bounds.size.width
     private let displayHeight = UIScreen.main.bounds.size.height
     
@@ -94,7 +94,7 @@ UISearchBarDelegate {
         self.palKind = kind
         self.palInput = inputValue
         
-        super.init(nibName: nil, bundle: nil)  
+        super.init(nibName: nil, bundle: nil)
     }
     
     init(kind: PickerKind, targetUser: PFObject?) {
@@ -121,7 +121,7 @@ UISearchBarDelegate {
             self.navigationItem.title = "性別"
             self.myItems = ["男性","女性"]
             self.setTableView()
-
+            
         } else if self.palKind == .age {
             self.navigationItem.title = "年齢"
             let comp = (Calendar.current as NSCalendar).components(NSCalendar.Unit.year, from: Date())
@@ -129,7 +129,7 @@ UISearchBarDelegate {
                 self.myItems.append((String(comp.year! - i)))
             }
             self.setTableView()
-
+            
         } else if self.palKind == .name {
             self.navigationItem.title = "名前"
             
@@ -142,7 +142,7 @@ UISearchBarDelegate {
             self.view.addSubview(self.inputTextField)
             
             createInsertDataButton(displayWidth, displayHeight: 200)
-        
+            
         } else if self.palKind == .comment {
             createCommentField(displayWidth, displayHeight: 200)
             
@@ -203,7 +203,7 @@ UISearchBarDelegate {
                 
                 let btn: ZFRippleButton = wideZFRippleButton("通知設定画面", 200, #selector(openAppSettingPage))
                 self.view.addSubview(btn)
-
+                
                 
             } else{
                 
@@ -345,7 +345,7 @@ UISearchBarDelegate {
             
         } else if self.palKind == .imaiku {
             MBProgressHUDHelper.sharedInstance.show(self.view)
-
+            
             ParseHelper.getMyUserInfomation(PersistentData.User().userID) { (error: NSError?, result) -> Void in
                 
                 guard error == nil else { self.errorAction(); return }
@@ -400,15 +400,16 @@ UISearchBarDelegate {
                         
                         // 表示完了時の処理
                         if self.interstitial!.isReady {
+                            userInfo.isImaikuClick = Date()
                             self.interstitial!.present(fromRootViewController: self)
                         }
                     }
                 }
             }
-//            
-//            let center = NotificationCenter.default as NotificationCenter
-//            LocationManager.sharedInstance.startUpdatingLocation()
-//            center.addObserver(self, selector: #selector(self.foundLocation(_:)), name: NSNotification.Name(rawValue: LMLocationUpdateNotification as String as String), object: nil)
+            //
+            //            let center = NotificationCenter.default as NotificationCenter
+            //            LocationManager.sharedInstance.startUpdatingLocation()
+            //            center.addObserver(self, selector: #selector(self.foundLocation(_:)), name: NSNotification.Name(rawValue: LMLocationUpdateNotification as String as String), object: nil)
             
         }
     }
@@ -442,7 +443,7 @@ UISearchBarDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let identifier = "Cell" // セルのIDを定数identifierにする。
-
+        
         if indexPath.section == 0 {
             var cell: UITableViewCell? // nilになることがあるので、Optionalで宣言
             

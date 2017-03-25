@@ -232,5 +232,15 @@ class PersistentData {
                 UserDefaults.standard.synchronize()
             }
         }
+        //約束を一日一回に限定するプロパティ
+        var isImaikuClick: Date? {
+            get {
+                return UserDefaults.standard.object(forKey: "isImaikuClick") as! Date?
+            }
+            set {
+                UserDefaults.standard.set(newValue, forKey: "isImaikuClick")
+                UserDefaults.standard.synchronize()
+            }
+        }
     }
 }

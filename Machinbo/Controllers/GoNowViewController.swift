@@ -97,7 +97,7 @@ class GoNowViewController:
         } else if indexPath.row == 2 {
             detailCell?.titleLabel.text = self.targetProfileItems[indexPath.row]
             if inputPlace.isEmpty {
-                detailCell?.valueLabel.text = "待ち合わせする場所を詳細に書いてください。性と関連した内容、金銭関連の内容、その他不適切な内容を作成する場合、アカウントが停止される可能性があります"
+                detailCell?.valueLabel.text = "待ち合わせする場所を詳細に書いてください"
             } else {
                 detailCell?.valueLabel.text = self.inputPlace
             }
@@ -107,7 +107,7 @@ class GoNowViewController:
         } else if indexPath.row == 3 {
             detailCell?.titleLabel.text = self.targetProfileItems[indexPath.row]
             if inputChar.isEmpty {
-                detailCell?.valueLabel.text = "自分の服装など、待ち合わせの際に分かる情報を書いてください。性と関連した内容、金銭関連の内容、その他不適切な内容を作成する場合、アカウントが停止される可能性があります"
+                detailCell?.valueLabel.text = "自分の服装など、待ち合わせの際に分かる情報を書いてください"
             } else {
                 detailCell?.valueLabel.text = self.inputChar
             }

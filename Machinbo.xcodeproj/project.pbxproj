@@ -46,6 +46,7 @@
 		BB58C8FC1E705A5F00557B32 /* LayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB58C8FB1E705A5F00557B32 /* LayoutManager.swift */; };
 		BB58C8FE1E705AA300557B32 /* style.geojson in Resources */ = {isa = PBXBuildFile; fileRef = BB58C8FD1E705AA300557B32 /* style.geojson */; };
 		BB6ECE6E1E84177C00DE6BE9 /* MarkerMapView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB6ECE6D1E84177C00DE6BE9 /* MarkerMapView.xib */; };
+		BB6ECE701E86466800DE6BE9 /* santen@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BB6ECE6F1E86466800DE6BE9 /* santen@2x.png */; };
 		BB6FDDC71C3E92FD00C366A2 /* ZFRippleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6FDDC61C3E92FD00C366A2 /* ZFRippleButton.swift */; };
 		BB6FDDCC1C3E934F00C366A2 /* LoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6FDDCA1C3E934F00C366A2 /* LoginManager.swift */; };
 		BB6FDDD31C3E952700C366A2 /* ConfigHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6FDDCE1C3E952700C366A2 /* ConfigHelper.swift */; };
@@ -157,6 +158,7 @@
 		BB58C8FD1E705AA300557B32 /* style.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = style.geojson; sourceTree = "<group>"; };
 		BB6BE7B21C4B8407004BD903 /* SCLAlertView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SCLAlertView.framework; path = "Pods/../build/Debug-iphoneos/SCLAlertView.framework"; sourceTree = "<group>"; };
 		BB6ECE6D1E84177C00DE6BE9 /* MarkerMapView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MarkerMapView.xib; sourceTree = "<group>"; };
+		BB6ECE6F1E86466800DE6BE9 /* santen@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "santen@2x.png"; sourceTree = "<group>"; };
 		BB6FDDC61C3E92FD00C366A2 /* ZFRippleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZFRippleButton.swift; sourceTree = "<group>"; };
 		BB6FDDCA1C3E934F00C366A2 /* LoginManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginManager.swift; sourceTree = "<group>"; };
 		BB6FDDCE1C3E952700C366A2 /* ConfigHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigHelper.swift; sourceTree = "<group>"; };
@@ -458,6 +460,7 @@
 				BB58C8D51E7059D800557B32 /* logo_twitter.png */,
 				BB56B7F81E75A0B50095AD6C /* photo@2x.png */,
 				BB97CA9E1E80143700C09006 /* mappin_blue@2x.png */,
+				BB6ECE6F1E86466800DE6BE9 /* santen@2x.png */,
 				BB97CAA01E814C9F00C09006 /* mappin_red@2x.png */,
 				BB97CAA21E814E0C00C09006 /* mappin_green@2x.png */,
 				BB97CAA41E814EA000C09006 /* mappin_blue_big@2x.png */,
@@ -621,6 +624,7 @@
 				BB58C8DE1E7059D800557B32 /* fukidashi.png in Resources */,
 				9409F7931B2D994D0069DAE8 /* Assets.xcassets in Resources */,
 				BB6FDDEF1C3E97E100C366A2 /* ProfileView.xib in Resources */,
+				BB6ECE701E86466800DE6BE9 /* santen@2x.png in Resources */,
 				BB6FDDEB1C3E97E100C366A2 /* MapView.xib in Resources */,
 				BBC5E3A71E32150900EDE432 /* Info.plist in Resources */,
 				BB58C8E01E7059D800557B32 /* logo_fb.png in Resources */,

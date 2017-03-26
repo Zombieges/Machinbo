@@ -391,6 +391,8 @@ UISearchBarDelegate {
                     let alertMessage = "待ち合わせを申請しました。もっと高確率で出会えるサイトがありますが、確認しますか？"
                     UIAlertController.showAlertOKCancel("", message: alertMessage, actiontitle: "サイトを確認する") { action in
                         
+                        userInfo.isImaikuClick = Date()
+                        
                         if action == .cancel {
                             self.navigationController!.popToRootViewController(animated: true)
                             return
@@ -400,7 +402,6 @@ UISearchBarDelegate {
                         
                         // 表示完了時の処理
                         if self.interstitial!.isReady {
-                            userInfo.isImaikuClick = Date()
                             self.interstitial!.present(fromRootViewController: self)
                         }
                     }

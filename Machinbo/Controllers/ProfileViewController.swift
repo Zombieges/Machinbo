@@ -94,6 +94,8 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         self.twitterName = userData.twitterName
         self.inputDateFrom = userData.markTimeFrom
         self.inputDateTo = userData.markTimeTo
+        self.inputPlace = userData.place
+        self.inputChar = userData.mychar
         
         self.navigationItem.title = self.inputName
         
@@ -122,6 +124,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             self.imakokoButton.layer.borderColor = UIView().tintColor.cgColor
             self.imakokoButton.layer.borderWidth = 1.0
             self.imakokoButton.tintColor = UIView().tintColor
+            
         } else {
             self.imakokoButton.setTitle("待ち合わせ募集停止中", for: UIControlState())
             self.imakokoButton.layer.cornerRadius = 5.0
@@ -196,17 +199,23 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         }
         
         ParseHelper.getMyUserInfomation(userInfo.userID) { (error: NSError?, result: PFObject?) -> Void in
-            if let result = result {
-                let imageData = UIImagePNGRepresentation(self.profilePicture.image!)
-                let imageFile = PFFile(name:"image.png", data:imageData!)
-                
-                result["ProfilePicture"] = imageFile
-                result.saveInBackground { (success: Bool, error: Error?) -> Void in
-                    
-                    userInfo.profileImage = self.profilePicture.image!
-                    //self.navigationController!.popViewControllerAnimated(true)
+            guard let result = result, error == nil else {
+                self.errorAction()
+                return
+            }
+            
+            let imageData = UIImagePNGRepresentation(self.profilePicture.image!)
+            let imageFile = PFFile(name:"image.png", data:imageData!)
+            
+            result["ProfilePicture"] = imageFile
+            result.saveInBackground { (success: Bool, error: Error?) -> Void in
+                guard success, error == nil else {
+                    self.errorAction()
+                    return
                 }
                 
+                userInfo.profileImage = self.profilePicture.image!
+                //self.navigationController!.popViewControllerAnimated(true)
             }
         }
     }
@@ -239,6 +248,14 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         } else if type == .comment {
             self.inputComment = inputValue
             tableView.reloadData()
+            
+        } else if type == .place {
+            self.inputPlace = inputValue
+            tableView.reloadData()
+            
+        } else if type == .char {
+            self.inputChar = inputValue
+            tableView.reloadData()
         }
     }
     
@@ -263,19 +280,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         return sections[section] as? String
     }
     
-    //    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-    //        let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: StyleConst.sectionHeaderHeight))
-    //        let label = UILabel(frame: CGRect(x: 8, y: 0, width: tableView.frame.size.width - 16, height: StyleConst.sectionHeaderHeight))
-    //        label.font = UIFont(name: "Helvetica-Bold",size: CGFloat(13))
-    //
-    //        label.text = self.tableView(tableView, titleForHeaderInSection: section)
-    //        label.textColor = StyleConst.textColorForHeader
-    //        view.addSubview(label)
-    //        view.backgroundColor = StyleConst.backgroundColorForHeader
-    //        view.layer.borderWidth = 1
-    //        view.layer.borderColor = StyleConst.borderColorForHeader.cgColor
-    //        return view
-    //    }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView()
         let label = UILabel(frame: CGRect(x: 8, y: 0, width: tableView.frame.size.width - 16, height: StyleConst.sectionHeaderHeight))
@@ -390,7 +394,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
                 let detailCell = tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? DetailProfileTableViewCell
                 
                 detailCell?.titleLabel.text = otherItems[indexPath.row]
-                detailCell?.valueLabel.text = userData.place
+                detailCell?.valueLabel.text = self.inputPlace
                 
                 cell = detailCell
                 
@@ -398,7 +402,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
                 let detailCell = tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? DetailProfileTableViewCell
                 
                 detailCell?.titleLabel.text = otherItems[indexPath.row]
-                detailCell?.valueLabel.text = userData.mychar
+                detailCell?.valueLabel.text = self.inputChar
                 
                 cell = detailCell
             }
@@ -457,7 +461,20 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
                 vc.delegate = self
                 
                 self.navigationController?.pushViewController(vc, animated: true)
+                
+            } else if indexPath.row == 2 {
+                let vc = PickerViewController(kind: PickerKind.place, inputValue: inputPlace as AnyObject)
+                vc.delegate = self
+                
+                navigationController?.pushViewController(vc, animated: true)
+                
+            } else if indexPath.row == 3 {
+                let vc = PickerViewController(kind: PickerKind.char, inputValue: inputChar as AnyObject)
+                vc.delegate = self
+                
+                navigationController?.pushViewController(vc, animated: true)
             }
+            
         }
     }
     
@@ -556,10 +573,19 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         var userData = PersistentData.User()
         ParseHelper.getMyUserInfomation(userData.userID) { (error: NSError?, result: PFObject?) -> Void in
             defer {  MBProgressHUDHelper.sharedInstance.hide() }
-            guard let result = result else { return }
+            
+            guard let result = result, error == nil else {
+                self.errorAction()
+                return
+            }
             
             result["IsRecruitment"] = isRecruitment
             result.saveInBackground { (success: Bool, error: Error?) -> Void in
+                guard success, error == nil else {
+                    self.errorAction()
+                    return
+                }
+                
                 userData.isRecruitment = isRecruitment
                 let message = isRecruitment ? "募集を開始しました" : "募集を停止しました"
                 UIAlertController.showAlertView("", message: message) { _ in
@@ -597,7 +623,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         }
         
         Twitter.sharedInstance().logIn { session, error in
-            guard session != nil else {
+            guard session != nil, error == nil else {
                 print("error: \(error!.localizedDescription)")
                 UIAlertController.showAlertView("", message: "Twitterへの接続に失敗しました。再接続してください") { _ in }
                 return
@@ -639,14 +665,19 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         MBProgressHUDHelper.sharedInstance.show(self.view)
         
         ParseHelper.getMyUserInfomation(PersistentData.User().userID) { (error: NSError?, result: PFObject?) -> Void in
-            guard let result = result else {
-                MBProgressHUDHelper.sharedInstance.hide()
+            guard let result = result, error == nil else {
+                self.errorAction()
                 return
             }
             
             result["Twitter"] = self.twitterName
             result.saveInBackground { (success: Bool, error: Error?) -> Void in
                 defer { MBProgressHUDHelper.sharedInstance.hide() }
+                
+                guard success, error == nil else {
+                    self.errorAction()
+                    return
+                }
                 
                 var userInfo = PersistentData.User()
                 userInfo.twitterName = self.twitterName
@@ -657,5 +688,10 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
                 }
             }
         }
+    }
+    
+    func errorAction() {
+        MBProgressHUDHelper.sharedInstance.hide()
+        UIAlertController.showAlertParseConnectionError()
     }
 }

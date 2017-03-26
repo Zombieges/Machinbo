@@ -55,7 +55,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         NSLog("位置情報取得失敗")
-        UIAlertController.showAlertView("エラー", message:"位置情報の取得が失敗しました。アプリを再起動してください。") { _ in
+        UIAlertController.showAlertView("エラー", message:"位置情報の取得が失敗しました。接続状態を確認の上、再接続してください") { _ in
             manager.stopUpdatingLocation()
         }
     }

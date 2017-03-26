@@ -14,6 +14,10 @@ public extension UIAlertController {
     enum ActionButton {
         case ok, cancel
     }
+    
+    class func showAlertParseConnectionError() {
+        showAlertView("エラー", message: "接続に失敗しました。再度実行してください")
+    }
 
     class func showAlertView(_ title: String , message:String) {
         let alertController = UIAlertController(

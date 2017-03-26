@@ -47,6 +47,7 @@
 		BB58C8FE1E705AA300557B32 /* style.geojson in Resources */ = {isa = PBXBuildFile; fileRef = BB58C8FD1E705AA300557B32 /* style.geojson */; };
 		BB6ECE6E1E84177C00DE6BE9 /* MarkerMapView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB6ECE6D1E84177C00DE6BE9 /* MarkerMapView.xib */; };
 		BB6ECE701E86466800DE6BE9 /* santen@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BB6ECE6F1E86466800DE6BE9 /* santen@2x.png */; };
+		BB6ECE721E878F5E00DE6BE9 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = BB6ECE711E878F5D00DE6BE9 /* .gitignore */; };
 		BB6FDDC71C3E92FD00C366A2 /* ZFRippleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6FDDC61C3E92FD00C366A2 /* ZFRippleButton.swift */; };
 		BB6FDDCC1C3E934F00C366A2 /* LoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6FDDCA1C3E934F00C366A2 /* LoginManager.swift */; };
 		BB6FDDD31C3E952700C366A2 /* ConfigHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6FDDCE1C3E952700C366A2 /* ConfigHelper.swift */; };
@@ -159,6 +160,7 @@
 		BB6BE7B21C4B8407004BD903 /* SCLAlertView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SCLAlertView.framework; path = "Pods/../build/Debug-iphoneos/SCLAlertView.framework"; sourceTree = "<group>"; };
 		BB6ECE6D1E84177C00DE6BE9 /* MarkerMapView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MarkerMapView.xib; sourceTree = "<group>"; };
 		BB6ECE6F1E86466800DE6BE9 /* santen@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "santen@2x.png"; sourceTree = "<group>"; };
+		BB6ECE711E878F5D00DE6BE9 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		BB6FDDC61C3E92FD00C366A2 /* ZFRippleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZFRippleButton.swift; sourceTree = "<group>"; };
 		BB6FDDCA1C3E934F00C366A2 /* LoginManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginManager.swift; sourceTree = "<group>"; };
 		BB6FDDCE1C3E952700C366A2 /* ConfigHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigHelper.swift; sourceTree = "<group>"; };
@@ -312,6 +314,7 @@
 		9409F77B1B2D994D0069DAE8 = {
 			isa = PBXGroup;
 			children = (
+				BB6ECE711E878F5D00DE6BE9 /* .gitignore */,
 				9409F7861B2D994D0069DAE8 /* Machinbo */,
 				9409F79E1B2D994D0069DAE8 /* MachinboTests */,
 				9409F7851B2D994D0069DAE8 /* Products */,
@@ -610,6 +613,7 @@
 				BB58C8E81E7059D800557B32 /* settings@2x.png in Resources */,
 				BB97CAA31E814E0C00C09006 /* mappin_green@2x.png in Resources */,
 				BB97CAA11E814C9F00C09006 /* mappin_red@2x.png in Resources */,
+				BB6ECE721E878F5E00DE6BE9 /* .gitignore in Resources */,
 				BB6FDDE71C3E97E100C366A2 /* DetailProfileTableViewCell.xib in Resources */,
 				BB58C8E31E7059D800557B32 /* meetup@2x.png in Resources */,
 				BB97CA9F1E80143700C09006 /* mappin_blue@2x.png in Resources */,

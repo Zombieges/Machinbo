@@ -364,6 +364,7 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func refreshAction() {
         guard self.isInternetConnect() else {
             self.errorAction()
+            self.refreshControl.endRefreshing()
             return
         }
         

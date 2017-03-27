@@ -283,6 +283,11 @@ class PickerViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     internal func onClickSaveButton(_ sender: UIButton){
+        guard self.isInternetConnect() else {
+            self.errorAction()
+            return
+        }
+        
         if self.palKind == .name {
             setSaveNameField()
 
@@ -319,6 +324,13 @@ class PickerViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
         
         var userInfo = PersistentData.User()
+        guard userInfo.userID != "" else {
+            self.delegate!.setInputValue(self.inputTextField.text!, type: .name)
+            self.navigationController!.popViewController(animated: true)
+            
+            return
+        }
+        
         ParseHelper.getMyUserInfomation(userInfo.userID) { (error: NSError?, result: PFObject?) -> Void in
             guard let result = result, error == nil else {
                 self.errorAction()
@@ -348,6 +360,13 @@ class PickerViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
         
         var userInfo = PersistentData.User()
+        guard userInfo.userID != "" else {
+            self.delegate!.setInputValue(self.inputTextView.text!, type: .comment)
+            self.navigationController!.popViewController(animated: true)
+            
+            return
+        }
+        
         ParseHelper.getMyUserInfomation(userInfo.userID) { (error: Error?, result: PFObject?) -> Void in
             guard let result = result, error == nil else {
                 self.errorAction()
@@ -508,13 +527,57 @@ class PickerViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard self.isInternetConnect() else {
+            self.errorAction()
+            return
+        }
+        
+        var userInfo = PersistentData.User()
         if self.palKind == .age {
-            self.delegate!.setSelectedValue(indexPath.row, selectedValue: myItems[indexPath.row].uppercased(), type: .age)
-            self.navigationController!.popViewController(animated: true)
+            
+            ParseHelper.getMyUserInfomation(userInfo.userID) { (error: NSError?, result: PFObject?) -> Void in
+                guard let result = result, error == nil else {
+                    self.errorAction()
+                    return
+                }
+                
+                result["Age"] = self.myItems[indexPath.row].uppercased()
+                result.saveInBackground { (success: Bool, error: Error?) -> Void in
+                    guard success, error == nil else {
+                        self.errorAction()
+                        return
+                    }
+                    
+                    print("saved worked")
+                    userInfo.age = self.myItems[indexPath.row].uppercased()
+                    
+                    self.delegate!.setSelectedValue(indexPath.row, selectedValue: self.myItems[indexPath.row].uppercased(), type: .age)
+                    self.navigationController!.popViewController(animated: true)
+                }
+            }
             
         } else if self.palKind == .gender {
-            self.delegate!.setSelectedValue(indexPath.row, selectedValue: myItems[indexPath.row].uppercased(), type: .gender)
-            self.navigationController!.popViewController(animated: true)
+            
+            ParseHelper.getMyUserInfomation(userInfo.userID) { (error: NSError?, result: PFObject?) -> Void in
+                guard let result = result, error == nil else {
+                    self.errorAction()
+                    return
+                }
+                
+                result["Gender"] = self.myItems[indexPath.row].uppercased()
+                result.saveInBackground { (success: Bool, error: Error?) -> Void in
+                    guard success, error == nil else {
+                        self.errorAction()
+                        return
+                    }
+                    
+                    print("saved worked")
+                    userInfo.gender = self.myItems[indexPath.row].uppercased()
+                    
+                    self.delegate!.setSelectedValue(indexPath.row, selectedValue: self.myItems[indexPath.row].uppercased(), type: .gender)
+                    self.navigationController!.popViewController(animated: true)
+                }
+            }
         }
     }
     
@@ -541,6 +604,10 @@ class PickerViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard self.isInternetConnect() else {
+            self.errorAction()
+            return
+        }
         
         guard let searchStr = searchBarField.text else {
             return

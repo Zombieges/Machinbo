@@ -45,6 +45,7 @@
 		BB58C8FA1E705A0900557B32 /* TransisionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB58C8F11E705A0900557B32 /* TransisionProtocol.swift */; };
 		BB58C8FC1E705A5F00557B32 /* LayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB58C8FB1E705A5F00557B32 /* LayoutManager.swift */; };
 		BB58C8FE1E705AA300557B32 /* style.geojson in Resources */ = {isa = PBXBuildFile; fileRef = BB58C8FD1E705AA300557B32 /* style.geojson */; };
+		BB6A358E1E894C4D00F6783C /* EntryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB6A358D1E894C4D00F6783C /* EntryView.xib */; };
 		BB6ECE6E1E84177C00DE6BE9 /* MarkerMapView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB6ECE6D1E84177C00DE6BE9 /* MarkerMapView.xib */; };
 		BB6ECE701E86466800DE6BE9 /* santen@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BB6ECE6F1E86466800DE6BE9 /* santen@2x.png */; };
 		BB6ECE721E878F5E00DE6BE9 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = BB6ECE711E878F5D00DE6BE9 /* .gitignore */; };
@@ -157,6 +158,7 @@
 		BB58C8F11E705A0900557B32 /* TransisionProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransisionProtocol.swift; sourceTree = "<group>"; };
 		BB58C8FB1E705A5F00557B32 /* LayoutManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayoutManager.swift; sourceTree = "<group>"; };
 		BB58C8FD1E705AA300557B32 /* style.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = style.geojson; sourceTree = "<group>"; };
+		BB6A358D1E894C4D00F6783C /* EntryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EntryView.xib; sourceTree = "<group>"; };
 		BB6BE7B21C4B8407004BD903 /* SCLAlertView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SCLAlertView.framework; path = "Pods/../build/Debug-iphoneos/SCLAlertView.framework"; sourceTree = "<group>"; };
 		BB6ECE6D1E84177C00DE6BE9 /* MarkerMapView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MarkerMapView.xib; sourceTree = "<group>"; };
 		BB6ECE6F1E86466800DE6BE9 /* santen@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "santen@2x.png"; sourceTree = "<group>"; };
@@ -429,6 +431,7 @@
 				BB6FDDDF1C3E97E100C366A2 /* MarkWindow.swift */,
 				BB6FDDE01C3E97E100C366A2 /* MarkWindow.xib */,
 				BB6FDDE11C3E97E100C366A2 /* PickerView.xib */,
+				BB6A358D1E894C4D00F6783C /* EntryView.xib */,
 				BB6FDDE21C3E97E100C366A2 /* ProfileView.xib */,
 				BB6FDDE51C3E97E100C366A2 /* TargetProfileView.xib */,
 				BBD353571CDDCCB1007B1A1C /* SettingsView.xib */,
@@ -615,6 +618,7 @@
 				BB97CAA11E814C9F00C09006 /* mappin_red@2x.png in Resources */,
 				BB6ECE721E878F5E00DE6BE9 /* .gitignore in Resources */,
 				BB6FDDE71C3E97E100C366A2 /* DetailProfileTableViewCell.xib in Resources */,
+				BB6A358E1E894C4D00F6783C /* EntryView.xib in Resources */,
 				BB58C8E31E7059D800557B32 /* meetup@2x.png in Resources */,
 				BB97CA9F1E80143700C09006 /* mappin_blue@2x.png in Resources */,
 				BB6FDDEE1C3E97E100C366A2 /* PickerView.xib in Resources */,

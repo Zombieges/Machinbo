@@ -103,6 +103,7 @@ class TargetProfileViewController:
             let admobRequest:GADRequest = GADRequest()
             admobRequest.testDevices = [kGADSimulatorID]
             interstitial?.load(admobRequest)
+            
         }
         
         //ブロックされている場合はここでボタン非表示にする
@@ -151,24 +152,6 @@ class TargetProfileViewController:
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return sections[section] as? String
     }
-    
-//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> String? {
-//        return sections[section]
-//    }
-    
- //   func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: sectionHeaderHeight))
-//        let label = UILabel(frame: CGRect(x: 8, y: 0, width: tableView.frame.size.width - 16, height: sectionHeaderHeight))
-//        label.font = UIFont(name: "Helvetica-Bold",size: CGFloat(13))
-//        
-//        label.text = self.tableView(tableView, titleForHeaderInSection: section)
-//        label.textColor = StyleConst.textColorForHeader
-//        view.addSubview(label)
-//        view.backgroundColor = StyleConst.backgroundColorForHeader
-//        view.layer.borderWidth = 1
-//        view.layer.borderColor = StyleConst.borderColorForHeader.cgColor
-//        return view
-//    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
@@ -434,7 +417,6 @@ class TargetProfileViewController:
                 
                 self.gonowInfo = GonowData(parseObject: loadedObject)
                 
-                
                 NotificationHelper.sendSpecificDevice( PersistentData.User().name + "さんより「承認」されました", deviceTokenAsString: self.targetUserInfo?.object(forKey: "DeviceToken") as! String, badges: 0 as Int)
                 
             } catch {}
@@ -507,8 +489,6 @@ class TargetProfileViewController:
     func imaikuAction(_ notif: Notification) {
         defer { NotificationCenter.default.removeObserver(self) }
         
-        //TODO:この処理だといまから行くが複数ある場合、送信する対象が異なってしまう恐れあり。ParseIDで見ないと駄目かも
-        
         MBProgressHUDHelper.sharedInstance.show(self.view)
         
         let info = notif.userInfo as NSDictionary!
@@ -521,8 +501,10 @@ class TargetProfileViewController:
         let targetUserID = self.gonowInfo?.TargetUserID
         
         ParseHelper.getTargetUserGoNow(objectid!) { (error: NSError?, result) -> Void in
-            guard error == nil else { print("Error information"); return }
-            guard let result = result else { print("no data"); return }
+            guard let result = result, error == nil else {
+                self.errorAction()
+                return
+            }
             
             self.gonowInfo = GonowData(parseObject: result)
             
@@ -552,14 +534,20 @@ class TargetProfileViewController:
                     gonowReceiveObject["userGeoPoint"] = geoPoint
                     gonowReceiveObject.saveInBackground { (success: Bool, error: Error?) -> Void in
                         defer { MBProgressHUDHelper.sharedInstance.hide() }
-                        guard error == nil else { return }
+                        guard success, error == nil else {
+                            self.errorAction()
+                            return
+                        }
                     }
                     
                     result["userGoNow"] = gonowReceiveObject
                     result["updateAt"] = Date()
                     result.saveInBackground { (success: Bool, error: Error?) -> Void in
                         defer { MBProgressHUDHelper.sharedInstance.hide() }
-                        guard error == nil else { return }
+                        guard success, error == nil else {
+                            self.errorAction()
+                            return
+                        }
                     }
                 }
                 
@@ -568,7 +556,10 @@ class TargetProfileViewController:
                     query["userGeoPoint"] = geoPoint
                     query.saveInBackground { (success: Bool, error: Error?) -> Void in
                         defer { MBProgressHUDHelper.sharedInstance.hide() }
-                        guard error == nil else { return }
+                        guard success, error == nil else {
+                            self.errorAction()
+                            return
+                        }
                         
                         UIAlertController.showAlertView("", message: "現在位置を相手に送信しました")
                     }
@@ -581,14 +572,20 @@ class TargetProfileViewController:
                     gonowReceiveObject["userGeoPoint"] = geoPoint
                     gonowReceiveObject.saveInBackground { (success: Bool, error: Error?) -> Void in
                         defer { MBProgressHUDHelper.sharedInstance.hide() }
-                        guard error == nil else { return }
+                        guard success, error == nil else {
+                            self.errorAction()
+                            return
+                        }
                     }
                     
                     result["targetGoNow"] = gonowReceiveObject
                     result["updateAt"] = Date()
                     result.saveInBackground { (success: Bool, error: Error?) -> Void in
                         defer { MBProgressHUDHelper.sharedInstance.hide() }
-                        guard error == nil else { return }
+                        guard success, error == nil else {
+                            self.errorAction()
+                            return
+                        }
                     }
                 }
             }
@@ -713,10 +710,13 @@ class TargetProfileViewController:
         
         if let imageFile = (targetUserInfo as AnyObject).value(forKey: "ProfilePicture") as? PFFile {
             imageFile.getDataInBackground { (imageData, error) -> Void in
-                guard error == nil else { print("image no data error."); return }
+                guard let imageData = imageData, error == nil else {
+                    self.errorAction()
+                    return
+                }
                 
                 let profileImage = UIImageView(frame: CGRect(x: 17, y: imageY, width: imageSize, height: imageSize))
-                profileImage.image = UIImage(data: imageData!)!
+                profileImage.image = UIImage(data: imageData)
                 profileImage.layer.borderColor = UIColor.white.cgColor
                 profileImage.layer.borderWidth = 3
                 profileImage.layer.cornerRadius = 10
@@ -776,9 +776,12 @@ class TargetProfileViewController:
             guard action == .ok else { return }
             
             MBProgressHUDHelper.sharedInstance.show(self.view)
-            ParseHelper.getMyUserInfomation(PersistentData.User().objectId) { (error: NSError?, result: PFObject?) -> Void in
+            ParseHelper.getMyUserInfomation(PersistentData.User().objectId) { (error: Error?, result: PFObject?) -> Void in
                 defer {  MBProgressHUDHelper.sharedInstance.hide() }
-                guard let result = result else { return }
+                guard let result = result, error == nil else {
+                    self.errorAction()
+                    return
+                }
                 
                 result.remove(self.targetUserInfo?.objectId! as Any, forKey: "blockUserList")
                 result.saveInBackground()
@@ -800,9 +803,12 @@ class TargetProfileViewController:
             return
         }
         
-        ParseHelper.getTargetUserGoNow(self.gonowInfo!.ObjectId) { (error: NSError?, result: PFObject?) -> Void in
+        ParseHelper.getTargetUserGoNow(self.gonowInfo!.ObjectId) { (error: Error?, result: PFObject?) -> Void in
             defer {  MBProgressHUDHelper.sharedInstance.hide() }
-            guard let result = result else { return }
+            guard let result = result, error == nil else {
+                self.errorAction()
+                return
+            }
 
             self.gonowInfo = GonowData(parseObject: result)
             self.setGoogleMap()
@@ -810,4 +816,13 @@ class TargetProfileViewController:
             self.refreshControl.endRefreshing()
         }
     }
+    
+    func createRefreshButton() {
+        let btn: ZFRippleButton = StyleConst.displayWideZFRippleButton("再描画")
+        btn.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width / 2, height: 50)
+        btn.addTarget(self, action: #selector(self.refresh), for: UIControlEvents.touchUpInside)
+        btn.layer.position = CGPoint(x: self.view.bounds.width / 2, y: self.view.bounds.height / 2)
+        self.view.addSubview(btn)
+    }
+
 }

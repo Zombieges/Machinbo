@@ -55,8 +55,18 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let view = UINib(nibName: "ProfileView", bundle: nil).instantiate(withOwner: self, options: nil).first as? UIView {
-            self.view = view
+
+        let userData = PersistentData.User()
+        
+        if userData.userID == "" {
+            if let view = UINib(nibName: "EntryView", bundle: nil).instantiate(withOwner: self, options: nil).first as? UIView {
+                self.view = view
+            }
+            
+        } else {
+            if let view = UINib(nibName: "ProfileView", bundle: nil).instantiate(withOwner: self, options: nil).first as? UIView {
+                self.view = view
+            }
         }
         
         self.setProfileGesture()
@@ -65,7 +75,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.darkGray]
         navigationController?.navigationBar.tintColor = UIColor.darkGray
         
-        let userData = PersistentData.User()
         guard userData.userID != "" else {
             //初期登録画面
             self.navigationItem.title = "プロフィールを登録してください"
@@ -81,7 +90,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         self.tableView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
         
         
-        self.startButton.isHidden = true
+        //self.startButton.isHidden = true
         
         // 通常の画面遷移
         self.profilePicture.image = userData.profileImage
@@ -102,10 +111,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         setNavigationItemSettingButton()
         setRecruitment()
         imageMolding(profilePicture)
-        
-        if !self.isInternetConnect() {
-            self.createRefreshButton()
-        }
     }
     
     private func setRecruitment() {
@@ -178,6 +183,11 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     // 写真選択時の処理
     internal func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         dismiss(animated: true, completion: nil)
+        
+        guard self.isInternetConnect() else {
+            self.errorAction()
+            return
+        }
         
         let image = info[UIImagePickerControllerOriginalImage] as! UIImage
         
@@ -490,6 +500,11 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     }
     
     @IBAction func pushStart(_ sender: AnyObject) {
+        guard self.isInternetConnect() else {
+            self.errorAction()
+            return
+        }
+        
         guard !inputName.isEmpty else {
             UIAlertController.showAlertView("", message: "名前を入力してください")
             return
@@ -568,6 +583,11 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     }
     
     private func recruitmentAction(_ isRecruitment: Bool) {
+        guard self.isInternetConnect() else {
+            self.errorAction()
+            return
+        }
+        
         MBProgressHUDHelper.sharedInstance.show(self.view)
         
         var userData = PersistentData.User()
@@ -594,25 +614,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
                 
             }
         }
-    }
-    
-    func createRefreshButton() {
-        //画面リフレッシュボタン
-        let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 150, height: 40))
-        btn.trackTouchLocation = true
-        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
-        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
-        btn.rippleColor = LayoutManager.getUIColorFromRGB(0xB54241)
-        btn.setTitle("再表示", for: UIControlState())
-        btn.addTarget(self, action: #selector(self.refresh), for: .touchUpInside)
-        btn.layer.cornerRadius = 5.0
-        btn.layer.masksToBounds = true
-        btn.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height - self.view.bounds.height/8.3)
-        self.view.addSubview(btn)
-    }
-    
-    func refresh() {
-        self.viewDidLoad()
     }
     
     fileprivate func loginTwitter() {
@@ -657,7 +658,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     }
     
     fileprivate func setTwitterName() {
-        guard PersistentData.User().userID != "" else {
+        guard self.isInternetConnect(), PersistentData.User().userID != "" else {
             self.viewDidLoad()
             return
         }
@@ -693,5 +694,17 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     func errorAction() {
         MBProgressHUDHelper.sharedInstance.hide()
         UIAlertController.showAlertParseConnectionError()
+    }
+    
+    func createRefreshButton() {
+        let btn: ZFRippleButton = StyleConst.displayWideZFRippleButton("再描画")
+        btn.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width / 2, height: 50)
+        btn.addTarget(self, action: #selector(self.refresh), for: UIControlEvents.touchUpInside)
+        btn.layer.position = CGPoint(x: self.view.bounds.width / 2, y: self.view.bounds.height / 2)
+        self.view.addSubview(btn)
+    }
+    
+    func refresh() {
+        self.viewDidLoad()
     }
 }

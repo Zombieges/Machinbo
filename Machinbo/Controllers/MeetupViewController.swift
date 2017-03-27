@@ -75,14 +75,16 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         self.initTableView()
         self.createRefreshControl()
-//        self.createHeaderBottomLine()
         
-        if self.isInternetConnect() {
-            let AdMobUnitID = ConfigHelper.getPlistKey("ADMOB_UNIT_ID") as String
-            bannerView.adUnitID = AdMobUnitID
-            bannerView.rootViewController = self
-            bannerView.load(GADRequest())
+        guard self.isInternetConnect() else {
+            self.errorAction()
+            return
         }
+        
+        let AdMobUnitID = ConfigHelper.getPlistKey("ADMOB_UNIT_ID") as String
+        bannerView.adUnitID = AdMobUnitID
+        bannerView.rootViewController = self
+        bannerView.load(GADRequest())
         
         NotificationCenter.default.addObserver(self, selector: #selector(viewWillEnterForeground), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
         
@@ -229,6 +231,11 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard self.isInternetConnect() else {
+            self.errorAction()
+            return
+        }
+        
         let userInfoObject = self.getUserInfomation(index: indexPath.row)
         
         guard userInfoObject != nil else {
@@ -274,6 +281,12 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
 //    }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        
+        guard self.isInternetConnect() else {
+            self.errorAction()
+            return nil
+        }
+        
         let deleteButton = UITableViewRowAction(style: .normal, title: "削除") { (action, index) -> Void in
             UIAlertController.showAlertOKCancel("", message: "削除します。よろしいですか？", actiontitle: "削除") { action in
                 guard action == .ok else { return }
@@ -307,6 +320,11 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func segmentChanged(_ segcon: UISegmentedControl){
+        guard self.isInternetConnect() else {
+            self.errorAction()
+            return
+        }
+        
         self.nowSegumentIndex = segcon.selectedSegmentIndex
         
         switch self.nowSegumentIndex {
@@ -322,22 +340,6 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         self.tableView.reloadData()
     }
-//    @IBAction func changeSegmentedControl(_ sender: UISegmentedControl) {
-//        self.nowSegumentIndex = sender.selectedSegmentIndex
-//
-//        switch self.nowSegumentIndex {
-//        case 0:
-//            if self.goNowList == nil { self.getApprovedMeetUpList() }
-//        case 1:
-//            if self.meetupList == nil { self.getMeetUpList() }
-//        case 2:
-//            if self.recieveList == nil { self.getReceiveList() }
-//        default:
-//            break
-//        }
-//        
-//        self.tableView.reloadData()
-//    }
     
     private func initTableView() {
         let nibName = UINib(nibName: "GoNowTableViewCell", bundle:nil)
@@ -346,23 +348,8 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.rowHeight = 85.0
         self.tableView.sectionHeaderHeight = 1
-        
-//        let noUseCell = UIView(frame: CGRect.zero)
-//        noUseCell.backgroundColor = UIColor.clear
-//        self.tableView.tableFooterView = noUseCell
-//        self.tableView.tableHeaderView = noUseCell
-//        self.view.addSubview(tableView)
-//        var frame = self.tableView.tableHeaderView?.frame;
-//        frame?.size.height = 1;
-//        let noUseCell = UIView(frame: frame!)
-//        self.tableView.tableHeaderView = noUseCell
     }
-    
-//    private func createHeaderBottomLine() {
-//        self.headerView.layer.borderWidth = 0.3
-//        self.headerView.layer.borderColor = UIColor.lightGray.cgColor
-//    }
-    
+
     private func createRefreshControl() {
         self.refreshControl = UIRefreshControl()
         self.refreshControl.addTarget(self, action: #selector(self.refreshAction), for: .valueChanged)
@@ -375,6 +362,11 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func refreshAction() {
+        guard self.isInternetConnect() else {
+            self.errorAction()
+            return
+        }
+        
         switch self.nowSegumentIndex {
         case 0:
             self.getApprovedMeetUpList()

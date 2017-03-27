@@ -49,7 +49,12 @@ class GoNowViewController:
         self.navigationItem.title = "待ち合わせ情報の登録"
         self.navigationController!.navigationBar.tintColor = UIColor.darkGray
         
-        self.initTableView()
+        if self.isInternetConnect() {
+            self.initTableView()
+            
+        } else {
+            createRefreshButton()
+        }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -165,9 +170,12 @@ class GoNowViewController:
         
         var userInfo = PersistentData.User()
         ParseHelper.getMyUserInfomation(userInfo.userID) { (error: NSError?, result: PFObject?) -> Void in
-            guard error == nil else { print("Error information"); return }
+            guard let result = result, error == nil else {
+                self.errorAction()
+                return
+            }
             
-            let query = result! as PFObject
+            let query = result as PFObject
             query["GPS"] = self.palGeoPoint
             query["MarkTime"] = self.inputDateFrom
             query["MarkTimeTo"] = self.inputDateTo
@@ -176,17 +184,19 @@ class GoNowViewController:
             query["IsRecruitment"] = true
             query.saveInBackground { (success: Bool, error: Error?) -> Void in
                 defer { MBProgressHUDHelper.sharedInstance.hide() }
-                guard error == nil else { print("Error information"); return }
+                
+                guard success, error == nil else {
+                    self.errorAction()
+                    return
+                }
                 
                 var userData = PersistentData.User()
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "yyyy年M月d日 H:mm"
                 if self.inputDateFrom != nil {
-                    userData.markTimeFrom =  dateFormatter.string(from: self.inputDateFrom!)
+                    userData.markTimeFrom =  self.dateFormatter.string(from: self.inputDateFrom!)
                 }
                 
                 if self.inputDateTo != nil {
-                    userData.markTimeTo = dateFormatter.string(from: self.inputDateTo!)
+                    userData.markTimeTo = self.dateFormatter.string(from: self.inputDateTo!)
                 }
                 
                 userData.place = self.inputPlace
@@ -214,12 +224,25 @@ class GoNowViewController:
         if type == .comment {
             if selectedRow == 2 {
                 self.inputPlace = inputValue
+                
             } else if selectedRow == 3 {
                 self.inputChar = inputValue
             }
+            
             self.tableView.reloadData()
         }
     }
+//    
+//    internal func setInputValue(_ inputValue: String, type: InputPickerType) {
+//        if type == .place {
+//            self.inputPlace = inputValue
+//            self.tableView.reloadData()
+//            
+//        } else type == .char {
+//            self.inputChar = inputValue
+//            self.tableView.reloadData()
+//        }
+//    }
     
     internal func setSelectedDate(_ selectedDate: Date) {
         if selectedRow == 0 {
@@ -241,4 +264,15 @@ class GoNowViewController:
         self.view.addSubview(self.tableView)
     }
     
+    func createRefreshButton() {
+        let btn: ZFRippleButton = StyleConst.displayWideZFRippleButton("再描画")
+        btn.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width / 2, height: 50)
+        btn.addTarget(self, action: #selector(self.refresh), for: UIControlEvents.touchUpInside)
+        btn.layer.position = CGPoint(x: self.view.bounds.width / 2, y: self.view.bounds.height / 2)
+        self.view.addSubview(btn)
+    }
+    
+    func refresh() {
+        self.viewDidLoad()
+    }
 }

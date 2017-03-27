@@ -15,6 +15,7 @@
             <connections>
                 <outlet property="imakokoButton" destination="4KK-1b-J7V" id="YgK-WC-yt6"/>
                 <outlet property="profilePicture" destination="leq-Pp-UA6" id="1G5-Dh-Jvl"/>
+                <outlet property="startButton" destination="Rf5-tc-hSa" id="5A7-x6-S1D"/>
                 <outlet property="tableView" destination="YmW-wK-9N8" id="9FB-A3-nTd"/>
                 <outlet property="view" destination="3iS-eM-Ybb" id="04E-ed-vp4"/>
             </connections>
@@ -25,7 +26,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="default" rowHeight="55" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="YmW-wK-9N8">
-                    <rect key="frame" x="0.0" y="133" width="375" height="534"/>
+                    <rect key="frame" x="0.0" y="133" width="375" height="433"/>
                     <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="8W5-ti-0qE"/>
@@ -36,7 +37,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="375" height="133"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="picture" translatesAutoresizingMaskIntoConstraints="NO" id="leq-Pp-UA6">
-                            <rect key="frame" x="17" y="10" width="112.5" height="112.5"/>
+                            <rect key="frame" x="17" y="10" width="113" height="113"/>
                         </imageView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4KK-1b-J7V">
                             <rect key="frame" x="215" y="83" width="150" height="40"/>
@@ -58,17 +59,44 @@
                         <constraint firstAttribute="bottom" secondItem="4KK-1b-J7V" secondAttribute="bottom" constant="10" id="xpl-Jk-Pez"/>
                     </constraints>
                 </view>
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rf5-tc-hSa" customClass="ZFRippleButton" customModule="Machinbo" customModuleProvider="target">
+                    <rect key="frame" x="8" y="574" width="359" height="53.5"/>
+                    <color key="backgroundColor" red="0.70980392160000005" green="0.25882352939999997" blue="0.25490196079999999" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="sRGB"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <state key="normal" title="登　録">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="color" keyPath="rippleColor">
+                            <color key="value" red="0.70980392160000005" green="0.25882352939999997" blue="0.25490196079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="rippleBackgroundColor">
+                            <color key="value" red="0.85098039215686272" green="0.34901960784313724" blue="0.30196078431372547" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="sRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="5"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="pushStart:" destination="-1" eventType="touchUpInside" id="i3p-sa-6nX"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="0.92156862750000001" green="0.92156862750000001" blue="0.94509803920000002" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
+                <constraint firstAttribute="trailing" secondItem="Rf5-tc-hSa" secondAttribute="trailing" constant="8" id="6on-n7-giJ"/>
                 <constraint firstItem="YmW-wK-9N8" firstAttribute="top" secondItem="leq-Pp-UA6" secondAttribute="bottom" constant="10" id="BaG-ax-3Bd"/>
                 <constraint firstItem="PEC-ux-cxX" firstAttribute="leading" secondItem="3iS-eM-Ybb" secondAttribute="leading" id="EqR-YR-VdY"/>
                 <constraint firstItem="YmW-wK-9N8" firstAttribute="width" secondItem="3iS-eM-Ybb" secondAttribute="width" id="G0L-rK-QLJ"/>
                 <constraint firstItem="YmW-wK-9N8" firstAttribute="top" secondItem="PEC-ux-cxX" secondAttribute="bottom" id="H7T-6N-122"/>
                 <constraint firstItem="PEC-ux-cxX" firstAttribute="width" secondItem="3iS-eM-Ybb" secondAttribute="width" id="KmD-bw-tFd"/>
                 <constraint firstItem="PEC-ux-cxX" firstAttribute="top" secondItem="3iS-eM-Ybb" secondAttribute="top" id="Kpk-BJ-IoY"/>
-                <constraint firstAttribute="bottom" secondItem="YmW-wK-9N8" secondAttribute="bottom" id="Rlw-wy-phg"/>
+                <constraint firstItem="YmW-wK-9N8" firstAttribute="height" secondItem="3iS-eM-Ybb" secondAttribute="height" multiplier="0.65" id="ZtH-7l-m3E"/>
+                <constraint firstItem="Rf5-tc-hSa" firstAttribute="leading" secondItem="3iS-eM-Ybb" secondAttribute="leading" constant="8" id="nyf-m7-5az"/>
+                <constraint firstItem="Rf5-tc-hSa" firstAttribute="height" secondItem="3iS-eM-Ybb" secondAttribute="height" multiplier="0.08" id="uPt-HD-Udk"/>
                 <constraint firstItem="YmW-wK-9N8" firstAttribute="leading" secondItem="3iS-eM-Ybb" secondAttribute="leading" id="ycz-gN-pp4"/>
+                <constraint firstItem="Rf5-tc-hSa" firstAttribute="top" secondItem="YmW-wK-9N8" secondAttribute="bottom" constant="10" id="yet-Rn-85I"/>
             </constraints>
             <userDefinedRuntimeAttributes>
                 <userDefinedRuntimeAttribute type="color" keyPath="rippleColor">

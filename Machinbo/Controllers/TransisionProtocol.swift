@@ -18,6 +18,8 @@ protocol TransisionProtocol {
     func isInternetConnect() -> Bool
     // 広告表示
     func showAdmob(_ type: AdmobType)
+    
+    func errorAction()
 }
 
 enum AdmobType {
@@ -37,33 +39,12 @@ extension TransisionProtocol where
         let reachability = try! AMReachability.reachabilityForInternetConnection()
         if !reachability.isReachable() {
             print("インターネット接続なし")
-            UIAlertController.showAlertView("", message: "接続に失敗しました。通信状況を確認の上、再接続してくだささい。") { _ in
-                self.createRefreshButton()
-            }
+            UIAlertController.showAlertView("", message: "接続に失敗しました。通信状況を確認の上、再接続してくだささい。")
             return false
         }
         
         print("インターネット接続あり")
         return true
-    }
-    
-    func createRefreshButton() {
-        //画面リフレッシュボタン
-        let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 150, height: 40))
-        btn.trackTouchLocation = true
-        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
-        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0xD9594D)
-        btn.rippleColor = LayoutManager.getUIColorFromRGB(0xB54241)
-        btn.setTitle("Try now", for: UIControlState())
-        //btn.addTarget(self, action: #selector(TransisionProtocol.onClickViewRefresh), forControlEvents: .touchUpInside)
-        btn.layer.cornerRadius = 5.0
-        btn.layer.masksToBounds = true
-        btn.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height - self.view.bounds.height/8.3)
-        self.view.addSubview(btn)
-    }
-    
-    func onClickViewRefresh() {
-        self.viewDidLoad()
     }
     
     /**
@@ -150,5 +131,10 @@ extension TransisionProtocol where
     
     func backgroundColorForHeader() -> UIColor {
         return LayoutManager.getUIColorFromRGB(0xF6F2F3)
+    }
+    
+    func errorAction() {
+        MBProgressHUDHelper.sharedInstance.hide()
+        UIAlertController.showAlertParseConnectionError()
     }
 }

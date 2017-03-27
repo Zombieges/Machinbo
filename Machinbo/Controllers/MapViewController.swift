@@ -21,7 +21,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     private var latitude: CLLocationDegrees!
     private var markWindow = MarkWindow()
     
-    
     @IBOutlet weak var gmsMapView: GMSMapView!
     @IBOutlet weak var bannerView: GADBannerView!
     
@@ -41,6 +40,9 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
             bannerView.adUnitID = AdMobUnitID
             bannerView.rootViewController = self
             bannerView.load(GADRequest())
+            
+        } else {
+            createRefreshButton()
         }
     }
     
@@ -81,12 +83,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         return false
-    }
-    
-    func onClickImakoko(){
-        let vc = MarkerDraggableViewController()
-        vc.palGeoPoint = PFGeoPoint(latitude: latitude, longitude: longitude)
-        self.navigationController!.pushViewController(vc, animated: false)
     }
     
     func onClickSearch() {
@@ -159,22 +155,17 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
             [UIBarButtonItem(customView: seachButton)]
     }
     
-    internal func createRefreshButton() {
-        let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 150, height: 40))
-        btn.trackTouchLocation = true
-        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1, alpha: 0.8)
-        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1, alpha: 0.8)
-        btn.rippleColor = LayoutManager.getUIColorFromRGB(0x1976D2)
-        btn.setTitle("再表示", for: UIControlState())
-        btn.addTarget(self, action: #selector(self.refresh), for: .touchUpInside)
-        btn.layer.cornerRadius = 5.0
-        btn.layer.masksToBounds = true
-        btn.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height - self.view.bounds.height/8.3)
+    func createRefreshButton() {
+        let btn: ZFRippleButton = StyleConst.displayWideZFRippleButton("再描画")
+        btn.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width / 2, height: 50)
+        btn.addTarget(self, action: #selector(self.refresh), for: UIControlEvents.touchUpInside)
+        btn.layer.position = CGPoint(x: self.view.bounds.width / 2, y: self.view.bounds.height / 2)
         self.view.addSubview(btn)
     }
     
     func refresh() {
         self.viewDidLoad()
     }
+    
 }
 

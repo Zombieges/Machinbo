@@ -33,7 +33,7 @@ class GoNowViewController:
     private var inputChar = ""
     private let normalTableViewCellIdentifier = "NormalCell"
     private let detailTableViewCellIdentifier = "DetailCell"
-    private let targetProfileItems = ["待ち合わせ（何時から〜）", "待ち合わせ（〜何時まで）", "待ち合わせ場所", "自分の特徴"]
+    private let targetProfileItems = ["何時から", "何時まで", "待ち合わせ場所", "自分の特徴"]
     private var selectedRow: Int = 0
     private lazy var dateFormatter: DateFormatter = {
         var formatter = DateFormatter()
@@ -48,13 +48,6 @@ class GoNowViewController:
         
         self.navigationItem.title = "待ち合わせ情報の登録"
         self.navigationController!.navigationBar.tintColor = UIColor.darkGray
-        
-        if self.isInternetConnect() {
-            self.initTableView()
-            
-        } else {
-            createRefreshButton()
-        }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -86,6 +79,7 @@ class GoNowViewController:
             if let input = self.inputDateFrom {
                 let formatDateString = self.dateFormatter.string(from: input)
                 normalCell?.detailTextLabel?.text = formatDateString
+                normalCell?.accessoryType = .disclosureIndicator
             }
             
             cell = normalCell
@@ -95,6 +89,7 @@ class GoNowViewController:
             if self.inputDateTo != nil {
                 let formatDateString = self.dateFormatter.string(from: self.inputDateTo!)
                 normalCell?.detailTextLabel?.text = formatDateString
+                normalCell?.accessoryType = .disclosureIndicator
             }
             
             cell = normalCell
@@ -232,17 +227,6 @@ class GoNowViewController:
             self.tableView.reloadData()
         }
     }
-//    
-//    internal func setInputValue(_ inputValue: String, type: InputPickerType) {
-//        if type == .place {
-//            self.inputPlace = inputValue
-//            self.tableView.reloadData()
-//            
-//        } else type == .char {
-//            self.inputChar = inputValue
-//            self.tableView.reloadData()
-//        }
-//    }
     
     internal func setSelectedDate(_ selectedDate: Date) {
         if selectedRow == 0 {
@@ -262,17 +246,5 @@ class GoNowViewController:
         self.tableView.tableFooterView = UIView(frame: CGRect.zero)
         self.tableView.rowHeight = 85.0
         self.view.addSubview(self.tableView)
-    }
-    
-    func createRefreshButton() {
-        let btn: ZFRippleButton = StyleConst.displayWideZFRippleButton("再描画")
-        btn.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width / 2, height: 50)
-        btn.addTarget(self, action: #selector(self.refresh), for: UIControlEvents.touchUpInside)
-        btn.layer.position = CGPoint(x: self.view.bounds.width / 2, y: self.view.bounds.height / 2)
-        self.view.addSubview(btn)
-    }
-    
-    func refresh() {
-        self.viewDidLoad()
     }
 }

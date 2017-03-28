@@ -36,6 +36,10 @@ class PersistentData {
         userDefault.removeObject(forKey: "blockUserList")
         userDefault.removeObject(forKey: "imaikuUserList")
         
+        userDefault.removeObject(forKey: "markTimeFrom")
+        userDefault.removeObject(forKey: "markTimeTo")
+        userDefault.removeObject(forKey: "isImaikuClick")
+        
         userDefault.synchronize()
     }
     
@@ -49,7 +53,7 @@ class PersistentData {
     }
 
     struct User {
-     
+        
         var objectId : String {
             get {
                 return UserDefaults.standard.string(forKey: "objectId") ?? ""

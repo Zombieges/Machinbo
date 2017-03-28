@@ -34,17 +34,15 @@ class MarkerDraggableViewController: UIViewController, GMSMapViewDelegate, CLLoc
         backButton.title = ""
         self.navigationItem.backBarButtonItem = backButton
         self.navigationItem.title = "待ち合わせ場所を選択"
+
+        LocationManager.sharedInstance.startUpdatingLocation()
         
-        if isInternetConnect() {
-            LocationManager.sharedInstance.startUpdatingLocation()
-            
-            let center = NotificationCenter.default as NotificationCenter
-            center.addObserver(
-                self,
-                selector: #selector(self.setGoogleMaps(_:)),
-                name: NSNotification.Name(rawValue: LMLocationUpdateNotification as String),
-                object: nil)
-        }
+        let center = NotificationCenter.default as NotificationCenter
+        center.addObserver(
+            self,
+            selector: #selector(self.setGoogleMaps(_:)),
+            name: NSNotification.Name(rawValue: LMLocationUpdateNotification as String),
+            object: nil)
     }
     
     func setGoogleMaps(_ notif: Notification)  {
@@ -89,6 +87,11 @@ class MarkerDraggableViewController: UIViewController, GMSMapViewDelegate, CLLoc
     }
     
     func didClickImageView(_ recognizer: UIGestureRecognizer) {
+        guard self.isInternetConnect() else {
+            self.errorAction()
+            return
+        }
+        
         let mapViewCenter = getMapCenterPosition(self.gmaps)
         
         let vc = GoNowViewController()

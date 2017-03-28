@@ -91,20 +91,22 @@ class TargetProfileViewController:
         self.setImageProfile()
         self.setGoogleMap()
         
-        if self.isInternetConnect() {
-            //バナー広告
-            bannerView.adUnitID = ConfigHelper.getPlistKey("ADMOB_UNIT_ID") as String
-            bannerView.rootViewController = self
-            bannerView.load(GADRequest())
-            
-            //フル画面広告を取得
-            interstitial = GADInterstitial(adUnitID: ConfigHelper.getPlistKey("ADMOB_FULL_UNIT_ID") as String)
-            interstitial?.delegate = self
-            let admobRequest:GADRequest = GADRequest()
-            admobRequest.testDevices = [kGADSimulatorID]
-            interstitial?.load(admobRequest)
-            
+        guard self.isInternetConnect() else {
+            self.errorAction()
+            return
         }
+        
+        //バナー広告
+        bannerView.adUnitID = ConfigHelper.getPlistKey("ADMOB_UNIT_ID") as String
+        bannerView.rootViewController = self
+        bannerView.load(GADRequest())
+        
+        //フル画面広告を取得
+        interstitial = GADInterstitial(adUnitID: ConfigHelper.getPlistKey("ADMOB_FULL_UNIT_ID") as String)
+        interstitial?.delegate = self
+        let admobRequest:GADRequest = GADRequest()
+        admobRequest.testDevices = [kGADSimulatorID]
+        interstitial?.load(admobRequest)
         
         //ブロックされている場合はここでボタン非表示にする
         let userData = PersistentData.User()

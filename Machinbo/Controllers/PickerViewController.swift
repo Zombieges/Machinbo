@@ -113,53 +113,53 @@ class PickerViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         switch self.palKind! {
         case .gender:
-            createGenderField()
+            prepareGenderField()
         case .age:
-            createAgeField()
+            prepareAgeField()
         case .name:
-            createNameField()
+            prepareNameField()
         case .comment:
-            createCommentField(displayWidth, displayHeight: 200)
+            prepareCommentField(displayWidth, displayHeight: 200)
         case .imakokoDateFrom:
-            createDatePickerField(displayWidth); self.navigationItem.title = "待ち合わせ開始時間"
+            prepareDatePickerField(displayWidth); self.navigationItem.title = "待ち合わせ開始時間"
         case .imakokoDateTo:
-            createDatePickerField(displayWidth); self.navigationItem.title = "待ち合わせ終了時間"
+            prepareDatePickerField(displayWidth); self.navigationItem.title = "待ち合わせ終了時間"
         case .place:
-            createCommentField(displayWidth, displayHeight: 200)
+            prepareCommentField(displayWidth, displayHeight: 200)
         case .char:
-            createCommentField(displayWidth, displayHeight: 200)
+            prepareCommentField(displayWidth, displayHeight: 200)
         case .imakoko:
-            createCommentField(displayWidth, displayHeight: 200)
+            prepareCommentField(displayWidth, displayHeight: 200)
         case .imaiku:
-            createImaikuField()
+            prepareImaikuField()
         case .imageView:
-            createImageViewField()
+            prepareImageViewField()
         case .search:
-            createSearchField()
+            prepareSearchField()
         case .notificationSettings:
-            createNotification()
+            prepareNotification()
         default: break
 
         }
     }
     
-    func createGenderField() {
+    func prepareGenderField() {
         self.navigationItem.title = "性別"
         self.myItems = ["男性","女性"]
-        self.setTableView()
+        self.prepareTableView()
         
     }
     
-    func createAgeField() {
+    func prepareAgeField() {
         self.navigationItem.title = "年齢"
         let comp = (Calendar.current as NSCalendar).components(NSCalendar.Unit.year, from: Date())
         for i in 0...50 {
             self.myItems.append((String(comp.year! - i)))
         }
-        self.setTableView()
+        self.prepareTableView()
     }
     
-    func createNameField() {
+    func prepareNameField() {
         self.navigationItem.title = "名前"
         
         //TableViewにする？
@@ -169,10 +169,10 @@ class PickerViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.inputTextField.text = self.palInput as? String
         self.view.addSubview(self.inputTextField)
         
-        createInsertDataButton(displayWidth, displayHeight: 200)
+        prepareInsertDataButton(displayWidth, displayHeight: 200)
     }
     
-    func createCommentField(_ displayWidth: CGFloat, displayHeight: CGFloat) {
+    func prepareCommentField(_ displayWidth: CGFloat, displayHeight: CGFloat) {
         
         inputTextView.frame = CGRect(x: 0, y: 20, width: displayWidth, height: 60)
         inputTextView.text = self.palInput as? String
@@ -185,10 +185,10 @@ class PickerViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         self.view.addSubview(inputTextView)
         
-        createInsertDataButton(displayWidth, displayHeight: 200)
+        prepareInsertDataButton(displayWidth, displayHeight: 200)
     }
     
-    func createImaikuField() {
+    func prepareImaikuField() {
         //フル画面広告を取得
         let adMobID = ConfigHelper.getPlistKey("ADMOB_FULL_UNIT_ID") as String
         interstitial = GADInterstitial(adUnitID: adMobID)
@@ -197,10 +197,10 @@ class PickerViewController: UIViewController, UITableViewDelegate, UITableViewDa
         admobRequest.testDevices = [kGADSimulatorID]
         interstitial?.load(admobRequest)
         
-        createDatePickerField(displayWidth)
+        prepareDatePickerField(displayWidth)
     }
     
-    func createImageViewField() {
+    func prepareImageViewField() {
         let displaySize = UIScreen.main.bounds.size.width
         
         let image = self.palInput as! UIImageView
@@ -211,7 +211,7 @@ class PickerViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.view.addSubview(image)
     }
     
-    func setTableView() {
+    func prepareTableView() {
         let navBarHeight = self.navigationController?.navigationBar.frame.size.height
         let rect = CGRect(x: 0, y: 0, width: displayWidth, height: displayHeight - navBarHeight!)
         self.tableView = UITableView(frame:rect, style: .grouped)
@@ -223,7 +223,7 @@ class PickerViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.view.addSubview(tableView)
     }
     
-    func createDatePickerField(_ displayWidth: CGFloat) {
+    func prepareDatePickerField(_ displayWidth: CGFloat) {
         // UIDatePickerの設定
         self.inputMyDatePicker = UIDatePicker()
         self.inputMyDatePicker.frame = CGRect(x: 0, y: 0, width: displayWidth, height: displayWidth / 2)
@@ -231,10 +231,10 @@ class PickerViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.inputMyDatePicker.backgroundColor = UIColor.white
         self.view.addSubview(self.inputMyDatePicker)
         
-        createInsertDataButton(displayWidth, displayHeight: 300)
+        prepareInsertDataButton(displayWidth, displayHeight: 300)
     }
     
-    func createSearchField() {
+    func prepareSearchField() {
         self.navigationItem.title = "Twitter検索"
         self.searchBarField = UISearchBar()
         self.searchBarField.delegate = self
@@ -245,12 +245,12 @@ class PickerViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.view.addSubview(self.searchBarField)
     }
     
-    func createInsertDataButton(_ displayWidth: CGFloat, displayHeight: CGFloat) {
+    func prepareInsertDataButton(_ displayWidth: CGFloat, displayHeight: CGFloat) {
         let btn: ZFRippleButton = wideZFRippleButton("保存", displayHeight, #selector(onClickSaveButton))
         self.view.addSubview(btn)
     }
     
-    func createNotification() {
+    func prepareNotification() {
         let status = UIApplication.shared.currentUserNotificationSettings?.types
         if (status?.contains(.alert))! {
             
@@ -289,10 +289,10 @@ class PickerViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
         
         if self.palKind == .name {
-            setSaveNameField()
+            saveName()
 
         } else if self.palKind == .comment {
-            setSaveCommentField()
+            saveComment()
             
         } else if self.palKind == .imakokoDateFrom {
             self.delegate!.setSelectedDate(self.inputMyDatePicker.date)
@@ -303,21 +303,21 @@ class PickerViewController: UIViewController, UITableViewDelegate, UITableViewDa
             self.navigationController!.popViewController(animated: true)
             
         } else if self.palKind == .place {
-            setSaveCommentField()
+            saveComment()
             
         } else if self.palKind == .char {
-            setSaveCommentField()
+            saveComment()
             
         } else if self.palKind == .imakoko {
             self.delegate!.setInputValue(self.inputTextView.text, type: .comment)
             self.navigationController!.popViewController(animated: true)
             
         } else if self.palKind == .imaiku {
-            setSaveImaikuField()
+            saveImaiku()
         }
     }
     
-    func setSaveNameField() {
+    func saveName() {
         guard self.inputTextField.text != "" else {
             UIAlertController.showAlertView("", message: "名前を入力してください")
             return
@@ -353,7 +353,7 @@ class PickerViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
     }
     
-    func setSaveCommentField() {
+    func saveComment() {
         guard self.inputTextView.text != "" else {
             UIAlertController.showAlertView("", message: "内容を入力してください")
             return
@@ -409,7 +409,7 @@ class PickerViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
     }
     
-    func setSaveImaikuField() {
+    func saveImaiku() {
         MBProgressHUDHelper.sharedInstance.show(self.view)
         
         ParseHelper.getMyUserInfomation(PersistentData.User().userID) { (error: NSError?, result) -> Void in

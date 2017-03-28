@@ -29,21 +29,21 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
             self.view = view
         }
         
-        self.createNavigationItem()
+        self.prepareNavigationItem()
         
-        if self.isInternetConnect() {
-            let center = NotificationCenter.default as NotificationCenter
-            LocationManager.sharedInstance.startUpdatingLocation()
-            center.addObserver(self, selector: #selector(self.foundLocation(_:)), name: NSNotification.Name(rawValue: LMLocationUpdateNotification as String as String), object: nil)
-            
-            let AdMobUnitID = ConfigHelper.getPlistKey("ADMOB_UNIT_ID") as String
-            bannerView.adUnitID = AdMobUnitID
-            bannerView.rootViewController = self
-            bannerView.load(GADRequest())
-            
-        } else {
-            createRefreshButton()
+        guard self.isInternetConnect() else {
+            self.errorAction()
+            return
         }
+        
+        let center = NotificationCenter.default as NotificationCenter
+        LocationManager.sharedInstance.startUpdatingLocation()
+        center.addObserver(self, selector: #selector(self.foundLocation(_:)), name: NSNotification.Name(rawValue: LMLocationUpdateNotification as String as String), object: nil)
+        
+        let AdMobUnitID = ConfigHelper.getPlistKey("ADMOB_UNIT_ID") as String
+        bannerView.adUnitID = AdMobUnitID
+        bannerView.rootViewController = self
+        bannerView.load(GADRequest())
     }
     
     override func didReceiveMemoryWarning() {
@@ -125,7 +125,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         }
     }
     
-    private func createNavigationItem() {
+    private func prepareNavigationItem() {
         //self.navigationItem.title = "Machinbo"
         self.navigationController!.navigationBar.tintColor = UIColor.darkGray
         
@@ -153,14 +153,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         
         self.navigationItem.rightBarButtonItems =
             [UIBarButtonItem(customView: seachButton)]
-    }
-    
-    func createRefreshButton() {
-        let btn: ZFRippleButton = StyleConst.displayWideZFRippleButton("再描画")
-        btn.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width / 2, height: 50)
-        btn.addTarget(self, action: #selector(self.refresh), for: UIControlEvents.touchUpInside)
-        btn.layer.position = CGPoint(x: self.view.bounds.width / 2, y: self.view.bounds.height / 2)
-        self.view.addSubview(btn)
     }
     
     func refresh() {

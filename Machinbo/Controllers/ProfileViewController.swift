@@ -25,7 +25,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     private let photoItems = ["フォト"]
     private let profileItems = ["名前", "性別", "生まれた年", "プロフィール"]
     private let snsItems = ["Twitter"]
-    private let otherItems = ["待ち合わせ（何時から〜）", "待ち合わせ（〜何時まで）", "場所", "特徴"]
+    private let otherItems = ["何時から", "何時まで", "場所", "特徴"]
     private var sections = ["", "プロフィール", "SNS", "待ち合わせ情報"]
     
     let picker = UIImagePickerController()
@@ -57,16 +57,10 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         super.viewDidLoad()
 
         let userData = PersistentData.User()
-        
-        if userData.userID == "" {
-            if let view = UINib(nibName: "EntryView", bundle: nil).instantiate(withOwner: self, options: nil).first as? UIView {
-                self.view = view
-            }
-            
-        } else {
-            if let view = UINib(nibName: "ProfileView", bundle: nil).instantiate(withOwner: self, options: nil).first as? UIView {
-                self.view = view
-            }
+
+        let viewType = userData.userID == "" ? "EntryView" : "ProfileView"
+        if let view = UINib(nibName: viewType, bundle: nil).instantiate(withOwner: self, options: nil).first as? UIView {
+            self.view = view
         }
         
         self.setProfileGesture()
@@ -364,6 +358,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             if normalCell == nil {
                 normalCell = UITableViewCell(style: .value1, reuseIdentifier: tableViewCellIdentifier)
             }
+            
             normalCell!.textLabel!.font = UIFont.systemFont(ofSize: 16)
             normalCell!.detailTextLabel!.font = UIFont.systemFont(ofSize: 16)
             
@@ -379,23 +374,25 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             return cell!
             
         } else if indexPath.section == 3 {
-            
             var normalCell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier)
             if normalCell == nil {
-                normalCell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: tableViewCellIdentifier)
+                normalCell = UITableViewCell(style: .value1, reuseIdentifier: tableViewCellIdentifier)
             }
+            
             normalCell!.textLabel!.font = UIFont.systemFont(ofSize: 16)
             normalCell!.detailTextLabel!.font = UIFont.systemFont(ofSize: 16)
             
             let userData = PersistentData.User()
             if indexPath.row == 0 {
                 normalCell?.textLabel?.text = otherItems[indexPath.row]
+                normalCell?.accessoryType = .disclosureIndicator
                 normalCell?.detailTextLabel?.text = self.inputDateFrom
                 
                 cell = normalCell
                 
             } else if indexPath.row == 1 {
                 normalCell?.textLabel?.text = otherItems[indexPath.row]
+                normalCell?.accessoryType = .disclosureIndicator
                 normalCell?.detailTextLabel?.text = self.inputDateTo
                 
                 cell = normalCell

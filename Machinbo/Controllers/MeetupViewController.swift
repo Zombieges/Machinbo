@@ -76,11 +76,6 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.initTableView()
         self.createRefreshControl()
         
-        guard self.isInternetConnect() else {
-            self.errorAction()
-            return
-        }
-        
         let AdMobUnitID = ConfigHelper.getPlistKey("ADMOB_UNIT_ID") as String
         bannerView.adUnitID = AdMobUnitID
         bannerView.rootViewController = self
@@ -423,6 +418,11 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func getApprovedMeetUpList() {
+        guard self.isInternetConnect() else {
+            self.errorAction()
+            return
+        }
+        
         MBProgressHUDHelper.sharedInstance.show(self.view)
         
         ParseHelper.getApprovedMeetupList(PersistentData.User().userID) { (error: NSError?, result) -> Void in

@@ -40,10 +40,6 @@ class SettingsViewController: UIViewController, UINavigationControllerDelegate, 
         self.tableView.tableHeaderView = noCreateView
         
         self.view.addSubview(self.tableView)
-        
-        if self.isInternetConnect() {
-            self.showAdmob(AdmobType.standard)
-        }
     }
     
     func numberOfSectionsInTableView(_ tableView: UITableView) -> Int {
@@ -169,6 +165,11 @@ class SettingsViewController: UIViewController, UINavigationControllerDelegate, 
     
     
     func deleteAccount() {
+        guard self.isInternetConnect() else {
+            self.errorAction()
+            return
+        }
+        
         MBProgressHUDHelper.sharedInstance.show(self.view)
         
         UIAlertController.showAlertOKCancel("", message: "アカウントを削除しますと、いままでの履歴が削除されてしまいます。本当にアカウントを削除してもよろしいですか？", actiontitle: "削除") { action in

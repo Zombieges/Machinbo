@@ -9,7 +9,7 @@
 import Foundation
 import Parse
 
-class UserData {
+struct UserData {
     var pfObject: PFObject
     
     init (parseObject: PFObject) {

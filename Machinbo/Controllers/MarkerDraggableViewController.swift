@@ -17,7 +17,11 @@ class MarkerDraggableViewController: UIViewController, GMSMapViewDelegate, CLLoc
     
     @IBOutlet weak var bannerView: GADBannerView!
     
-    var gmaps: GMSMapView!
+    @IBOutlet weak var gmaps: GMSMapView!
+    
+    @IBOutlet weak var imakokoButton: ZFRippleButton!
+    
+    //var gmaps: GMSMapView!
     var palGeoPoint: PFGeoPoint!
     var palUserInfo: PFObject!
     var marker: GMSMarker!
@@ -55,8 +59,7 @@ class MarkerDraggableViewController: UIViewController, GMSMapViewDelegate, CLLoc
         
         let myPosition = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         //地図作成
-        self.gmaps = GoogleMapsHelper.gmsMapView(self, myPosition)
-        self.view.addSubview(self.gmaps)
+        self.gmaps.addSubview(GoogleMapsHelper.gmsMapView(self, myPosition))
     }
     
     func getMapCenterPosition(_ gmaps: GMSMapView) -> CLLocationCoordinate2D {
@@ -78,7 +81,6 @@ class MarkerDraggableViewController: UIViewController, GMSMapViewDelegate, CLLoc
             self.pinImage.isUserInteractionEnabled = true
 
             self.view.addSubview(self.pinImage)
-            self.createEntryThisPointButton()
         }
 
         var mapViewPosition = mapView.projection.point(for: getMapCenterPosition(mapView))
@@ -86,7 +88,16 @@ class MarkerDraggableViewController: UIViewController, GMSMapViewDelegate, CLLoc
         self.pinImage.center = mapViewPosition
     }
     
-    func didClickImageView(_ recognizer: UIGestureRecognizer) {
+    func mapView(_ mapView: GMSMapView, willMove gesture: Bool) {
+        imakokoButton.isHidden = true
+    }
+    
+    func mapView(_ mapView:GMSMapView, idleAt position:GMSCameraPosition) {
+        imakokoButton.isHidden = false
+        
+    }
+    
+    @IBAction func createImakoko(_ sender: Any) {
         guard self.isInternetConnect() else {
             self.errorAction()
             return
@@ -100,10 +111,4 @@ class MarkerDraggableViewController: UIViewController, GMSMapViewDelegate, CLLoc
         self.navigationController!.pushViewController(vc, animated: true)
     }
     
-    private func createEntryThisPointButton() {
-        let btn: ZFRippleButton = StyleConst.displayWideZFRippleButton("待ち合わせ場所決定")
-        btn.addTarget(self, action: #selector(self.didClickImageView), for: UIControlEvents.touchUpInside)
-        btn.layer.position = CGPoint(x: self.view.bounds.width/2, y: self.view.bounds.height - 50)
-        self.view.addSubview(btn)
-    }
 }

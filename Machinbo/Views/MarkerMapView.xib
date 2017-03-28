@@ -11,6 +11,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MarkerDraggableViewController" customModule="Machinbo" customModuleProvider="target">
             <connections>
+                <outlet property="gmaps" destination="viP-A5-GGq" id="fdJ-rZ-nZi"/>
+                <outlet property="imakokoButton" destination="zHb-r4-S7t" id="IKT-Da-ETq"/>
                 <outlet property="view" destination="iN0-l3-epB" id="uzX-HK-cHC"/>
             </connections>
         </placeholder>
@@ -18,7 +20,47 @@
         <view contentMode="scaleToFill" id="iN0-l3-epB">
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="viP-A5-GGq" customClass="GMSMapView">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zHb-r4-S7t" customClass="ZFRippleButton" customModule="Machinbo" customModuleProvider="target">
+                    <rect key="frame" x="10" y="607" width="355" height="50"/>
+                    <color key="backgroundColor" red="0.050980392159999999" green="0.2784313725" blue="0.63137254899999995" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="zZ7-7g-e8d"/>
+                    </constraints>
+                    <state key="normal" title="待ち合わせ場所登録">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="color" keyPath="rippleColor">
+                            <color key="value" red="0.098039215690000001" green="0.46274509800000002" blue="0.82352941180000006" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="rippleBackgroundColor">
+                            <color key="value" red="0.050980392159999999" green="0.2784313725" blue="0.63137254899999995" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="sRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="0"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="createImakoko:" destination="-1" eventType="touchUpInside" id="rvw-VT-FId"/>
+                    </connections>
+                </button>
+            </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="zHb-r4-S7t" firstAttribute="centerX" secondItem="viP-A5-GGq" secondAttribute="centerX" id="ATL-wV-UYL"/>
+                <constraint firstAttribute="bottom" secondItem="zHb-r4-S7t" secondAttribute="bottom" constant="10" id="DJO-Cv-2ux"/>
+                <constraint firstAttribute="bottom" secondItem="viP-A5-GGq" secondAttribute="bottom" id="Pw2-eS-Npf"/>
+                <constraint firstItem="viP-A5-GGq" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="UrJ-dd-Ncj"/>
+                <constraint firstAttribute="trailing" secondItem="viP-A5-GGq" secondAttribute="trailing" id="ZoU-5A-VcV"/>
+                <constraint firstItem="viP-A5-GGq" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="xL7-8H-I0j"/>
+                <constraint firstItem="zHb-r4-S7t" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="xbb-mj-UIp"/>
+            </constraints>
             <point key="canvasLocation" x="34.5" y="138.5"/>
         </view>
     </objects>

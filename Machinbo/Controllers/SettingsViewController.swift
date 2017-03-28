@@ -129,7 +129,7 @@ class SettingsViewController: UIViewController, UINavigationControllerDelegate, 
     func tableView(_ table: UITableView, didSelectRowAt indexPath:IndexPath) {
         if indexPath.section == 0 {
             if indexPath.row == 0 {
-                let url = URL(string: ConfigHelper.getPlistKey("TWITTER_LINK"))
+                let url = URL(string: ConfigData(type: .twitter).getPlistKey)
                 if UIApplication.shared.canOpenURL(url!){
                     UIApplication.shared.openURL(url!)
                 }
@@ -179,28 +179,22 @@ class SettingsViewController: UIViewController, UINavigationControllerDelegate, 
                 return
             }
             
-            self.deleteUserInfo(PersistentData.User().userID)
-            PersistentData.deleteUserID()
-        }
-    }
-    
-    func deleteUserInfo(_ userID: String) {
-        
-        ParseHelper.deleteUserInfo(userID) { () -> () in
-            
-            UIAlertController.showAlertView("", message: "アカウントを削除しました") { _ in
-                let newRootVC = ProfileViewController()
-                let navigationController = UINavigationController(rootViewController: newRootVC)
-                navigationController.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGray]
-                navigationController.navigationBar.tintColor = .darkGray
-                navigationController.navigationBar.isTranslucent = false
-                navigationController.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-                navigationController.navigationBar.setBackgroundImage(UIImage(named: "BarBackground"),
-                                                                      for: .default)
-                navigationController.navigationBar.shadowImage = UIImage()
-                UIApplication.shared.keyWindow?.rootViewController = navigationController
+            ParseHelper.deleteUserInfo(PersistentData.User().userID) { () -> () in
                 
-                self.viewDidLoad()
+                UIAlertController.showAlertView("", message: "アカウントを削除しました") { _ in
+                    let newRootVC = ProfileViewController()
+                    let navigationController = UINavigationController(rootViewController: newRootVC)
+                    navigationController.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGray]
+                    navigationController.navigationBar.tintColor = .darkGray
+                    navigationController.navigationBar.isTranslucent = false
+                    navigationController.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+                    navigationController.navigationBar.setBackgroundImage(UIImage(named: "BarBackground"),
+                                                                          for: .default)
+                    navigationController.navigationBar.shadowImage = UIImage()
+                    UIApplication.shared.keyWindow?.rootViewController = navigationController
+                    
+                    self.viewDidLoad()
+                }
             }
         }
     }

@@ -17,7 +17,7 @@ class NotificationHelper{
         //
         // SET UP AWS CONGNITO
         //
-        let poolId = ConfigHelper.getPlistKey("AWS_CONGNITO_TEST") as String
+        let poolId = ConfigData(type: .awsCognito).getPlistKey
         let awsCredentialsProvider = AWSCognitoCredentialsProvider(
             regionType: .apNortheast1,
             identityPoolId: poolId
@@ -40,7 +40,7 @@ class NotificationHelper{
                 let sns = AWSSNS.default()
                 let snsRequest = AWSSNSCreatePlatformEndpointInput()
                 snsRequest?.token = deviceTokenAsString
-                snsRequest?.platformApplicationArn = ConfigHelper.getPlistKey("AWS_SNS_TEST") as String
+                snsRequest?.platformApplicationArn = ConfigData(type: .awsSNS).getPlistKey
                 
                 //
                 // SEND NOTIFICATION TO SPECIFIC DEVICE

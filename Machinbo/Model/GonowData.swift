@@ -9,7 +9,8 @@
 import Foundation
 import Parse
 
-class GonowData {
+struct GonowData {
+    
     var pfObject: PFObject
     
     init (parseObject: PFObject) {

@@ -13,9 +13,9 @@ class ParseHelper {
     
     class func launch(_ launchOptions: [AnyHashable: Any]?) {
         
-        let parseAppIdKey = ConfigHelper.getPlistKey("PARSE_APP_ID_KEY") as String
-        let parseUrl = ConfigHelper.getPlistKey("PARSE_URL") as String
-        let parseClientKey = ConfigHelper.getPlistKey("PARSE_CLIENT_KEY") as String
+        let parseAppIdKey = ConfigData(type: .parseApp).getPlistKey
+        let parseUrl = ConfigData(type: .parseURL).getPlistKey
+        let parseClientKey = ConfigData(type: .parseClient).getPlistKey
         
         Parse.initialize(with: ParseClientConfiguration(block: { (configuration: ParseMutableClientConfiguration) -> Void in
             configuration.server = parseUrl
@@ -149,7 +149,7 @@ class ParseHelper {
         }
     }
     
-    class func setUserInfomation(_ userID: String, name: String, gender: String, age: String, twitter: String, comment: String, photo: UIImage, deviceToken: String) {
+    class func createUserInfomation(_ userID: String, name: String, gender: String, age: String, twitter: String, comment: String, photo: UIImage, deviceToken: String) {
         
         let imageData = UIImagePNGRepresentation(photo)
         let imageFile = PFFile(name:"image.png", data:imageData!)
@@ -165,23 +165,23 @@ class ParseHelper {
         info["ProfilePicture"] = imageFile
         info["DeviceToken"] = deviceToken
         
-        info.saveInBackground { (success: Bool, error: Error?) -> Void in
-            if success {
-                
-                
-                // save to local db
-                var userInfo = PersistentData.User()
-                userInfo.userID = userID
-                userInfo.name = name
-                userInfo.gender = gender
-                userInfo.age = age
-                userInfo.comment = comment
-                userInfo.twitterName = twitter
-                userInfo.profileImage = photo
-                userInfo.objectId = info.objectId!
-                NSLog("ユーザー初期登録成功")
-                
-            }
+        do {
+            try info.save()
+            
+            // save to local db
+            var userInfo = PersistentData.User()
+            userInfo.userID = userID
+            userInfo.name = name
+            userInfo.gender = gender
+            userInfo.age = age
+            userInfo.comment = comment
+            userInfo.twitterName = twitter
+            userInfo.profileImage = photo
+            userInfo.objectId = info.objectId!
+            NSLog("ユーザー初期登録成功")
+            
+        } catch  {
+            UIAlertController.showAlertParseConnectionError()
         }
     }
     
@@ -215,21 +215,23 @@ class ParseHelper {
         
         ParseHelper.getMyUserInfomation(userID) { (error: Error?, result: PFObject?) -> Void in
             
-            guard let theResult = result else {
+            if let result = result {
+                //UserInfoの削除
+                result.deleteInBackground { (success: Bool, error: Error?) -> Void in
+                    guard success else {
+                        return
+                    }
+                    
+                    //local db の削除
+                    PersistentData.deleteUserID()
+                    completion()
+                }
+                
+            } else {
                 MBProgressHUDHelper.sharedInstance.hide()
                 //local db の削除
                 PersistentData.deleteUserID()
-                return
-            }
-            
-            //UserInfoの削除
-            theResult.deleteInBackground { (success: Bool, error: Error?) -> Void in
-                guard success else {
-                    return
-                }
                 
-                //local db の削除
-                PersistentData.deleteUserID()
                 completion()
             }
         }

@@ -40,7 +40,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         LocationManager.sharedInstance.startUpdatingLocation()
         center.addObserver(self, selector: #selector(self.foundLocation(_:)), name: NSNotification.Name(rawValue: LMLocationUpdateNotification as String as String), object: nil)
         
-        let AdMobUnitID = ConfigHelper.getPlistKey("ADMOB_UNIT_ID") as String
+        let AdMobUnitID = ConfigData(type: .adMobUnit).getPlistKey
         bannerView.adUnitID = AdMobUnitID
         bannerView.rootViewController = self
         bannerView.load(GADRequest())

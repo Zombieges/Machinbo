@@ -46,12 +46,12 @@
 		BB58C8FC1E705A5F00557B32 /* LayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB58C8FB1E705A5F00557B32 /* LayoutManager.swift */; };
 		BB58C8FE1E705AA300557B32 /* style.geojson in Resources */ = {isa = PBXBuildFile; fileRef = BB58C8FD1E705AA300557B32 /* style.geojson */; };
 		BB6A358E1E894C4D00F6783C /* EntryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB6A358D1E894C4D00F6783C /* EntryView.xib */; };
+		BB6A35921E8A9C7C00F6783C /* ConfigData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6A35911E8A9C7C00F6783C /* ConfigData.swift */; };
 		BB6ECE6E1E84177C00DE6BE9 /* MarkerMapView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB6ECE6D1E84177C00DE6BE9 /* MarkerMapView.xib */; };
 		BB6ECE701E86466800DE6BE9 /* santen@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BB6ECE6F1E86466800DE6BE9 /* santen@2x.png */; };
 		BB6ECE721E878F5E00DE6BE9 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = BB6ECE711E878F5D00DE6BE9 /* .gitignore */; };
 		BB6FDDC71C3E92FD00C366A2 /* ZFRippleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6FDDC61C3E92FD00C366A2 /* ZFRippleButton.swift */; };
 		BB6FDDCC1C3E934F00C366A2 /* LoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6FDDCA1C3E934F00C366A2 /* LoginManager.swift */; };
-		BB6FDDD31C3E952700C366A2 /* ConfigHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6FDDCE1C3E952700C366A2 /* ConfigHelper.swift */; };
 		BB6FDDD41C3E952700C366A2 /* GoogleMapsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6FDDCF1C3E952700C366A2 /* GoogleMapsHelper.swift */; };
 		BB6FDDD51C3E952700C366A2 /* ParseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6FDDD01C3E952700C366A2 /* ParseHelper.swift */; };
 		BB6FDDD61C3E952700C366A2 /* PersistentData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6FDDD11C3E952700C366A2 /* PersistentData.swift */; };
@@ -159,16 +159,16 @@
 		BB58C8FB1E705A5F00557B32 /* LayoutManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayoutManager.swift; sourceTree = "<group>"; };
 		BB58C8FD1E705AA300557B32 /* style.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = style.geojson; sourceTree = "<group>"; };
 		BB6A358D1E894C4D00F6783C /* EntryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EntryView.xib; sourceTree = "<group>"; };
+		BB6A35911E8A9C7C00F6783C /* ConfigData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigData.swift; sourceTree = "<group>"; };
 		BB6BE7B21C4B8407004BD903 /* SCLAlertView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SCLAlertView.framework; path = "Pods/../build/Debug-iphoneos/SCLAlertView.framework"; sourceTree = "<group>"; };
 		BB6ECE6D1E84177C00DE6BE9 /* MarkerMapView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MarkerMapView.xib; sourceTree = "<group>"; };
 		BB6ECE6F1E86466800DE6BE9 /* santen@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "santen@2x.png"; sourceTree = "<group>"; };
 		BB6ECE711E878F5D00DE6BE9 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		BB6FDDC61C3E92FD00C366A2 /* ZFRippleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZFRippleButton.swift; sourceTree = "<group>"; };
 		BB6FDDCA1C3E934F00C366A2 /* LoginManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginManager.swift; sourceTree = "<group>"; };
-		BB6FDDCE1C3E952700C366A2 /* ConfigHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigHelper.swift; sourceTree = "<group>"; };
 		BB6FDDCF1C3E952700C366A2 /* GoogleMapsHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleMapsHelper.swift; sourceTree = "<group>"; };
 		BB6FDDD01C3E952700C366A2 /* ParseHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseHelper.swift; sourceTree = "<group>"; };
-		BB6FDDD11C3E952700C366A2 /* PersistentData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentData.swift; sourceTree = "<group>"; };
+		BB6FDDD11C3E952700C366A2 /* PersistentData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PersistentData.swift; path = ../Helpers/PersistentData.swift; sourceTree = "<group>"; };
 		BB6FDDD21C3E952700C366A2 /* UIAlertView+Custom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIAlertView+Custom.swift"; sourceTree = "<group>"; };
 		BB6FDDD91C3E97E100C366A2 /* DetailProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailProfileTableViewCell.swift; sourceTree = "<group>"; };
 		BB6FDDDA1C3E97E100C366A2 /* DetailProfileTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailProfileTableViewCell.xib; sourceTree = "<group>"; };
@@ -405,11 +405,9 @@
 			isa = PBXGroup;
 			children = (
 				BB3858D71D803C16006637F6 /* NotificationHelper.swift */,
-				BB6FDDCE1C3E952700C366A2 /* ConfigHelper.swift */,
 				94A91D3F1CC448B1004E7652 /* MBProgressHUDHelper.swift */,
 				BB6FDDCF1C3E952700C366A2 /* GoogleMapsHelper.swift */,
 				BB6FDDD01C3E952700C366A2 /* ParseHelper.swift */,
-				BB6FDDD11C3E952700C366A2 /* PersistentData.swift */,
 				BB6FDDD21C3E952700C366A2 /* UIAlertView+Custom.swift */,
 				BB36D8DA1D0D184E00266BB6 /* LocationManager.swift */,
 				BB36D8DF1D0E295000266BB6 /* UIViewExtensions.swift */,
@@ -484,8 +482,10 @@
 			isa = PBXGroup;
 			children = (
 				BB6FDE0E1C43AC1500C366A2 /* FeedData.swift */,
+				BB6FDDD11C3E952700C366A2 /* PersistentData.swift */,
 				BB8B07211E4A144700CD02E8 /* UserData.swift */,
 				BB8B07231E4B273400CD02E8 /* GonowData.swift */,
+				BB6A35911E8A9C7C00F6783C /* ConfigData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -761,6 +761,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BB6A35921E8A9C7C00F6783C /* ConfigData.swift in Sources */,
 				BB36D8E01D0E295000266BB6 /* UIViewExtensions.swift in Sources */,
 				BB8B07221E4A144700CD02E8 /* UserData.swift in Sources */,
 				9484EBDA1CC38BC800DEC7A4 /* AMReachability.swift in Sources */,
@@ -775,7 +776,6 @@
 				BB58C8F41E705A0900557B32 /* MarkerDraggableViewController.swift in Sources */,
 				BB6FDDE61C3E97E100C366A2 /* DetailProfileTableViewCell.swift in Sources */,
 				BB58C8F31E705A0900557B32 /* MapViewController.swift in Sources */,
-				BB6FDDD31C3E952700C366A2 /* ConfigHelper.swift in Sources */,
 				BBEFA89B1B57BE99002EFC7A /* AppDelegate.swift in Sources */,
 				BB58C8F21E705A0900557B32 /* GoNowViewController.swift in Sources */,
 				BB58C8F91E705A0900557B32 /* TargetProfileViewController.swift in Sources */,

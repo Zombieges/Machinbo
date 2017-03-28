@@ -190,7 +190,7 @@ class PickerViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func prepareImaikuField() {
         //フル画面広告を取得
-        let adMobID = ConfigHelper.getPlistKey("ADMOB_FULL_UNIT_ID") as String
+        let adMobID = ConfigData(type: .adMobFull).getPlistKey
         interstitial = GADInterstitial(adUnitID: adMobID)
         interstitial?.delegate = self
         let admobRequest:GADRequest = GADRequest()
@@ -533,7 +533,14 @@ class PickerViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
         
         var userInfo = PersistentData.User()
+        
         if self.palKind == .age {
+            
+            guard userInfo.userID != "" else {
+                self.delegate!.setSelectedValue(indexPath.row, selectedValue: self.myItems[indexPath.row].uppercased(), type: .age)
+                self.navigationController!.popViewController(animated: true)
+                return
+            }
             
             ParseHelper.getMyUserInfomation(userInfo.userID) { (error: NSError?, result: PFObject?) -> Void in
                 guard let result = result, error == nil else {
@@ -557,6 +564,12 @@ class PickerViewController: UIViewController, UITableViewDelegate, UITableViewDa
             }
             
         } else if self.palKind == .gender {
+            
+            guard userInfo.userID != "" else {
+                self.delegate!.setSelectedValue(indexPath.row, selectedValue: self.myItems[indexPath.row].uppercased(), type: .gender)
+                self.navigationController!.popViewController(animated: true)
+                return
+            }
             
             ParseHelper.getMyUserInfomation(userInfo.userID) { (error: NSError?, result: PFObject?) -> Void in
                 guard let result = result, error == nil else {

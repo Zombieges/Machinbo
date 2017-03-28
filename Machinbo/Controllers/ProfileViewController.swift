@@ -519,7 +519,9 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         
         MBProgressHUDHelper.sharedInstance.show(self.view)
         
-        defer { MBProgressHUDHelper.sharedInstance.hide() }
+        defer {
+            MBProgressHUDHelper.sharedInstance.hide()
+        }
         let uuid = UUID().uuidString
         
         NSLog("UUID" + uuid)
@@ -527,7 +529,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         
         var userInfo = PersistentData.User()
         
-        ParseHelper.setUserInfomation(
+        ParseHelper.createUserInfomation(
             uuid,
             name: inputName,
             gender: gender,
@@ -691,17 +693,5 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     func errorAction() {
         MBProgressHUDHelper.sharedInstance.hide()
         UIAlertController.showAlertParseConnectionError()
-    }
-    
-    func createRefreshButton() {
-        let btn: ZFRippleButton = StyleConst.displayWideZFRippleButton("再描画")
-        btn.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width / 2, height: 50)
-        btn.addTarget(self, action: #selector(self.refresh), for: UIControlEvents.touchUpInside)
-        btn.layer.position = CGPoint(x: self.view.bounds.width / 2, y: self.view.bounds.height / 2)
-        self.view.addSubview(btn)
-    }
-    
-    func refresh() {
-        self.viewDidLoad()
     }
 }

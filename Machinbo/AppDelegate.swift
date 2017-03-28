@@ -48,14 +48,15 @@
         NotificationHelper.launch()
         ParseHelper.launch(launchOptions)
         
-        let googleMapsKey = ConfigHelper.getPlistKey("GOOGLE_MAPS_API_KEY") as String
+        
+        let googleMapsKey = ConfigData(type: .googleMap).getPlistKey
         print("★google maps api key = " + googleMapsKey)
         
         //GoogleMaps
         GMSServices.provideAPIKey(googleMapsKey)
         
         //AdMob
-        let AdMobAppID = ConfigHelper.getPlistKey("ADMOB_APP_ID") as String
+        let AdMobAppID = ConfigData(type: .adMobApp).getPlistKey
         GADMobileAds.configure(withApplicationID: AdMobAppID)
         print("★google admob app id = " + AdMobAppID)
         

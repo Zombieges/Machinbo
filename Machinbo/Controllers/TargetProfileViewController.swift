@@ -97,12 +97,12 @@ class TargetProfileViewController:
         }
         
         //バナー広告
-        bannerView.adUnitID = ConfigHelper.getPlistKey("ADMOB_UNIT_ID") as String
+        bannerView.adUnitID = ConfigData(type: .adMobUnit).getPlistKey
         bannerView.rootViewController = self
         bannerView.load(GADRequest())
         
         //フル画面広告を取得
-        interstitial = GADInterstitial(adUnitID: ConfigHelper.getPlistKey("ADMOB_FULL_UNIT_ID") as String)
+        interstitial = GADInterstitial(adUnitID: ConfigData(type: .adMobFull).getPlistKey)
         interstitial?.delegate = self
         let admobRequest:GADRequest = GADRequest()
         admobRequest.testDevices = [kGADSimulatorID]
@@ -641,7 +641,7 @@ class TargetProfileViewController:
         //メールを送信できるかチェック
         guard MFMailComposeViewController.canSendMail() else { print("Email Send Failed"); return }
         
-        let address = ConfigHelper.getPlistKey("MACHINBO_MAIL") as String
+        let address = ConfigData(type: .mail).getPlistKey
         let toRecipients = [address]
         let userObjectId = (targetUserInfo as AnyObject).objectId as String!
         let mailBody = "報告" + "\n" + "報告者：" + userObjectId! + "\n\n" + "報告内容（入力してください）："

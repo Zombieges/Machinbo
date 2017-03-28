@@ -76,7 +76,7 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.initTableView()
         self.createRefreshControl()
         
-        let AdMobUnitID = ConfigHelper.getPlistKey("ADMOB_UNIT_ID") as String
+        let AdMobUnitID = ConfigData(type: .adMobUnit).getPlistKey
         bannerView.adUnitID = AdMobUnitID
         bannerView.rootViewController = self
         bannerView.load(GADRequest())

@@ -48,6 +48,7 @@ class GoNowViewController:
         
         self.navigationItem.title = "待ち合わせ情報の登録"
         self.navigationController!.navigationBar.tintColor = UIColor.darkGray
+        self.initTableView()
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -76,20 +77,20 @@ class GoNowViewController:
         
         if indexPath.row == 0 {
             normalCell?.textLabel?.text = self.targetProfileItems[indexPath.row]
+            normalCell?.accessoryType = .disclosureIndicator
             if let input = self.inputDateFrom {
                 let formatDateString = self.dateFormatter.string(from: input)
                 normalCell?.detailTextLabel?.text = formatDateString
-                normalCell?.accessoryType = .disclosureIndicator
             }
             
             cell = normalCell
             
         } else if indexPath.row == 1 {
             normalCell?.textLabel?.text = self.targetProfileItems[indexPath.row]
-            if self.inputDateTo != nil {
-                let formatDateString = self.dateFormatter.string(from: self.inputDateTo!)
+            normalCell?.accessoryType = .disclosureIndicator
+            if let inputDateTo = self.inputDateTo {
+                let formatDateString = self.dateFormatter.string(from: inputDateTo)
                 normalCell?.detailTextLabel?.text = formatDateString
-                normalCell?.accessoryType = .disclosureIndicator
             }
             
             cell = normalCell

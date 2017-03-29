@@ -65,7 +65,7 @@
         Fabric.with([Twitter()])
         
         //TabBarを生成
-        if PersistentData.User().userID.isEmpty {
+        if PersistentData.userID.isEmpty {
             //初期表示はProfileViewのみ
             let navigationCntroller = LayoutManager.createNavigationProfile()
             self.window?.rootViewController = navigationCntroller
@@ -95,8 +95,7 @@
         print("Device token = \(deviceTokenAsString)")
         
         // save device token to local db
-        var userData = PersistentData.User()
-        userData.deviceToken = deviceTokenAsString
+        PersistentData.deviceToken = deviceTokenAsString
         
     }
     

@@ -179,7 +179,7 @@ class SettingsViewController: UIViewController, UINavigationControllerDelegate, 
                 return
             }
             
-            ParseHelper.deleteUserInfo(PersistentData.User().userID) { () -> () in
+            ParseHelper.deleteUserInfo(PersistentData.userID) { () -> () in
                 
                 UIAlertController.showAlertView("", message: "アカウントを削除しました") { _ in
                     let newRootVC = ProfileViewController()

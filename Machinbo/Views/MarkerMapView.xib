@@ -11,7 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MarkerDraggableViewController" customModule="Machinbo" customModuleProvider="target">
             <connections>
-                <outlet property="gmaps" destination="viP-A5-GGq" id="fdJ-rZ-nZi"/>
+                <outlet property="gmapsView" destination="viP-A5-GGq" id="k71-fm-0F3"/>
                 <outlet property="imakokoButton" destination="zHb-r4-S7t" id="IKT-Da-ETq"/>
                 <outlet property="view" destination="iN0-l3-epB" id="uzX-HK-cHC"/>
             </connections>
@@ -21,7 +21,7 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="viP-A5-GGq" customClass="GMSMapView">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="viP-A5-GGq">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>

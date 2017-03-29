@@ -173,8 +173,8 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let targetUserID = gonowObject.object(forKey: "TargetUserID") as! String
         
         //相手から削除された場合（自分で削除した場合は、Parseの取得で弾く）
-        let isDelete = (userID == PersistentData.User().userID && isDeleteTarget) ||
-            (targetUserID == PersistentData.User().userID && isDeleteUser)
+        let isDelete = (userID == PersistentData.userID && isDeleteTarget) ||
+            (targetUserID == PersistentData.userID && isDeleteUser)
         
         guard !isDelete else {
             gonowCell?.titleLabel.text = "ユーザから削除されました"
@@ -299,9 +299,8 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     if let myUserInfo = self.getMyUserInfo(index: indexPath.row) {
                         myUserInfo.add(userInfoObject.objectId!, forKey: "blockUserList")
                         myUserInfo.saveInBackground()
-                        
-                        var data = PersistentData.User()
-                        data.blockUserList = myUserInfo.object(forKey: "blockUserList") as! [String]
+
+                        PersistentData.blockUserList = myUserInfo.object(forKey: "blockUserList") as! [String]
                     }
                 }
                 
@@ -384,10 +383,10 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
             let userID = gonowObject.object(forKey: "UserID") as! String
             let targetUserID = gonowObject.object(forKey: "TargetUserID") as! String
             
-            if userID == PersistentData.User().userID {
+            if userID == PersistentData.userID {
                 userInfoObject = gonowObject.object(forKey: "TargetUser") as? PFObject
                 
-            } else if targetUserID == PersistentData.User().userID {
+            } else if targetUserID == PersistentData.userID {
                 userInfoObject = gonowObject.object(forKey: "User") as? PFObject
             }
             
@@ -407,10 +406,10 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let targetUserID = gonowObject.object(forKey: "TargetUserID") as! String
         var userInfoObject: PFObject?
     
-        if userID == PersistentData.User().userID {
+        if userID == PersistentData.userID {
             userInfoObject = gonowObject.object(forKey: "User") as? PFObject
 
-        } else if targetUserID == PersistentData.User().userID {
+        } else if targetUserID == PersistentData.userID {
             userInfoObject = gonowObject.object(forKey: "TargetUser") as? PFObject
         }
         
@@ -425,7 +424,7 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         MBProgressHUDHelper.sharedInstance.show(self.view)
         
-        ParseHelper.getApprovedMeetupList(PersistentData.User().userID) { (error: NSError?, result) -> Void in
+        ParseHelper.getApprovedMeetupList(PersistentData.userID) { (error: NSError?, result) -> Void in
             MBProgressHUDHelper.sharedInstance.hide()
             
             guard error == nil else { print("Error information"); return }
@@ -438,7 +437,7 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func getMeetUpList() {
         MBProgressHUDHelper.sharedInstance.show(self.view)
         
-        ParseHelper.getMeetupList(PersistentData.User().userID) { (error: NSError?, result) -> Void in
+        ParseHelper.getMeetupList(PersistentData.userID) { (error: NSError?, result) -> Void in
             MBProgressHUDHelper.sharedInstance.hide()
             
             guard error == nil else { print("Error information"); return }
@@ -451,7 +450,7 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func getReceiveList() {
         MBProgressHUDHelper.sharedInstance.show(self.view)
         
-        ParseHelper.getReceiveList(PersistentData.User().userID) { (error: NSError?, result) -> Void in
+        ParseHelper.getReceiveList(PersistentData.userID) { (error: NSError?, result) -> Void in
             MBProgressHUDHelper.sharedInstance.hide()
             
             guard error == nil else { print("Error information"); return }
@@ -479,10 +478,10 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let targetUserID = gonowObject.object(forKey: "TargetUserID") as! String
         let targetUserObjectId = gonowObject.object(forKey: "TargetUser") as! PFObject
         
-        if userID == PersistentData.User().userID {
+        if userID == PersistentData.userID {
             gonowObject["isDeleteUser"] = true
             
-        } else if targetUserID == PersistentData.User().userID {
+        } else if targetUserID == PersistentData.userID {
             gonowObject["isDeleteTarget"] = true
         }
         
@@ -500,10 +499,9 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
         
         // イマ行くリストの削除
-        var userInfo = PersistentData.User()
-        print("imaikuUserList \(userInfo.imaikuUserList)")
+        print("imaikuUserList \(PersistentData.imaikuUserList)")
 
-        userInfo.imaikuUserList.removeValue(forKey: targetUserObjectId.objectId!)
+        PersistentData.imaikuUserList.removeValue(forKey: targetUserObjectId.objectId!)
         
         
         self.tableView.reloadData()

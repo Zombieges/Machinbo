@@ -29,15 +29,14 @@ class ParseHelper {
         let myGeoPoint = PFGeoPoint(latitude: myLocation.latitude, longitude: myLocation.longitude)
         let now = Date()
         
-        var data = PersistentData.User()
         print("*************************>")
-        print(data.blockUserList)
+        print(PersistentData.blockUserList)
         let query = PFQuery(className: "UserInfo")
         query.whereKey("GPS", nearGeoPoint: myGeoPoint, withinKilometers: 25.0)
         query.whereKey("IsRecruitment", equalTo: true)
         query.whereKey("MarkTimeTo", greaterThanOrEqualTo: now)
         query.whereKey("MarkTime", lessThanOrEqualTo: now)
-        query.whereKey("objectId", notContainedIn: data.blockUserList)
+        query.whereKey("objectId", notContainedIn: PersistentData.blockUserList)
         query.limit = 100
         query.order(byAscending: "MarkTime")
         query.findObjectsInBackground { (objects, error) -> Void in
@@ -165,23 +164,30 @@ class ParseHelper {
         info["ProfilePicture"] = imageFile
         info["DeviceToken"] = deviceToken
         
-        do {
-            try info.save()
+        info.saveInBackground { (success: Bool, error: Error?) -> Void in
+            defer {
+                MBProgressHUDHelper.sharedInstance.hide()
+            }
             
-            // save to local db
-            var userInfo = PersistentData.User()
-            userInfo.userID = userID
-            userInfo.name = name
-            userInfo.gender = gender
-            userInfo.age = age
-            userInfo.comment = comment
-            userInfo.twitterName = twitter
-            userInfo.profileImage = photo
-            userInfo.objectId = info.objectId!
+            guard success, error == nil else {
+                UIAlertController.showAlertParseConnectionError()
+                return
+            }
+            
             NSLog("ユーザー初期登録成功")
+            PersistentData.userID = userID
+            PersistentData.name = name
+            PersistentData.gender = gender
+            PersistentData.age = age
+            PersistentData.comment = comment
+            PersistentData.twitterName = twitter
+            PersistentData.profileImage = photo
+            PersistentData.objectId = info.objectId!
             
-        } catch  {
-            UIAlertController.showAlertParseConnectionError()
+            let tabBarConrtoller: UITabBarController = LayoutManager.createNavigationAndTabItems()
+            UIApplication.shared.keyWindow?.addSubview((tabBarConrtoller.view)!)
+            UIApplication.shared.keyWindow?.rootViewController = tabBarConrtoller
+            UIApplication.shared.keyWindow?.makeKeyAndVisible()
         }
     }
     
@@ -223,14 +229,14 @@ class ParseHelper {
                     }
                     
                     //local db の削除
-                    PersistentData.deleteUserID()
+                    PersistentData().deleteUserID()
                     completion()
                 }
                 
             } else {
                 MBProgressHUDHelper.sharedInstance.hide()
                 //local db の削除
-                PersistentData.deleteUserID()
+                PersistentData().deleteUserID()
                 
                 completion()
             }
@@ -246,9 +252,5 @@ class ParseHelper {
             errorMessage = "Unexpected error occured. Please try again"
         }
         return errorMessage
-    }
-    
-    class func updApproved(id: String, completion:((_ withError: NSError?, _ result: Int?)->Void)?) {
-        
     }
 }

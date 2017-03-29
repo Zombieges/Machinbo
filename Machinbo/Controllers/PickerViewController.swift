@@ -42,7 +42,7 @@ protocol PickerViewControllerDelegate{
     func setSelectedDate(_ SelectedDate: Date)
 }
 
-class PickerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, GADBannerViewDelegate, GADInterstitialDelegate, UISearchBarDelegate {
+class PickerViewController: UIViewController, UISearchBarDelegate {
     
     var delegate: PickerViewControllerDelegate?
     var interstitial: GADInterstitial?
@@ -52,20 +52,19 @@ class PickerViewController: UIViewController, UITableViewDelegate, UITableViewDa
     private var inputPlace = UITextView()
     private var inputMyCodinate = UITextView()
     private var inputMyDatePicker = UIDatePicker()
-    private var realTextView = UITextView()
     private var searchBarField = UISearchBar()
     
     // Tableで使用する配列を設定する
     private var tableView: UITableView!
-    private var myItems = [String]()
+    var myItems = [String]()
     
     private let displayWidth = UIScreen.main.bounds.size.width
     private let displayHeight = UIScreen.main.bounds.size.height
     
-    private let sections = [" ", " "]
+    let sections = [" ", " "]
     
-    private var palKind: PickerKind!
-    private var palInput: AnyObject = "" as AnyObject
+    var palKind: PickerKind!
+    var palInput: AnyObject = "" as AnyObject
     private var palTargetUser: PFObject?
     
     private var wideZFRippleButton = { (title: String!, positionY: CGFloat, action: Selector) -> ZFRippleButton in
@@ -132,6 +131,7 @@ class PickerViewController: UIViewController, UITableViewDelegate, UITableViewDa
             prepareCommentField(displayWidth, displayHeight: 200)
         case .imaiku:
             prepareImaikuField()
+            prepareDatePickerField(displayWidth)
         case .imageView:
             prepareImageViewField()
         case .search:
@@ -139,7 +139,7 @@ class PickerViewController: UIViewController, UITableViewDelegate, UITableViewDa
         case .notificationSettings:
             prepareNotification()
         default: break
-
+            
         }
     }
     
@@ -186,18 +186,6 @@ class PickerViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.view.addSubview(inputTextView)
         
         prepareInsertDataButton(displayWidth, displayHeight: 200)
-    }
-    
-    func prepareImaikuField() {
-        //フル画面広告を取得
-        let adMobID = ConfigData(type: .adMobFull).getPlistKey
-        interstitial = GADInterstitial(adUnitID: adMobID)
-        interstitial?.delegate = self
-        let admobRequest:GADRequest = GADRequest()
-        admobRequest.testDevices = [kGADSimulatorID]
-        interstitial?.load(admobRequest)
-        
-        prepareDatePickerField(displayWidth)
     }
     
     func prepareImageViewField() {
@@ -283,14 +271,14 @@ class PickerViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     internal func onClickSaveButton(_ sender: UIButton){
-        guard self.isInternetConnect() else {
+        guard isInternetConnect() else {
             self.errorAction()
             return
         }
         
         if self.palKind == .name {
             saveName()
-
+            
         } else if self.palKind == .comment {
             saveComment()
             
@@ -323,15 +311,16 @@ class PickerViewController: UIViewController, UITableViewDelegate, UITableViewDa
             return
         }
         
-        var userInfo = PersistentData.User()
-        guard userInfo.userID != "" else {
+        guard PersistentData.userID != "" else {
             self.delegate!.setInputValue(self.inputTextField.text!, type: .name)
             self.navigationController!.popViewController(animated: true)
             
             return
         }
         
-        ParseHelper.getMyUserInfomation(userInfo.userID) { (error: NSError?, result: PFObject?) -> Void in
+        MBProgressHUDHelper.sharedInstance.show(self.view)
+        
+        ParseHelper.getMyUserInfomation(PersistentData.userID) { (error: NSError?, result: PFObject?) -> Void in
             guard let result = result, error == nil else {
                 self.errorAction()
                 return
@@ -339,18 +328,22 @@ class PickerViewController: UIViewController, UITableViewDelegate, UITableViewDa
             
             result["Name"] = self.inputTextField.text
             result.saveInBackground { (success: Bool, error: Error?) -> Void in
+                defer {
+                    MBProgressHUDHelper.sharedInstance.hide()
+                }
+                
                 guard success, error == nil else {
                     self.errorAction()
                     return
                 }
                 
                 print("saved worked")
-                userInfo.name = self.inputTextField.text!
-                
-                self.delegate!.setInputValue(self.inputTextField.text!, type: .name)
-                self.navigationController!.popViewController(animated: true)
+                PersistentData.name = self.inputTextField.text!
             }
         }
+        
+        self.delegate!.setInputValue(self.inputTextField.text!, type: .name)
+        self.navigationController!.popViewController(animated: true)
     }
     
     func saveComment() {
@@ -359,60 +352,71 @@ class PickerViewController: UIViewController, UITableViewDelegate, UITableViewDa
             return
         }
         
-        var userInfo = PersistentData.User()
-        guard userInfo.userID != "" else {
+        guard PersistentData.userID != "" else {
             self.delegate!.setInputValue(self.inputTextView.text!, type: .comment)
             self.navigationController!.popViewController(animated: true)
             
             return
         }
         
-        ParseHelper.getMyUserInfomation(userInfo.userID) { (error: Error?, result: PFObject?) -> Void in
+        MBProgressHUDHelper.sharedInstance.show(self.view)
+        
+        ParseHelper.getMyUserInfomation(PersistentData.userID) { (error: Error?, result: PFObject?) -> Void in
             guard let result = result, error == nil else {
                 self.errorAction()
                 return
             }
             
-            if self.palKind == .comment {
+            switch self.palKind! {
+            case .comment:
                 result["Comment"] = self.inputTextView.text
-                
-            } else if self.palKind == .place {
+            case .place:
                 result["PlaceDetail"] = self.inputTextView.text
-                
-            } else if self.palKind == .char {
+            case .char:
                 result["MyChar"] = self.inputTextView.text
+            default:break
             }
             
             result.saveInBackground { (success: Bool, error: Error?) -> Void in
+                defer {
+                    MBProgressHUDHelper.sharedInstance.hide()
+                }
+                
                 guard success, error == nil else {
                     self.errorAction()
                     return
                 }
                 
-                print("saved worked")
-                
-                if self.palKind == .comment {
-                    userInfo.comment = self.inputTextView.text
-                    self.delegate!.setInputValue(self.inputTextView.text, type: .comment)
-                    
-                } else if self.palKind == .place {
-                    userInfo.place = self.inputTextView.text
-                    self.delegate!.setInputValue(self.inputTextView.text, type: .place)
-                    
-                } else if self.palKind == .char {
-                    userInfo.mychar = self.inputTextView.text
-                    self.delegate!.setInputValue(self.inputTextView.text, type: .char)
+                switch self.palKind! {
+                case .comment:
+                    PersistentData.comment = self.inputTextView.text
+                case .place:
+                    PersistentData.place = self.inputTextView.text
+                case .char:
+                    PersistentData.mychar = self.inputTextView.text
+                default:break
                 }
                 
-                self.navigationController!.popViewController(animated: true)
+                print("saved worked")
             }
         }
+        
+        switch self.palKind! {
+        case .comment:
+            self.delegate!.setInputValue(self.inputTextView.text, type: .comment)
+        case .place:
+            self.delegate!.setInputValue(self.inputTextView.text, type: .place)
+        case .char:
+            self.delegate!.setInputValue(self.inputTextView.text, type: .char)
+        default:break
+        }
+        self.navigationController!.popViewController(animated: true)
     }
     
     func saveImaiku() {
         MBProgressHUDHelper.sharedInstance.show(self.view)
         
-        ParseHelper.getMyUserInfomation(PersistentData.User().userID) { (error: NSError?, result) -> Void in
+        ParseHelper.getMyUserInfomation(PersistentData.userID) { (error: NSError?, result) -> Void in
             guard let result = result, error == nil else {
                 self.errorAction()
                 return
@@ -448,14 +452,13 @@ class PickerViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     return
                 }
                 
-                var userInfo = PersistentData.User()
-                userInfo.imaikuFlag = true
+                PersistentData.imaikuFlag = true
                 
                 // イマ行く対象のIDを local DB へセット
-                userInfo.targetUserID = targetUserID!
+                PersistentData.targetUserID = targetUserID!
                 
                 // イマ行くリストを Local DB へセット
-                userInfo.imaikuUserList[targetUserObjectID!] = timeTargetIsAvailable
+                PersistentData.imaikuUserList[targetUserObjectID!] = timeTargetIsAvailable
                 
                 // Send Notification
                 NotificationHelper.sendSpecificDevice(name! + "さんより「いまから行く」されました", deviceTokenAsString: targetDeviceToken!, badges: 1 as Int)
@@ -463,7 +466,7 @@ class PickerViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 let alertMessage = "待ち合わせを申請しました。もっと高確率で出会えるサイトがありますが、確認しますか？"
                 UIAlertController.showAlertOKCancel("", message: alertMessage, actiontitle: "サイトを確認する") { action in
                     
-                    userInfo.isImaikuClick = Date()
+                    PersistentData.isImaikuClick = Date()
                     
                     if action == .cancel {
                         self.navigationController!.popToRootViewController(animated: true)
@@ -480,6 +483,56 @@ class PickerViewController: UIViewController, UITableViewDelegate, UITableViewDa
             }
         }
     }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard isInternetConnect() else {
+            self.errorAction()
+            return
+        }
+        
+        guard let searchStr = searchBarField.text else {
+            return
+        }
+        
+        MBProgressHUDHelper.sharedInstance.show(self.view)
+        
+        ParseHelper.getUserInfomationFromTwitter(searchStr) { (error: Error?, result: PFObject?) -> Void in
+            defer {
+                MBProgressHUDHelper.sharedInstance.hide()
+            }
+            
+            guard error == nil, result != nil else {
+                UIAlertController.showAlertView("", message:"ユーザが存在しないか募集停止中です")
+                return
+            }
+            
+            let vc = TargetProfileViewController(type: ProfileType.targetProfile)
+            vc.targetUserInfo = result!
+            
+            self.navigationController!.pushViewController(vc, animated: false)
+        }
+        
+        self.view.endEditing(true)
+    }
+    
+    func openAppSettingPage() -> Void {
+        let url = NSURL(string:UIApplicationOpenSettingsURLString)!
+        
+        if #available(iOS 10.0, *) {
+            UIApplication.shared.open(url as URL, options: [:], completionHandler: nil)
+            
+        } else {
+            UIApplication.shared.openURL(url as URL)
+        }
+    }
+    
+    func errorAction() {
+        MBProgressHUDHelper.sharedInstance.hide()
+        UIAlertController.showAlertParseConnectionError()
+    }
+}
+
+extension PickerViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 0 {
@@ -527,22 +580,22 @@ class PickerViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard self.isInternetConnect() else {
+        guard isInternetConnect() else {
             self.errorAction()
             return
         }
         
-        var userInfo = PersistentData.User()
-        
         if self.palKind == .age {
             
-            guard userInfo.userID != "" else {
+            guard PersistentData.userID != "" else {
                 self.delegate!.setSelectedValue(indexPath.row, selectedValue: self.myItems[indexPath.row].uppercased(), type: .age)
                 self.navigationController!.popViewController(animated: true)
                 return
             }
             
-            ParseHelper.getMyUserInfomation(userInfo.userID) { (error: NSError?, result: PFObject?) -> Void in
+            MBProgressHUDHelper.sharedInstance.show(self.view)
+            
+            ParseHelper.getMyUserInfomation(PersistentData.userID) { (error: NSError?, result: PFObject?) -> Void in
                 guard let result = result, error == nil else {
                     self.errorAction()
                     return
@@ -550,28 +603,34 @@ class PickerViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 
                 result["Age"] = self.myItems[indexPath.row].uppercased()
                 result.saveInBackground { (success: Bool, error: Error?) -> Void in
+                    defer {
+                        MBProgressHUDHelper.sharedInstance.hide()
+                    }
+                    
                     guard success, error == nil else {
                         self.errorAction()
                         return
                     }
                     
                     print("saved worked")
-                    userInfo.age = self.myItems[indexPath.row].uppercased()
-                    
-                    self.delegate!.setSelectedValue(indexPath.row, selectedValue: self.myItems[indexPath.row].uppercased(), type: .age)
-                    self.navigationController!.popViewController(animated: true)
+                    PersistentData.age = self.myItems[indexPath.row].uppercased()
                 }
             }
             
+            self.delegate!.setSelectedValue(indexPath.row, selectedValue: self.myItems[indexPath.row].uppercased(), type: .age)
+            self.navigationController!.popViewController(animated: true)
+            
         } else if self.palKind == .gender {
             
-            guard userInfo.userID != "" else {
+            guard PersistentData.userID != "" else {
                 self.delegate!.setSelectedValue(indexPath.row, selectedValue: self.myItems[indexPath.row].uppercased(), type: .gender)
                 self.navigationController!.popViewController(animated: true)
                 return
             }
             
-            ParseHelper.getMyUserInfomation(userInfo.userID) { (error: NSError?, result: PFObject?) -> Void in
+            MBProgressHUDHelper.sharedInstance.show(self.view)
+            
+            ParseHelper.getMyUserInfomation(PersistentData.userID) { (error: NSError?, result: PFObject?) -> Void in
                 guard let result = result, error == nil else {
                     self.errorAction()
                     return
@@ -579,23 +638,41 @@ class PickerViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 
                 result["Gender"] = self.myItems[indexPath.row].uppercased()
                 result.saveInBackground { (success: Bool, error: Error?) -> Void in
+                    defer {
+                        MBProgressHUDHelper.sharedInstance.hide()
+                    }
+                    
                     guard success, error == nil else {
                         self.errorAction()
                         return
                     }
                     
                     print("saved worked")
-                    userInfo.gender = self.myItems[indexPath.row].uppercased()
-                    
-                    self.delegate!.setSelectedValue(indexPath.row, selectedValue: self.myItems[indexPath.row].uppercased(), type: .gender)
-                    self.navigationController!.popViewController(animated: true)
+                    PersistentData.gender = self.myItems[indexPath.row].uppercased()
                 }
             }
+            
+            self.delegate!.setSelectedValue(indexPath.row, selectedValue: self.myItems[indexPath.row].uppercased(), type: .gender)
+            self.navigationController!.popViewController(animated: true)
         }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
+    }
+}
+
+extension PickerViewController: GADBannerViewDelegate, GADInterstitialDelegate {
+    
+    func prepareImaikuField() {
+        //フル画面広告を取得
+        let adMobID = ConfigData(type: .adMobFull).getPlistKey
+        interstitial = GADInterstitial(adUnitID: adMobID)
+        interstitial?.delegate = self
+        
+        let admobRequest:GADRequest = GADRequest()
+        admobRequest.testDevices = [kGADSimulatorID]
+        interstitial?.load(admobRequest)
     }
     
     func interstitialDidDismissScreen(ad: GADInterstitial!) {
@@ -609,53 +686,5 @@ class PickerViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func interstitial(ad: GADInterstitial!, didFailToReceiveAdWithError error: GADRequestError!) {
         print(error.localizedDescription)
-    }
-    
-    func errorAction() {
-        MBProgressHUDHelper.sharedInstance.hide()
-        UIAlertController.showAlertParseConnectionError()
-    }
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        guard self.isInternetConnect() else {
-            self.errorAction()
-            return
-        }
-        
-        guard let searchStr = searchBarField.text else {
-            return
-        }
-        
-        MBProgressHUDHelper.sharedInstance.show(self.view)
-        
-        ParseHelper.getUserInfomationFromTwitter(searchStr) { (error: Error?, result: PFObject?) -> Void in
-            
-            defer {
-                MBProgressHUDHelper.sharedInstance.hide()
-            }
-            
-            guard error == nil, result != nil else {
-                UIAlertController.showAlertView("", message:"ユーザが存在しないか募集停止中です")
-                return
-            }
-            
-            let vc = TargetProfileViewController(type: ProfileType.targetProfile)
-            vc.targetUserInfo = result!
-            
-            self.navigationController!.pushViewController(vc, animated: false)
-        }
-        
-        self.view.endEditing(true)
-    }
-    
-    func openAppSettingPage() -> Void {
-        let url = NSURL(string:UIApplicationOpenSettingsURLString)!
-        
-        if #available(iOS 10.0, *) {
-            UIApplication.shared.open(url as URL, options: [:], completionHandler: nil)
-            
-        } else {
-            UIApplication.shared.openURL(url as URL)
-        }
     }
 }

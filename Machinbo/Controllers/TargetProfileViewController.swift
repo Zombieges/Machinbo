@@ -82,7 +82,7 @@ class TargetProfileViewController:
             self.view = view
         }
         
-        PersistentData.deleteUserIDForKey("imaikuFlag")
+        PersistentData().deleteUserIDForKey("imaikuFlag")
         
         self.setHeader()
         self.createRefreshControl()
@@ -108,12 +108,9 @@ class TargetProfileViewController:
         admobRequest.testDevices = [kGADSimulatorID]
         interstitial?.load(admobRequest)
         
-        //ブロックされている場合はここでボタン非表示にする
-        let userData = PersistentData.User()
-        
         // 相手が自分のことをブロックしている場合
         if let targetUserBlockList = self.targetUserInfo?.object(forKey: "blockUserList") {
-            guard !(targetUserBlockList as! [String]).contains(PersistentData.User().objectId) else {
+            guard !(targetUserBlockList as! [String]).contains(PersistentData.objectId) else {
                 self.createBlockLabel()
                 return
             }
@@ -121,7 +118,7 @@ class TargetProfileViewController:
         
         // 自分が相手をブロックしている場合
         let targetUserObjectId = self.targetUserInfo?.objectId
-        guard !userData.blockUserList.contains(targetUserObjectId!) else {
+        guard !PersistentData.blockUserList.contains(targetUserObjectId!) else {
             return
         }
         
@@ -345,10 +342,9 @@ class TargetProfileViewController:
     
     func clickGoNowButton() {
         // 既にイマ行く済みの相手には「約束」できない
-        var userInfo = PersistentData.User()
-        print("imaikuUserList \(userInfo.imaikuUserList)")
+        print("imaikuUserList \(PersistentData.imaikuUserList)")
         
-        if let imaikuClickDate = userInfo.isImaikuClick {
+        if let imaikuClickDate = PersistentData.isImaikuClick {
             let imaikuClickDateYYYYMMDD = dateFormatterYYYYMMDD.string(from: imaikuClickDate)
             let nowDateYYYYMMDD = dateFormatterYYYYMMDD.string(from: Date())
             
@@ -358,7 +354,7 @@ class TargetProfileViewController:
                     
                     if self.interstitial!.isReady {
                         //isImaikuClick update
-                        userInfo.isImaikuClick = nil
+                        PersistentData.isImaikuClick = nil
                         self.interstitial!.present(fromRootViewController: self)
                     }
                 }
@@ -367,7 +363,7 @@ class TargetProfileViewController:
             }
         }
         
-        if let timeTargetAvailable = userInfo.imaikuUserList[(self.targetUserInfo?.objectId)!] {
+        if let timeTargetAvailable = PersistentData.imaikuUserList[(self.targetUserInfo?.objectId)!] {
             // 現在日付取得 && 比較
             if timeTargetAvailable > Date() {
                 UIAlertController.showAlertView("", message: "既にこのユーザへ約束を送信済みです")
@@ -419,7 +415,7 @@ class TargetProfileViewController:
                 
                 self.gonowInfo = GonowData(parseObject: loadedObject)
                 
-                NotificationHelper.sendSpecificDevice( PersistentData.User().name + "さんより「承認」されました", deviceTokenAsString: self.targetUserInfo?.object(forKey: "DeviceToken") as! String, badges: 0 as Int)
+                NotificationHelper.sendSpecificDevice( PersistentData.name + "さんより「承認」されました", deviceTokenAsString: self.targetUserInfo?.object(forKey: "DeviceToken") as! String, badges: 0 as Int)
                 
             } catch {}
             
@@ -482,7 +478,7 @@ class TargetProfileViewController:
             if let deviceToken = self.targetUserInfo?.object(forKey: "DeviceToken"){
                 print("Device token = \(deviceToken)")
                 
-                NotificationHelper.sendSpecificDevice(PersistentData.User().name + "さんが現在地を送信しました", deviceTokenAsString: deviceToken as! String, badges: 1 as Int)
+                NotificationHelper.sendSpecificDevice(PersistentData.name + "さんが現在地を送信しました", deviceTokenAsString: deviceToken as! String, badges: 1 as Int)
                 
             }
         }
@@ -516,7 +512,7 @@ class TargetProfileViewController:
             
             //現在位置確認をする際、この待ち合わせを募集した人はuserGoNow→GoNowReceiveへ値を更新し、
             //募集に対していまから行くをした人は、targetGoNow→GoNowSendへ値を更新する
-            if userID == PersistentData.User().userID {
+            if userID == PersistentData.userID {
                 if let query = self.gonowInfo?.UserGoNow {
                     query["userGeoPoint"] = geoPoint
                     query.saveInBackground { (success: Bool, error: Error?) -> Void in
@@ -553,7 +549,7 @@ class TargetProfileViewController:
                     }
                 }
                 
-            } else if targetUserID == PersistentData.User().userID {
+            } else if targetUserID == PersistentData.userID {
                 if let query = self.gonowInfo?.TargetGoNow {
                     query["userGeoPoint"] = geoPoint
                     query.saveInBackground { (success: Bool, error: Error?) -> Void in
@@ -605,7 +601,7 @@ class TargetProfileViewController:
             
             //MBProgressHUDHelper.show("Loading...")
             
-            //            ParseHelper.getMyGoNow(PersistentData.User().userID) { (error: NSError?, result) -> Void in
+            //            ParseHelper.getMyGoNow(PersistentData.userID) { (error: NSError?, result) -> Void in
             //
             //                defer {
             //                    MBProgressHUDHelper.hide()
@@ -626,7 +622,7 @@ class TargetProfileViewController:
             if let deviceToken = self.targetUserInfo?.object(forKey: "DeviceToken"){
                 print("Device token = \(deviceToken)")
                 
-                NotificationHelper.sendSpecificDevice(PersistentData.User().name + "さんから現在地確認を受信しました", deviceTokenAsString: deviceToken as! String, badges: 1 as Int)
+                NotificationHelper.sendSpecificDevice(PersistentData.name + "さんから現在地確認を受信しました", deviceTokenAsString: deviceToken as! String, badges: 1 as Int)
                 
                 UIAlertController.showAlertView("", message: "相手に現在位置確認を送信しました")
                 
@@ -778,7 +774,7 @@ class TargetProfileViewController:
             guard action == .ok else { return }
             
             MBProgressHUDHelper.sharedInstance.show(self.view)
-            ParseHelper.getMyUserInfomation(PersistentData.User().objectId) { (error: Error?, result: PFObject?) -> Void in
+            ParseHelper.getMyUserInfomation(PersistentData.objectId) { (error: Error?, result: PFObject?) -> Void in
                 defer {  MBProgressHUDHelper.sharedInstance.hide() }
                 guard let result = result, error == nil else {
                     self.errorAction()

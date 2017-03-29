@@ -164,8 +164,7 @@ class GoNowViewController:
         
         MBProgressHUDHelper.sharedInstance.show(self.view)
         
-        var userInfo = PersistentData.User()
-        ParseHelper.getMyUserInfomation(userInfo.userID) { (error: NSError?, result: PFObject?) -> Void in
+        ParseHelper.getMyUserInfomation(PersistentData.userID) { (error: NSError?, result: PFObject?) -> Void in
             guard let result = result, error == nil else {
                 self.errorAction()
                 return
@@ -186,18 +185,17 @@ class GoNowViewController:
                     return
                 }
                 
-                var userData = PersistentData.User()
                 if self.inputDateFrom != nil {
-                    userData.markTimeFrom =  self.dateFormatter.string(from: self.inputDateFrom!)
+                    PersistentData.markTimeFrom =  self.dateFormatter.string(from: self.inputDateFrom!)
                 }
                 
                 if self.inputDateTo != nil {
-                    userData.markTimeTo = self.dateFormatter.string(from: self.inputDateTo!)
+                    PersistentData.markTimeTo = self.dateFormatter.string(from: self.inputDateTo!)
                 }
                 
-                userData.place = self.inputPlace
-                userData.mychar = self.inputChar
-                userData.isRecruitment = true //募集中フラグ
+                PersistentData.place = self.inputPlace
+                PersistentData.mychar = self.inputChar
+                PersistentData.isRecruitment = true //募集中フラグ
                 
                 UIAlertController.showAlertOKCancel("", message: "待ち合わせ登録をしました。投稿内容を確認しますか？", actiontitle: "確認") { action in
                     if action == .cancel {

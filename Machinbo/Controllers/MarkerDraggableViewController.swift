@@ -17,7 +17,10 @@ class MarkerDraggableViewController: UIViewController, GMSMapViewDelegate, CLLoc
     
     @IBOutlet weak var bannerView: GADBannerView!
     
-    @IBOutlet weak var gmaps: GMSMapView!
+    var gmaps: GMSMapView!
+    @IBOutlet weak var gmapsView: UIView!
+    
+//    @IBOutlet weak var gmaps: GMSMapView!
     
     @IBOutlet weak var imakokoButton: ZFRippleButton!
     
@@ -59,7 +62,8 @@ class MarkerDraggableViewController: UIViewController, GMSMapViewDelegate, CLLoc
         
         let myPosition = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         //地図作成
-        self.gmaps.addSubview(GoogleMapsHelper.gmsMapView(self, myPosition))
+        gmaps = GoogleMapsHelper.gmsMapView(self, myPosition)
+        self.gmapsView.addSubview(gmaps)
     }
     
     func getMapCenterPosition(_ gmaps: GMSMapView) -> CLLocationCoordinate2D {
@@ -96,14 +100,14 @@ class MarkerDraggableViewController: UIViewController, GMSMapViewDelegate, CLLoc
         imakokoButton.isHidden = false
         
     }
-    
+     
     @IBAction func createImakoko(_ sender: Any) {
         guard self.isInternetConnect() else {
             self.errorAction()
             return
         }
         
-        let mapViewCenter = getMapCenterPosition(self.gmaps)
+        let mapViewCenter = getMapCenterPosition(gmaps)
         
         let vc = GoNowViewController()
         vc.palGeoPoint = PFGeoPoint(latitude: mapViewCenter.latitude, longitude: mapViewCenter.longitude)

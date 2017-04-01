@@ -390,7 +390,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
                 UIAlertController.showAlertView("", message: "Twitterへの接続に失敗しました。再接続してください") { _ in }
                 return
             }
-            
             self.twitterName = session!.userName
             self.setTwitterName()
             print("signed in as \(session!.userName)");
@@ -419,33 +418,42 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     }
     
     fileprivate func setTwitterName() {
-        guard self.isInternetConnect(), PersistentData.userID != "" else {
+        guard self.isInternetConnect() else {
             self.viewDidLoad()
             return
         }
         
-        MBProgressHUDHelper.sharedInstance.show(self.view)
+        PersistentData.twitterName = self.twitterName
         
-        ParseHelper.getMyUserInfomation(PersistentData.userID) { (error: NSError?, result: PFObject?) -> Void in
-            guard let result = result, error == nil else {
-                self.errorAction()
-                return
+        if PersistentData.userID == "" {
+            let alertMessage = self.twitterName == "" ? "認証を解除しました" : "連携が完了しました"
+            UIAlertController.showAlertView("", message: alertMessage) { _ in
+                self.tableView.reloadData()
             }
-            
-            result["Twitter"] = self.twitterName
-            result.saveInBackground { (success: Bool, error: Error?) -> Void in
-                defer { MBProgressHUDHelper.sharedInstance.hide() }
-                
-                guard success, error == nil else {
+        
+        } else {
+            MBProgressHUDHelper.sharedInstance.show(self.view)
+
+            ParseHelper.getMyUserInfomation(PersistentData.userID) { (error: NSError?, result: PFObject?) -> Void in
+                guard let result = result, error == nil else {
                     self.errorAction()
                     return
                 }
-
-                PersistentData.twitterName = self.twitterName
                 
-                let alertMessage = self.twitterName == "" ? "認証を解除しました" : "連携が完了しました"
-                UIAlertController.showAlertView("", message: alertMessage) { _ in
-                    self.viewDidLoad()
+                result["Twitter"] = self.twitterName
+                result.saveInBackground { (success: Bool, error: Error?) -> Void in
+                    defer { MBProgressHUDHelper.sharedInstance.hide() }
+                    
+                    guard success, error == nil else {
+                        self.errorAction()
+                        return
+                    }
+                    
+                    
+                    let alertMessage = self.twitterName == "" ? "認証を解除しました" : "連携が完了しました"
+                    UIAlertController.showAlertView("", message: alertMessage) { _ in
+                        self.viewDidLoad()
+                    }
                 }
             }
         }

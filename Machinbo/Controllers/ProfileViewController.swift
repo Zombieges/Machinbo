@@ -425,35 +425,35 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         
         PersistentData.twitterName = self.twitterName
         
-        if PersistentData.userID == "" {
+        guard PersistentData.userID != "" else {
             let alertMessage = self.twitterName == "" ? "認証を解除しました" : "連携が完了しました"
             UIAlertController.showAlertView("", message: alertMessage) { _ in
                 self.tableView.reloadData()
             }
+            return
+        }
         
-        } else {
-            MBProgressHUDHelper.sharedInstance.show(self.view)
-
-            ParseHelper.getMyUserInfomation(PersistentData.userID) { (error: NSError?, result: PFObject?) -> Void in
-                guard let result = result, error == nil else {
+        MBProgressHUDHelper.sharedInstance.show(self.view)
+        
+        ParseHelper.getMyUserInfomation(PersistentData.userID) { (error: NSError?, result: PFObject?) -> Void in
+            guard let result = result, error == nil else {
+                self.errorAction()
+                return
+            }
+            
+            result["Twitter"] = self.twitterName
+            result.saveInBackground { (success: Bool, error: Error?) -> Void in
+                defer { MBProgressHUDHelper.sharedInstance.hide() }
+                
+                guard success, error == nil else {
                     self.errorAction()
                     return
                 }
                 
-                result["Twitter"] = self.twitterName
-                result.saveInBackground { (success: Bool, error: Error?) -> Void in
-                    defer { MBProgressHUDHelper.sharedInstance.hide() }
-                    
-                    guard success, error == nil else {
-                        self.errorAction()
-                        return
-                    }
-                    
-                    
-                    let alertMessage = self.twitterName == "" ? "認証を解除しました" : "連携が完了しました"
-                    UIAlertController.showAlertView("", message: alertMessage) { _ in
-                        self.viewDidLoad()
-                    }
+                
+                let alertMessage = self.twitterName == "" ? "認証を解除しました" : "連携が完了しました"
+                UIAlertController.showAlertView("", message: alertMessage) { _ in
+                    self.viewDidLoad()
                 }
             }
         }

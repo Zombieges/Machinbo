@@ -314,6 +314,8 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func segmentChanged(_ segcon: UISegmentedControl){
+        MBProgressHUDHelper.sharedInstance.hide()
+        
         guard self.isInternetConnect() else {
             self.errorAction()
             return

@@ -12,22 +12,28 @@ import MBProgressHUD
 class MBProgressHUDHelper: NSObject {
     
     static let sharedInstance = MBProgressHUDHelper()
-    var progressHud: MBProgressHUD?
+    var progressHud = MBProgressHUD(frame: CGRect(x:0, y:0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
     
     
-    override init() {}
+    override init() {
+        super.init()
+        
+        progressHud.isUserInteractionEnabled = true
+        progressHud.mode = .indeterminate
+        progressHud.label.text = "Loading..."
+        progressHud.removeFromSuperViewOnHide = true
+    }
 
     func show(_ view: UIView) {
-        self.progressHud = MBProgressHUD.showAdded(to: view, animated: true)
-        self.progressHud?.label.text = "Loading..."
-        self.progressHud?.progress = 0.0
-        self.progressHud?.WSStyle()
+        UIApplication.shared.keyWindow?.addSubview(progressHud)
+        progressHud.taskInProgress = true
+        progressHud.show(true)
     }
     
     func hide() {
         DispatchQueue.main.async {
-            if self.progressHud != nil && !self.progressHud!.isHidden {
-                self.progressHud?.hide(true)
+            if !self.progressHud.isHidden {
+                self.progressHud.hide(true)
             }
         }
     }   

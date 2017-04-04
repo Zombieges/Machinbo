@@ -52,7 +52,7 @@ class TargetProfileViewController:
     private var mapViewHeight: CGFloat!
     private let targetProfileItems = ["名前", "性別", "年齢", "プロフィール"]
     private let imakuruItems = ["到着時間"]
-    private let otherItems = ["待ち合わせ開始時間", "待ち合わせ終了時間", "到着時間", "場所", "特徴"]
+    private let otherItems = ["何時から", "何時まで", "到着時間", "待ち合わせ場所", "私の特徴"]
     private let detailTableViewCellIdentifier = "DetailCell"
     private let mapTableViewCellIdentifier = "MapCell"
     

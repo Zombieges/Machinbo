@@ -25,7 +25,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     let photoItems = ["フォト"]
     let profileItems = ["名前", "性別", "生まれた年", "プロフィール"]
     let snsItems = ["Twitter"]
-    let otherItems = ["何時から", "何時まで", "場所", "特徴"]
+    let otherItems = ["何時から", "何時まで", "待ち合わせ場所", "私の特徴"]
     var sections = ["", "プロフィール", "SNS", "待ち合わせ情報"]
     
     let picker = UIImagePickerController()

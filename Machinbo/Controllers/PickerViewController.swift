@@ -174,7 +174,7 @@ class PickerViewController: UIViewController, UISearchBarDelegate {
     
     func prepareCommentField(_ displayWidth: CGFloat, displayHeight: CGFloat) {
         
-        inputTextView.frame = CGRect(x: 0, y: 20, width: displayWidth, height: 60)
+        inputTextView.frame = CGRect(x: 0, y: 20, width: displayWidth, height: UIScreen.main.bounds.size.height / 4)
         inputTextView.text = self.palInput as? String
         inputTextView.layer.masksToBounds = true
         inputTextView.layer.borderColor = UIColor.clear.cgColor
@@ -185,7 +185,7 @@ class PickerViewController: UIViewController, UISearchBarDelegate {
         
         self.view.addSubview(inputTextView)
         
-        prepareInsertDataButton(displayWidth, displayHeight: 200)
+        prepareInsertDataButton(displayWidth, displayHeight: (UIScreen.main.bounds.size.height / 4) + 100)
     }
     
     func prepareImageViewField() {

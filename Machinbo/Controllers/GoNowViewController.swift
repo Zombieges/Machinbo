@@ -33,7 +33,7 @@ class GoNowViewController:
     private var inputChar = ""
     private let normalTableViewCellIdentifier = "NormalCell"
     private let detailTableViewCellIdentifier = "DetailCell"
-    private let targetProfileItems = ["何時から", "何時まで", "待ち合わせ場所", "自分の特徴"]
+    private let targetProfileItems = ["何時から", "何時まで", "待ち合わせ場所", "私の特徴"]
     private var selectedRow: Int = 0
     private lazy var dateFormatter: DateFormatter = {
         var formatter = DateFormatter()

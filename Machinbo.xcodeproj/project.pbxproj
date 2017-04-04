@@ -19,8 +19,8 @@
 		BB3858D81D803C17006637F6 /* NotificationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3858D71D803C16006637F6 /* NotificationHelper.swift */; };
 		BB4058D51E93BF5900B85E4B /* StyleConst.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4058D41E93BF5900B85E4B /* StyleConst.swift */; };
 		BB4058D71E93C01100B85E4B /* PersistentData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4058D61E93C01100B85E4B /* PersistentData.swift */; };
-		BB4058DA1E93C31300B85E4B /* AMReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4058D81E93C31300B85E4B /* AMReachability.swift */; };
 		BB4058DB1E93C31300B85E4B /* LayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4058D91E93C31300B85E4B /* LayoutManager.swift */; };
+		BB4058DD1E93C54500B85E4B /* AMReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4058DC1E93C54500B85E4B /* AMReachability.swift */; };
 		BB4B3E6F1B5A001200183F62 /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BB4B3E6E1B5A001200183F62 /* libstdc++.6.dylib */; };
 		BB4B3E701B5A009500183F62 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BBC3A3FD1B3E7C2B002CBBE9 /* libz.dylib */; };
 		BB4B3E721B5A009F00183F62 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB4B3E711B5A009F00183F62 /* Accounts.framework */; };
@@ -131,8 +131,8 @@
 		BB3858D71D803C16006637F6 /* NotificationHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationHelper.swift; sourceTree = "<group>"; };
 		BB4058D41E93BF5900B85E4B /* StyleConst.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StyleConst.swift; sourceTree = "<group>"; };
 		BB4058D61E93C01100B85E4B /* PersistentData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentData.swift; sourceTree = "<group>"; };
-		BB4058D81E93C31300B85E4B /* AMReachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AMReachability.swift; sourceTree = "<group>"; };
 		BB4058D91E93C31300B85E4B /* LayoutManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayoutManager.swift; sourceTree = "<group>"; };
+		BB4058DC1E93C54500B85E4B /* AMReachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AMReachability.swift; sourceTree = "<group>"; };
 		BB4B3E6E1B5A001200183F62 /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
 		BB4B3E711B5A009F00183F62 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		BB4B3E731B5A00A600183F62 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
@@ -388,6 +388,7 @@
 		BB6FDDC51C3E92FD00C366A2 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				BB4058DC1E93C54500B85E4B /* AMReachability.swift */,
 				BB6FDDC61C3E92FD00C366A2 /* ZFRippleButton.swift */,
 			);
 			path = Classes;
@@ -396,7 +397,6 @@
 		BB6FDDCD1C3E952700C366A2 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				BB4058D81E93C31300B85E4B /* AMReachability.swift */,
 				BB4058D91E93C31300B85E4B /* LayoutManager.swift */,
 				BB3858D71D803C16006637F6 /* NotificationHelper.swift */,
 				94A91D3F1CC448B1004E7652 /* MBProgressHUDHelper.swift */,
@@ -746,6 +746,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BB4058DD1E93C54500B85E4B /* AMReachability.swift in Sources */,
 				BB6A35921E8A9C7C00F6783C /* ConfigData.swift in Sources */,
 				BB36D8E01D0E295000266BB6 /* UIViewExtensions.swift in Sources */,
 				BB8B07221E4A144700CD02E8 /* UserData.swift in Sources */,
@@ -760,7 +761,6 @@
 				BB6FDDE61C3E97E100C366A2 /* DetailProfileTableViewCell.swift in Sources */,
 				BB58C8F31E705A0900557B32 /* MapViewController.swift in Sources */,
 				BBEFA89B1B57BE99002EFC7A /* AppDelegate.swift in Sources */,
-				BB4058DA1E93C31300B85E4B /* AMReachability.swift in Sources */,
 				BB58C8F21E705A0900557B32 /* GoNowViewController.swift in Sources */,
 				BB58C8F91E705A0900557B32 /* TargetProfileViewController.swift in Sources */,
 				BB6FDE0F1C43AC1500C366A2 /* FeedData.swift in Sources */,

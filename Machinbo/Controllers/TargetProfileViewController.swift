@@ -286,7 +286,7 @@ class TargetProfileViewController:
     
     func setNavigationButton() {
         let settingsButton = UIButton(type: .custom)
-        settingsButton.setImage(UIImage(named: "santen@2x.png"), for: UIControlState())
+        settingsButton.setImage(UIImage(named: "santen"), for: UIControlState())
         settingsButton.addTarget(self, action: #selector(self.onClickSettingAction), for: .touchUpInside)
         settingsButton.frame = CGRect(x: 0, y: 0, width: 22, height: 22)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: settingsButton)

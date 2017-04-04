@@ -180,7 +180,7 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
             gonowCell?.titleLabel.text = "ユーザから削除されました"
             gonowCell?.valueLabel.text = ""
             gonowCell?.entryTime.text = ""
-            gonowCell?.profileImage.image = UIImage(named: "photo@2x.png")
+            gonowCell?.profileImage.image = UIImage(named: "photo")
             gonowCell?.profileImage.layer.borderColor = UIColor.white.cgColor
             gonowCell?.profileImage.layer.borderWidth = 3
             gonowCell?.profileImage.layer.cornerRadius = 10
@@ -194,7 +194,7 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
             gonowCell?.titleLabel.text = "このユーザは存在しません"
             gonowCell?.valueLabel.text = ""
             gonowCell?.entryTime.text = ""
-            gonowCell?.profileImage.image = UIImage(named: "photo@2x.png")
+            gonowCell?.profileImage.image = UIImage(named: "photo")
             gonowCell?.profileImage.layer.borderColor = UIColor.white.cgColor
             gonowCell?.profileImage.layer.borderWidth = 3
             gonowCell?.profileImage.layer.cornerRadius = 10

@@ -56,7 +56,7 @@ class GoogleMapsHelper {
         }
         
         let marker = GMSMarker()
-        marker.icon = UIImage(named: "mappin_red@2x.png")
+        marker.icon = UIImage(named: "mappin_red")
         marker.position = CLLocationCoordinate2DMake(geoPoint.latitude, geoPoint.longitude)
         marker.appearAnimation = .pop
         marker.map = map
@@ -71,7 +71,7 @@ class GoogleMapsHelper {
     
     class func setDraggableUserMarker(_ map: GMSMapView, geoPoint: PFGeoPoint) {
         let marker = GMSMarker()
-        marker.icon = UIImage(named: "mappin_red@2x.png")
+        marker.icon = UIImage(named: "mappin_red")
         marker.position = CLLocationCoordinate2DMake(geoPoint.latitude, geoPoint.longitude)
         marker.appearAnimation = .pop
         marker.map = map
@@ -95,7 +95,7 @@ class GoogleMapsHelper {
             
             let position = CLLocationCoordinate2DMake(meetingGeoPoint.latitude, meetingGeoPoint.longitude)
             let marker1 = GMSMarker(position: position)
-            marker1.icon = UIImage(named: "mappin_green@2x.png")
+            marker1.icon = UIImage(named: "mappin_green")
             marker1.appearAnimation = .pop
             marker1.map = map
             marker1.title = "待ち合わせ場所"
@@ -111,7 +111,7 @@ class GoogleMapsHelper {
                 userGeoPoint = tempGeoPoint
                 let position = CLLocationCoordinate2DMake(userGeoPoint.latitude, userGeoPoint.longitude)
                 let marker2 = GMSMarker(position: position)
-                marker2.icon = UIImage(named: "mappin_red@2x.png")
+                marker2.icon = UIImage(named: "mappin_red")
                 marker2.appearAnimation = .pop
                 marker2.map = map
                 
@@ -129,7 +129,7 @@ class GoogleMapsHelper {
                 targetGeoPoint = tempGeoPoint
                 let position = CLLocationCoordinate2DMake(targetGeoPoint.latitude, targetGeoPoint.longitude)
                 let marker3 = GMSMarker(position: position)
-                marker3.icon = UIImage(named: "mappin_blue@2x.png")
+                marker3.icon = UIImage(named: "mappin_blue")
                 marker3.appearAnimation = .pop
                 marker3.map = map
                 

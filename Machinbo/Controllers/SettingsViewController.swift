@@ -99,7 +99,7 @@ class SettingsViewController: UIViewController, UINavigationControllerDelegate, 
             cell?.textLabel?.text = supportLabels[indexPath.row] as String
             
             if indexPath.row == 0 {
-                cell?.imageView?.image = UIImage(named: "logo_twitter.png")
+                cell?.imageView?.image = UIImage(named: "logo_twitter")
             }
             
         } else if indexPath.section == 1 {

@@ -21,21 +21,11 @@
 		BB4058D71E93C01100B85E4B /* PersistentData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4058D61E93C01100B85E4B /* PersistentData.swift */; };
 		BB4058DB1E93C31300B85E4B /* LayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4058D91E93C31300B85E4B /* LayoutManager.swift */; };
 		BB4058DD1E93C54500B85E4B /* AMReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4058DC1E93C54500B85E4B /* AMReachability.swift */; };
+		BB4058E11E93C7E700B85E4B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BB4058E01E93C7E700B85E4B /* Images.xcassets */; };
 		BB4B3E6F1B5A001200183F62 /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BB4B3E6E1B5A001200183F62 /* libstdc++.6.dylib */; };
 		BB4B3E701B5A009500183F62 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BBC3A3FD1B3E7C2B002CBBE9 /* libz.dylib */; };
 		BB4B3E721B5A009F00183F62 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB4B3E711B5A009F00183F62 /* Accounts.framework */; };
 		BB4B3E741B5A00A600183F62 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB4B3E731B5A00A600183F62 /* Social.framework */; };
-		BB56B7F91E75A0B50095AD6C /* photo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BB56B7F81E75A0B50095AD6C /* photo@2x.png */; };
-		BB58C8DD1E7059D800557B32 /* edit@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BB58C8D11E7059D800557B32 /* edit@2x.png */; };
-		BB58C8DE1E7059D800557B32 /* fukidashi.png in Resources */ = {isa = PBXBuildFile; fileRef = BB58C8D21E7059D800557B32 /* fukidashi.png */; };
-		BB58C8DF1E7059D800557B32 /* home@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BB58C8D31E7059D800557B32 /* home@2x.png */; };
-		BB58C8E01E7059D800557B32 /* logo_fb.png in Resources */ = {isa = PBXBuildFile; fileRef = BB58C8D41E7059D800557B32 /* logo_fb.png */; };
-		BB58C8E11E7059D800557B32 /* logo_twitter.png in Resources */ = {isa = PBXBuildFile; fileRef = BB58C8D51E7059D800557B32 /* logo_twitter.png */; };
-		BB58C8E31E7059D800557B32 /* meetup@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BB58C8D71E7059D800557B32 /* meetup@2x.png */; };
-		BB58C8E51E7059D800557B32 /* profile_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BB58C8D91E7059D800557B32 /* profile_icon@2x.png */; };
-		BB58C8E61E7059D800557B32 /* reload@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BB58C8DA1E7059D800557B32 /* reload@2x.png */; };
-		BB58C8E71E7059D800557B32 /* search@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BB58C8DB1E7059D800557B32 /* search@2x.png */; };
-		BB58C8E81E7059D800557B32 /* settings@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BB58C8DC1E7059D800557B32 /* settings@2x.png */; };
 		BB58C8F21E705A0900557B32 /* GoNowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB58C8E91E705A0900557B32 /* GoNowViewController.swift */; };
 		BB58C8F31E705A0900557B32 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB58C8EA1E705A0900557B32 /* MapViewController.swift */; };
 		BB58C8F41E705A0900557B32 /* MarkerDraggableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB58C8EB1E705A0900557B32 /* MarkerDraggableViewController.swift */; };
@@ -49,7 +39,6 @@
 		BB6A358E1E894C4D00F6783C /* EntryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB6A358D1E894C4D00F6783C /* EntryView.xib */; };
 		BB6A35921E8A9C7C00F6783C /* ConfigData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6A35911E8A9C7C00F6783C /* ConfigData.swift */; };
 		BB6ECE6E1E84177C00DE6BE9 /* MarkerMapView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB6ECE6D1E84177C00DE6BE9 /* MarkerMapView.xib */; };
-		BB6ECE701E86466800DE6BE9 /* santen@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BB6ECE6F1E86466800DE6BE9 /* santen@2x.png */; };
 		BB6ECE721E878F5E00DE6BE9 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = BB6ECE711E878F5D00DE6BE9 /* .gitignore */; };
 		BB6FDDC71C3E92FD00C366A2 /* ZFRippleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6FDDC61C3E92FD00C366A2 /* ZFRippleButton.swift */; };
 		BB6FDDD41C3E952700C366A2 /* GoogleMapsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6FDDCF1C3E952700C366A2 /* GoogleMapsHelper.swift */; };
@@ -72,12 +61,6 @@
 		BB87AD901CDB14C5003973D7 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB87AD8F1CDB14C5003973D7 /* SafariServices.framework */; };
 		BB8B07221E4A144700CD02E8 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8B07211E4A144700CD02E8 /* UserData.swift */; };
 		BB8B07241E4B273400CD02E8 /* GonowData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8B07231E4B273400CD02E8 /* GonowData.swift */; };
-		BB97CA971E7F837300C09006 /* machinbo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BB97CA961E7F837300C09006 /* machinbo@2x.png */; };
-		BB97CA9D1E80118700C09006 /* machinbo_title@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BB97CA9C1E80118700C09006 /* machinbo_title@2x.png */; };
-		BB97CA9F1E80143700C09006 /* mappin_blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BB97CA9E1E80143700C09006 /* mappin_blue@2x.png */; };
-		BB97CAA11E814C9F00C09006 /* mappin_red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BB97CAA01E814C9F00C09006 /* mappin_red@2x.png */; };
-		BB97CAA31E814E0C00C09006 /* mappin_green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BB97CAA21E814E0C00C09006 /* mappin_green@2x.png */; };
-		BB97CAA51E814EA000C09006 /* mappin_blue_big@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BB97CAA41E814EA000C09006 /* mappin_blue_big@2x.png */; };
 		BBA5C4941B3542F3005D062B /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBA5C4931B3542F3005D062B /* GoogleMaps.framework */; };
 		BBC3A3EE1B3E7BB6002CBBE9 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBC3A3ED1B3E7BB6002CBBE9 /* AVFoundation.framework */; };
 		BBC3A3F01B3E7BC1002CBBE9 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBC3A3EF1B3E7BC1002CBBE9 /* CoreData.framework */; };
@@ -133,20 +116,10 @@
 		BB4058D61E93C01100B85E4B /* PersistentData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentData.swift; sourceTree = "<group>"; };
 		BB4058D91E93C31300B85E4B /* LayoutManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayoutManager.swift; sourceTree = "<group>"; };
 		BB4058DC1E93C54500B85E4B /* AMReachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AMReachability.swift; sourceTree = "<group>"; };
+		BB4058E01E93C7E700B85E4B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		BB4B3E6E1B5A001200183F62 /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
 		BB4B3E711B5A009F00183F62 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		BB4B3E731B5A00A600183F62 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
-		BB56B7F81E75A0B50095AD6C /* photo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "photo@2x.png"; sourceTree = "<group>"; };
-		BB58C8D11E7059D800557B32 /* edit@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "edit@2x.png"; sourceTree = "<group>"; };
-		BB58C8D21E7059D800557B32 /* fukidashi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fukidashi.png; sourceTree = "<group>"; };
-		BB58C8D31E7059D800557B32 /* home@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "home@2x.png"; sourceTree = "<group>"; };
-		BB58C8D41E7059D800557B32 /* logo_fb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_fb.png; sourceTree = "<group>"; };
-		BB58C8D51E7059D800557B32 /* logo_twitter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_twitter.png; sourceTree = "<group>"; };
-		BB58C8D71E7059D800557B32 /* meetup@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "meetup@2x.png"; sourceTree = "<group>"; };
-		BB58C8D91E7059D800557B32 /* profile_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profile_icon@2x.png"; sourceTree = "<group>"; };
-		BB58C8DA1E7059D800557B32 /* reload@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reload@2x.png"; sourceTree = "<group>"; };
-		BB58C8DB1E7059D800557B32 /* search@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "search@2x.png"; sourceTree = "<group>"; };
-		BB58C8DC1E7059D800557B32 /* settings@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings@2x.png"; sourceTree = "<group>"; };
 		BB58C8E91E705A0900557B32 /* GoNowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoNowViewController.swift; sourceTree = "<group>"; };
 		BB58C8EA1E705A0900557B32 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		BB58C8EB1E705A0900557B32 /* MarkerDraggableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkerDraggableViewController.swift; sourceTree = "<group>"; };
@@ -161,7 +134,6 @@
 		BB6A35911E8A9C7C00F6783C /* ConfigData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigData.swift; sourceTree = "<group>"; };
 		BB6BE7B21C4B8407004BD903 /* SCLAlertView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SCLAlertView.framework; path = "Pods/../build/Debug-iphoneos/SCLAlertView.framework"; sourceTree = "<group>"; };
 		BB6ECE6D1E84177C00DE6BE9 /* MarkerMapView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MarkerMapView.xib; sourceTree = "<group>"; };
-		BB6ECE6F1E86466800DE6BE9 /* santen@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "santen@2x.png"; sourceTree = "<group>"; };
 		BB6ECE711E878F5D00DE6BE9 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		BB6FDDC61C3E92FD00C366A2 /* ZFRippleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZFRippleButton.swift; sourceTree = "<group>"; };
 		BB6FDDCF1C3E952700C366A2 /* GoogleMapsHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleMapsHelper.swift; sourceTree = "<group>"; };
@@ -184,12 +156,6 @@
 		BB87AD8F1CDB14C5003973D7 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		BB8B07211E4A144700CD02E8 /* UserData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		BB8B07231E4B273400CD02E8 /* GonowData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GonowData.swift; sourceTree = "<group>"; };
-		BB97CA961E7F837300C09006 /* machinbo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "machinbo@2x.png"; sourceTree = "<group>"; };
-		BB97CA9C1E80118700C09006 /* machinbo_title@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "machinbo_title@2x.png"; sourceTree = "<group>"; };
-		BB97CA9E1E80143700C09006 /* mappin_blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mappin_blue@2x.png"; sourceTree = "<group>"; };
-		BB97CAA01E814C9F00C09006 /* mappin_red@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mappin_red@2x.png"; sourceTree = "<group>"; };
-		BB97CAA21E814E0C00C09006 /* mappin_green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mappin_green@2x.png"; sourceTree = "<group>"; };
-		BB97CAA41E814EA000C09006 /* mappin_blue_big@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mappin_blue_big@2x.png"; sourceTree = "<group>"; };
 		BBA5C4931B3542F3005D062B /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMaps.framework; path = Pods/GoogleMaps/Frameworks/GoogleMaps.framework; sourceTree = "<group>"; };
 		BBC3A3ED1B3E7BB6002CBBE9 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		BBC3A3EF1B3E7BC1002CBBE9 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -337,7 +303,6 @@
 				BB58C8FD1E705AA300557B32 /* style.geojson */,
 				941312DF1E1FF2EB00374E05 /* Machinbo.entitlements */,
 				BB6FDE0B1C43AAF600C366A2 /* Model */,
-				BB6FDE001C3E9D0D00C366A2 /* Images */,
 				BB6FDDF31C3E998000C366A2 /* Controllers */,
 				BB6FDDD81C3E97E100C366A2 /* Views */,
 				BB6FDDCD1C3E952700C366A2 /* Helpers */,
@@ -345,6 +310,7 @@
 				BBEFA89A1B57BE99002EFC7A /* AppDelegate.swift */,
 				BBFEC6D71B92B7D90069137A /* Main.storyboard */,
 				9409F7921B2D994D0069DAE8 /* Assets.xcassets */,
+				BB4058E01E93C7E700B85E4B /* Images.xcassets */,
 				9409F7941B2D994D0069DAE8 /* LaunchScreen.xib */,
 				9409F7871B2D994D0069DAE8 /* Supporting Files */,
 			);
@@ -445,31 +411,6 @@
 				BB58C8F11E705A0900557B32 /* TransisionProtocol.swift */,
 			);
 			path = Controllers;
-			sourceTree = "<group>";
-		};
-		BB6FDE001C3E9D0D00C366A2 /* Images */ = {
-			isa = PBXGroup;
-			children = (
-				BB58C8D11E7059D800557B32 /* edit@2x.png */,
-				BB58C8D21E7059D800557B32 /* fukidashi.png */,
-				BB58C8D31E7059D800557B32 /* home@2x.png */,
-				BB97CA9C1E80118700C09006 /* machinbo_title@2x.png */,
-				BB58C8D41E7059D800557B32 /* logo_fb.png */,
-				BB58C8D51E7059D800557B32 /* logo_twitter.png */,
-				BB56B7F81E75A0B50095AD6C /* photo@2x.png */,
-				BB97CA9E1E80143700C09006 /* mappin_blue@2x.png */,
-				BB6ECE6F1E86466800DE6BE9 /* santen@2x.png */,
-				BB97CAA01E814C9F00C09006 /* mappin_red@2x.png */,
-				BB97CAA21E814E0C00C09006 /* mappin_green@2x.png */,
-				BB97CAA41E814EA000C09006 /* mappin_blue_big@2x.png */,
-				BB58C8D71E7059D800557B32 /* meetup@2x.png */,
-				BB58C8D91E7059D800557B32 /* profile_icon@2x.png */,
-				BB97CA961E7F837300C09006 /* machinbo@2x.png */,
-				BB58C8DA1E7059D800557B32 /* reload@2x.png */,
-				BB58C8DB1E7059D800557B32 /* search@2x.png */,
-				BB58C8DC1E7059D800557B32 /* settings@2x.png */,
-			);
-			path = Images;
 			sourceTree = "<group>";
 		};
 		BB6FDE0B1C43AAF600C366A2 /* Model */ = {
@@ -586,42 +527,25 @@
 			buildActionMask = 2147483647;
 			files = (
 				BB6FDDED1C3E97E100C366A2 /* MarkWindow.xib in Resources */,
-				BB58C8E61E7059D800557B32 /* reload@2x.png in Resources */,
 				BB6FDDEA1C3E97E100C366A2 /* GoNowTableViewCell.xib in Resources */,
-				BB58C8DF1E7059D800557B32 /* home@2x.png in Resources */,
-				BB97CA971E7F837300C09006 /* machinbo@2x.png in Resources */,
 				BB7A35441D9DCFE4008C1444 /* TwitterKitResources.bundle in Resources */,
-				BB56B7F91E75A0B50095AD6C /* photo@2x.png in Resources */,
-				BB97CAA51E814EA000C09006 /* mappin_blue_big@2x.png in Resources */,
 				BB6FDDF21C3E97E100C366A2 /* TargetProfileView.xib in Resources */,
 				BBFEC6D91B92B7D90069137A /* Main.storyboard in Resources */,
 				BB8474FA1CCEDC110001FFB8 /* ImakokoView.xib in Resources */,
 				BB6ECE6E1E84177C00DE6BE9 /* MarkerMapView.xib in Resources */,
 				BB58C8FE1E705AA300557B32 /* style.geojson in Resources */,
-				BB58C8E81E7059D800557B32 /* settings@2x.png in Resources */,
-				BB97CAA31E814E0C00C09006 /* mappin_green@2x.png in Resources */,
-				BB97CAA11E814C9F00C09006 /* mappin_red@2x.png in Resources */,
 				BB6ECE721E878F5E00DE6BE9 /* .gitignore in Resources */,
 				BB6FDDE71C3E97E100C366A2 /* DetailProfileTableViewCell.xib in Resources */,
 				BB6A358E1E894C4D00F6783C /* EntryView.xib in Resources */,
-				BB58C8E31E7059D800557B32 /* meetup@2x.png in Resources */,
-				BB97CA9F1E80143700C09006 /* mappin_blue@2x.png in Resources */,
 				BB6FDDEE1C3E97E100C366A2 /* PickerView.xib in Resources */,
 				BBD353581CDDCCB1007B1A1C /* SettingsView.xib in Resources */,
-				BB58C8E11E7059D800557B32 /* logo_twitter.png in Resources */,
 				9409F7961B2D994D0069DAE8 /* LaunchScreen.xib in Resources */,
-				BB97CA9D1E80118700C09006 /* machinbo_title@2x.png in Resources */,
 				BB6FDDE81C3E97E100C366A2 /* GoNowListView.xib in Resources */,
-				BB58C8E71E7059D800557B32 /* search@2x.png in Resources */,
-				BB58C8E51E7059D800557B32 /* profile_icon@2x.png in Resources */,
-				BB58C8DE1E7059D800557B32 /* fukidashi.png in Resources */,
 				9409F7931B2D994D0069DAE8 /* Assets.xcassets in Resources */,
 				BB6FDDEF1C3E97E100C366A2 /* ProfileView.xib in Resources */,
-				BB6ECE701E86466800DE6BE9 /* santen@2x.png in Resources */,
 				BB6FDDEB1C3E97E100C366A2 /* MapView.xib in Resources */,
 				BBC5E3A71E32150900EDE432 /* Info.plist in Resources */,
-				BB58C8E01E7059D800557B32 /* logo_fb.png in Resources */,
-				BB58C8DD1E7059D800557B32 /* edit@2x.png in Resources */,
+				BB4058E11E93C7E700B85E4B /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -81,7 +81,7 @@ class MarkerDraggableViewController: UIViewController, GMSMapViewDelegate, CLLoc
         
         if self.pinImage == nil {
             
-            self.pinImage = UIImageView(image: UIImage(named: "mappin_blue_big@2x.png"))
+            self.pinImage = UIImageView(image: UIImage(named: "mappin_blue_big"))
             self.pinImage.isUserInteractionEnabled = true
 
             self.view.addSubview(self.pinImage)

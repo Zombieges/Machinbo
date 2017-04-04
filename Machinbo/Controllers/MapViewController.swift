@@ -130,12 +130,12 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
         self.navigationController!.navigationBar.tintColor = UIColor.darkGray
         
         let titleView = UIImageView(frame:CGRect(x: 0, y: 0, width: 30, height: 30))
-        titleView.image = UIImage(named: "machinbo_title@2x.png")
+        titleView.image = UIImage(named: "machinbo_title")
         titleView.contentMode = .scaleAspectFit
         self.navigationItem.titleView = titleView
         
         let reloadButton = UIButton(type: .custom)
-        reloadButton.setImage(UIImage(named: "reload@2x.png"), for: UIControlState())
+        reloadButton.setImage(UIImage(named: "reload"), for: UIControlState())
         reloadButton.setTitleColor(.darkGray, for: UIControlState())
         reloadButton.addTarget(self, action: #selector(onClickReload), for: .touchUpInside)
         reloadButton.frame = CGRect(x: 0, y: 0, width: 22, height: 22)
@@ -145,7 +145,7 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
             [UIBarButtonItem(customView: reloadButton)]
         
         let seachButton = UIButton(type: .custom)
-        seachButton.setImage(UIImage(named: "search@2x.png"), for: UIControlState())
+        seachButton.setImage(UIImage(named: "search"), for: UIControlState())
         seachButton.setTitleColor(.darkGray, for: UIControlState())
         seachButton.addTarget(self, action: #selector(onClickSearch), for: .touchUpInside)
         seachButton.frame = CGRect(x: 0, y: 0, width: 22, height: 22)

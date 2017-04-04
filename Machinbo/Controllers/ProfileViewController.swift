@@ -72,7 +72,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             self.navigationItem.title = "プロフィールを登録してください"
             self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.darkGray]
             self.imakokoButton.isHidden = true
-            self.profilePicture.image = UIImage(named: "photo@2x.png")
+            self.profilePicture.image = UIImage(named: "photo")
             
             self.sections = ["", "プロフィール", "SNS"]
             
@@ -150,7 +150,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     private func setNavigationItemSettingButton() {
         /* 設定ボタンを付与 */
         let settingsButton: UIButton = UIButton(type: .custom)
-        settingsButton.setImage(UIImage(named: "settings@2x.png"), for: UIControlState())
+        settingsButton.setImage(UIImage(named: "settings"), for: UIControlState())
         settingsButton.addTarget(self, action: #selector(ProfileViewController.onClickSettingView), for: UIControlEvents.touchUpInside)
         settingsButton.frame = CGRect(x: 0, y: 0, width: 22, height: 22)
         
@@ -205,7 +205,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             }
             
             let imageData = UIImagePNGRepresentation(self.profilePicture.image!)
-            let imageFile = PFFile(name:"image.png", data:imageData!)
+            let imageFile = PFFile(name:"image", data:imageData!)
             
             result["ProfilePicture"] = imageFile
             result.saveInBackground { (success: Bool, error: Error?) -> Void in
@@ -569,7 +569,7 @@ extension ProfileViewController:  UITableViewDelegate {
             
             if indexPath.row == 0 {
                 normalCell?.textLabel?.text = snsItems[indexPath.row] as String
-                normalCell?.imageView?.image = UIImage(named: "logo_twitter.png")
+                normalCell?.imageView?.image = UIImage(named: "logo_twitter")
                 normalCell?.accessoryType = .disclosureIndicator
                 normalCell?.detailTextLabel?.text = twitterName as String
             }

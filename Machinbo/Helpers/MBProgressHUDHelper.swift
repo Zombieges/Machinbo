@@ -26,14 +26,13 @@ class MBProgressHUDHelper: NSObject {
 
     func show(_ view: UIView) {
         UIApplication.shared.keyWindow?.addSubview(progressHud)
-        progressHud.taskInProgress = true
-        progressHud.show(true)
+        progressHud.show(animated: true)
     }
     
     func hide() {
         DispatchQueue.main.async {
             if !self.progressHud.isHidden {
-                self.progressHud.hide(true)
+                self.progressHud.hide(animated: true)
             }
         }
     }   

@@ -181,6 +181,8 @@ class SettingsViewController: UIViewController, UINavigationControllerDelegate, 
             
             ParseHelper.deleteUserInfo(PersistentData.userID) { () -> () in
                 
+                MBProgressHUDHelper.sharedInstance.hide()
+                
                 UIAlertController.showAlertView("", message: "アカウントを削除しました") { _ in
                     let newRootVC = ProfileViewController()
                     let navigationController = UINavigationController(rootViewController: newRootVC)

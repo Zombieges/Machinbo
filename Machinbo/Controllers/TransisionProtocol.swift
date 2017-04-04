@@ -37,20 +37,11 @@ extension TransisionProtocol where
         let reachability = try! AMReachability.reachabilityForInternetConnection()
         if !reachability.isReachable() {
             print("インターネット接続なし")
-            UIAlertController.showAlertView("", message: "接続に失敗しました。通信状況を確認の上、再接続してくだささい。")
+            UIAlertController.showAlertView("", message: "接続に失敗しました。通信状況を確認の上、再接続してください。")
             return false
         }
         
-        print("インターネット接続あり")
         return true
-    }
-    
-    func textColorForHeader() -> UIColor {
-        return LayoutManager.getUIColorFromRGB(0x929292)
-    }
-    
-    func backgroundColorForHeader() -> UIColor {
-        return LayoutManager.getUIColorFromRGB(0xF6F2F3)
     }
     
     func errorAction() {

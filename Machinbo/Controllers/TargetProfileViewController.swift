@@ -102,7 +102,7 @@ class TargetProfileViewController:
         bannerView.load(GADRequest())
         
         //フル画面広告を取得
-        interstitial = GADInterstitial(adUnitID: ConfigData(type: .adMobFull).getPlistKey)
+        interstitial = GADInterstitial(adUnitID: ConfigData(type: .adMobMovie).getPlistKey)
         interstitial?.delegate = self
         let admobRequest:GADRequest = GADRequest()
         admobRequest.testDevices = [kGADSimulatorID]

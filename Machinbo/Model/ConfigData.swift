@@ -12,6 +12,7 @@ enum ConfigType: String {
     case adMobApp = "ADMOB_APP_ID"
     case adMobUnit = "ADMOB_UNIT_ID"
     case adMobFull = "ADMOB_FULL_UNIT_ID"
+    case adMobMovie = "ADMOB_MOVIE_UNIT_ID"
     case awsCognito = "AWS_CONGNITO_TEST"
     case awsSNS = "AWS_SNS_TEST"
     case googleMap = "GOOGLE_MAPS_API_KEY"

@@ -622,9 +622,9 @@ class TargetProfileViewController:
             if let deviceToken = self.targetUserInfo?.object(forKey: "DeviceToken"){
                 print("Device token = \(deviceToken)")
                 
-                NotificationHelper.sendSpecificDevice(PersistentData.name + "さんから現在地確認を受信しました", deviceTokenAsString: deviceToken as! String, badges: 1 as Int)
+                NotificationHelper.sendSpecificDevice(PersistentData.name + "さんから現在地送信依頼を受信しました。" + PersistentData.name + "さんに現在地を送信してください" , deviceTokenAsString: deviceToken as! String, badges: 1 as Int)
                 
-                UIAlertController.showAlertView("", message: "相手に現在位置確認を送信しました")
+                UIAlertController.showAlertView("", message: "相手に現在位置送信依頼を送信しました")
                 
                 MBProgressHUDHelper.sharedInstance.hide()
                 

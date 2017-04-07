@@ -461,7 +461,7 @@ class PickerViewController: UIViewController, UISearchBarDelegate {
                 PersistentData.imaikuUserList[targetUserObjectID!] = timeTargetIsAvailable
                 
                 // Send Notification
-                NotificationHelper.sendSpecificDevice(name! + "さんより「いまから行く」されました", deviceTokenAsString: targetDeviceToken!, badges: 1 as Int)
+                NotificationHelper.sendSpecificDevice(name! + "さんが「待ち合わせ場所」に向かいます。承認または削除してください", deviceTokenAsString: targetDeviceToken!, badges: 1 as Int)
                 
                 let alertMessage = "待ち合わせを申請しました。もっと高確率で出会えるサイトがありますが、確認しますか？"
                 UIAlertController.showAlertOKCancel("", message: alertMessage, actiontitle: "サイトを確認する") { action in

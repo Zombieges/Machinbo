@@ -622,25 +622,25 @@ extension ProfileViewController:  UITableViewDelegate {
         
         if indexPath.section == 1 {
             if indexPath.row == 0 {
-                let vc = PickerViewController(kind: PickerKind.name, inputValue: inputName as AnyObject)
+                let vc = PickerViewController(kind: .name, inputValue: inputName as AnyObject)
                 vc.delegate = self
                 
                 navigationController?.pushViewController(vc, animated: true)
                 
             } else if indexPath.row == 1 {
-                let vc = PickerViewController(kind: PickerKind.gender)
+                let vc = PickerViewController(kind: .gender)
                 vc.delegate = self
                 
                 navigationController?.pushViewController(vc, animated: true)
                 
             } else if indexPath.row == 2 {
-                let vc = PickerViewController(kind: PickerKind.age)
+                let vc = PickerViewController(kind: .age)
                 vc.delegate = self
                 
                 navigationController?.pushViewController(vc, animated: true)
                 
             } else if indexPath.row == 3 {
-                let vc = PickerViewController(kind: PickerKind.comment, inputValue: inputComment as AnyObject)
+                let vc = PickerViewController(kind: .comment, inputValue: inputComment as AnyObject)
                 vc.delegate = self
                 
                 navigationController?.pushViewController(vc, animated: true)
@@ -656,25 +656,25 @@ extension ProfileViewController:  UITableViewDelegate {
             
             if PersistentData.isRecruitment! {
                 if indexPath.row == 0 {
-                    let vc = PickerViewController(kind: PickerKind.imakokoDateFrom, inputValue: inputDateFrom as AnyObject)
+                    let vc = PickerViewController(kind: .imakokoDateFrom, inputValue: inputDateFrom as AnyObject)
                     vc.delegate = self
                     
                     self.navigationController?.pushViewController(vc, animated: true)
                     
                 } else if indexPath.row == 1 {
-                    let vc = PickerViewController(kind: PickerKind.imakokoDateFrom, inputValue: inputDateTo as AnyObject)
+                    let vc = PickerViewController(kind: .imakokoDateTo, inputValue: inputDateTo as AnyObject)
                     vc.delegate = self
                     
                     self.navigationController?.pushViewController(vc, animated: true)
                     
                 } else if indexPath.row == 2 {
-                    let vc = PickerViewController(kind: PickerKind.place, inputValue: inputPlace as AnyObject)
+                    let vc = PickerViewController(kind: .place, inputValue: inputPlace as AnyObject)
                     vc.delegate = self
                     
                     navigationController?.pushViewController(vc, animated: true)
                     
                 } else if indexPath.row == 3 {
-                    let vc = PickerViewController(kind: PickerKind.char, inputValue: inputChar as AnyObject)
+                    let vc = PickerViewController(kind: .char, inputValue: inputChar as AnyObject)
                     vc.delegate = self
                     
                     navigationController?.pushViewController(vc, animated: true)

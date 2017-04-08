@@ -283,12 +283,10 @@ class PickerViewController: UIViewController, UISearchBarDelegate {
             saveComment()
             
         } else if self.palKind == .imakokoDateFrom {
-            self.delegate!.setSelectedDate(self.inputMyDatePicker.date)
-            self.navigationController!.popViewController(animated: true)
+            saveDate()
             
         } else if self.palKind == .imakokoDateTo {
-            self.delegate!.setSelectedDate(self.inputMyDatePicker.date)
-            self.navigationController!.popViewController(animated: true)
+            saveDate()
             
         } else if self.palKind == .place {
             saveComment()
@@ -343,6 +341,57 @@ class PickerViewController: UIViewController, UISearchBarDelegate {
         }
         
         self.delegate!.setInputValue(self.inputTextField.text!, type: .name)
+        self.navigationController!.popViewController(animated: true)
+    }
+    
+    func saveDate() {
+        MBProgressHUDHelper.sharedInstance.show(self.view)
+        
+        ParseHelper.getMyUserInfomation(PersistentData.userID) { (error: NSError?, result: PFObject?) -> Void in
+            guard let result = result, error == nil else {
+                self.errorAction()
+                return
+            }
+            
+            switch self.palKind! {
+            case .imakokoDateFrom:
+                result["MarkTime"] = self.inputMyDatePicker.date
+            case .imakokoDateTo:
+                result["MarkTimeTo"] = self.inputMyDatePicker.date
+            default:break
+            }
+            
+            result.saveInBackground { (success: Bool, error: Error?) -> Void in
+                defer {
+                    MBProgressHUDHelper.sharedInstance.hide()
+                }
+                
+                guard success, error == nil else {
+                    self.errorAction()
+                    return
+                }
+                
+                switch self.palKind! {
+                case .imakokoDateFrom:
+                    PersistentData.markTimeFrom = self.inputMyDatePicker.date.formatter(format: .JP)
+                case .imakokoDateTo:
+                    PersistentData.markTimeTo = self.inputMyDatePicker.date.formatter(format: .JP)
+                default:break
+                }
+                
+                switch self.palKind! {
+                case .comment:
+                    PersistentData.comment = self.inputTextView.text
+                case .place:
+                    PersistentData.place = self.inputTextView.text
+                default:break
+                }
+                
+                print("saved worked")
+            }
+        }
+        
+        self.delegate!.setSelectedDate(self.inputMyDatePicker.date)
         self.navigationController!.popViewController(animated: true)
     }
     

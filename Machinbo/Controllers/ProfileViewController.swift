@@ -47,12 +47,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     let identifier = "Cell"
     let detailTableViewCellIdentifier: String = "DetailCell"
     
-    private lazy var dateFormatter: DateFormatter = {
-        var formatter = DateFormatter()
-        formatter.dateFormat = "yyyy年M月d日 H:mm"
-        return formatter
-    }()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -261,10 +255,10 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     
     internal func setSelectedDate(_ selectedDate: Date) {
         if selectedRow == 0 {
-            self.inputDateFrom  = self.dateFormatter.string(from: selectedDate)
+            self.inputDateFrom  = selectedDate.formatter(format: .JP)
             
         } else if selectedRow == 1 {
-            self.inputDateTo  = self.dateFormatter.string(from: selectedDate)
+            self.inputDateTo  = selectedDate.formatter(format: .JP)
         }
         
         self.tableView.reloadData()
@@ -511,6 +505,7 @@ extension ProfileViewController:  UITableViewDelegate {
         
         let tableViewCellIdentifier = "Cell"
         cell = tableView.dequeueReusableCell(withIdentifier: identifier)
+        cell?.imageView?.image = nil
         if cell == nil {
             cell = UITableViewCell(style: .value1, reuseIdentifier: identifier)
         }
@@ -518,6 +513,7 @@ extension ProfileViewController:  UITableViewDelegate {
         if indexPath.section == 1 {
             if indexPath.row < 3 {
                 var normalCell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier)
+                normalCell?.imageView?.image = nil
                 if normalCell == nil {
                     normalCell = UITableViewCell(style: .value1, reuseIdentifier: tableViewCellIdentifier)
                 }
@@ -543,7 +539,7 @@ extension ProfileViewController:  UITableViewDelegate {
                     
                 }
                 
-                cell = normalCell
+                return normalCell!
                 
             } else {
                 let detailCell = tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? DetailProfileTableViewCell
@@ -553,13 +549,12 @@ extension ProfileViewController:  UITableViewDelegate {
                     detailCell?.valueLabel.text = inputComment as String
                 }
                 
-                cell = detailCell
+                return detailCell!
             }
-            
-            return cell!
             
         } else if indexPath.section == 2 {
             var normalCell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier)
+            normalCell?.imageView?.image = nil
             if normalCell == nil {
                 normalCell = UITableViewCell(style: .value1, reuseIdentifier: tableViewCellIdentifier)
             }
@@ -573,13 +568,12 @@ extension ProfileViewController:  UITableViewDelegate {
                 normalCell?.accessoryType = .disclosureIndicator
                 normalCell?.detailTextLabel?.text = twitterName as String
             }
-            
-            cell = normalCell
-            
-            return cell!
+
+            return normalCell!
             
         } else if indexPath.section == 3 {
             var normalCell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier)
+            normalCell?.imageView?.image = nil
             if normalCell == nil {
                 normalCell = UITableViewCell(style: .value1, reuseIdentifier: tableViewCellIdentifier)
             }
@@ -592,14 +586,14 @@ extension ProfileViewController:  UITableViewDelegate {
                 normalCell?.accessoryType = .disclosureIndicator
                 normalCell?.detailTextLabel?.text = self.inputDateFrom
                 
-                cell = normalCell
+                return normalCell!
                 
             } else if indexPath.row == 1 {
                 normalCell?.textLabel?.text = otherItems[indexPath.row]
                 normalCell?.accessoryType = .disclosureIndicator
                 normalCell?.detailTextLabel?.text = self.inputDateTo
                 
-                cell = normalCell
+                return normalCell!
                 
             } else if indexPath.row == 2 {
                 let detailCell = tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? DetailProfileTableViewCell
@@ -607,7 +601,7 @@ extension ProfileViewController:  UITableViewDelegate {
                 detailCell?.titleLabel.text = otherItems[indexPath.row]
                 detailCell?.valueLabel.text = self.inputPlace
                 
-                cell = detailCell
+                return detailCell!
                 
             } else if indexPath.row == 3 {
                 let detailCell = tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? DetailProfileTableViewCell
@@ -615,10 +609,8 @@ extension ProfileViewController:  UITableViewDelegate {
                 detailCell?.titleLabel.text = otherItems[indexPath.row]
                 detailCell?.valueLabel.text = self.inputChar
                 
-                cell = detailCell
+                return detailCell!
             }
-            
-            return cell!
         }
         
         return UITableViewCell()

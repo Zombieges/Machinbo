@@ -22,6 +22,7 @@
 		BB4058DB1E93C31300B85E4B /* LayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4058D91E93C31300B85E4B /* LayoutManager.swift */; };
 		BB4058DD1E93C54500B85E4B /* AMReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4058DC1E93C54500B85E4B /* AMReachability.swift */; };
 		BB4058E11E93C7E700B85E4B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BB4058E01E93C7E700B85E4B /* Images.xcassets */; };
+		BB4058E31E9863E200B85E4B /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4058E21E9863E200B85E4B /* Date+Extension.swift */; };
 		BB4B3E6F1B5A001200183F62 /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BB4B3E6E1B5A001200183F62 /* libstdc++.6.dylib */; };
 		BB4B3E701B5A009500183F62 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BBC3A3FD1B3E7C2B002CBBE9 /* libz.dylib */; };
 		BB4B3E721B5A009F00183F62 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB4B3E711B5A009F00183F62 /* Accounts.framework */; };
@@ -117,6 +118,7 @@
 		BB4058D91E93C31300B85E4B /* LayoutManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayoutManager.swift; sourceTree = "<group>"; };
 		BB4058DC1E93C54500B85E4B /* AMReachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AMReachability.swift; sourceTree = "<group>"; };
 		BB4058E01E93C7E700B85E4B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		BB4058E21E9863E200B85E4B /* Date+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		BB4B3E6E1B5A001200183F62 /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
 		BB4B3E711B5A009F00183F62 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		BB4B3E731B5A00A600183F62 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
@@ -371,6 +373,7 @@
 				BB6FDDD21C3E952700C366A2 /* UIAlertView+Custom.swift */,
 				BB36D8DA1D0D184E00266BB6 /* LocationManager.swift */,
 				BB36D8DF1D0E295000266BB6 /* UIViewExtensions.swift */,
+				BB4058E21E9863E200B85E4B /* Date+Extension.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -675,6 +678,7 @@
 				BB36D8E01D0E295000266BB6 /* UIViewExtensions.swift in Sources */,
 				BB8B07221E4A144700CD02E8 /* UserData.swift in Sources */,
 				BB6FDDD71C3E952700C366A2 /* UIAlertView+Custom.swift in Sources */,
+				BB4058E31E9863E200B85E4B /* Date+Extension.swift in Sources */,
 				BB6FDDD41C3E952700C366A2 /* GoogleMapsHelper.swift in Sources */,
 				BB58C8F71E705A0900557B32 /* ProfileViewController.swift in Sources */,
 				BB4058D51E93BF5900B85E4B /* StyleConst.swift in Sources */,

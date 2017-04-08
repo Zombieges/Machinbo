@@ -56,18 +56,6 @@ class TargetProfileViewController:
     private let detailTableViewCellIdentifier = "DetailCell"
     private let mapTableViewCellIdentifier = "MapCell"
     
-    private lazy var dateFormatter: DateFormatter = {
-        var formatter = DateFormatter()
-        formatter.dateFormat = "yyyy年M月d日 H:mm"
-        return formatter
-    }()
-
-    private lazy var dateFormatterYYYYMMDD: DateFormatter = {
-        var formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-M-d"
-        return formatter
-    }()
-    
     init (type: ProfileType) {
         super.init(nibName: nil, bundle: nil)
         self.type = type
@@ -256,7 +244,7 @@ class TargetProfileViewController:
             } else if indexPath.row == 2 {
                 normalCell?.textLabel?.text = otherItems[indexPath.row]
                 if let data = self.gonowInfo?.GotoAt {
-                    normalCell?.detailTextLabel?.text = dateFormatter.string(from: data)
+                    normalCell?.detailTextLabel?.text = data.formatter(format: .JP)
                 }
                 
                 cell = normalCell
@@ -345,8 +333,8 @@ class TargetProfileViewController:
         print("imaikuUserList \(PersistentData.imaikuUserList)")
         
         if let imaikuClickDate = PersistentData.isImaikuClick {
-            let imaikuClickDateYYYYMMDD = dateFormatterYYYYMMDD.string(from: imaikuClickDate)
-            let nowDateYYYYMMDD = dateFormatterYYYYMMDD.string(from: Date())
+            let imaikuClickDateYYYYMMDD = imaikuClickDate.formatter(format: .AD)
+            let nowDateYYYYMMDD = Date().formatter(format: .AD)
             
             if imaikuClickDateYYYYMMDD == nowDateYYYYMMDD {
                 UIAlertController.showAlertOKCancel("", message: "一日に複数回約束をすることができません", actiontitle: "動画を見て約束を開放する") { action in
@@ -763,7 +751,7 @@ class TargetProfileViewController:
     
     func getDateformatStringForUserInfo(keyString: String) -> String {
         if let data = (self.targetUserInfo as AnyObject).object(forKey: keyString) {
-            return dateFormatter.string(from: data as! Date)
+            return (data as! Date).formatter(format: .JP)
         }
         
         return ""

@@ -35,12 +35,7 @@ class GoNowViewController:
     private let detailTableViewCellIdentifier = "DetailCell"
     private let targetProfileItems = ["何時から", "何時まで", "待ち合わせ場所", "私の特徴"]
     private var selectedRow: Int = 0
-    private lazy var dateFormatter: DateFormatter = {
-        var formatter = DateFormatter()
-        formatter.dateFormat = "yyyy年M月d日 H:mm"
-        return formatter
-    }()
-    
+
     override func loadView() {
         if let view = UINib(nibName: "ImakokoView", bundle: nil).instantiate(withOwner: self, options: nil).first as? UIView {
             self.view = view
@@ -79,7 +74,7 @@ class GoNowViewController:
             normalCell?.textLabel?.text = self.targetProfileItems[indexPath.row]
             normalCell?.accessoryType = .disclosureIndicator
             if let input = self.inputDateFrom {
-                let formatDateString = self.dateFormatter.string(from: input)
+                let formatDateString = input.formatter(format: .JP)
                 normalCell?.detailTextLabel?.text = formatDateString
             }
             
@@ -89,7 +84,7 @@ class GoNowViewController:
             normalCell?.textLabel?.text = self.targetProfileItems[indexPath.row]
             normalCell?.accessoryType = .disclosureIndicator
             if let inputDateTo = self.inputDateTo {
-                let formatDateString = self.dateFormatter.string(from: inputDateTo)
+                let formatDateString = inputDateTo.formatter(format: .JP)
                 normalCell?.detailTextLabel?.text = formatDateString
             }
             
@@ -185,12 +180,12 @@ class GoNowViewController:
                     return
                 }
                 
-                if self.inputDateFrom != nil {
-                    PersistentData.markTimeFrom =  self.dateFormatter.string(from: self.inputDateFrom!)
+                if let inputDateFrom = self.inputDateFrom {
+                    PersistentData.markTimeFrom = inputDateFrom.formatter(format: .JP)
                 }
                 
-                if self.inputDateTo != nil {
-                    PersistentData.markTimeTo = self.dateFormatter.string(from: self.inputDateTo!)
+                if let inputDateTo = self.inputDateTo {
+                    PersistentData.markTimeTo = inputDateTo.formatter(format: .JP)
                 }
                 
                 PersistentData.place = self.inputPlace

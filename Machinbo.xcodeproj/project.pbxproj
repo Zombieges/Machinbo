@@ -15,7 +15,7 @@
 		94A91D401CC448B1004E7652 /* MBProgressHUDHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A91D3F1CC448B1004E7652 /* MBProgressHUDHelper.swift */; };
 		BB1A1E5B1CE93B190090E72D /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB1A1E5A1CE93B190090E72D /* MessageUI.framework */; };
 		BB36D8DB1D0D184E00266BB6 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB36D8DA1D0D184E00266BB6 /* LocationManager.swift */; };
-		BB36D8E01D0E295000266BB6 /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB36D8DF1D0E295000266BB6 /* UIViewExtensions.swift */; };
+		BB36D8E01D0E295000266BB6 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB36D8DF1D0E295000266BB6 /* UIView+Extension.swift */; };
 		BB3858D81D803C17006637F6 /* NotificationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3858D71D803C16006637F6 /* NotificationHelper.swift */; };
 		BB4058D51E93BF5900B85E4B /* StyleConst.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4058D41E93BF5900B85E4B /* StyleConst.swift */; };
 		BB4058D71E93C01100B85E4B /* PersistentData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4058D61E93C01100B85E4B /* PersistentData.swift */; };
@@ -44,7 +44,7 @@
 		BB6FDDC71C3E92FD00C366A2 /* ZFRippleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6FDDC61C3E92FD00C366A2 /* ZFRippleButton.swift */; };
 		BB6FDDD41C3E952700C366A2 /* GoogleMapsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6FDDCF1C3E952700C366A2 /* GoogleMapsHelper.swift */; };
 		BB6FDDD51C3E952700C366A2 /* ParseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6FDDD01C3E952700C366A2 /* ParseHelper.swift */; };
-		BB6FDDD71C3E952700C366A2 /* UIAlertView+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6FDDD21C3E952700C366A2 /* UIAlertView+Custom.swift */; };
+		BB6FDDD71C3E952700C366A2 /* UIAlertView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6FDDD21C3E952700C366A2 /* UIAlertView+Extension.swift */; };
 		BB6FDDE61C3E97E100C366A2 /* DetailProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6FDDD91C3E97E100C366A2 /* DetailProfileTableViewCell.swift */; };
 		BB6FDDE71C3E97E100C366A2 /* DetailProfileTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB6FDDDA1C3E97E100C366A2 /* DetailProfileTableViewCell.xib */; };
 		BB6FDDE81C3E97E100C366A2 /* GoNowListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB6FDDDB1C3E97E100C366A2 /* GoNowListView.xib */; };
@@ -111,7 +111,7 @@
 		BB1A1E5A1CE93B190090E72D /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		BB36D8DA1D0D184E00266BB6 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		BB36D8DE1D0D57A100266BB6 /* Bridging_Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bridging_Header.h; sourceTree = "<group>"; };
-		BB36D8DF1D0E295000266BB6 /* UIViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
+		BB36D8DF1D0E295000266BB6 /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		BB3858D71D803C16006637F6 /* NotificationHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationHelper.swift; sourceTree = "<group>"; };
 		BB4058D41E93BF5900B85E4B /* StyleConst.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StyleConst.swift; sourceTree = "<group>"; };
 		BB4058D61E93C01100B85E4B /* PersistentData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentData.swift; sourceTree = "<group>"; };
@@ -140,7 +140,7 @@
 		BB6FDDC61C3E92FD00C366A2 /* ZFRippleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZFRippleButton.swift; sourceTree = "<group>"; };
 		BB6FDDCF1C3E952700C366A2 /* GoogleMapsHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleMapsHelper.swift; sourceTree = "<group>"; };
 		BB6FDDD01C3E952700C366A2 /* ParseHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseHelper.swift; sourceTree = "<group>"; };
-		BB6FDDD21C3E952700C366A2 /* UIAlertView+Custom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIAlertView+Custom.swift"; sourceTree = "<group>"; };
+		BB6FDDD21C3E952700C366A2 /* UIAlertView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIAlertView+Extension.swift"; sourceTree = "<group>"; };
 		BB6FDDD91C3E97E100C366A2 /* DetailProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailProfileTableViewCell.swift; sourceTree = "<group>"; };
 		BB6FDDDA1C3E97E100C366A2 /* DetailProfileTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailProfileTableViewCell.xib; sourceTree = "<group>"; };
 		BB6FDDDB1C3E97E100C366A2 /* GoNowListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GoNowListView.xib; sourceTree = "<group>"; };
@@ -370,9 +370,9 @@
 				94A91D3F1CC448B1004E7652 /* MBProgressHUDHelper.swift */,
 				BB6FDDCF1C3E952700C366A2 /* GoogleMapsHelper.swift */,
 				BB6FDDD01C3E952700C366A2 /* ParseHelper.swift */,
-				BB6FDDD21C3E952700C366A2 /* UIAlertView+Custom.swift */,
+				BB6FDDD21C3E952700C366A2 /* UIAlertView+Extension.swift */,
 				BB36D8DA1D0D184E00266BB6 /* LocationManager.swift */,
-				BB36D8DF1D0E295000266BB6 /* UIViewExtensions.swift */,
+				BB36D8DF1D0E295000266BB6 /* UIView+Extension.swift */,
 				BB4058E21E9863E200B85E4B /* Date+Extension.swift */,
 			);
 			path = Helpers;
@@ -675,9 +675,9 @@
 			files = (
 				BB4058DD1E93C54500B85E4B /* AMReachability.swift in Sources */,
 				BB6A35921E8A9C7C00F6783C /* ConfigData.swift in Sources */,
-				BB36D8E01D0E295000266BB6 /* UIViewExtensions.swift in Sources */,
+				BB36D8E01D0E295000266BB6 /* UIView+Extension.swift in Sources */,
 				BB8B07221E4A144700CD02E8 /* UserData.swift in Sources */,
-				BB6FDDD71C3E952700C366A2 /* UIAlertView+Custom.swift in Sources */,
+				BB6FDDD71C3E952700C366A2 /* UIAlertView+Extension.swift in Sources */,
 				BB4058E31E9863E200B85E4B /* Date+Extension.swift in Sources */,
 				BB6FDDD41C3E952700C366A2 /* GoogleMapsHelper.swift in Sources */,
 				BB58C8F71E705A0900557B32 /* ProfileViewController.swift in Sources */,

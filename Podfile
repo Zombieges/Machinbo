@@ -16,6 +16,9 @@ target 'Machinbo' do
     pod 'TwitterKit'
     pod 'Fabric'
     pod 'TwitterCore'
+    pod 'JTSImageViewController'
+    #pod 'PhotoTweaks'
+    pod 'TOCropViewController'
 end
 
 target 'MachinboTests' do

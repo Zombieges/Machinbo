@@ -587,24 +587,6 @@ class TargetProfileViewController:
             
             if action == .cancel { return }
             
-            //MBProgressHUDHelper.show("Loading...")
-            
-            //            ParseHelper.getMyGoNow(PersistentData.userID) { (error: NSError?, result) -> Void in
-            //
-            //                defer {
-            //                    MBProgressHUDHelper.hide()
-            //                }
-            //
-            //                guard error == nil else {
-            //                    return
-            //                }
-            //
-            //                //result?.objectForKey("userGPS") =
-            //
-            //
-            //                UIAlertController.showAlertView("", message: "相手に現在位置確認を送信しました")
-            //            }
-            
             MBProgressHUDHelper.sharedInstance.show(self.view)
             // Notification push
             if let deviceToken = self.targetUserInfo?.object(forKey: "DeviceToken"){
@@ -615,9 +597,7 @@ class TargetProfileViewController:
                 UIAlertController.showAlertView("", message: "相手に現在位置送信依頼を送信しました")
                 
                 MBProgressHUDHelper.sharedInstance.hide()
-                
             }
-
         }
     }
     
@@ -716,8 +696,7 @@ class TargetProfileViewController:
     
     func didClickImageView(_ recognizer: UIGestureRecognizer) {
         if let imageView = recognizer.view as? UIImageView {
-            let vc = PickerViewController(kind: .imageView, inputValue: UIImageView(image: imageView.image))
-            self.navigationController!.pushViewController(vc, animated: true)
+            imageView.jtsImage(viewController: self)
         }
     }
     
@@ -738,7 +717,7 @@ class TargetProfileViewController:
             NSLog("One or more of the map styles failed to load. \(error)")
         }
         
-        if type == ProfileType.meetupProfile || type == ProfileType.receiveProfile {
+        if type == .meetupProfile || type == .receiveProfile {
             //↓こっちは待ち合わせ画面から来た場合
             GoogleMapsHelper.setUserPin(gmaps, gonowInfo: (self.gonowInfo?.pfObject)!)
             

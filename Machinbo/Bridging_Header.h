@@ -13,6 +13,7 @@
 #import <AWSSNS/AWSSNS.h>
 #import <AWSCognito/AWSCognito.h>
 #import <MBProgressHUD/MBProgressHUD.h>
-
+#import <JTSImageViewController/JTSImageViewController.h>
+#import <TOCropViewController/TOCropViewController.h>
 
 #endif /* Bridging_Header_h */

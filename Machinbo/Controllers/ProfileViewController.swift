@@ -14,13 +14,17 @@ import SpriteKit
 import MBProgressHUD
 import GoogleMobileAds
 import TwitterKit
+import JTSImageViewController
+import TOCropViewController
 
-class ProfileViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIPickerViewDelegate, PickerViewControllerDelegate, GADBannerViewDelegate, GADInterstitialDelegate, TransisionProtocol {
+class ProfileViewController: UIViewController, UINavigationControllerDelegate, TOCropViewControllerDelegate, UIImagePickerControllerDelegate, UIPickerViewDelegate, PickerViewControllerDelegate, GADBannerViewDelegate, GADInterstitialDelegate, TransisionProtocol {
     
     @IBOutlet weak var profilePicture: UIImageView!
     @IBOutlet weak var startButton: ZFRippleButton!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var imakokoButton: UIButton!
+    
+    var cropViewController = TOCropViewController()
     
     let photoItems = ["フォト"]
     let profileItems = ["名前", "性別", "生まれた年", "プロフィール"]
@@ -28,7 +32,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     let otherItems = ["何時から", "何時まで", "待ち合わせ場所", "私の特徴"]
     var sections = ["", "プロフィール", "SNS", "待ち合わせ情報"]
     
-    let picker = UIImagePickerController()
+    let imagePicker = UIImagePickerController()
     
     var gender = ""
     var age = ""
@@ -145,7 +149,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         /* 設定ボタンを付与 */
         let settingsButton: UIButton = UIButton(type: .custom)
         settingsButton.setImage(UIImage(named: "settings"), for: UIControlState())
-        settingsButton.addTarget(self, action: #selector(ProfileViewController.onClickSettingView), for: UIControlEvents.touchUpInside)
+        settingsButton.addTarget(self, action: #selector(onClickSettingView), for: UIControlEvents.touchUpInside)
         settingsButton.frame = CGRect(x: 0, y: 0, width: 22, height: 22)
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: settingsButton)
@@ -157,13 +161,13 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     
     // profilePicture タップ時の処理
     internal func tapGesture(_ sender: UITapGestureRecognizer){
-        self.picker.delegate = self
-        self.picker.sourceType = UIImagePickerControllerSourceType.photoLibrary
-        self.picker.allowsEditing = false
+        self.imagePicker.delegate = self
+        self.imagePicker.sourceType = .photoLibrary
+        self.imagePicker.allowsEditing = false
+        self.imagePicker.modalPresentationStyle = .overFullScreen
         
-        present(self.picker, animated: true, completion: nil)
+        present(self.imagePicker, animated: true, completion: nil)
     }
-    
     
     // 写真選択時の処理
     internal func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
@@ -174,33 +178,43 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             return
         }
         
-        let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+        let screenWidth = UIScreen.main.bounds.size.width
+        let image = (info[UIImagePickerControllerOriginalImage] as! UIImage).resize(newWidth: screenWidth)
         
-        let displaySize = UIScreen.main.bounds.size.width
-        let resizedSize = CGSize(width: displaySize, height: displaySize)
-        UIGraphicsBeginImageContext(resizedSize)
+        let imageSize = profilePicture.image?.size.width
         
-        image.draw(in: CGRect(x: 0, y: 0, width: resizedSize.width, height: resizedSize.height))
-        let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        self.profilePicture.image = resizedImage
-        imageMolding(self.profilePicture)
+        self.cropViewController = TOCropViewController(image: image)
+        self.cropViewController.imageCropFrame = CGRect(x: 0, y: 0, width: imageSize!, height: imageSize!)
+        self.cropViewController.delegate = self
+        self.cropViewController.aspectRatioLockEnabled = true
+        self.cropViewController.resetAspectRatioEnabled = false
+        self.cropViewController.rotateButtonsHidden = true
+        self.cropViewController.aspectRatioPreset = .presetSquare
+        self.present(cropViewController, animated: true, completion: nil)
+    }
+    
+    // 写真選択画面でキャンセルした場合の処理
+    internal func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func cropViewController(_ cropViewController: TOCropViewController, didCropToImage image: UIImage, rect cropRect: CGRect, angle: Int) {
+        self.profilePicture.image = image
         
         guard PersistentData.userID != "" else {
             PersistentData.profileImage = self.profilePicture.image!
             return
         }
-        
+
         ParseHelper.getMyUserInfomation(PersistentData.userID) { (error: NSError?, result: PFObject?) -> Void in
             guard let result = result, error == nil else {
                 self.errorAction()
                 return
             }
-            
+
             let imageData = UIImagePNGRepresentation(self.profilePicture.image!)
             let imageFile = PFFile(name:"image", data:imageData!)
-            
+
             result["ProfilePicture"] = imageFile
             result.saveInBackground { (success: Bool, error: Error?) -> Void in
                 guard success, error == nil else {
@@ -209,14 +223,10 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
                 }
                 
                 PersistentData.profileImage = self.profilePicture.image!
-                //self.navigationController!.popViewControllerAnimated(true)
             }
         }
-    }
-    
-    // 写真選択画面でキャンセルした場合の処理
-    internal func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        dismiss(animated: true, completion: nil)
+
+        cropViewController.dismiss(animated: true, completion: nil)
     }
     
     // PickerViewController より性別を選択した際に実行される処理

@@ -57,7 +57,8 @@ class NotificationHelper{
                         let request = AWSSNSPublishInput()
                         request?.messageStructure = "json"
                         
-                        let dict = ["APNS_SANDBOX": "{\"aps\":{\"\(type)\": \"\(message)\",\"sound\":\"\(sound)\", \"badge\":\(badges)} }"]
+                        //let dict = ["APNS_SANDBOX": "{\"aps\":{\"\(type)\": \"\(message)\",\"sound\":\"\(sound)\", \"badge\":\(badges)} }"]
+                        let dict = ["APNS": "{\"aps\":{\"\(type)\": \"\(message)\",\"sound\":\"\(sound)\", \"badge\":\(badges)} }"]
                         
                         do
                         {

@@ -201,8 +201,9 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, T
     func cropViewController(_ cropViewController: TOCropViewController, didCropToImage image: UIImage, rect cropRect: CGRect, angle: Int) {
         self.profilePicture.image = image
         
-        guard PersistentData.userID != "" else {
+        if PersistentData.userID == ""  {
             PersistentData.profileImage = self.profilePicture.image!
+            cropViewController.dismiss(animated: true, completion: nil)
             return
         }
 

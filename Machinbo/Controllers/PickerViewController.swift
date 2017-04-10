@@ -22,6 +22,7 @@ enum PickerKind {
     case age
     case name
     case comment
+    case imakokoDate
     case imakokoDateFrom
     case imakokoDateTo
     case place
@@ -129,6 +130,8 @@ class PickerViewController: UIViewController, UISearchBarDelegate {
             prepareCommentField(displayWidth, displayHeight: 200)
         case .imakoko:
             prepareCommentField(displayWidth, displayHeight: 200)
+        case .imakokoDate:
+            prepareDatePickerField(displayWidth)
         case .imaiku:
             prepareImaikuField()
             prepareDatePickerField(displayWidth)
@@ -282,6 +285,10 @@ class PickerViewController: UIViewController, UISearchBarDelegate {
         } else if self.palKind == .comment {
             saveComment()
             
+        } else if self.palKind == .imakokoDate {
+            self.delegate!.setSelectedDate(self.inputMyDatePicker.date)
+            self.navigationController!.popViewController(animated: true)
+
         } else if self.palKind == .imakokoDateFrom {
             saveDate()
             
@@ -376,14 +383,6 @@ class PickerViewController: UIViewController, UISearchBarDelegate {
                     PersistentData.markTimeFrom = self.inputMyDatePicker.date.formatter(format: .JP)
                 case .imakokoDateTo:
                     PersistentData.markTimeTo = self.inputMyDatePicker.date.formatter(format: .JP)
-                default:break
-                }
-                
-                switch self.palKind! {
-                case .comment:
-                    PersistentData.comment = self.inputTextView.text
-                case .place:
-                    PersistentData.place = self.inputTextView.text
                 default:break
                 }
                 

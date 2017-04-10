@@ -124,23 +124,23 @@ class GoNowViewController:
         guard indexPath.section == 0 else { return }
         
         if indexPath.row == 0 {
-            let vc = PickerViewController(kind: PickerKind.imakokoDateFrom, inputValue: self.inputDateFrom as AnyObject)
+            let vc = PickerViewController(kind:.imakokoDate, inputValue: self.inputDateFrom as AnyObject)
             vc.delegate = self
             self.navigationController?.pushViewController(vc, animated: true)
             
         } else if indexPath.row == 1 {
-            let vc = PickerViewController(kind: PickerKind.imakokoDateTo, inputValue: self.inputDateTo as AnyObject)
+            let vc = PickerViewController(kind: .imakokoDate, inputValue: self.inputDateTo as AnyObject)
             vc.delegate = self
             
             self.navigationController?.pushViewController(vc, animated: true)
             
         } else if indexPath.row == 2 {
-            let vc = PickerViewController(kind: PickerKind.imakoko, inputValue: self.inputPlace as AnyObject)
+            let vc = PickerViewController(kind: .imakoko, inputValue: self.inputPlace as AnyObject)
             vc.delegate = self
             self.navigationController?.pushViewController(vc, animated: true)
             
         } else if indexPath.row == 3 {
-            let vc = PickerViewController(kind: PickerKind.imakoko, inputValue: self.inputChar as AnyObject)
+            let vc = PickerViewController(kind: .imakoko, inputValue: self.inputChar as AnyObject)
             vc.delegate = self
             
             self.navigationController?.pushViewController(vc, animated: true)

@@ -71,6 +71,8 @@ class TargetProfileViewController:
         }
         
         PersistentData().deleteUserIDForKey("imaikuFlag")
+        var name = (self.targetUserInfo as AnyObject).object(forKey: "Name") as? String
+        self.navigationItem.title = name
         
         self.setHeader()
         self.createRefreshControl()
@@ -92,9 +94,7 @@ class TargetProfileViewController:
         //フル画面広告を取得
         interstitial = GADInterstitial(adUnitID: ConfigData(type: .adMobMovie).getPlistKey)
         interstitial?.delegate = self
-        let admobRequest:GADRequest = GADRequest()
-        admobRequest.testDevices = [kGADSimulatorID]
-        interstitial?.load(admobRequest)
+        interstitial?.load(GADRequest())
         
         // 相手が自分のことをブロックしている場合
         if let targetUserBlockList = self.targetUserInfo?.object(forKey: "blockUserList") {

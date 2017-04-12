@@ -511,23 +511,30 @@ class PickerViewController: UIViewController, UISearchBarDelegate {
                 // Send Notification
                 NotificationHelper.sendSpecificDevice(name! + "さんが「待ち合わせ場所」に向かいます。承認または削除してください", deviceTokenAsString: targetDeviceToken!, badges: 1 as Int)
                 
-                let alertMessage = "待ち合わせを申請しました。もっと高確率で出会えるサイトがありますが、確認しますか？"
-                UIAlertController.showAlertOKCancel("", message: alertMessage, actiontitle: "サイトを確認する") { action in
-                    
+                let alertMessage = "待ち合わせを申請しました。"
+                UIAlertController.showAlertView("", message: alertMessage) { action in
                     PersistentData.isImaikuClick = Date()
                     
-                    if action == .cancel {
-                        self.navigationController!.popToRootViewController(animated: true)
-                        return
-                    }
-                    
                     self.navigationController!.popToRootViewController(animated: true)
-                    
-                    // 表示完了時の処理
-                    if self.interstitial!.isReady {
-                        self.interstitial!.present(fromRootViewController: self)
-                    }
                 }
+                
+//                let alertMessage = "待ち合わせを申請しました。もっと高確率で出会えるサイトがありますが、確認しますか？"
+//                UIAlertController.showAlertOKCancel("", message: alertMessage, actiontitle: "サイトを確認する") { action in
+//                    
+//                    PersistentData.isImaikuClick = Date()
+//                    
+//                    if action == .cancel {
+//                        self.navigationController!.popToRootViewController(animated: true)
+//                        return
+//                    }
+//                    
+//                    self.navigationController!.popToRootViewController(animated: true)
+//                    
+//                    // 表示完了時の処理
+//                    if self.interstitial!.isReady {
+//                        self.interstitial!.present(fromRootViewController: self)
+//                    }
+//                }
             }
         }
     }

@@ -20,6 +20,7 @@
 		BB3858D81D803C17006637F6 /* NotificationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3858D71D803C16006637F6 /* NotificationHelper.swift */; };
 		BB3886CF1E98E7C400A21525 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3886CE1E98E7C400A21525 /* UIViewController+Extension.swift */; };
 		BB38CB7E1E9A647500653A18 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB38CB7D1E9A647500653A18 /* UIImage+Extension.swift */; };
+		BB38CB801E9E4EA400653A18 /* TextFiled.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB38CB7F1E9E4EA300653A18 /* TextFiled.xib */; };
 		BB4058D51E93BF5900B85E4B /* StyleConst.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4058D41E93BF5900B85E4B /* StyleConst.swift */; };
 		BB4058D71E93C01100B85E4B /* PersistentData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4058D61E93C01100B85E4B /* PersistentData.swift */; };
 		BB4058DB1E93C31300B85E4B /* LayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4058D91E93C31300B85E4B /* LayoutManager.swift */; };
@@ -119,6 +120,7 @@
 		BB3858D71D803C16006637F6 /* NotificationHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationHelper.swift; sourceTree = "<group>"; };
 		BB3886CE1E98E7C400A21525 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		BB38CB7D1E9A647500653A18 /* UIImage+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		BB38CB7F1E9E4EA300653A18 /* TextFiled.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextFiled.xib; sourceTree = "<group>"; };
 		BB4058D41E93BF5900B85E4B /* StyleConst.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StyleConst.swift; sourceTree = "<group>"; };
 		BB4058D61E93C01100B85E4B /* PersistentData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistentData.swift; sourceTree = "<group>"; };
 		BB4058D91E93C31300B85E4B /* LayoutManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayoutManager.swift; sourceTree = "<group>"; };
@@ -405,6 +407,7 @@
 				BB6FDDE21C3E97E100C366A2 /* ProfileView.xib */,
 				BB6FDDE51C3E97E100C366A2 /* TargetProfileView.xib */,
 				BBD353571CDDCCB1007B1A1C /* SettingsView.xib */,
+				BB38CB7F1E9E4EA300653A18 /* TextFiled.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -495,7 +498,7 @@
 				TargetAttributes = {
 					9409F7831B2D994D0069DAE8 = {
 						CreatedOnToolsVersion = 6.3.2;
-						DevelopmentTeam = PBLDVE7SPT;
+						DevelopmentTeam = HK27Y6U39D;
 						LastSwiftMigration = 0810;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -508,7 +511,7 @@
 					};
 					9409F79A1B2D994D0069DAE8 = {
 						CreatedOnToolsVersion = 6.3.2;
-						DevelopmentTeam = PBLDVE7SPT;
+						DevelopmentTeam = HK27Y6U39D;
 						LastSwiftMigration = 0810;
 						TestTargetID = 9409F7831B2D994D0069DAE8;
 					};
@@ -541,6 +544,7 @@
 				BB6FDDED1C3E97E100C366A2 /* MarkWindow.xib in Resources */,
 				BB6FDDEA1C3E97E100C366A2 /* GoNowTableViewCell.xib in Resources */,
 				BB7A35441D9DCFE4008C1444 /* TwitterKitResources.bundle in Resources */,
+				BB38CB801E9E4EA400653A18 /* TextFiled.xib in Resources */,
 				BB6FDDF21C3E97E100C366A2 /* TargetProfileView.xib in Resources */,
 				BBFEC6D91B92B7D90069137A /* Main.storyboard in Resources */,
 				BB8474FA1CCEDC110001FFB8 /* ImakokoView.xib in Resources */,
@@ -848,7 +852,7 @@
 				CODE_SIGN_ENTITLEMENTS = Machinbo/Machinbo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = PBLDVE7SPT;
+				DEVELOPMENT_TEAM = HK27Y6U39D;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Pods/GoogleMaps/Frameworks",
@@ -894,7 +898,7 @@
 					"\"SystemConfiguration\"",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = Zombieges.Machinbo;
+				PRODUCT_BUNDLE_IDENTIFIER = Machinbo.Zombieges;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "$(SRCROOT)/$(PRODUCT)Machinbo/Bridging_Header.h";
@@ -911,7 +915,7 @@
 				CODE_SIGN_ENTITLEMENTS = Machinbo/Machinbo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = PBLDVE7SPT;
+				DEVELOPMENT_TEAM = HK27Y6U39D;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Pods/GoogleMaps/Frameworks",
@@ -956,7 +960,7 @@
 					"\"SystemConfiguration\"",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = Zombieges.Machinbo;
+				PRODUCT_BUNDLE_IDENTIFIER = Machinbo.Zombieges;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_VERSION = 3.0;
@@ -969,7 +973,7 @@
 			baseConfigurationReference = 630EC4F74C0D5E7636DD6777 /* Pods-MachinboTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = PBLDVE7SPT;
+				DEVELOPMENT_TEAM = HK27Y6U39D;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -989,7 +993,7 @@
 			baseConfigurationReference = 95438EFEBF279B2FDC49DA39 /* Pods-MachinboTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = PBLDVE7SPT;
+				DEVELOPMENT_TEAM = HK27Y6U39D;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = MachinboTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";

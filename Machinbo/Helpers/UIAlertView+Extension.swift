@@ -9,17 +9,17 @@
 import Foundation
 import UIKit
 
-public extension UIAlertController {
+extension UIAlertController {
     
     enum ActionButton {
         case ok, cancel
     }
     
-    class func showAlertParseConnectionError() {
+    static func showAlertParseConnectionError() {
         showAlertView("エラー", message: "接続に失敗しました。再度実行してください")
     }
 
-    class func showAlertView(_ title: String , message:String) {
+    static func showAlertView(_ title: String , message:String) {
         let alertController = UIAlertController(
             title: title,
             message: message,
@@ -32,7 +32,7 @@ public extension UIAlertController {
         controller.present(alertController, animated: true, completion: nil)
     }
     
-    class func showAlertView(_ title: String, message: String, completion: @escaping (_ action: ActionButton) -> Void) {
+    static func showAlertView(_ title: String, message: String, completion: @escaping (_ action: ActionButton) -> Void) {
         let alertController = UIAlertController(
             title: title,
             message: message,
@@ -53,7 +53,7 @@ public extension UIAlertController {
     /*
      * Alert OK CANCEL
      */
-    class func showAlertOKCancel(_ title: String, message: String, actiontitle: String, completion: @escaping (_ action: ActionButton) -> Void) {
+    static func showAlertOKCancel(_ title: String, message: String, actiontitle: String, completion: @escaping (_ action: ActionButton) -> Void) {
         let alertController = UIAlertController(
             title: title,
             message: message,

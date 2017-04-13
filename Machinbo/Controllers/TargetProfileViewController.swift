@@ -32,7 +32,7 @@ class TargetProfileViewController:
     GMSMapViewDelegate,
     TransisionProtocol {
     
-    var interstitial: GADInterstitial?
+    var interstitial = GADInterstitial()
     
     var targetUserInfo: PFObject?
     var type = ProfileType.targetProfile
@@ -93,8 +93,8 @@ class TargetProfileViewController:
         
         //フル画面広告を取得
         interstitial = GADInterstitial(adUnitID: ConfigData(type: .adMobMovie).getPlistKey)
-        interstitial?.delegate = self
-        interstitial?.load(GADRequest())
+        interstitial.delegate = self
+        interstitial.load(GADRequest())
         
         // 相手が自分のことをブロックしている場合
         if let targetUserBlockList = self.targetUserInfo?.object(forKey: "blockUserList") {
@@ -340,10 +340,10 @@ class TargetProfileViewController:
                 UIAlertController.showAlertOKCancel("", message: "一日に複数回約束をすることができません", actiontitle: "動画を見て約束を開放する") { action in
                     if action == .cancel { return }
                     
-                    if self.interstitial!.isReady {
+                    if self.interstitial.isReady {
                         //isImaikuClick update
                         PersistentData.isImaikuClick = nil
-                        self.interstitial!.present(fromRootViewController: self)
+                        self.interstitial.present(fromRootViewController: self)
                     }
                 }
                 
@@ -368,7 +368,12 @@ class TargetProfileViewController:
         let vc = PickerViewController(kind: .imaiku, targetUser: self.targetUserInfo!)
         self.navigationController!.pushViewController(vc, animated: true)
     }
-    
+    func interstitialDidReceiveAd(ad: GADInterstitial!) {
+        print("Ad Received")
+        if interstitial.isReady {
+            //self.interstitial.present(fromRootViewController: self)
+        }
+    }
     func interstitialWillDismissScreen(ad: GADInterstitial!) {
         UIAlertController.showAlertView("", message: "約束できるようになりました！")
     }

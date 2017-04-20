@@ -13,13 +13,14 @@ final class StyleConst {
     
     // UITableView Section Style ------------------------->
     static let sectionHeaderHeight: CGFloat = 42.0
+    static let tableViewCellFontSize: CGFloat = 17
     
     static var textColorForHeader: UIColor {
         return LayoutManager.getUIColorFromRGB(0x929292)
     }
     
     static var backgroundColorForHeader: UIColor {
-        return LayoutManager.getUIColorFromRGB(0xF6F2F3)
+        return LayoutManager.getUIColorFromRGB(0xF9F9F9)
     }
     
     static var borderColorForHeader: UIColor {

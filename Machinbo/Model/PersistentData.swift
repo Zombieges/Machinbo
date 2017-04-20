@@ -218,6 +218,16 @@ class PersistentData {
         }
     }
     
+    static var AWSSNSEndpoint: String {
+        get {
+            return UserDefaults.standard.string(forKey: "awsSNSEndpoint") ?? ""
+        }
+        set {
+            UserDefaults.standard.set(newValue , forKey: "awsSNSEndpoint")
+            UserDefaults.standard.synchronize()
+        }
+    }
+    
     func deleteUserID() {
         // 保存データを全削除
         let userDefault = UserDefaults.standard
@@ -246,6 +256,8 @@ class PersistentData {
         userDefault.removeObject(forKey: "markTimeFrom")
         userDefault.removeObject(forKey: "markTimeTo")
         userDefault.removeObject(forKey: "isImaikuClick")
+        
+        userDefault.removeObject(forKey: "awsSNSEndpoint")
         
         userDefault.synchronize()
     }

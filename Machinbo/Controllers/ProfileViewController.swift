@@ -483,9 +483,6 @@ extension ProfileViewController:  UITableViewDelegate {
         }
     }
     
-    /*
-     セクションの数を返す.
-     */
     func numberOfSectionsInTableView(_ tableView: UITableView) -> Int {
         return sections.count
     }
@@ -497,7 +494,7 @@ extension ProfileViewController:  UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView()
         let label = UILabel(frame: CGRect(x: 8, y: 0, width: tableView.frame.size.width - 16, height: StyleConst.sectionHeaderHeight))
-        label.font = UIFont(name: "Helvetica-Bold",size: CGFloat(13))
+        label.font = UIFont(name: "Helvetica-Bold",size: CGFloat(15))
         label.text = self.tableView(tableView, titleForHeaderInSection: section)
         label.textColor = StyleConst.textColorForHeader
         view.addSubview(label)
@@ -515,22 +512,21 @@ extension ProfileViewController:  UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
         
         let tableViewCellIdentifier = "Cell"
-        cell = tableView.dequeueReusableCell(withIdentifier: identifier)
-        cell?.imageView?.image = nil
-        if cell == nil {
-            cell = UITableViewCell(style: .value1, reuseIdentifier: identifier)
+
+        var normalCell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier)
+        if normalCell == nil {
+            normalCell = UITableViewCell(style: .value1, reuseIdentifier: tableViewCellIdentifier)
         }
+        normalCell?.imageView?.image = nil
+        normalCell!.textLabel!.font =
+            UIFont.systemFont(ofSize: StyleConst.tableViewCellFontSize)
+        normalCell!.detailTextLabel!.font =
+            UIFont.systemFont(ofSize: StyleConst.tableViewCellFontSize)
+        
+        let detailCell = tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? DetailProfileTableViewCell
         
         if indexPath.section == 1 {
             if indexPath.row < 3 {
-                var normalCell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier)
-                normalCell?.imageView?.image = nil
-                if normalCell == nil {
-                    normalCell = UITableViewCell(style: .value1, reuseIdentifier: tableViewCellIdentifier)
-                }
-                normalCell!.textLabel!.font = UIFont.systemFont(ofSize: 16)
-                normalCell!.detailTextLabel!.font = UIFont.systemFont(ofSize: 16)
-                
                 if indexPath.row == 0 {
                     normalCell?.textLabel?.text = profileItems[indexPath.row]
                     normalCell?.accessoryType = .disclosureIndicator
@@ -553,8 +549,6 @@ extension ProfileViewController:  UITableViewDelegate {
                 return normalCell!
                 
             } else {
-                let detailCell = tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? DetailProfileTableViewCell
-                
                 if indexPath.row == 3 {
                     detailCell?.titleLabel.text = profileItems[indexPath.row]
                     detailCell?.valueLabel.text = inputComment as String
@@ -564,15 +558,6 @@ extension ProfileViewController:  UITableViewDelegate {
             }
             
         } else if indexPath.section == 2 {
-            var normalCell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier)
-            normalCell?.imageView?.image = nil
-            if normalCell == nil {
-                normalCell = UITableViewCell(style: .value1, reuseIdentifier: tableViewCellIdentifier)
-            }
-            
-            normalCell!.textLabel!.font = UIFont.systemFont(ofSize: 16)
-            normalCell!.detailTextLabel!.font = UIFont.systemFont(ofSize: 16)
-            
             if indexPath.row == 0 {
                 normalCell?.textLabel?.text = snsItems[indexPath.row] as String
                 normalCell?.imageView?.image = UIImage(named: "logo_twitter")
@@ -583,15 +568,6 @@ extension ProfileViewController:  UITableViewDelegate {
             return normalCell!
             
         } else if indexPath.section == 3 {
-            var normalCell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier)
-            normalCell?.imageView?.image = nil
-            if normalCell == nil {
-                normalCell = UITableViewCell(style: .value1, reuseIdentifier: tableViewCellIdentifier)
-            }
-            
-            normalCell!.textLabel!.font = UIFont.systemFont(ofSize: 16)
-            normalCell!.detailTextLabel!.font = UIFont.systemFont(ofSize: 16)
-            
             if indexPath.row == 0 {
                 normalCell?.textLabel?.text = otherItems[indexPath.row]
                 normalCell?.accessoryType = .disclosureIndicator
@@ -607,16 +583,12 @@ extension ProfileViewController:  UITableViewDelegate {
                 return normalCell!
                 
             } else if indexPath.row == 2 {
-                let detailCell = tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? DetailProfileTableViewCell
-                
                 detailCell?.titleLabel.text = otherItems[indexPath.row]
                 detailCell?.valueLabel.text = self.inputPlace
                 
                 return detailCell!
                 
             } else if indexPath.row == 3 {
-                let detailCell = tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? DetailProfileTableViewCell
-                
                 detailCell?.titleLabel.text = otherItems[indexPath.row]
                 detailCell?.valueLabel.text = self.inputChar
                 

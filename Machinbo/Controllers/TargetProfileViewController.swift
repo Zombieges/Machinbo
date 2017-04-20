@@ -24,7 +24,6 @@ protocol TargetProfileViewControllerDelegate {
 
 class TargetProfileViewController:
     UIViewController,
-    UITableViewDelegate,
     GADBannerViewDelegate,
     GADInterstitialDelegate,
     MFMailComposeViewControllerDelegate,
@@ -48,13 +47,13 @@ class TargetProfileViewController:
     private var displayWidth = CGFloat()
     private var displayHeight = CGFloat()
     private var innerViewHeight: CGFloat!
-    private var sections = ["", "プロフィール", "待ち合わせ"]
     private var mapViewHeight: CGFloat!
-    private let targetProfileItems = ["名前", "性別", "年齢", "プロフィール"]
-    private let imakuruItems = ["到着時間"]
-    private let otherItems = ["何時から", "何時まで", "到着時間", "待ち合わせ場所", "私の特徴"]
-    private let detailTableViewCellIdentifier = "DetailCell"
-    private let mapTableViewCellIdentifier = "MapCell"
+    var sections = ["", "プロフィール", "待ち合わせ"]
+    let targetProfileItems = ["名前", "性別", "年齢", "プロフィール"]
+    let imakuruItems = ["到着時間"]
+    let otherItems = ["何時から", "何時まで", "到着時間", "待ち合わせ場所", "私の特徴"]
+    let detailTableViewCellIdentifier = "DetailCell"
+    let mapTableViewCellIdentifier = "MapCell"
     
     init (type: ProfileType) {
         super.init(nibName: nil, bundle: nil)
@@ -132,145 +131,10 @@ class TargetProfileViewController:
         }
     }
     
-    func numberOfSectionsInTableView(_ tableView: UITableView) -> Int {
-        return sections.count
-    }
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sections[section] as? String
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-            return 0
-            
-        } else if section == 1 {
-            return self.targetProfileItems.count
-            
-        } else if section == 2 {
-            return self.otherItems.count
-        }
-        
-        return 0
-    }
-    
     func fontForHeader() -> UIFont? {
         return UIFont(name: "BrandonGrotesque-Medium", size: 12.0)
     }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section == 0 {
-            return CGFloat.leastNormalMagnitude
-        }
-        
-        return StyleConst.sectionHeaderHeight
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = UIView()
-        let label = UILabel(frame: CGRect(x: 8, y: 0, width: tableView.frame.size.width - 16, height: StyleConst.sectionHeaderHeight))
-        label.font = UIFont(name: "Helvetica-Bold",size: CGFloat(13))
-        label.text = self.tableView(tableView, titleForHeaderInSection: section)
-        label.textColor = StyleConst.textColorForHeader
-        view.addSubview(label)
-        
-        return view
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
-        let tableViewCellIdentifier = "Cell"
-        var cell: UITableViewCell?
-        
-        if indexPath.section == 1 {
-            if indexPath.row < 3 {
-                // セルを再利用する
-                var normalCell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier)
-                if normalCell == nil {
-                    normalCell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: tableViewCellIdentifier)
-                }
-                normalCell!.textLabel!.font = UIFont.systemFont(ofSize: 16)
-                normalCell!.detailTextLabel!.font = UIFont.systemFont(ofSize: 16)
-                
-                if indexPath.row == 0 {
-                    normalCell?.textLabel?.text = targetProfileItems[indexPath.row]
-                    normalCell?.detailTextLabel?.text = (self.targetUserInfo as AnyObject).object(forKey: "Name") as? String
-                    
-                } else if indexPath.row == 1 {
-                    normalCell?.textLabel?.text = targetProfileItems[indexPath.row]
-                    normalCell?.detailTextLabel?.text = (self.targetUserInfo as AnyObject).object(forKey: "Gender") as? String
-                    
-                } else if indexPath.row == 2 {
-                    normalCell?.textLabel?.text = targetProfileItems[indexPath.row]
-                    normalCell?.detailTextLabel?.text = Parser.changeAgeRange(((self.targetUserInfo as AnyObject).object(forKey: "Age") as? String)!)
-                }
-                
-                cell = normalCell
-                
-            } else {
-                let detailCell = tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? DetailProfileTableViewCell
-                
-                if indexPath.row == 3 {
-                    detailCell?.titleLabel.text = targetProfileItems[indexPath.row]
-                    detailCell?.valueLabel.text = (self.targetUserInfo as AnyObject).object(forKey: "Comment") as? String
-                    
-                }
-                
-                cell = detailCell
-            }
-            
-            return cell!
-            
-        } else if indexPath.section == 2 {
-            
-            var normalCell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier)
-            if normalCell == nil {
-                normalCell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: tableViewCellIdentifier)
-            }
-            normalCell!.textLabel!.font = UIFont.systemFont(ofSize: 16)
-            normalCell!.detailTextLabel!.font = UIFont.systemFont(ofSize: 16)
-            
-            if indexPath.row == 0 {
-                normalCell?.textLabel?.text = otherItems[indexPath.row]
-                normalCell?.detailTextLabel?.text = self.getDateformatStringForUserInfo(keyString: "MarkTime")
-                
-                cell = normalCell
-                
-            } else if indexPath.row == 1 {
-                normalCell?.textLabel?.text = otherItems[indexPath.row]
-                normalCell?.detailTextLabel?.text = self.getDateformatStringForUserInfo(keyString: "MarkTimeTo")
-                
-                cell = normalCell
-                
-            } else if indexPath.row == 2 {
-                normalCell?.textLabel?.text = otherItems[indexPath.row]
-                if let data = self.gonowInfo?.GotoAt {
-                    normalCell?.detailTextLabel?.text = data.formatter(format: .JP)
-                }
-                
-                cell = normalCell
-                
-            } else if indexPath.row == 3 {
-                let detailCell = tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? DetailProfileTableViewCell
-                
-                detailCell?.titleLabel.text = otherItems[indexPath.row]
-                detailCell?.valueLabel.text = (self.targetUserInfo as AnyObject).object(forKey: "PlaceDetail") as? String
-                
-                cell = detailCell
-                
-            } else if indexPath.row == 4 {
-                let detailCell = tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? DetailProfileTableViewCell
-                
-                detailCell?.titleLabel.text = otherItems[indexPath.row]
-                detailCell?.valueLabel.text = (self.targetUserInfo as AnyObject).object(forKey: "MyChar") as? String
-                
-                cell = detailCell
-            }
-            
-            return cell!
-        }
-        
-        return UITableViewCell()
-    }
     
     func setNavigationButton() {
         let settingsButton = UIButton(type: .custom)
@@ -368,13 +232,8 @@ class TargetProfileViewController:
         let vc = PickerViewController(kind: .imaiku, targetUser: self.targetUserInfo!)
         self.navigationController!.pushViewController(vc, animated: true)
     }
-    func interstitialDidReceiveAd(ad: GADInterstitial!) {
-        print("Ad Received")
-        if interstitial.isReady {
-            //self.interstitial.present(fromRootViewController: self)
-        }
-    }
-    func interstitialWillDismissScreen(ad: GADInterstitial!) {
+
+    func interstitialWillDismissScreen(_ ad: GADInterstitial!) {
         UIAlertController.showAlertView("", message: "約束できるようになりました！")
     }
     
@@ -408,7 +267,13 @@ class TargetProfileViewController:
                 
                 self.gonowInfo = GonowData(parseObject: loadedObject)
                 
-                NotificationHelper.sendSpecificDevice( PersistentData.name + "さんより「承認」されました", deviceTokenAsString: self.targetUserInfo?.object(forKey: "DeviceToken") as! String, badges: 0 as Int)
+                // Send Notification
+                let notification = NotificationHelper(
+                    PersistentData.name + "さんより「承認」されました",
+                    deviceTokenAsString: self.targetUserInfo?.object(forKey: "DeviceToken") as! String,
+                    badges: 0 as Int
+                )
+                notification.sendSpecificDevice()
                 
             } catch {}
             
@@ -422,8 +287,8 @@ class TargetProfileViewController:
     func createSendGeoPointButton(mapViewHeight: CGFloat) {
         let btn = ZFRippleButton()
         btn.trackTouchLocation = true
-        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1, alpha: 0.8)
-        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1, alpha: 0.8)
+        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1)
+        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1)
         btn.rippleColor = LayoutManager.getUIColorFromRGB(0x1976D2)
         btn.layer.cornerRadius = 5.0
         btn.layer.masksToBounds = true
@@ -471,7 +336,13 @@ class TargetProfileViewController:
             if let deviceToken = self.targetUserInfo?.object(forKey: "DeviceToken"){
                 print("Device token = \(deviceToken)")
                 
-                NotificationHelper.sendSpecificDevice(PersistentData.name + "さんが現在地を送信しました", deviceTokenAsString: deviceToken as! String, badges: 1 as Int)
+                // Send Notification
+                let notification = NotificationHelper(
+                    PersistentData.name + "さんが現在地を送信しました",
+                    deviceTokenAsString: deviceToken as! String,
+                    badges: 1 as Int
+                )
+                notification.sendSpecificDevice()
                 
             }
         }
@@ -597,7 +468,13 @@ class TargetProfileViewController:
             if let deviceToken = self.targetUserInfo?.object(forKey: "DeviceToken"){
                 print("Device token = \(deviceToken)")
                 
-                NotificationHelper.sendSpecificDevice(PersistentData.name + "さんから現在地送信依頼を受信しました。" + PersistentData.name + "さんに現在地を送信してください" , deviceTokenAsString: deviceToken as! String, badges: 1 as Int)
+                // Send Notification
+                let notification = NotificationHelper(
+                    PersistentData.name + "さんから現在地送信依頼を受信しました。" + PersistentData.name + "さんに現在地を送信してください",
+                    deviceTokenAsString: deviceToken as! String,
+                    badges: 1 as Int
+                )
+                notification.sendSpecificDevice()
                 
                 UIAlertController.showAlertView("", message: "相手に現在位置送信依頼を送信しました")
                 
@@ -795,4 +672,130 @@ class TargetProfileViewController:
         self.view.addSubview(btn)
     }
 
+}
+
+
+extension TargetProfileViewController : UITableViewDelegate {
+    
+    func numberOfSectionsInTableView(_ tableView: UITableView) -> Int {
+        return sections.count
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return sections[section] as? String
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 0 {
+            return 0
+            
+        } else if section == 1 {
+            return self.targetProfileItems.count
+            
+        } else if section == 2 {
+            return self.otherItems.count
+        }
+        
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 0 {
+            return CGFloat.leastNormalMagnitude
+        }
+        
+        return StyleConst.sectionHeaderHeight
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView()
+        let label = UILabel(frame: CGRect(x: 8, y: 0, width: tableView.frame.size.width - 16, height: StyleConst.sectionHeaderHeight))
+        label.font = UIFont(name: "Helvetica-Bold",size: CGFloat(15))
+        label.text = self.tableView(tableView, titleForHeaderInSection: section)
+        label.textColor = StyleConst.textColorForHeader
+        view.addSubview(label)
+        
+        return view
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
+        let tableViewCellIdentifier = "Cell"
+        var cell: UITableViewCell?
+        
+        var normalCell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier)
+        if normalCell == nil {
+            normalCell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: tableViewCellIdentifier)
+        }
+        normalCell!.textLabel!.font = UIFont.systemFont(ofSize: StyleConst.tableViewCellFontSize)
+        normalCell!.detailTextLabel!.font = UIFont.systemFont(ofSize: StyleConst.tableViewCellFontSize)
+        
+        let detailCell = tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? DetailProfileTableViewCell
+        
+        if indexPath.section == 1 {
+            if indexPath.row < 3 {
+                if indexPath.row == 0 {
+                    normalCell?.textLabel?.text = targetProfileItems[indexPath.row]
+                    normalCell?.detailTextLabel?.text = (self.targetUserInfo as AnyObject).object(forKey: "Name") as? String
+                    
+                } else if indexPath.row == 1 {
+                    normalCell?.textLabel?.text = targetProfileItems[indexPath.row]
+                    normalCell?.detailTextLabel?.text = (self.targetUserInfo as AnyObject).object(forKey: "Gender") as? String
+                    
+                } else if indexPath.row == 2 {
+                    normalCell?.textLabel?.text = targetProfileItems[indexPath.row]
+                    normalCell?.detailTextLabel?.text = Parser.changeAgeRange(((self.targetUserInfo as AnyObject).object(forKey: "Age") as? String)!)
+                }
+                
+                cell = normalCell
+                
+            } else {
+                if indexPath.row == 3 {
+                    detailCell?.titleLabel.text = targetProfileItems[indexPath.row]
+                    detailCell?.valueLabel.text = (self.targetUserInfo as AnyObject).object(forKey: "Comment") as? String
+                }
+                
+                cell = detailCell
+            }
+            
+            return cell!
+            
+        } else if indexPath.section == 2 {
+            if indexPath.row == 0 {
+                normalCell?.textLabel?.text = otherItems[indexPath.row]
+                normalCell?.detailTextLabel?.text = self.getDateformatStringForUserInfo(keyString: "MarkTime")
+                
+                cell = normalCell
+                
+            } else if indexPath.row == 1 {
+                normalCell?.textLabel?.text = otherItems[indexPath.row]
+                normalCell?.detailTextLabel?.text = self.getDateformatStringForUserInfo(keyString: "MarkTimeTo")
+                
+                cell = normalCell
+                
+            } else if indexPath.row == 2 {
+                normalCell?.textLabel?.text = otherItems[indexPath.row]
+                if let data = self.gonowInfo?.GotoAt {
+                    normalCell?.detailTextLabel?.text = data.formatter(format: .JP)
+                }
+                
+                cell = normalCell
+                
+            } else if indexPath.row == 3 {
+                detailCell?.titleLabel.text = otherItems[indexPath.row]
+                detailCell?.valueLabel.text = (self.targetUserInfo as AnyObject).object(forKey: "PlaceDetail") as? String
+                
+                cell = detailCell
+                
+            } else if indexPath.row == 4 {
+                detailCell?.titleLabel.text = otherItems[indexPath.row]
+                detailCell?.valueLabel.text = (self.targetUserInfo as AnyObject).object(forKey: "MyChar") as? String
+                
+                cell = detailCell
+            }
+            
+            return cell!
+        }
+        
+        return UITableViewCell()
+    }
 }

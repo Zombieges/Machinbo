@@ -42,7 +42,10 @@ class GoogleMapsHelper {
         //MBProgressHUDHelper.show("Loading...")
         
         for users in userObjects {
-            setUserMarker(map, user: users, isSelect: false)
+            let grobalQueue = DispatchQueue.global(qos: DispatchQoS.QoSClass.userInteractive)
+            grobalQueue.async(execute: {
+                setUserMarker(map, user: users, isSelect: false)
+            })
         }
         
         //MBProgressHUDHelper.hide()

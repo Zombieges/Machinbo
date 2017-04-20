@@ -55,7 +55,7 @@ class LayoutManager {
         mainNavigationCtrl.navigationBar.shadowImage = UIImage()
         
         let mainTabBar = UITabBarItem(title: "ホーム", image: UIImage(named: "home"), tag: 0)
-        mainTabBar.setTitleTextAttributes([NSForegroundColorAttributeName : LayoutManager.getUIColorFromRGB(0x0D47A1)], for: .selected)
+        mainTabBar.setTitleTextAttributes([NSForegroundColorAttributeName : LayoutManager.getUIColorFromRGB(0xffffff)], for: .selected)
         mainNavigationCtrl.tabBarItem = mainTabBar
         
         
@@ -72,7 +72,7 @@ class LayoutManager {
         editNavigationCtrl.navigationBar.shadowImage = UIImage()
         
         let editTabBar = UITabBarItem(title: "登録", image: UIImage(named: "edit"), tag: 1)
-        editTabBar.setTitleTextAttributes([NSForegroundColorAttributeName : LayoutManager.getUIColorFromRGB(0x0D47A1)], for: .selected)
+        editTabBar.setTitleTextAttributes([NSForegroundColorAttributeName : LayoutManager.getUIColorFromRGB(0xffffff)], for: .selected)
         editNavigationCtrl.tabBarItem = editTabBar
         
         
@@ -89,7 +89,7 @@ class LayoutManager {
         meetupNavigationCtrl.navigationBar.shadowImage = UIImage()
         
         let meetupTabBar = UITabBarItem(title: "待ち合わせ", image: UIImage(named: "meetup"), tag: 2)
-        meetupTabBar.setTitleTextAttributes([NSForegroundColorAttributeName : LayoutManager.getUIColorFromRGB(0x0D47A1)], for: .selected)
+        meetupTabBar.setTitleTextAttributes([NSForegroundColorAttributeName : LayoutManager.getUIColorFromRGB(0xffffff)], for: .selected)
         meetupNavigationCtrl.tabBarItem = meetupTabBar
         
         
@@ -105,14 +105,15 @@ class LayoutManager {
                                                                for: .default)
         profileNavigationCtrl.navigationBar.shadowImage = UIImage()
         let profileTabBar = UITabBarItem(title: "プロフィール", image: UIImage(named: "profile_icon"), tag: 3)
-        profileTabBar.setTitleTextAttributes([NSForegroundColorAttributeName : LayoutManager.getUIColorFromRGB(0x0D47A1)], for: .selected)
+        profileTabBar.setTitleTextAttributes([NSForegroundColorAttributeName : LayoutManager.getUIColorFromRGB(0xffffff)], for: .selected)
         profileNavigationCtrl.tabBarItem = profileTabBar
         
-        UITabBar.appearance().tintColor = LayoutManager.getUIColorFromRGB(0x0D47A1)
+        UITabBar.appearance().tintColor = LayoutManager.getUIColorFromRGB(0xffffff)
         
         let tabBarController = UITabBarController()
         tabBarController.setViewControllers([mainNavigationCtrl, editNavigationCtrl, meetupNavigationCtrl, profileNavigationCtrl], animated: false)
         tabBarController.tabBar.isTranslucent = false
+        tabBarController.tabBar.barTintColor = LayoutManager.getUIColorFromRGB(0x2A2F30)
         
         return tabBarController
     }

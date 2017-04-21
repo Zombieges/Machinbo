@@ -518,10 +518,9 @@ extension ProfileViewController:  UITableViewDelegate {
             normalCell = UITableViewCell(style: .value1, reuseIdentifier: tableViewCellIdentifier)
         }
         normalCell?.imageView?.image = nil
-        normalCell!.textLabel!.font =
-            UIFont.systemFont(ofSize: StyleConst.tableViewCellFontSize)
-        normalCell!.detailTextLabel!.font =
-            UIFont.systemFont(ofSize: StyleConst.tableViewCellFontSize)
+        
+        normalCell?.textLabel?.adjustsFontForContentSizeCategory = true
+        normalCell?.detailTextLabel?.adjustsFontForContentSizeCategory = true
         
         let detailCell = tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? DetailProfileTableViewCell
         

@@ -13,7 +13,7 @@ import Parse
 import MBProgressHUD
 import GoogleMobileAds
 
-class MarkerDraggableViewController: UIViewController, GMSMapViewDelegate, CLLocationManagerDelegate, GADBannerViewDelegate, GADInterstitialDelegate, UIGestureRecognizerDelegate, TransisionProtocol {
+class MarkerDraggableViewController: UIViewController, CLLocationManagerDelegate, GADBannerViewDelegate, GADInterstitialDelegate, UIGestureRecognizerDelegate, TransisionProtocol {
     
     @IBOutlet weak var bannerView: GADBannerView!
     
@@ -39,8 +39,10 @@ class MarkerDraggableViewController: UIViewController, GMSMapViewDelegate, CLLoc
         
         let backButton = UIBarButtonItem()
         backButton.title = ""
-        self.navigationItem.backBarButtonItem = backButton
-        self.navigationItem.title = "待ち合わせ場所を選択"
+        navigationItem.backBarButtonItem = backButton
+        navigationItem.title = "待ち合わせ場所を選択"
+        
+        imakokoButton.isHidden = true
 
         LocationManager.sharedInstance.startUpdatingLocation()
         
@@ -77,30 +79,6 @@ class MarkerDraggableViewController: UIViewController, GMSMapViewDelegate, CLLoc
         return center
     }
     
-    func mapView(_ mapView: GMSMapView, didChange cameraPosition: GMSCameraPosition) {
-        
-        if self.pinImage == nil {
-            
-            self.pinImage = UIImageView(image: UIImage(named: "mappin_blue_big"))
-            self.pinImage.isUserInteractionEnabled = true
-
-            self.view.addSubview(self.pinImage)
-        }
-
-        var mapViewPosition = mapView.projection.point(for: getMapCenterPosition(mapView))
-        mapViewPosition.y = mapViewPosition.y - self.pinImage.frame.height / 3
-        self.pinImage.center = mapViewPosition
-    }
-    
-    func mapView(_ mapView: GMSMapView, willMove gesture: Bool) {
-        imakokoButton.isHidden = true
-    }
-    
-    func mapView(_ mapView:GMSMapView, idleAt position:GMSCameraPosition) {
-        imakokoButton.isHidden = false
-        
-    }
-     
     @IBAction func createImakoko(_ sender: Any) {
         guard self.isInternetConnect() else {
             self.errorAction()
@@ -113,6 +91,34 @@ class MarkerDraggableViewController: UIViewController, GMSMapViewDelegate, CLLoc
         vc.palGeoPoint = PFGeoPoint(latitude: mapViewCenter.latitude, longitude: mapViewCenter.longitude)
         
         self.navigationController!.pushViewController(vc, animated: true)
+    }
+    
+}
+
+
+extension MarkerDraggableViewController: GMSMapViewDelegate {
+    
+    func mapView(_ mapView: GMSMapView, didChange cameraPosition: GMSCameraPosition) {
+        
+        if self.pinImage == nil {
+            self.pinImage = UIImageView(image: UIImage(named: "mappin_blue_big"))
+            self.pinImage.isUserInteractionEnabled = true
+            
+            self.view.addSubview(self.pinImage)
+        }
+        
+        var mapViewPosition = mapView.projection.point(for: getMapCenterPosition(mapView))
+        mapViewPosition.y = mapViewPosition.y - self.pinImage.frame.height / 3
+        self.pinImage.center = mapViewPosition
+    }
+    
+    func mapView(_ mapView: GMSMapView, willMove gesture: Bool) {
+        imakokoButton.isHidden = true
+    }
+    
+    func mapView(_ mapView:GMSMapView, idleAt position:GMSCameraPosition) {
+        imakokoButton.isHidden = false
+        
     }
     
 }

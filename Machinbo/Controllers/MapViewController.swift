@@ -15,11 +15,11 @@ import GoogleMobileAds
 
 //extension MapViewController: TransisionProtocol {}
 
-class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManagerDelegate, GADBannerViewDelegate, GADInterstitialDelegate, UITabBarDelegate, TransisionProtocol {
+class MapViewController: UIViewController, CLLocationManagerDelegate, GADBannerViewDelegate, GADInterstitialDelegate, UITabBarDelegate, TransisionProtocol {
     
-    private var longitude: CLLocationDegrees!
-    private var latitude: CLLocationDegrees!
-    private var markWindow = MarkWindow()
+    var longitude: CLLocationDegrees!
+    var latitude: CLLocationDegrees!
+    var markWindow = MarkWindow()
     
     @IBOutlet weak var gmsMapView: GMSMapView!
     @IBOutlet weak var bannerView: GADBannerView!
@@ -48,41 +48,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-    }
-    
-    func mapView(_ mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView? {
-        guard let createdBy = marker.userData as AnyObject? else {
-            self.refresh()
-            return nil
-        }
-        
-        self.markWindow = Bundle.main.loadNibNamed("MarkWindow", owner: self, options: nil)?.first! as! MarkWindow
-        if let imageFile = createdBy.value(forKey: "ProfilePicture") as? PFFile {
-            let imageData: Data = try! imageFile.getData()
-            self.markWindow.ProfileImage.image = UIImage(data: imageData)!
-            self.markWindow.ProfileImage.layer.borderColor = UIColor.white.cgColor
-            self.markWindow.ProfileImage.layer.borderWidth = 3
-            self.markWindow.ProfileImage.layer.cornerRadius = 10
-            self.markWindow.ProfileImage.layer.masksToBounds = true
-        }
-        
-        self.markWindow.Name.text = createdBy.object(forKey: "Name") as? String
-        self.markWindow.Name.sizeToFit()
-        self.markWindow.Detail.text = (marker.userData! as AnyObject).object(forKey: "PlaceDetail") as? String
-        self.markWindow.Detail.sizeToFit()
-        self.markWindow.timeAgoText.text = (marker.userData! as AnyObject).updatedAt!!.relativeDateString
-        
-        return self.markWindow
-    }
-    
-    func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
-        let vc = TargetProfileViewController(type: ProfileType.targetProfile)
-        vc.targetUserInfo = marker.userData! as? PFObject
-        self.navigationController!.pushViewController(vc, animated: false)
-    }
-    
-    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
-        return false
     }
     
     func onClickSearch() {
@@ -126,7 +91,6 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     }
     
     private func prepareNavigationItem() {
-        //self.navigationItem.title = "Machinbo"
         self.navigationController!.navigationBar.tintColor = UIColor.darkGray
         
         let titleView = UIImageView(frame:CGRect(x: 0, y: 0, width: 30, height: 30))
@@ -157,6 +121,46 @@ class MapViewController: UIViewController, GMSMapViewDelegate, CLLocationManager
     
     func refresh() {
         self.viewDidLoad()
+    }
+    
+}
+
+
+extension MapViewController: GMSMapViewDelegate {
+    
+    func mapView(_ mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView? {
+        guard let createdBy = marker.userData as AnyObject? else {
+            self.refresh()
+            return nil
+        }
+        
+        self.markWindow = Bundle.main.loadNibNamed("MarkWindow", owner: self, options: nil)?.first! as! MarkWindow
+        if let imageFile = createdBy.value(forKey: "ProfilePicture") as? PFFile {
+            let imageData: Data = try! imageFile.getData()
+            self.markWindow.ProfileImage.image = UIImage(data: imageData)!
+            self.markWindow.ProfileImage.layer.borderColor = UIColor.white.cgColor
+            self.markWindow.ProfileImage.layer.borderWidth = 3
+            self.markWindow.ProfileImage.layer.cornerRadius = 10
+            self.markWindow.ProfileImage.layer.masksToBounds = true
+        }
+        
+        self.markWindow.Name.text = createdBy.object(forKey: "Name") as? String
+        self.markWindow.Name.sizeToFit()
+        self.markWindow.Detail.text = (marker.userData! as AnyObject).object(forKey: "PlaceDetail") as? String
+        self.markWindow.Detail.sizeToFit()
+        self.markWindow.timeAgoText.text = (marker.userData! as AnyObject).updatedAt!!.relativeDateString
+        
+        return self.markWindow
+    }
+    
+    func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
+        let vc = TargetProfileViewController(type: ProfileType.targetProfile)
+        vc.targetUserInfo = marker.userData! as? PFObject
+        self.navigationController!.pushViewController(vc, animated: false)
+    }
+    
+    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
+        return false
     }
     
 }

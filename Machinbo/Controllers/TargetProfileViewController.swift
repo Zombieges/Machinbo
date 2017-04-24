@@ -168,7 +168,6 @@ class TargetProfileViewController:
         btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1)
         btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1)
         btn.rippleColor = LayoutManager.getUIColorFromRGB(0x1976D2)
-        btn.layer.cornerRadius = 5.0
         btn.layer.masksToBounds = true
         
         self.myHeaderView.addSubview(btn)
@@ -186,7 +185,6 @@ class TargetProfileViewController:
         btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1)
         btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1)
         btn.rippleColor = LayoutManager.getUIColorFromRGB(0x1976D2)
-        btn.layer.cornerRadius = 5.0
         btn.layer.masksToBounds = true
         
         self.myHeaderView.addSubview(btn)
@@ -290,7 +288,6 @@ class TargetProfileViewController:
         btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1)
         btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1)
         btn.rippleColor = LayoutManager.getUIColorFromRGB(0x1976D2)
-        btn.layer.cornerRadius = 5.0
         btn.layer.masksToBounds = true
         btn.setTitle("位置送信", for: UIControlState())
         btn.addTarget(self, action: #selector(self.clickimakokoButton), for: .touchUpInside)
@@ -314,7 +311,6 @@ class TargetProfileViewController:
         btn.setTitle("位置確認", for: UIControlState())
         btn.layer.borderColor = LayoutManager.getUIColorFromRGB(0x0D47A1).cgColor
         btn.layer.borderWidth = 1.0
-        btn.layer.cornerRadius = 5.0
         btn.layer.masksToBounds = true
         btn.setTitleColor(LayoutManager.getUIColorFromRGB(0x0D47A1), for: UIControlState())
         

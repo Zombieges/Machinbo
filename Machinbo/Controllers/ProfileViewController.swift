@@ -17,14 +17,12 @@ import TwitterKit
 import JTSImageViewController
 import TOCropViewController
 
-class ProfileViewController: UIViewController, UINavigationControllerDelegate, TOCropViewControllerDelegate, UIImagePickerControllerDelegate, UIPickerViewDelegate, PickerViewControllerDelegate, GADBannerViewDelegate, GADInterstitialDelegate, TransisionProtocol {
+class ProfileViewController: UIViewController, UINavigationControllerDelegate, UIPickerViewDelegate, PickerViewControllerDelegate, GADBannerViewDelegate, GADInterstitialDelegate, TransisionProtocol {
     
     @IBOutlet weak var profilePicture: UIImageView!
     @IBOutlet weak var startButton: ZFRippleButton!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var imakokoButton: UIButton!
-    
-    var cropViewController = TOCropViewController()
     
     let photoItems = ["フォト"]
     let profileItems = ["名前", "性別", "生まれた年", "プロフィール"]
@@ -51,9 +49,11 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, T
     let identifier = "Cell"
     let detailTableViewCellIdentifier: String = "DetailCell"
     
+    var cropViewController = TOCropViewController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         let viewType = PersistentData.userID == "" ? "EntryView" : "ProfileView"
         if let view = UINib(nibName: viewType, bundle: nil).instantiate(withOwner: self, options: nil).first as? UIView {
             self.view = view
@@ -79,9 +79,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, T
         
         self.tableView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
         
-        
-        //self.startButton.isHidden = true
-        
         // 通常の画面遷移
         self.profilePicture.image = PersistentData.profileImage
         self.inputName = PersistentData.name
@@ -103,58 +100,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, T
         imageMolding(profilePicture)
     }
     
-    private func setRecruitment() {
-        
-        guard !PersistentData.markTimeFrom.isEmpty else {
-            //待ち合わせ募集をしていない場合
-            self.imakokoButton.isHidden = true
-            return
-        }
-        
-        if PersistentData.isRecruitment! {
-            //募集中の場合
-            self.imakokoButton.setTitle("待ち合わせ募集中", for: UIControlState())
-            self.imakokoButton.layer.cornerRadius = 5.0
-            self.imakokoButton.layer.borderColor = UIView().tintColor.cgColor
-            self.imakokoButton.layer.borderWidth = 1.0
-            self.imakokoButton.tintColor = UIView().tintColor
-            
-        } else {
-            self.imakokoButton.setTitle("待ち合わせ募集停止中", for: UIControlState())
-            self.imakokoButton.layer.cornerRadius = 5.0
-            self.imakokoButton.layer.borderColor = UIColor.red.cgColor
-            self.imakokoButton.layer.borderWidth = 1.0
-            self.imakokoButton.tintColor = UIColor.red
-        }
-    }
-    
-    private func setProfileGesture() {
-        // profilePicture をタップできるようにジェスチャーを設定
-        profilePicture.isUserInteractionEnabled = true
-        let myTap = UITapGestureRecognizer(target: self, action: #selector(tapGesture))
-        profilePicture.addGestureRecognizer(myTap)
-    }
-    
-    private func initTableView() {
-        let nibName = UINib(nibName: "DetailProfileTableViewCell", bundle:nil)
-        self.tableView.register(nibName, forCellReuseIdentifier: detailTableViewCellIdentifier)
-        self.tableView.estimatedRowHeight = 200.0
-        self.tableView.rowHeight = UITableViewAutomaticDimension
-        self.tableView.backgroundColor = StyleConst.backgroundColorForHeader
-        
-        view.addSubview(tableView)
-    }
-    
-    private func setNavigationItemSettingButton() {
-        /* 設定ボタンを付与 */
-        let settingsButton: UIButton = UIButton(type: .custom)
-        settingsButton.setImage(UIImage(named: "settings"), for: UIControlState())
-        settingsButton.addTarget(self, action: #selector(onClickSettingView), for: UIControlEvents.touchUpInside)
-        settingsButton.frame = CGRect(x: 0, y: 0, width: 22, height: 22)
-        
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: settingsButton)
-    }
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -167,67 +112,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, T
         self.imagePicker.modalPresentationStyle = .overFullScreen
         
         present(self.imagePicker, animated: true, completion: nil)
-    }
-    
-    // 写真選択時の処理
-    internal func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        dismiss(animated: true, completion: nil)
-        
-        guard self.isInternetConnect() else {
-            self.errorAction()
-            return
-        }
-        
-        let screenWidth = UIScreen.main.bounds.size.width
-        let image = (info[UIImagePickerControllerOriginalImage] as! UIImage).resize(newWidth: screenWidth)
-        
-        let imageSize = profilePicture.image?.size.width
-        
-        self.cropViewController = TOCropViewController(image: image)
-        self.cropViewController.imageCropFrame = CGRect(x: 0, y: 0, width: imageSize!, height: imageSize!)
-        self.cropViewController.delegate = self
-        self.cropViewController.aspectRatioLockEnabled = true
-        self.cropViewController.resetAspectRatioEnabled = false
-        self.cropViewController.rotateButtonsHidden = true
-        self.cropViewController.aspectRatioPreset = .presetSquare
-        self.present(cropViewController, animated: true, completion: nil)
-    }
-    
-    // 写真選択画面でキャンセルした場合の処理
-    internal func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        dismiss(animated: true, completion: nil)
-    }
-    
-    func cropViewController(_ cropViewController: TOCropViewController, didCropToImage image: UIImage, rect cropRect: CGRect, angle: Int) {
-        self.profilePicture.image = image
-        
-        if PersistentData.userID == ""  {
-            PersistentData.profileImage = self.profilePicture.image!
-            cropViewController.dismiss(animated: true, completion: nil)
-            return
-        }
-
-        ParseHelper.getMyUserInfomation(PersistentData.userID) { (error: NSError?, result: PFObject?) -> Void in
-            guard let result = result, error == nil else {
-                self.errorAction()
-                return
-            }
-
-            let imageData = UIImagePNGRepresentation(self.profilePicture.image!)
-            let imageFile = PFFile(name:"image", data:imageData!)
-
-            result["ProfilePicture"] = imageFile
-            result.saveInBackground { (success: Bool, error: Error?) -> Void in
-                guard success, error == nil else {
-                    self.errorAction()
-                    return
-                }
-                
-                PersistentData.profileImage = self.profilePicture.image!
-            }
-        }
-
-        cropViewController.dismiss(animated: true, completion: nil)
     }
     
     // PickerViewController より性別を選択した際に実行される処理
@@ -275,6 +159,12 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, T
         self.tableView.reloadData()
     }
     
+    func onClickSettingView() {
+        let vc = SettingsViewController()
+        self.navigationController!.pushViewController(vc, animated: true)
+    }
+    
+    
     @IBAction func pushStart(_ sender: AnyObject) {
         guard self.isInternetConnect() else {
             self.errorAction()
@@ -314,6 +204,72 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, T
         )
     }
     
+    @IBAction func imakokoAction(_ sender: AnyObject) {
+        if PersistentData.isRecruitment! {
+            UIAlertController.showAlertOKCancel("", message: "登録した待ち合わせ募集を停止してもよろしいですか？", actiontitle: "停止") { action in
+                if action == .cancel { return }
+                self.recruitmentAction(false)
+            }
+            
+        } else {
+            UIAlertController.showAlertOKCancel("", message: "登録した待ち合わせ募集を再開してもよろしいですか？", actiontitle: "再開") { action in
+                if action == .cancel { return }
+                self.recruitmentAction(true)
+            }
+        }
+    }
+    
+    fileprivate func setRecruitment() {
+        guard !PersistentData.markTimeFrom.isEmpty else {
+            //待ち合わせ募集をしていない場合
+            self.imakokoButton.isHidden = true
+            return
+        }
+        
+        if PersistentData.isRecruitment! {
+            //募集中の場合
+            self.imakokoButton.setTitle("待ち合わせ募集中", for: UIControlState())
+            self.imakokoButton.layer.cornerRadius = 5.0
+            self.imakokoButton.layer.borderColor = UIView().tintColor.cgColor
+            self.imakokoButton.layer.borderWidth = 1.0
+            self.imakokoButton.tintColor = UIView().tintColor
+            
+        } else {
+            self.imakokoButton.setTitle("待ち合わせ募集停止中", for: UIControlState())
+            self.imakokoButton.layer.cornerRadius = 5.0
+            self.imakokoButton.layer.borderColor = UIColor.red.cgColor
+            self.imakokoButton.layer.borderWidth = 1.0
+            self.imakokoButton.tintColor = UIColor.red
+        }
+    }
+    
+    fileprivate func setProfileGesture() {
+        // profilePicture をタップできるようにジェスチャーを設定
+        profilePicture.isUserInteractionEnabled = true
+        let myTap = UITapGestureRecognizer(target: self, action: #selector(tapGesture))
+        profilePicture.addGestureRecognizer(myTap)
+    }
+    
+    fileprivate func initTableView() {
+        let nibName = UINib(nibName: "DetailProfileTableViewCell", bundle:nil)
+        self.tableView.register(nibName, forCellReuseIdentifier: detailTableViewCellIdentifier)
+        self.tableView.estimatedRowHeight = 200.0
+        self.tableView.rowHeight = UITableViewAutomaticDimension
+        self.tableView.backgroundColor = StyleConst.backgroundColorForHeader
+        
+        view.addSubview(tableView)
+    }
+    
+    fileprivate func setNavigationItemSettingButton() {
+        /* 設定ボタンを付与 */
+        let settingsButton: UIButton = UIButton(type: .custom)
+        settingsButton.setImage(UIImage(named: "settings"), for: UIControlState())
+        settingsButton.addTarget(self, action: #selector(onClickSettingView), for: UIControlEvents.touchUpInside)
+        settingsButton.frame = CGRect(x: 0, y: 0, width: 22, height: 22)
+        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: settingsButton)
+    }
+    
     fileprivate func imageMolding(_ target : UIImageView){
         target.layer.borderColor = UIColor.white.cgColor
         target.layer.borderWidth = 3
@@ -321,35 +277,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, T
         target.layer.masksToBounds = true
     }
     
-    func onClickSettingView() {
-        let vc = SettingsViewController()
-        self.navigationController!.pushViewController(vc, animated: true)
-    }
-    
-    @IBAction func imakokoAction(_ sender: AnyObject) {
-        if PersistentData.isRecruitment! {
-            UIAlertController.showAlertOKCancel("", message: "登録した待ち合わせ募集を停止してもよろしいですか？", actiontitle: "停止") { action in
-                if action == .cancel { return }
-                self.recruitmentStop()
-            }
-            
-        } else {
-            UIAlertController.showAlertOKCancel("", message: "登録した待ち合わせ募集を再開してもよろしいですか？", actiontitle: "再開") { action in
-                if action == .cancel { return }
-                self.recruitmentStart()
-            }
-        }
-    }
-    
-    func recruitmentStart() {
-        self.recruitmentAction(true)
-    }
-    
-    func recruitmentStop() {
-        self.recruitmentAction(false)
-    }
-    
-    private func recruitmentAction(_ isRecruitment: Bool) {
+    fileprivate func recruitmentAction(_ isRecruitment: Bool) {
         guard self.isInternetConnect() else {
             self.errorAction()
             return
@@ -464,7 +392,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, T
         }
     }
     
-    func errorAction() {
+    internal func errorAction() {
         MBProgressHUDHelper.sharedInstance.hide()
         UIAlertController.showAlertParseConnectionError()
     }
@@ -512,7 +440,7 @@ extension ProfileViewController:  UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
         
         let tableViewCellIdentifier = "Cell"
-
+        
         var normalCell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier)
         if normalCell == nil {
             normalCell = UITableViewCell(style: .value1, reuseIdentifier: tableViewCellIdentifier)
@@ -563,7 +491,7 @@ extension ProfileViewController:  UITableViewDelegate {
                 normalCell?.accessoryType = .disclosureIndicator
                 normalCell?.detailTextLabel?.text = twitterName as String
             }
-
+            
             return normalCell!
             
         } else if indexPath.section == 3 {
@@ -663,5 +591,70 @@ extension ProfileViewController:  UITableViewDelegate {
                 }
             }
         }
+    }
+}
+
+
+extension ProfileViewController: UIImagePickerControllerDelegate {
+    // 写真選択時の処理
+    internal func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        dismiss(animated: true, completion: nil)
+        
+        guard self.isInternetConnect() else {
+            self.errorAction()
+            return
+        }
+        
+        let screenWidth = UIScreen.main.bounds.size.width
+        let imageSize = profilePicture.image?.size.width
+        let image = (info[UIImagePickerControllerOriginalImage] as! UIImage).resize(newWidth: screenWidth)
+        self.cropViewController = TOCropViewController(image: image)
+        self.cropViewController.imageCropFrame = CGRect(x: 0, y: 0, width: imageSize!, height: imageSize!)
+        self.cropViewController.delegate = self
+        self.cropViewController.aspectRatioLockEnabled = true
+        self.cropViewController.resetAspectRatioEnabled = false
+        self.cropViewController.rotateButtonsHidden = true
+        self.cropViewController.aspectRatioPreset = .presetSquare
+        self.present(cropViewController, animated: true, completion: nil)
+    }
+    
+    // 写真選択画面でキャンセルした場合の処理
+    internal func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+}
+
+
+extension ProfileViewController: TOCropViewControllerDelegate {
+    func cropViewController(_ cropViewController: TOCropViewController, didCropToImage image: UIImage, rect cropRect: CGRect, angle: Int) {
+        self.profilePicture.image = image
+        
+        if PersistentData.userID == ""  {
+            PersistentData.profileImage = self.profilePicture.image!
+            cropViewController.dismiss(animated: true, completion: nil)
+            return
+        }
+        
+        ParseHelper.getMyUserInfomation(PersistentData.userID) { (error: NSError?, result: PFObject?) -> Void in
+            guard let result = result, error == nil else {
+                self.errorAction()
+                return
+            }
+            
+            let imageData = UIImagePNGRepresentation(self.profilePicture.image!)
+            let imageFile = PFFile(name:"image", data:imageData!)
+            
+            result["ProfilePicture"] = imageFile
+            result.saveInBackground { (success: Bool, error: Error?) -> Void in
+                guard success, error == nil else {
+                    self.errorAction()
+                    return
+                }
+                
+                PersistentData.profileImage = self.profilePicture.image!
+            }
+        }
+        
+        cropViewController.dismiss(animated: true, completion: nil)
     }
 }

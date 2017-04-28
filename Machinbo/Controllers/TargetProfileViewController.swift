@@ -26,10 +26,9 @@ class TargetProfileViewController:
     UIViewController,
     GADBannerViewDelegate,
     GADInterstitialDelegate,
-    MFMailComposeViewControllerDelegate,
     CLLocationManagerDelegate,
     GMSMapViewDelegate,
-    TransisionProtocol {
+TransisionProtocol {
     
     var interstitial = GADInterstitial()
     
@@ -70,7 +69,7 @@ class TargetProfileViewController:
         }
         
         PersistentData().deleteUserIDForKey("imaikuFlag")
-        var name = (self.targetUserInfo as AnyObject).object(forKey: "Name") as? String
+        let name = (self.targetUserInfo as AnyObject).object(forKey: "Name") as? String
         self.navigationItem.title = name
         
         self.setHeader()
@@ -131,12 +130,7 @@ class TargetProfileViewController:
         }
     }
     
-    func fontForHeader() -> UIFont? {
-        return UIFont(name: "BrandonGrotesque-Medium", size: 12.0)
-    }
-    
-    
-    func setNavigationButton() {
+    fileprivate func setNavigationButton() {
         let settingsButton = UIButton(type: .custom)
         settingsButton.setImage(UIImage(named: "santen"), for: UIControlState())
         settingsButton.addTarget(self, action: #selector(self.onClickSettingAction), for: .touchUpInside)
@@ -144,7 +138,7 @@ class TargetProfileViewController:
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: settingsButton)
     }
     
-    func createBlockLabel() {
+    fileprivate func createBlockLabel() {
         let imadokoBtnX = self.displayWidth - round(self.displayWidth / 2)
         let imadokoBtnWidth = round(self.displayWidth / 2)
         let imadokotnHeight = round(self.displayHeight / 17)
@@ -156,7 +150,7 @@ class TargetProfileViewController:
         self.myHeaderView.addSubview(label)
     }
     
-    func createGoNowButton() {
+    fileprivate func createGoNowButton() {
         let imadokoBtnX = self.displayWidth - round(self.displayWidth / 3.5)
         let imadokoBtnWidth = round(self.displayWidth / 4)
         let imadokotnHeight = round(self.displayHeight / 17)
@@ -173,7 +167,7 @@ class TargetProfileViewController:
         self.myHeaderView.addSubview(btn)
     }
     
-    func createRemoveBlockButton() {
+    fileprivate func createRemoveBlockButton() {
         let imadokoBtnX = self.displayWidth - round(self.displayWidth / 3.5)
         let imadokoBtnWidth = round(self.displayWidth / 4)
         let imadokotnHeight = round(self.displayHeight / 17)
@@ -230,29 +224,9 @@ class TargetProfileViewController:
         let vc = PickerViewController(kind: .imaiku, targetUser: self.targetUserInfo!)
         self.navigationController!.pushViewController(vc, animated: true)
     }
-
+    
     func interstitialWillDismissScreen(_ ad: GADInterstitial!) {
         UIAlertController.showAlertView("", message: "約束できるようになりました！")
-    }
-    
-    func createApprovedButton(mapViewHeight: CGFloat) {
-        let btn = ZFRippleButton()
-        btn.trackTouchLocation = true
-        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1, alpha: 0.8)
-        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1, alpha: 0.8)
-        btn.rippleColor = LayoutManager.getUIColorFromRGB(0x1976D2)
-        btn.setTitle("承認する", for: UIControlState())
-        btn.addTarget(self, action: #selector(self.clickApproveButton), for: .touchUpInside)
-        btn.layer.cornerRadius = 5.0
-        btn.layer.masksToBounds = true
-        btn.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height - self.view.bounds.height/7.3)
-        
-        let imadokoBtnX = self.displayWidth - round(self.displayWidth / 3.8)
-        let imadokoBtnWidth = round(self.displayWidth / 4)
-        let imadokotnHeight = round(self.displayHeight / 17)
-        btn.frame = CGRect(x: imadokoBtnX, y: mapViewHeight + 10, width: imadokoBtnWidth, height: imadokotnHeight)
-        
-        self.myHeaderView.addSubview(btn)
     }
     
     func clickApproveButton() {
@@ -282,7 +256,26 @@ class TargetProfileViewController:
         }
     }
     
-    func createSendGeoPointButton(mapViewHeight: CGFloat) {
+    fileprivate func createApprovedButton(mapViewHeight: CGFloat) {
+        let btn = ZFRippleButton()
+        btn.trackTouchLocation = true
+        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1)
+        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1)
+        btn.rippleColor = LayoutManager.getUIColorFromRGB(0x1976D2)
+        btn.setTitle("承認する", for: UIControlState())
+        btn.addTarget(self, action: #selector(self.clickApproveButton), for: .touchUpInside)
+        btn.layer.masksToBounds = true
+        btn.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height - self.view.bounds.height/7.3)
+        
+        let imadokoBtnX = self.displayWidth - round(self.displayWidth / 3.8)
+        let imadokoBtnWidth = round(self.displayWidth / 4)
+        let imadokotnHeight = round(self.displayHeight / 17)
+        btn.frame = CGRect(x: imadokoBtnX, y: mapViewHeight + 10, width: imadokoBtnWidth, height: imadokotnHeight)
+        
+        self.myHeaderView.addSubview(btn)
+    }
+    
+    fileprivate func createSendGeoPointButton(mapViewHeight: CGFloat) {
         let btn = ZFRippleButton()
         btn.trackTouchLocation = true
         btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1)
@@ -300,7 +293,7 @@ class TargetProfileViewController:
         self.myHeaderView.addSubview(btn)
     }
     
-    func createConfirmGeoPointButton(mapViewHeight: CGFloat) {
+    fileprivate func createConfirmGeoPointButton(mapViewHeight: CGFloat) {
         let imadokoBtnX = self.displayWidth - round(self.displayWidth / 1.8)
         let imadokoBtnWidth = round(self.displayWidth / 4)
         let imadokotnHeight = round(self.displayHeight / 17)
@@ -378,7 +371,7 @@ class TargetProfileViewController:
                     query.saveInBackground { (success: Bool, error: Error?) -> Void in
                         defer { MBProgressHUDHelper.sharedInstance.hide() }
                         guard error == nil else { return }
-
+                        
                         UIAlertController.showAlertView("", message: "現在位置を相手に送信しました")
                     }
                     
@@ -479,43 +472,34 @@ class TargetProfileViewController:
         }
     }
     
-    func reportManager() {
-        //メールを送信できるかチェック
-        guard MFMailComposeViewController.canSendMail() else { print("Email Send Failed"); return }
-        
-        let address = ConfigData(type: .mail).getPlistKey
-        let toRecipients = [address]
-        let userObjectId = (targetUserInfo as AnyObject).objectId as String!
-        let mailBody = "報告" + "\n" + "報告者：" + userObjectId! + "\n\n" + "報告内容（入力してください）："
-        
-        let mail = MFMailComposeViewController()
-        mail.mailComposeDelegate = self
-        mail.setSubject("報告")
-        mail.setToRecipients(toRecipients) //Toアドレスの表示
-        mail.setMessageBody(mailBody, isHTML: false)
-        
-        self.present(mail, animated: true, completion: nil)
-    }
+//    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+//        switch result {
+//        case MFMailComposeResult.cancelled: print("Mail cancelled");break
+//        case MFMailComposeResult.saved: print("Mail saved"); break
+//        case MFMailComposeResult.sent: print("Mail sent"); break
+//        case MFMailComposeResult.failed: print("Mail sent failure: \(error!.localizedDescription)") ;break
+//        default: break
+//        }
+//        
+//        controller.dismiss(animated: true, completion: nil)
+//    }
     
-    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-        switch result {
-        case MFMailComposeResult.cancelled: print("Mail cancelled");break
-        case MFMailComposeResult.saved: print("Mail saved"); break
-        case MFMailComposeResult.sent: print("Mail sent"); break
-        case MFMailComposeResult.failed: print("Mail sent failure: \(error!.localizedDescription)") ;break
-        default: break
-        }
-        
-        controller.dismiss(animated: true, completion: nil)
+    enum ReportType: String {
+        case spam = "スパム"
+        case inappropriate = "不適切な投稿"
     }
-    
     func onClickSettingAction() {
         let myAlert = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
-        let destructiveAction = UIAlertAction(title: "報告", style: UIAlertActionStyle.destructive, handler:{
+        let action1 = UIAlertAction(title: "スパムである", style: UIAlertActionStyle.destructive, handler:{
             (action: UIAlertAction!) -> Void in
-            self.reportManager()
+            self.reportManager(type: .spam)
         })
-        myAlert.addAction(destructiveAction)
+        myAlert.addAction(action1)
+        let action2 = UIAlertAction(title: "不適切である", style: UIAlertActionStyle.destructive, handler:{
+            (action: UIAlertAction!) -> Void in
+            self.reportManager(type: .inappropriate)
+        })
+        myAlert.addAction(action2)
         
         // Cancelボタン
         let cancelAction: UIAlertAction = UIAlertAction(title: "cancel", style: UIAlertActionStyle.cancel, handler:{
@@ -527,18 +511,63 @@ class TargetProfileViewController:
         self.present(myAlert, animated: true, completion: nil)
     }
     
-    func setHeader() {
+    fileprivate func reportManager(type: ReportType) {
+        MBProgressHUDHelper.sharedInstance.show(self.view)
+        
+        ParseHelper.getMyUserInfomation(PersistentData.userID) { (error: NSError?, result: PFObject?) -> Void in
+            defer {  MBProgressHUDHelper.sharedInstance.hide() }
+            
+            guard let result = result, error == nil else {
+                self.errorAction()
+                return
+            }
+            
+            let report = PFObject(className: "Report")
+            report["Reporter"] = result
+            report["TargetUser"] = self.targetUserInfo
+            report["Reason"] = type.rawValue
+            report.saveInBackground { (success: Bool, error: Error?) -> Void in
+                defer { MBProgressHUDHelper.sharedInstance.hide() }
+                guard success, error == nil else {
+                    self.errorAction()
+                    return
+                }
+                
+                UIAlertController.showAlertView("報告完了", message: "問題を管理者に送信しました。ありがとうございました。")
+            }
+        }
+        
+        //        //メールを送信できるかチェック
+        //        guard MFMailComposeViewController.canSendMail() else { print("Email Send Failed"); return }
+        //
+        //        let address = ConfigData(type: .mail).getPlistKey
+        //        let toRecipients = [address]
+        //        let userObjectId = (targetUserInfo as AnyObject).objectId as String!
+        //        let mailBody = "報告" + "\n" + "報告者：" + userObjectId! + "\n\n" + "報告内容（入力してください）："
+        //
+        //        let mail = MFMailComposeViewController()
+        //        mail.mailComposeDelegate = self
+        //        mail.setSubject("報告")
+        //        mail.setToRecipients(toRecipients) //Toアドレスの表示
+        //        mail.setMessageBody(mailBody, isHTML: false)
+        //
+        //        self.present(mail, animated: true, completion: nil)
+        
+        
+    }
+    
+    fileprivate func setHeader() {
         self.mapViewHeight = round(UIScreen.main.bounds.size.height / 3)
         self.innerViewHeight = self.mapViewHeight + round(self.mapViewHeight / 3)
         self.displayWidth = UIScreen.main.bounds.size.width
         self.displayHeight = UIScreen.main.bounds.size.height
         
         self.myHeaderView = UIView(frame: CGRect(x: 0, y: -innerViewHeight, width: self.self.displayHeight, height: innerViewHeight))
-        self.myHeaderView.backgroundColor = UIColor.white
+        self.myHeaderView.backgroundColor = LayoutManager.getUIColorFromRGB(0xF9F9F9)
         self.tableView.addSubview(self.myHeaderView)
     }
     
-    func initTableView() {
+    fileprivate func initTableView() {
         let nibName = UINib(nibName: "DetailProfileTableViewCell", bundle: nil)
         self.tableView.register(nibName, forCellReuseIdentifier: detailTableViewCellIdentifier)
         self.tableView.estimatedRowHeight = 200.0
@@ -548,7 +577,7 @@ class TargetProfileViewController:
         self.tableView.contentInset.top = self.innerViewHeight
     }
     
-    func setImageProfile() {
+    fileprivate func setImageProfile() {
         let imageSize = round(UIScreen.main.bounds.size.width / 4)
         let imageY = mapViewHeight - round(imageSize / 2)
         
@@ -578,7 +607,7 @@ class TargetProfileViewController:
         }
     }
     
-    func setGoogleMap() {
+    fileprivate func setGoogleMap() {
         let gmaps = GMSMapView()
         gmaps.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: mapViewHeight)
         gmaps.isMyLocationEnabled = false
@@ -606,14 +635,14 @@ class TargetProfileViewController:
         self.myHeaderView.addSubview(gmaps)
     }
     
-    func getDateformatStringForUserInfo(keyString: String) -> String {
+    fileprivate func getDateformatStringForUserInfo(keyString: String) -> String {
         if let data = (self.targetUserInfo as AnyObject).object(forKey: keyString) {
             return (data as! Date).formatter(format: .JP)
         }
         
         return ""
     }
-
+    
     func clickRemoveBlock() {
         UIAlertController.showAlertOKCancel("", message: "ブロックしています。ブロックを解除しますか？", actiontitle: "解除") { action in
             guard action == .ok else { return }
@@ -652,7 +681,7 @@ class TargetProfileViewController:
                 self.errorAction()
                 return
             }
-
+            
             self.gonowInfo = GonowData(parseObject: result)
             self.setGoogleMap()
             self.setImageProfile()
@@ -660,14 +689,6 @@ class TargetProfileViewController:
         }
     }
     
-    func createRefreshButton() {
-        let btn: ZFRippleButton = StyleConst.displayWideZFRippleButton("再描画")
-        btn.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width / 2, height: 50)
-        btn.addTarget(self, action: #selector(self.refresh), for: UIControlEvents.touchUpInside)
-        btn.layer.position = CGPoint(x: self.view.bounds.width / 2, y: self.view.bounds.height / 2)
-        self.view.addSubview(btn)
-    }
-
 }
 
 

@@ -16,15 +16,16 @@ enum MeetType {
     case match, send, receive
 }
 
-class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, GADBannerViewDelegate, GADInterstitialDelegate, UITabBarDelegate, TransisionProtocol, TargetProfileViewControllerDelegate, UIWebViewDelegate {
+class MeetupViewController: UIViewController, GADBannerViewDelegate, GADInterstitialDelegate, UITabBarDelegate, TransisionProtocol, TargetProfileViewControllerDelegate, UIWebViewDelegate {
     
-    private var goNowList: [AnyObject]?
-    private var meetupList: [AnyObject]?
-    private var recieveList: [AnyObject]?
-    private var nowSegumentIndex = 0
+    var goNowList: [AnyObject]?
+    var meetupList: [AnyObject]?
+    var recieveList: [AnyObject]?
+    var nowSegumentIndex = 0
+    let detailTableViewCellIdentifier = "GoNowCell"
+    
     private var refreshControl:UIRefreshControl!
-    private let detailTableViewCellIdentifier = "GoNowCell"
-//    @IBOutlet weak var headerView: UIView!
+    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var bannerView: GADBannerView!
     
@@ -41,7 +42,7 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         segment.sizeToFit()
         segment.selectedSegmentIndex = 0;
         segment.addTarget(self, action: #selector(self.segmentChanged), for: .valueChanged)
-
+        
         return segment
     }()
     
@@ -63,10 +64,6 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     override func loadView() {
-//        self.navigationItem.title = "いまから来る人リスト"
-//        self.navigationController!.navigationBar.tintColor = UIColor.darkGray
-        
-        
         self.navigationItem.titleView = segment
         
         if let view = UINib(nibName: "GoNowListView", bundle: nil).instantiate(withOwner: self, options: nil).first as? UIView {
@@ -93,8 +90,61 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
     }
     
-    func setNoMeetupTableView(count: Int) {
-        if count == 0 {
+    // TargetProfileViewから戻ってきた時の処理
+    func postTargetViewControllerDismissionAction() {
+        refreshAction()
+    }
+    
+    func segmentChanged(_ segcon: UISegmentedControl){
+        MBProgressHUDHelper.sharedInstance.hide()
+        
+        guard self.isInternetConnect() else {
+            self.errorAction()
+            return
+        }
+        
+        self.nowSegumentIndex = segcon.selectedSegmentIndex
+        
+        switch self.nowSegumentIndex {
+        case 0:
+            if self.goNowList == nil { self.getApprovedMeetUpList() }
+        case 1:
+            if self.meetupList == nil { self.getMeetUpList() }
+        case 2:
+            if self.recieveList == nil { self.getReceiveList() }
+        default:
+            break
+        }
+        
+        self.tableView.reloadData()
+    }
+    
+    func reloadData(_ notification:Notification) {
+        self.tableView.reloadData()
+    }
+    
+    func refreshAction() {
+        guard self.isInternetConnect() else {
+            self.errorAction()
+            self.refreshControl.endRefreshing()
+            return
+        }
+        
+        switch self.nowSegumentIndex {
+        case 0:
+            self.getApprovedMeetUpList()
+        case 1:
+            self.getMeetUpList()
+        case 2:
+            self.getReceiveList()
+        default:
+            break
+        }
+        self.refreshControl.endRefreshing()
+    }
+    
+    fileprivate func setNoMeetupTableView(count: Int) {
+        guard count != 0 else {
             let noDataLabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.size.width, height: self.tableView.bounds.size.height))
             noDataLabel.text = "待ち合わせ情報がありません"
             noDataLabel.textColor        = UIColor.darkGray
@@ -102,18 +152,195 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
             self.tableView.backgroundView = noDataLabel
             self.tableView.separatorStyle = .none
             
-        } else {
-            self.tableView.separatorStyle = .singleLine
-            self.tableView.backgroundView = nil
+            return
         }
+        
+        self.tableView.separatorStyle = .singleLine
+        self.tableView.backgroundView = nil
+    }
+    
+    fileprivate func getGonowObject(row: Int) -> AnyObject {
+        if self.nowSegumentIndex == 0 {
+            if let list = self.goNowList { return list[row] }
+            
+        } else if self.nowSegumentIndex == 1 {
+            if let list = self.meetupList { return list[row] }
+            
+        } else if self.nowSegumentIndex == 2 {
+            if let list = self.recieveList { return list[row] }
+        }
+        
+        return PFObject()
+    }
+    
+    fileprivate func initTableView() {
+        let nibName = UINib(nibName: "GoNowTableViewCell", bundle:nil)
+        self.tableView.register(nibName, forCellReuseIdentifier: detailTableViewCellIdentifier)
+        self.tableView.estimatedRowHeight = 100.0
+        self.tableView.rowHeight = UITableViewAutomaticDimension
+        self.tableView.rowHeight = 85.0
+        self.tableView.sectionHeaderHeight = 1
+    }
+    
+    fileprivate func createRefreshControl() {
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl.addTarget(self, action: #selector(self.refreshAction), for: .valueChanged)
+        self.tableView.addSubview(refreshControl)
+    }
+    
+    fileprivate func getUserInfomation(index: Int) -> PFObject? {
+        let gonowObject = getGonowObject(row: index)
+        var userInfoObject: PFObject?
+        
+        if nowSegumentIndex == 0 {
+            let userID = gonowObject.object(forKey: "UserID") as! String
+            let targetUserID = gonowObject.object(forKey: "TargetUserID") as! String
+            
+            if userID == PersistentData.userID {
+                userInfoObject = gonowObject.object(forKey: "TargetUser") as? PFObject
+                
+            } else if targetUserID == PersistentData.userID {
+                userInfoObject = gonowObject.object(forKey: "User") as? PFObject
+            }
+            
+        } else if nowSegumentIndex == 1 {
+            userInfoObject = gonowObject.object(forKey: "TargetUser") as? PFObject
+            
+        } else {
+            userInfoObject = gonowObject.object(forKey: "User") as? PFObject
+        }
+        
+        return userInfoObject
+    }
+    
+    fileprivate func getMyUserInfo(index: Int) -> PFObject? {
+        let gonowObject = getGonowObject(row: index)
+        let userID = gonowObject.object(forKey: "UserID") as! String
+        let targetUserID = gonowObject.object(forKey: "TargetUserID") as! String
+        var userInfoObject: PFObject?
+        
+        if userID == PersistentData.userID {
+            userInfoObject = gonowObject.object(forKey: "User") as? PFObject
+            
+        } else if targetUserID == PersistentData.userID {
+            userInfoObject = gonowObject.object(forKey: "TargetUser") as? PFObject
+        }
+        
+        return userInfoObject
+    }
+    
+    fileprivate func getApprovedMeetUpList() {
+        guard self.isInternetConnect() else {
+            self.errorAction()
+            return
+        }
+        
+        MBProgressHUDHelper.sharedInstance.show(self.view)
+        
+        ParseHelper.getApprovedMeetupList(PersistentData.userID) { (error: NSError?, result) -> Void in
+            MBProgressHUDHelper.sharedInstance.hide()
+            
+            guard error == nil else { print("Error information"); return }
+            
+            self.goNowList = result
+            self.tableView.reloadData()
+        }
+    }
+    
+    fileprivate func getMeetUpList() {
+        MBProgressHUDHelper.sharedInstance.show(self.view)
+        
+        ParseHelper.getMeetupList(PersistentData.userID) { (error: NSError?, result) -> Void in
+            MBProgressHUDHelper.sharedInstance.hide()
+            
+            guard error == nil else { print("Error information"); return }
+            
+            self.meetupList = result
+            self.tableView.reloadData()
+        }
+    }
+    
+    fileprivate func getReceiveList() {
+        MBProgressHUDHelper.sharedInstance.show(self.view)
+        
+        ParseHelper.getReceiveList(PersistentData.userID) { (error: NSError?, result) -> Void in
+            MBProgressHUDHelper.sharedInstance.hide()
+            
+            guard error == nil else { print("Error information"); return }
+            
+            self.recieveList = result
+            self.tableView.reloadData()
+        }
+    }
+    
+    fileprivate func deleteAction(row: Int) {
+        let gonowObject = getGonowObject(row: row) as! PFObject
+        let isDeleteUser = gonowObject.object(forKey: "isDeleteUser") as! Bool
+        let isDeleteTarget = gonowObject.object(forKey: "isDeleteTarget") as! Bool
+        
+        MBProgressHUDHelper.sharedInstance.show(self.view)
+        
+        defer { MBProgressHUDHelper.sharedInstance.hide() }
+        
+        guard !isDeleteUser && !isDeleteTarget else {
+            self.deleteGoNow(row: row)
+            return
+        }
+        
+        let userID = gonowObject.object(forKey: "UserID") as! String
+        let targetUserID = gonowObject.object(forKey: "TargetUserID") as! String
+        let targetUserObjectId = gonowObject.object(forKey: "TargetUser") as! PFObject
+        
+        if userID == PersistentData.userID {
+            gonowObject["isDeleteUser"] = true
+            
+        } else if targetUserID == PersistentData.userID {
+            gonowObject["isDeleteTarget"] = true
+        }
+        
+        gonowObject.saveInBackground()
+        
+        switch self.nowSegumentIndex {
+        case 0:
+            self.goNowList?.remove(at: row)
+        case 1:
+            self.meetupList?.remove(at: row)
+        case 2:
+            self.recieveList?.remove(at: row)
+        default:
+            break
+        }
+        
+        // イマ行くリストの削除
+        print("imaikuUserList \(PersistentData.imaikuUserList)")
+        
+        PersistentData.imaikuUserList.removeValue(forKey: targetUserObjectId.objectId!)
+        
+        
+        self.tableView.reloadData()
+    }
+    
+    fileprivate func deleteGoNow(row: Int) {
+        let gonowObject = getGonowObject(row: row) as! PFObject
+        
+        ParseHelper.deleteGoNow(gonowObject.objectId!) { () -> () in
+            switch self.nowSegumentIndex {
+            case 0:
+                self.goNowList?.remove(at: row)
+            case 1:
+                self.meetupList?.remove(at: row)
+            case 2:
+                self.recieveList?.remove(at: row)
+            default:
+                break
+            }
+            
+            self.tableView.reloadData()
+        }
+    }
+}
 
-    }
-    
-    // TargetProfileViewから戻ってきた時の処理
-    func postTargetViewControllerDismissionAction() {
-        refreshAction()
-    }
-    
+extension MeetupViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if self.nowSegumentIndex == 0 {
             if let list = self.goNowList {
@@ -134,23 +361,10 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
             }
             
         }
-
+        
         return 0
     }
     
-    func getGonowObject(row: Int) -> AnyObject {
-        if self.nowSegumentIndex == 0 {
-            if let list = self.goNowList { return list[row] }
-            
-        } else if self.nowSegumentIndex == 1 {
-            if let list = self.meetupList { return list[row] }
-            
-        } else if self.nowSegumentIndex == 2 {
-            if let list = self.recieveList { return list[row] }
-        }
-        
-        return PFObject()
-    }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return CGFloat.leastNormalMagnitude
@@ -202,7 +416,7 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
             
             return gonowCell!
         }
-
+        
         if let imageFile = userInfoNotNil.value(forKey: "ProfilePicture") as? PFFile {
             imageFile.getDataInBackground { (imageData, error) -> Void in
                 guard error == nil else { print("Error information"); return }
@@ -257,23 +471,13 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
         vc.targetUserInfo = userInfoObject
         vc.gonowInfo = gonowData
         vc.type = type
-
+        
         self.navigationController!.pushViewController(vc, animated: true)
     }
     
     func tableView(_ tableView: UITableView,canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
-    
-//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-//        if editingStyle == .delete {
-//            UIAlertController.showAlertOKCancel("", message: "削除します。よろしいですか？", actiontitle: "削除") { action in
-//                guard action == .ok else { return }
-//                
-//                self.deleteAction(row: indexPath.row)
-//            }
-//        }
-//    }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
@@ -299,232 +503,16 @@ class MeetupViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     if let myUserInfo = self.getMyUserInfo(index: indexPath.row) {
                         myUserInfo.add(userInfoObject.objectId!, forKey: "blockUserList")
                         myUserInfo.saveInBackground()
-
+                        
                         PersistentData.blockUserList = myUserInfo.object(forKey: "blockUserList") as! [String]
                     }
                 }
                 
                 self.deleteAction(row: indexPath.row)
             }
-//            tableView.isEditing = false
-//            print("ブロック")
         }
         
         return [deleteButton, blockButton]
     }
     
-    func segmentChanged(_ segcon: UISegmentedControl){
-        MBProgressHUDHelper.sharedInstance.hide()
-        
-        guard self.isInternetConnect() else {
-            self.errorAction()
-            return
-        }
-        
-        self.nowSegumentIndex = segcon.selectedSegmentIndex
-        
-        switch self.nowSegumentIndex {
-        case 0:
-            if self.goNowList == nil { self.getApprovedMeetUpList() }
-        case 1:
-            if self.meetupList == nil { self.getMeetUpList() }
-        case 2:
-            if self.recieveList == nil { self.getReceiveList() }
-        default:
-            break
-        }
-        
-        self.tableView.reloadData()
-    }
-    
-    private func initTableView() {
-        let nibName = UINib(nibName: "GoNowTableViewCell", bundle:nil)
-        self.tableView.register(nibName, forCellReuseIdentifier: detailTableViewCellIdentifier)
-        self.tableView.estimatedRowHeight = 100.0
-        self.tableView.rowHeight = UITableViewAutomaticDimension
-        self.tableView.rowHeight = 85.0
-        self.tableView.sectionHeaderHeight = 1
-    }
-
-    private func createRefreshControl() {
-        self.refreshControl = UIRefreshControl()
-        self.refreshControl.addTarget(self, action: #selector(self.refreshAction), for: .valueChanged)
-        self.tableView.addSubview(refreshControl)
-    }
-    
-    
-    func reloadData(_ notification:Notification) {
-        self.tableView.reloadData()
-    }
-    
-    func refreshAction() {
-        guard self.isInternetConnect() else {
-            self.errorAction()
-            self.refreshControl.endRefreshing()
-            return
-        }
-        
-        switch self.nowSegumentIndex {
-        case 0:
-            self.getApprovedMeetUpList()
-        case 1:
-            self.getMeetUpList()
-        case 2:
-            self.getReceiveList()
-        default:
-            break
-        }
-        self.refreshControl.endRefreshing()
-    }
-    
-    private func getUserInfomation(index: Int) -> PFObject? {
-        let gonowObject = getGonowObject(row: index)
-        var userInfoObject: PFObject?
-        
-        if nowSegumentIndex == 0 {
-            let userID = gonowObject.object(forKey: "UserID") as! String
-            let targetUserID = gonowObject.object(forKey: "TargetUserID") as! String
-            
-            if userID == PersistentData.userID {
-                userInfoObject = gonowObject.object(forKey: "TargetUser") as? PFObject
-                
-            } else if targetUserID == PersistentData.userID {
-                userInfoObject = gonowObject.object(forKey: "User") as? PFObject
-            }
-            
-        } else if nowSegumentIndex == 1 {
-            userInfoObject = gonowObject.object(forKey: "TargetUser") as? PFObject
-            
-        } else {
-            userInfoObject = gonowObject.object(forKey: "User") as? PFObject
-        }
-        
-        return userInfoObject
-    }
-    
-    private func getMyUserInfo(index: Int) -> PFObject? {
-        let gonowObject = getGonowObject(row: index)
-        let userID = gonowObject.object(forKey: "UserID") as! String
-        let targetUserID = gonowObject.object(forKey: "TargetUserID") as! String
-        var userInfoObject: PFObject?
-    
-        if userID == PersistentData.userID {
-            userInfoObject = gonowObject.object(forKey: "User") as? PFObject
-
-        } else if targetUserID == PersistentData.userID {
-            userInfoObject = gonowObject.object(forKey: "TargetUser") as? PFObject
-        }
-        
-        return userInfoObject
-    }
-    
-    func getApprovedMeetUpList() {
-        guard self.isInternetConnect() else {
-            self.errorAction()
-            return
-        }
-        
-        MBProgressHUDHelper.sharedInstance.show(self.view)
-        
-        ParseHelper.getApprovedMeetupList(PersistentData.userID) { (error: NSError?, result) -> Void in
-            MBProgressHUDHelper.sharedInstance.hide()
-            
-            guard error == nil else { print("Error information"); return }
-            
-            self.goNowList = result
-            self.tableView.reloadData()
-        }
-    }
-    
-    func getMeetUpList() {
-        MBProgressHUDHelper.sharedInstance.show(self.view)
-        
-        ParseHelper.getMeetupList(PersistentData.userID) { (error: NSError?, result) -> Void in
-            MBProgressHUDHelper.sharedInstance.hide()
-            
-            guard error == nil else { print("Error information"); return }
-            
-            self.meetupList = result
-            self.tableView.reloadData()
-        }
-    }
-    
-    func getReceiveList() {
-        MBProgressHUDHelper.sharedInstance.show(self.view)
-        
-        ParseHelper.getReceiveList(PersistentData.userID) { (error: NSError?, result) -> Void in
-            MBProgressHUDHelper.sharedInstance.hide()
-            
-            guard error == nil else { print("Error information"); return }
-            
-            self.recieveList = result
-            self.tableView.reloadData()
-        }
-    }
-    
-    private func deleteAction(row: Int) {
-        let gonowObject = getGonowObject(row: row) as! PFObject
-        let isDeleteUser = gonowObject.object(forKey: "isDeleteUser") as! Bool
-        let isDeleteTarget = gonowObject.object(forKey: "isDeleteTarget") as! Bool
-        
-        MBProgressHUDHelper.sharedInstance.show(self.view)
-        
-        defer { MBProgressHUDHelper.sharedInstance.hide() }
-        
-        guard !isDeleteUser && !isDeleteTarget else {
-            self.deleteGoNow(row: row)
-            return
-        }
-        
-        let userID = gonowObject.object(forKey: "UserID") as! String
-        let targetUserID = gonowObject.object(forKey: "TargetUserID") as! String
-        let targetUserObjectId = gonowObject.object(forKey: "TargetUser") as! PFObject
-        
-        if userID == PersistentData.userID {
-            gonowObject["isDeleteUser"] = true
-            
-        } else if targetUserID == PersistentData.userID {
-            gonowObject["isDeleteTarget"] = true
-        }
-        
-        gonowObject.saveInBackground()
-
-        switch self.nowSegumentIndex {
-        case 0:
-            self.goNowList?.remove(at: row)
-        case 1:
-            self.meetupList?.remove(at: row)
-        case 2:
-            self.recieveList?.remove(at: row)
-        default:
-            break
-        }
-        
-        // イマ行くリストの削除
-        print("imaikuUserList \(PersistentData.imaikuUserList)")
-
-        PersistentData.imaikuUserList.removeValue(forKey: targetUserObjectId.objectId!)
-        
-        
-        self.tableView.reloadData()
-    }
-    
-    private func deleteGoNow(row: Int) {
-        let gonowObject = getGonowObject(row: row) as! PFObject
-        
-        ParseHelper.deleteGoNow(gonowObject.objectId!) { () -> () in
-            switch self.nowSegumentIndex {
-            case 0:
-                self.goNowList?.remove(at: row)
-            case 1:
-                self.meetupList?.remove(at: row)
-            case 2:
-                self.recieveList?.remove(at: row)
-            default:
-                break
-            }
-            
-            self.tableView.reloadData()
-        }
-    }
 }

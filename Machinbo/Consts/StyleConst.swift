@@ -34,8 +34,8 @@ final class StyleConst {
         
         let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: displayWidth - 20, height: 50))
         btn.trackTouchLocation = true
-        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1, alpha: 1.0)
-        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1, alpha: 1.0)
+        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1)
+        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1)
         btn.rippleColor = LayoutManager.getUIColorFromRGB(0x1976D2)
         btn.setTitle(title, for: UIControlState())
         btn.layer.cornerRadius = 2

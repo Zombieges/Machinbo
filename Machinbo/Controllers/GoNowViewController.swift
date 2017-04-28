@@ -13,29 +13,20 @@ import SpriteKit
 import MBProgressHUD
 import GoogleMobileAds
 
-class GoNowViewController:
-    UIViewController,
-    UITableViewDelegate,
-    UITableViewDataSource,
-    UINavigationControllerDelegate,
-    UIPickerViewDelegate,
-    PickerViewControllerDelegate,
-    GADBannerViewDelegate,
-    GADInterstitialDelegate,
-    TransisionProtocol {
+class GoNowViewController: UIViewController, UINavigationControllerDelegate, GADBannerViewDelegate, GADInterstitialDelegate, TransisionProtocol {
     
     @IBOutlet weak var tableView: UITableView!
     
     var palGeoPoint: PFGeoPoint?
-    private var inputDateFrom: Date?
-    private var inputDateTo: Date?
-    private var inputPlace = ""
-    private var inputChar = ""
-    private let normalTableViewCellIdentifier = "NormalCell"
-    private let detailTableViewCellIdentifier = "DetailCell"
-    private let targetProfileItems = ["何時から", "何時まで", "待ち合わせ場所", "私の特徴"]
-    private var selectedRow: Int = 0
-
+    var inputDateFrom: Date?
+    var inputDateTo: Date?
+    var inputPlace = ""
+    var inputChar = ""
+    let detailTableViewCellIdentifier = "DetailCell"
+    var selectedRow: Int = 0
+    
+    let targetProfileItems = ["何時から", "何時まで", "待ち合わせ場所", "私の特徴"]
+    
     override func loadView() {
         if let view = UINib(nibName: "ImakokoView", bundle: nil).instantiate(withOwner: self, options: nil).first as? UIView {
             self.view = view
@@ -45,6 +36,108 @@ class GoNowViewController:
         self.navigationController!.navigationBar.tintColor = UIColor.darkGray
         self.initTableView()
     }
+    
+    @IBAction func imaikuButton(_ sender: AnyObject) {
+        guard self.inputDateFrom != nil else {
+            UIAlertController.showAlertView("", message: "待ち合わせ時間（何時から〜）を入力してください")
+            return
+        }
+        guard self.inputDateTo != nil else {
+            UIAlertController.showAlertView("", message: "待ち合わせ時間（〜何時まで）を入力してください")
+            return
+        }
+        
+        MBProgressHUDHelper.sharedInstance.show(self.view)
+        
+        ParseHelper.getMyUserInfomation(PersistentData.userID) { (error: NSError?, result: PFObject?) -> Void in
+            guard let result = result, error == nil else {
+                self.errorAction()
+                return
+            }
+            
+            let query = result as PFObject
+            query["GPS"] = self.palGeoPoint
+            query["MarkTime"] = self.inputDateFrom
+            query["MarkTimeTo"] = self.inputDateTo
+            query["PlaceDetail"] = self.inputPlace
+            query["MyChar"] = self.inputChar
+            query["IsRecruitment"] = true
+            query.saveInBackground { (success: Bool, error: Error?) -> Void in
+                defer { MBProgressHUDHelper.sharedInstance.hide() }
+                
+                guard success, error == nil else {
+                    self.errorAction()
+                    return
+                }
+                
+                if let inputDateFrom = self.inputDateFrom {
+                    PersistentData.markTimeFrom = inputDateFrom.formatter(format: .JP)
+                }
+                
+                if let inputDateTo = self.inputDateTo {
+                    PersistentData.markTimeTo = inputDateTo.formatter(format: .JP)
+                }
+                
+                PersistentData.place = self.inputPlace
+                PersistentData.mychar = self.inputChar
+                PersistentData.isRecruitment = true //募集中フラグ
+                
+                UIAlertController.showAlertOKCancel("", message: "待ち合わせ登録をしました。投稿内容を確認しますか？", actiontitle: "確認") { action in
+                    if action == .cancel {
+                        let vc = MapViewController()
+                        self.navigationController?.pushViewController(vc, animated: true)
+                        return
+                    }
+                    
+                    let vc = TargetProfileViewController(type: .entryTarget)
+                    vc.targetUserInfo = result
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+            }
+        }
+    }
+    
+    fileprivate func initTableView() {
+        let nibName = UINib(nibName: "DetailProfileTableViewCell", bundle:nil)
+        self.tableView.register(nibName, forCellReuseIdentifier: self.detailTableViewCellIdentifier)
+        // 不要行の削除
+        self.tableView.tableFooterView = UIView(frame: CGRect.zero)
+        self.tableView.rowHeight = 85.0
+        self.view.addSubview(self.tableView)
+    }
+}
+
+
+extension GoNowViewController: UIPickerViewDelegate, PickerViewControllerDelegate {
+    internal func setSelectedValue(_ selectedIndex: Int, selectedValue: String, type: SelectPickerType) {}
+    
+    internal func setInputValue(_ inputValue: String, type: InputPickerType) {
+        if type == .comment {
+            if selectedRow == 2 {
+                self.inputPlace = inputValue
+                
+            } else if selectedRow == 3 {
+                self.inputChar = inputValue
+            }
+            
+            self.tableView.reloadData()
+        }
+    }
+    
+    internal func setSelectedDate(_ selectedDate: Date) {
+        if selectedRow == 0 {
+            self.inputDateFrom = selectedDate
+            
+        } else if selectedRow == 1 {
+            self.inputDateTo = selectedDate
+        }
+        
+        self.tableView.reloadData()
+    }
+}
+
+
+extension GoNowViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -63,8 +156,8 @@ class GoNowViewController:
         if indexPath.row <= 1 {
             normalCell = self.tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier)
             normalCell = UITableViewCell(style: .value1, reuseIdentifier: tableViewCellIdentifier)
-            normalCell!.textLabel!.font = UIFont.systemFont(ofSize: 16)
-            normalCell!.detailTextLabel!.font = UIFont.systemFont(ofSize: 16)
+            normalCell?.textLabel?.adjustsFontForContentSizeCategory = true
+            normalCell?.detailTextLabel?.adjustsFontForContentSizeCategory = true
             
         } else {
             detailCell = self.tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? DetailProfileTableViewCell
@@ -145,100 +238,5 @@ class GoNowViewController:
             
             self.navigationController?.pushViewController(vc, animated: true)
         }
-    }
-    
-    @IBAction func imaikuButton(_ sender: AnyObject) {
-        guard self.inputDateFrom != nil else {
-            UIAlertController.showAlertView("", message: "待ち合わせ時間（何時から〜）を入力してください")
-            return
-        }
-        guard self.inputDateTo != nil else {
-            UIAlertController.showAlertView("", message: "待ち合わせ時間（〜何時まで）を入力してください")
-            return
-        }
-        
-        MBProgressHUDHelper.sharedInstance.show(self.view)
-        
-        ParseHelper.getMyUserInfomation(PersistentData.userID) { (error: NSError?, result: PFObject?) -> Void in
-            guard let result = result, error == nil else {
-                self.errorAction()
-                return
-            }
-            
-            let query = result as PFObject
-            query["GPS"] = self.palGeoPoint
-            query["MarkTime"] = self.inputDateFrom
-            query["MarkTimeTo"] = self.inputDateTo
-            query["PlaceDetail"] = self.inputPlace
-            query["MyChar"] = self.inputChar
-            query["IsRecruitment"] = true
-            query.saveInBackground { (success: Bool, error: Error?) -> Void in
-                defer { MBProgressHUDHelper.sharedInstance.hide() }
-                
-                guard success, error == nil else {
-                    self.errorAction()
-                    return
-                }
-                
-                if let inputDateFrom = self.inputDateFrom {
-                    PersistentData.markTimeFrom = inputDateFrom.formatter(format: .JP)
-                }
-                
-                if let inputDateTo = self.inputDateTo {
-                    PersistentData.markTimeTo = inputDateTo.formatter(format: .JP)
-                }
-                
-                PersistentData.place = self.inputPlace
-                PersistentData.mychar = self.inputChar
-                PersistentData.isRecruitment = true //募集中フラグ
-                
-                UIAlertController.showAlertOKCancel("", message: "待ち合わせ登録をしました。投稿内容を確認しますか？", actiontitle: "確認") { action in
-                    if action == .cancel {
-                        let vc = MapViewController()
-                        self.navigationController?.pushViewController(vc, animated: true)
-                        return
-                    }
-                 
-                    let vc = TargetProfileViewController(type: .entryTarget)
-                    vc.targetUserInfo = result
-                    self.navigationController?.pushViewController(vc, animated: true)
-                }
-            }
-        }
-    }
-    
-    internal func setSelectedValue(_ selectedIndex: Int, selectedValue: String, type: SelectPickerType) {}
-    
-    internal func setInputValue(_ inputValue: String, type: InputPickerType) {
-        if type == .comment {
-            if selectedRow == 2 {
-                self.inputPlace = inputValue
-                
-            } else if selectedRow == 3 {
-                self.inputChar = inputValue
-            }
-            
-            self.tableView.reloadData()
-        }
-    }
-    
-    internal func setSelectedDate(_ selectedDate: Date) {
-        if selectedRow == 0 {
-            self.inputDateFrom = selectedDate
-            
-        } else if selectedRow == 1 {
-            self.inputDateTo = selectedDate
-        }
-        
-        self.tableView.reloadData()
-    }
-    
-    private func initTableView() {
-        let nibName = UINib(nibName: "DetailProfileTableViewCell", bundle:nil)
-        self.tableView.register(nibName, forCellReuseIdentifier: self.detailTableViewCellIdentifier)
-        // 不要行の削除
-        self.tableView.tableFooterView = UIView(frame: CGRect.zero)
-        self.tableView.rowHeight = 85.0
-        self.view.addSubview(self.tableView)
     }
 }

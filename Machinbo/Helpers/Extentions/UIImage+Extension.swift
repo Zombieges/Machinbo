@@ -16,12 +16,17 @@ extension UIImage {
         let newHeight = self.size.height * scale
         let size = CGSize(width: newWidth, height: newHeight)
         UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
-        var context = UIGraphicsGetCurrentContext()
+        let context = UIGraphicsGetCurrentContext()
         
-        self.draw(in: CGRect(x: 0, y: 0, width: newWidth, height: newHeight))
+        
+        let rect = CGRect(x: 0, y: 0, width: newWidth, height: newHeight)
+        self.draw(in: rect)
+        //context!.setFillColor(UIColor.black.cgColor)
+        context!.addRect(rect)
+        //context!.drawPath(using: .fill)
+        
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        
         return newImage!
     }
 }

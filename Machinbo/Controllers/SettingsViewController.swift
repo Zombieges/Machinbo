@@ -151,12 +151,12 @@ class SettingsViewController: UIViewController, UINavigationControllerDelegate, 
     }
     
     func goToRulesPages() {
-        
-        let url = URL(string: "https://www.facebook.com/notes/machinbo/%E8%A6%8F%E7%B4%84/425584321122503")!
-        if #available(iOS 10.0, *) {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        } else {
-            UIApplication.shared.openURL(url)
+        if let url = URL(string: ConfigData(type: .rule).getPlistKey) {
+            if #available(iOS 10.0, *) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            } else {
+                UIApplication.shared.openURL(url)
+            }
         }
     }
     

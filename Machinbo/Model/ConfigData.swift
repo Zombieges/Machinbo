@@ -21,6 +21,7 @@ enum ConfigType: String {
     case parseClient = "PARSE_CLIENT_KEY"
     case parseURL = "PARSE_URL"
     case twitter = "TWITTER_LINK"
+    case rule = "RULE_URL"
 }
 
 struct ConfigData {

@@ -186,23 +186,38 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             return
         }
         
-        MBProgressHUDHelper.sharedInstance.show(self.view)
-        
-        let uuid = UUID().uuidString
-        
-        NSLog("UUID" + uuid)
-        
-        ParseHelper.createUserInfomation(
-            uuid,
-            name: inputName,
-            gender: gender,
-            age: selectedAge,
-            twitter: twitterName,
-            comment: inputComment,
-            photo: profilePicture.image!,
-            deviceToken: PersistentData.deviceToken
-        )
+        UIAlertController.showAlertOKCancel("注意事項", message: "本アプリの利用規約に反した行為を行った場合、アカウントを凍結いたします。\n利用規約は「利用規約」ボタンから確認いただけます。\n\n安全なサービス作りにご協力ください", actiontitle: "規約に同意") { action in
+            if action == .cancel { return }
+            
+            MBProgressHUDHelper.sharedInstance.show(self.view)
+            
+            let uuid = UUID().uuidString
+            
+            NSLog("UUID" + uuid)
+            
+            ParseHelper.createUserInfomation(
+                uuid,
+                name: self.inputName,
+                gender: self.gender,
+                age: self.selectedAge,
+                twitter: self.twitterName,
+                comment: self.inputComment,
+                photo: self.profilePicture.image!,
+                deviceToken: PersistentData.deviceToken
+            )
+        }
     }
+    
+    @IBAction func displayRuleAction(_ sender: Any) {
+        if let url = URL(string: ConfigData(type: .rule).getPlistKey) {
+            if #available(iOS 10.0, *) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            } else {
+                UIApplication.shared.openURL(url)
+            }
+        }
+    }
+    
     
     @IBAction func imakokoAction(_ sender: AnyObject) {
         if PersistentData.isRecruitment! {

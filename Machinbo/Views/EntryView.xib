@@ -24,8 +24,8 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="default" rowHeight="55" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="YmW-wK-9N8">
-                    <rect key="frame" x="0.0" y="133" width="375" height="433"/>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" style="grouped" separatorStyle="default" rowHeight="55" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="YmW-wK-9N8">
+                    <rect key="frame" x="0.0" y="133" width="375" height="434"/>
                     <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="8W5-ti-0qE"/>
@@ -39,7 +39,7 @@
                             <rect key="frame" x="17" y="10" width="113" height="113"/>
                         </imageView>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                     <constraints>
                         <constraint firstItem="leq-Pp-UA6" firstAttribute="leading" secondItem="PEC-ux-cxX" secondAttribute="leading" constant="17" id="2nV-ky-D1D"/>
                         <constraint firstItem="leq-Pp-UA6" firstAttribute="height" secondItem="PEC-ux-cxX" secondAttribute="width" multiplier="0.3" id="AbT-NK-drC"/>
@@ -48,8 +48,8 @@
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rf5-tc-hSa" customClass="ZFRippleButton" customModule="Machinbo" customModuleProvider="target">
-                    <rect key="frame" x="8" y="574" width="359" height="53.5"/>
-                    <color key="backgroundColor" red="0.70980392160000005" green="0.25882352939999997" blue="0.25490196079999999" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="sRGB"/>
+                    <rect key="frame" x="8" y="575" width="359" height="54"/>
+                    <color key="backgroundColor" red="0.70980392160000005" green="0.25882352939999997" blue="0.25490196079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                     <state key="normal" title="登　録">
                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -60,31 +60,54 @@
                             <color key="value" red="0.70980392160000005" green="0.25882352939999997" blue="0.25490196079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="color" keyPath="rippleBackgroundColor">
-                            <color key="value" red="0.85098039215686272" green="0.34901960784313724" blue="0.30196078431372547" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="sRGB"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                            <integer key="value" value="5"/>
+                            <color key="value" red="0.85098039215686272" green="0.34901960784313724" blue="0.30196078431372547" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                     <connections>
                         <action selector="pushStart:" destination="-1" eventType="touchUpInside" id="i3p-sa-6nX"/>
                     </connections>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tav-Si-hit" customClass="ZFRippleButton" customModule="Machinbo" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="633" width="375" height="34"/>
+                    <color key="backgroundColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
+                    <state key="normal" title="利用規約">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="color" keyPath="rippleColor">
+                            <color key="value" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="rippleBackgroundColor">
+                            <color key="value" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="0"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="displayRuleAction:" destination="-1" eventType="touchUpInside" id="wSq-dX-dTO"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="0.92156862750000001" green="0.92156862750000001" blue="0.94509803920000002" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="Rf5-tc-hSa" secondAttribute="trailing" constant="8" id="6on-n7-giJ"/>
+                <constraint firstAttribute="bottom" secondItem="tav-Si-hit" secondAttribute="bottom" id="8qM-PS-vLQ"/>
                 <constraint firstItem="YmW-wK-9N8" firstAttribute="top" secondItem="leq-Pp-UA6" secondAttribute="bottom" constant="10" id="BaG-ax-3Bd"/>
                 <constraint firstItem="PEC-ux-cxX" firstAttribute="leading" secondItem="3iS-eM-Ybb" secondAttribute="leading" id="EqR-YR-VdY"/>
                 <constraint firstItem="YmW-wK-9N8" firstAttribute="width" secondItem="3iS-eM-Ybb" secondAttribute="width" id="G0L-rK-QLJ"/>
+                <constraint firstItem="tav-Si-hit" firstAttribute="height" secondItem="3iS-eM-Ybb" secondAttribute="height" multiplier="0.05" id="H5u-9e-rIA"/>
                 <constraint firstItem="YmW-wK-9N8" firstAttribute="top" secondItem="PEC-ux-cxX" secondAttribute="bottom" id="H7T-6N-122"/>
                 <constraint firstItem="PEC-ux-cxX" firstAttribute="width" secondItem="3iS-eM-Ybb" secondAttribute="width" id="KmD-bw-tFd"/>
                 <constraint firstItem="PEC-ux-cxX" firstAttribute="top" secondItem="3iS-eM-Ybb" secondAttribute="top" id="Kpk-BJ-IoY"/>
-                <constraint firstItem="YmW-wK-9N8" firstAttribute="height" secondItem="3iS-eM-Ybb" secondAttribute="height" multiplier="0.65" id="ZtH-7l-m3E"/>
+                <constraint firstAttribute="trailing" secondItem="tav-Si-hit" secondAttribute="trailing" id="MpC-Hp-GNs"/>
+                <constraint firstItem="tav-Si-hit" firstAttribute="leading" secondItem="3iS-eM-Ybb" secondAttribute="leading" id="Ots-hV-4xW"/>
+                <constraint firstItem="YmW-wK-9N8" firstAttribute="height" secondItem="3iS-eM-Ybb" secondAttribute="height" multiplier="0.6" id="ZtH-7l-m3E"/>
                 <constraint firstItem="Rf5-tc-hSa" firstAttribute="leading" secondItem="3iS-eM-Ybb" secondAttribute="leading" constant="8" id="nyf-m7-5az"/>
                 <constraint firstItem="Rf5-tc-hSa" firstAttribute="height" secondItem="3iS-eM-Ybb" secondAttribute="height" multiplier="0.08" id="uPt-HD-Udk"/>
+                <constraint firstItem="Rf5-tc-hSa" firstAttribute="top" secondItem="YmW-wK-9N8" secondAttribute="bottom" constant="2" id="v6A-jn-uJg"/>
                 <constraint firstItem="YmW-wK-9N8" firstAttribute="leading" secondItem="3iS-eM-Ybb" secondAttribute="leading" id="ycz-gN-pp4"/>
-                <constraint firstItem="Rf5-tc-hSa" firstAttribute="top" secondItem="YmW-wK-9N8" secondAttribute="bottom" constant="10" id="yet-Rn-85I"/>
             </constraints>
             <userDefinedRuntimeAttributes>
                 <userDefinedRuntimeAttribute type="color" keyPath="rippleColor">

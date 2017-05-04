@@ -30,20 +30,14 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         locationManager_.desiredAccuracy = kCLLocationAccuracyThreeKilometers
         locationManager_.pausesLocationUpdatesAutomatically = true
         
-        if #available(iOS 9.0, *) {
-            locationManager_.allowsBackgroundLocationUpdates = true
-        }
-        
         // iOS8用のメソッドがあるかチェック
         if (self.locationManager_.responds(to: #selector(CLLocationManager.requestWhenInUseAuthorization))) {
             self.locationManager_.requestWhenInUseAuthorization()
         }
         
         // セキュリティ認証のステータスを取得
-        let status = CLLocationManager.authorizationStatus()
-        if status == .notDetermined {
-            // まだ承認が得られていない場合は、認証ダイアログを表示
-            locationManager_.requestWhenInUseAuthorization()
+        if CLLocationManager.authorizationStatus() != CLAuthorizationStatus.authorizedWhenInUse {
+            self.locationManager_.requestWhenInUseAuthorization()
         }
     }
     

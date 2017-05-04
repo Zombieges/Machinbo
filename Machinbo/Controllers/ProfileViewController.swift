@@ -188,23 +188,31 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         
         UIAlertController.showAlertOKCancel("注意事項", message: "本アプリの利用規約に反した行為を行った場合、アカウントを凍結いたします。\n利用規約は「利用規約」ボタンから確認いただけます。\n\n安全なサービス作りにご協力ください", actiontitle: "規約に同意") { action in
             if action == .cancel { return }
+
+            guard let uuid = UIDevice.current.identifierForVendor?.uuidString else {
+                return
+            }
             
             MBProgressHUDHelper.sharedInstance.show(self.view)
             
-            let uuid = UUID().uuidString
-            
-            NSLog("UUID" + uuid)
-            
-            ParseHelper.createUserInfomation(
-                uuid,
-                name: self.inputName,
-                gender: self.gender,
-                age: self.selectedAge,
-                twitter: self.twitterName,
-                comment: self.inputComment,
-                photo: self.profilePicture.image!,
-                deviceToken: PersistentData.deviceToken
-            )
+            ParseHelper.isBlocked(userID: uuid) { (error: NSError?, isBlocked: Bool) -> Void in
+                guard isBlocked == true else {
+                    MBProgressHUDHelper.sharedInstance.hide()
+                    UIAlertController.showAlertView("", message: "利用規約違反により、アカウントが凍結されました")
+                    return
+                }
+                
+                ParseHelper.createUserInfomation(
+                    uuid,
+                    name: self.inputName,
+                    gender: self.gender,
+                    age: self.selectedAge,
+                    twitter: self.twitterName,
+                    comment: self.inputComment,
+                    photo: self.profilePicture.image!,
+                    deviceToken: PersistentData.deviceToken
+                )
+            }
         }
     }
     

@@ -149,14 +149,14 @@ class PickerViewController: UIViewController, UISearchBarDelegate {
         self.navigationItem.title = "性別"
         self.myItems = ["男性","女性"]
         self.prepareTableView()
-        
     }
     
     func prepareAgeField() {
-        self.navigationItem.title = "年齢"
-        let comp = (Calendar.current as NSCalendar).components(NSCalendar.Unit.year, from: Date())
+        self.navigationItem.title = "生まれた年"
+        let nowDate = (Calendar.current as NSCalendar).components(NSCalendar.Unit.year, from: Date())
+        let sevenTeenYear = nowDate.year! - 17
         for i in 0...50 {
-            self.myItems.append((String(comp.year! - i)))
+            self.myItems.append((String(sevenTeenYear - i)))
         }
         self.prepareTableView()
     }

@@ -35,6 +35,7 @@
                 
                 if granted { UIApplication.shared.registerForRemoteNotifications() }
             }
+            
         } else {
             
             // それ以外
@@ -48,7 +49,6 @@
         NotificationHelper.launch()
         ParseHelper.launch(launchOptions)
         
-        
         let googleMapsKey = ConfigData(type: .googleMap).getPlistKey
         print("★google maps api key = " + googleMapsKey)
         
@@ -59,7 +59,6 @@
         let AdMobAppID = ConfigData(type: .adMobApp).getPlistKey
         GADMobileAds.configure(withApplicationID: AdMobAppID)
         print("★google admob app id = " + AdMobAppID)
-        
         
         //Fabric認証
         Fabric.with([Twitter()])
@@ -78,8 +77,32 @@
             self.window?.rootViewController = tabBarController
             self.window?.makeKeyAndVisible()
         }
-        
+
         return true
+    }
+    
+    private func isBlockedCheck() {
+        
+        ParseHelper.isBlocked(userID: PersistentData.userID) { (error: NSError?, isBlocked: Bool) -> Void in
+            guard isBlocked == false else {
+                return
+            }
+            
+            //local db の削除
+            PersistentData().deleteUserID()
+            
+            let newRootVC = ProfileViewController()
+            let navigationController = UINavigationController(rootViewController: newRootVC)
+            navigationController.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGray]
+            navigationController.navigationBar.tintColor = .darkGray
+            navigationController.navigationBar.isTranslucent = false
+            navigationController.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+            navigationController.navigationBar.setBackgroundImage(UIImage(named: "BarBackground"),
+                                                                  for: .default)
+            navigationController.navigationBar.shadowImage = UIImage()
+            UIApplication.shared.keyWindow?.rootViewController = navigationController
+            
+        }
     }
     
     // REGISTER DEVICE TOKEN
@@ -145,6 +168,32 @@
         // BadgeNumber を0にする.
         UIApplication.shared.applicationIconBadgeNumber = 0
 
+        guard !PersistentData.userID.isEmpty else {
+                return
+        }
+        
+        ParseHelper.isBlocked(userID: PersistentData.userID) { (error: NSError?, isBlocked: Bool) -> Void in
+            
+            guard isBlocked == false else {
+                return
+            }
+
+            ParseHelper.deleteUserInfo(PersistentData.userID) { () -> () in
+
+                UIAlertController.showAlertView("", message: "規約に違反したため、退会処分といたしました") { _ in
+                    let newRootVC = ProfileViewController()
+                    let navigationController = UINavigationController(rootViewController: newRootVC)
+                    navigationController.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.darkGray]
+                    navigationController.navigationBar.tintColor = .darkGray
+                    navigationController.navigationBar.isTranslucent = false
+                    navigationController.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+                    navigationController.navigationBar.setBackgroundImage(UIImage(named: "BarBackground"),
+                                                                          for: .default)
+                    navigationController.navigationBar.shadowImage = UIImage()
+                    UIApplication.shared.keyWindow?.rootViewController = navigationController
+                }
+            }
+        }
     }
     
     func applicationWillTerminate(_ application: UIApplication) {

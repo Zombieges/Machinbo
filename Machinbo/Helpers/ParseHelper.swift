@@ -24,6 +24,17 @@ class ParseHelper {
         }))
     }
     
+    class func isBlocked(userID: String, completion:((_ withError: NSError?, _ isBlocked: Bool) -> Void)?) {
+        let query = PFQuery(className: "BlockUser")
+        query.whereKey("UserID", equalTo: userID)
+        query.findObjectsInBackground { (objects, error) -> Void in
+            if error == nil {
+                let isBlocked = objects?.isEmpty
+                completion?(error as NSError?, isBlocked!)
+            }
+        }
+    }
+    
     class func getNearUserInfomation(_ myLocation: CLLocationCoordinate2D, completion:((_ withError: NSError?, _ result:[PFObject]?)->Void)?) {
         //50km圏内、近くから300件取得
         let myGeoPoint = PFGeoPoint(latitude: myLocation.latitude, longitude: myLocation.longitude)

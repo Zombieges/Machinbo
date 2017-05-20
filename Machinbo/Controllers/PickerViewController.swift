@@ -14,12 +14,9 @@ import MBProgressHUD
 import GoogleMobileAds
 import UserNotifications
 
-enum SelectPickerType { case gender, age }
 enum InputPickerType { case comment, name,  place, char }
 
 enum PickerKind {
-    case gender
-    case age
     case name
     case comment
     case imakokoDate
@@ -39,7 +36,6 @@ extension PickerViewController: TransisionProtocol {}
 
 protocol PickerViewControllerDelegate{
     func setInputValue(_ inputValue: String, type: InputPickerType)
-    func setSelectedValue(_ selectedIndex: Int, selectedValue: String, type: SelectPickerType)
     func setSelectedDate(_ SelectedDate: Date)
 }
 
@@ -74,8 +70,8 @@ class PickerViewController: UIViewController, UISearchBarDelegate {
         
         let btn = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: displayWidth - 20, height: 50))
         btn.trackTouchLocation = true
-        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x476EB3)
-        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x476EB3)
+        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x0D6FA1)
+        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x0D6FA1)
         btn.rippleColor = LayoutManager.getUIColorFromRGB(0x1976D2)
         btn.setTitle(title, for: UIControlState())
         btn.layer.masksToBounds = true
@@ -111,10 +107,6 @@ class PickerViewController: UIViewController, UISearchBarDelegate {
         }
         
         switch self.palKind! {
-        case .gender:
-            prepareGenderField()
-        case .age:
-            prepareAgeField()
         case .name:
             prepareNameField()
         case .comment:
@@ -143,22 +135,6 @@ class PickerViewController: UIViewController, UISearchBarDelegate {
         default: break
             
         }
-    }
-    
-    func prepareGenderField() {
-        self.navigationItem.title = "性別"
-        self.myItems = ["男性","女性"]
-        self.prepareTableView()
-    }
-    
-    func prepareAgeField() {
-        self.navigationItem.title = "生まれた年"
-        let nowDate = (Calendar.current as NSCalendar).components(NSCalendar.Unit.year, from: Date())
-        let sevenTeenYear = nowDate.year! - 17
-        for i in 0...50 {
-            self.myItems.append((String(sevenTeenYear - i)))
-        }
-        self.prepareTableView()
     }
     
     func prepareNameField() {
@@ -636,84 +612,6 @@ extension PickerViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         return UITableViewCell()
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard isInternetConnect() else {
-            self.errorAction()
-            return
-        }
-        
-        if self.palKind == .age {
-            
-            guard PersistentData.userID != "" else {
-                self.delegate!.setSelectedValue(indexPath.row, selectedValue: self.myItems[indexPath.row].uppercased(), type: .age)
-                self.navigationController!.popViewController(animated: true)
-                return
-            }
-            
-            MBProgressHUDHelper.sharedInstance.show(self.view)
-            
-            ParseHelper.getMyUserInfomation(PersistentData.userID) { (error: NSError?, result: PFObject?) -> Void in
-                guard let result = result, error == nil else {
-                    self.errorAction()
-                    return
-                }
-                
-                result["Age"] = self.myItems[indexPath.row].uppercased()
-                result.saveInBackground { (success: Bool, error: Error?) -> Void in
-                    defer {
-                        MBProgressHUDHelper.sharedInstance.hide()
-                    }
-                    
-                    guard success, error == nil else {
-                        self.errorAction()
-                        return
-                    }
-                    
-                    print("saved worked")
-                    PersistentData.age = self.myItems[indexPath.row].uppercased()
-                }
-            }
-            
-            self.delegate!.setSelectedValue(indexPath.row, selectedValue: self.myItems[indexPath.row].uppercased(), type: .age)
-            self.navigationController!.popViewController(animated: true)
-            
-        } else if self.palKind == .gender {
-            
-            guard PersistentData.userID != "" else {
-                self.delegate!.setSelectedValue(indexPath.row, selectedValue: self.myItems[indexPath.row].uppercased(), type: .gender)
-                self.navigationController!.popViewController(animated: true)
-                return
-            }
-            
-            MBProgressHUDHelper.sharedInstance.show(self.view)
-            
-            ParseHelper.getMyUserInfomation(PersistentData.userID) { (error: NSError?, result: PFObject?) -> Void in
-                guard let result = result, error == nil else {
-                    self.errorAction()
-                    return
-                }
-                
-                result["Gender"] = self.myItems[indexPath.row].uppercased()
-                result.saveInBackground { (success: Bool, error: Error?) -> Void in
-                    defer {
-                        MBProgressHUDHelper.sharedInstance.hide()
-                    }
-                    
-                    guard success, error == nil else {
-                        self.errorAction()
-                        return
-                    }
-                    
-                    print("saved worked")
-                    PersistentData.gender = self.myItems[indexPath.row].uppercased()
-                }
-            }
-            
-            self.delegate!.setSelectedValue(indexPath.row, selectedValue: self.myItems[indexPath.row].uppercased(), type: .gender)
-            self.navigationController!.popViewController(animated: true)
-        }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {

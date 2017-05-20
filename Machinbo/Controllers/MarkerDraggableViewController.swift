@@ -68,24 +68,13 @@ class MarkerDraggableViewController: UIViewController, CLLocationManagerDelegate
         self.gmapsView.addSubview(gmaps)
     }
     
-    func getMapCenterPosition(_ gmaps: GMSMapView) -> CLLocationCoordinate2D {
-        let visibleRegion = gmaps.projection.visibleRegion()
-        let bounds = GMSCoordinateBounds(region: visibleRegion)
-        
-        let center = CLLocationCoordinate2DMake(
-            (bounds.southWest.latitude + bounds.northEast.latitude) / 2,
-            (bounds.southWest.longitude + bounds.northEast.longitude) / 2)
-        
-        return center
-    }
-    
     @IBAction func createImakoko(_ sender: Any) {
         guard self.isInternetConnect() else {
             self.errorAction()
             return
         }
         
-        let mapViewCenter = getMapCenterPosition(gmaps)
+        let mapViewCenter = GoogleMapsHelper.getMapCenterPosition(gmaps)
         
         let vc = GoNowViewController()
         vc.palGeoPoint = PFGeoPoint(latitude: mapViewCenter.latitude, longitude: mapViewCenter.longitude)
@@ -107,7 +96,7 @@ extension MarkerDraggableViewController: GMSMapViewDelegate {
             self.view.addSubview(self.pinImage)
         }
         
-        var mapViewPosition = mapView.projection.point(for: getMapCenterPosition(mapView))
+        var mapViewPosition = mapView.projection.point(for: GoogleMapsHelper.getMapCenterPosition(mapView))
         mapViewPosition.y = mapViewPosition.y - self.pinImage.frame.height / 3
         self.pinImage.center = mapViewPosition
     }

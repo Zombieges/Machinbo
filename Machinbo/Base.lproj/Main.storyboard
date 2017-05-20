@@ -22,7 +22,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-316" y="-104"/>
+            <point key="canvasLocation" x="-1930" y="-671"/>
         </scene>
         <!--Marker Draggable View Controller-->
         <scene sceneID="OCr-Pl-VOm">
@@ -34,7 +34,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MJi-Cr-fcz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1929" y="714"/>
+            <point key="canvasLocation" x="-1930" y="1482"/>
         </scene>
         <!--Target Profile View Controller-->
         <scene sceneID="awz-Ac-Hhi">
@@ -42,7 +42,7 @@
                 <viewController id="Mpd-Nk-2jP" customClass="TargetProfileViewController" customModule="Machinbo" customModuleProvider="target" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2EH-13-YSg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1119" y="714"/>
+            <point key="canvasLocation" x="-1041" y="1481"/>
         </scene>
         <!--Meetup View Controller-->
         <scene sceneID="oV9-Xs-4sM">
@@ -50,7 +50,7 @@
                 <viewController storyboardIdentifier="meetup" id="sf1-lx-3Bo" customClass="MeetupViewController" customModule="Machinbo" customModuleProvider="target" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yIK-6b-xnQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="577" y="826"/>
+            <point key="canvasLocation" x="-655" y="789"/>
         </scene>
         <!--Map View Controller-->
         <scene sceneID="qED-Em-GFO">
@@ -62,7 +62,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tCU-pe-Pwd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="585" y="-670"/>
+            <point key="canvasLocation" x="-654" y="-662"/>
         </scene>
         <!--Target Profile View Controller-->
         <scene sceneID="tDf-Om-94M">
@@ -70,7 +70,7 @@
                 <viewController storyboardIdentifier="target" id="jOX-xQ-4Hb" customClass="TargetProfileViewController" customModule="Machinbo" customModuleProvider="target" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cax-5K-748" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1441" y="-661"/>
+            <point key="canvasLocation" x="386" y="-663"/>
         </scene>
         <!--Profile View Controller-->
         <scene sceneID="z9v-h4-asw">
@@ -83,7 +83,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aaw-4H-x8t" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="464.5" y="47.5"/>
+            <point key="canvasLocation" x="-655" y="74"/>
         </scene>
         <!--Picker View Controller-->
         <scene sceneID="tYF-cD-neJ">
@@ -94,7 +94,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fJ4-qL-emH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1180.5" y="55.5"/>
+            <point key="canvasLocation" x="385" y="73"/>
         </scene>
     </scenes>
     <resources>

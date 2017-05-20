@@ -13,8 +13,6 @@ import Parse
 import MBProgressHUD
 import GoogleMobileAds
 
-//extension MapViewController: TransisionProtocol {}
-
 class MapViewController: UIViewController, CLLocationManagerDelegate, GADBannerViewDelegate, GADInterstitialDelegate, UITabBarDelegate, TransisionProtocol {
     
     var longitude: CLLocationDegrees!
@@ -162,6 +160,19 @@ extension MapViewController: GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         return false
     }
+    
+//    func mapView(_ mapView:GMSMapView, idleAt position:GMSCameraPosition) {
+//        
+//        mapView.clear()
+//        
+//        let centerPoint = mapView.projection.point(for: GoogleMapsHelper.getMapCenterPosition(mapView))
+//        let centerPosition = mapView.projection.coordinate(for: centerPoint)
+//        ParseHelper.getNearUserInfomation(centerPosition) { (error: NSError?, result) -> Void in
+//            if error == nil, result != nil {
+//                GoogleMapsHelper.setAnyUserMarker(self.marker, map: self.gmsMapView, userObjects: result!)
+//            }
+//        }
+//    }
     
 }
 

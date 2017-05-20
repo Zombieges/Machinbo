@@ -48,7 +48,7 @@ TransisionProtocol {
     private var innerViewHeight: CGFloat!
     private var mapViewHeight: CGFloat!
     var sections = ["", "プロフィール", "待ち合わせ"]
-    let targetProfileItems = ["名前", "性別", "年齢", "プロフィール"]
+    let targetProfileItems = ["名前", "プロフィール"]
     let imakuruItems = ["到着時間"]
     let otherItems = ["何時から", "何時まで", "到着時間", "待ち合わせ場所", "私の特徴"]
     let detailTableViewCellIdentifier = "DetailCell"
@@ -159,8 +159,8 @@ TransisionProtocol {
         btn.setTitle("約束", for: UIControlState())
         btn.addTarget(self, action: #selector(self.clickGoNowButton), for: .touchUpInside)
         btn.trackTouchLocation = true
-        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1)
-        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1)
+        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x0D6FA1)
+        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x0D6FA1)
         btn.rippleColor = LayoutManager.getUIColorFromRGB(0x1976D2)
         btn.layer.masksToBounds = true
         
@@ -176,8 +176,8 @@ TransisionProtocol {
         btn.setTitle("ブロック解除", for: UIControlState())
         btn.addTarget(self, action: #selector(self.clickRemoveBlock), for: .touchUpInside)
         btn.trackTouchLocation = true
-        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1)
-        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1)
+        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x0D6FA1)
+        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x0D6FA1)
         btn.rippleColor = LayoutManager.getUIColorFromRGB(0x1976D2)
         btn.layer.masksToBounds = true
         
@@ -259,8 +259,8 @@ TransisionProtocol {
     fileprivate func createApprovedButton(mapViewHeight: CGFloat) {
         let btn = ZFRippleButton()
         btn.trackTouchLocation = true
-        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1)
-        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1)
+        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x0D6FA1)
+        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x0D6FA1)
         btn.rippleColor = LayoutManager.getUIColorFromRGB(0x1976D2)
         btn.setTitle("承認する", for: UIControlState())
         btn.addTarget(self, action: #selector(self.clickApproveButton), for: .touchUpInside)
@@ -278,8 +278,8 @@ TransisionProtocol {
     fileprivate func createSendGeoPointButton(mapViewHeight: CGFloat) {
         let btn = ZFRippleButton()
         btn.trackTouchLocation = true
-        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1)
-        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x0D47A1)
+        btn.backgroundColor = LayoutManager.getUIColorFromRGB(0x0D6FA1)
+        btn.rippleBackgroundColor = LayoutManager.getUIColorFromRGB(0x0D6FA1)
         btn.rippleColor = LayoutManager.getUIColorFromRGB(0x1976D2)
         btn.layer.masksToBounds = true
         btn.setTitle("位置送信", for: UIControlState())
@@ -749,24 +749,16 @@ extension TargetProfileViewController : UITableViewDelegate {
         let detailCell = tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? DetailProfileTableViewCell
         
         if indexPath.section == 1 {
-            if indexPath.row < 3 {
+            if indexPath.row < 1 {
                 if indexPath.row == 0 {
                     normalCell?.textLabel?.text = targetProfileItems[indexPath.row]
                     normalCell?.detailTextLabel?.text = (self.targetUserInfo as AnyObject).object(forKey: "Name") as? String
-                    
-                } else if indexPath.row == 1 {
-                    normalCell?.textLabel?.text = targetProfileItems[indexPath.row]
-                    normalCell?.detailTextLabel?.text = (self.targetUserInfo as AnyObject).object(forKey: "Gender") as? String
-                    
-                } else if indexPath.row == 2 {
-                    normalCell?.textLabel?.text = targetProfileItems[indexPath.row]
-                    normalCell?.detailTextLabel?.text = Parser.changeAgeRange(((self.targetUserInfo as AnyObject).object(forKey: "Age") as? String)!)
                 }
                 
                 cell = normalCell
                 
             } else {
-                if indexPath.row == 3 {
+                if indexPath.row == 1 {
                     detailCell?.titleLabel.text = targetProfileItems[indexPath.row]
                     detailCell?.valueLabel.text = (self.targetUserInfo as AnyObject).object(forKey: "Comment") as? String
                 }

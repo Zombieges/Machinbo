@@ -109,7 +109,6 @@ class GoNowViewController: UIViewController, UINavigationControllerDelegate, GAD
 
 
 extension GoNowViewController: UIPickerViewDelegate, PickerViewControllerDelegate {
-    internal func setSelectedValue(_ selectedIndex: Int, selectedValue: String, type: SelectPickerType) {}
     
     internal func setInputValue(_ inputValue: String, type: InputPickerType) {
         if type == .comment {

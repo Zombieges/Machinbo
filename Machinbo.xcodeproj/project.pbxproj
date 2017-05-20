@@ -21,6 +21,8 @@
 		BB06F70E1EB22C0000E85D15 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB06F7081EB22C0000E85D15 /* UIView+Extension.swift */; };
 		BB06F70F1EB22C0000E85D15 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB06F7091EB22C0000E85D15 /* UIViewController+Extension.swift */; };
 		BB06F7111EB231BB00E85D15 /* Consent.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB06F7101EB231BB00E85D15 /* Consent.xib */; };
+		BB1846431ECF486B0010C0FD /* FirstLaunchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB1846421ECF486B0010C0FD /* FirstLaunchView.xib */; };
+		BB1846451ECFBBA40010C0FD /* FirstLaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1846441ECFBBA40010C0FD /* FirstLaunchViewController.swift */; };
 		BB1A1E5B1CE93B190090E72D /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB1A1E5A1CE93B190090E72D /* MessageUI.framework */; };
 		BB36D8DB1D0D184E00266BB6 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB36D8DA1D0D184E00266BB6 /* LocationManager.swift */; };
 		BB3858D81D803C17006637F6 /* NotificationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3858D71D803C16006637F6 /* NotificationHelper.swift */; };
@@ -122,6 +124,8 @@
 		BB06F7081EB22C0000E85D15 /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		BB06F7091EB22C0000E85D15 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		BB06F7101EB231BB00E85D15 /* Consent.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Consent.xib; sourceTree = "<group>"; };
+		BB1846421ECF486B0010C0FD /* FirstLaunchView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FirstLaunchView.xib; sourceTree = "<group>"; };
+		BB1846441ECFBBA40010C0FD /* FirstLaunchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirstLaunchViewController.swift; sourceTree = "<group>"; };
 		BB1A1E5A1CE93B190090E72D /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		BB36D8DA1D0D184E00266BB6 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		BB36D8DE1D0D57A100266BB6 /* Bridging_Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bridging_Header.h; sourceTree = "<group>"; };
@@ -421,6 +425,7 @@
 				BBD353571CDDCCB1007B1A1C /* SettingsView.xib */,
 				BB38CB7F1E9E4EA300653A18 /* TextFiled.xib */,
 				BB06F7101EB231BB00E85D15 /* Consent.xib */,
+				BB1846421ECF486B0010C0FD /* FirstLaunchView.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -437,6 +442,7 @@
 				BB58C8EF1E705A0900557B32 /* SettingsViewController.swift */,
 				BB58C8F01E705A0900557B32 /* TargetProfileViewController.swift */,
 				BB58C8F11E705A0900557B32 /* TransisionProtocol.swift */,
+				BB1846441ECFBBA40010C0FD /* FirstLaunchViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -570,6 +576,7 @@
 				BB6FDDEE1C3E97E100C366A2 /* PickerView.xib in Resources */,
 				BBD353581CDDCCB1007B1A1C /* SettingsView.xib in Resources */,
 				9409F7961B2D994D0069DAE8 /* LaunchScreen.xib in Resources */,
+				BB1846431ECF486B0010C0FD /* FirstLaunchView.xib in Resources */,
 				BB6FDDE81C3E97E100C366A2 /* GoNowListView.xib in Resources */,
 				9409F7931B2D994D0069DAE8 /* Assets.xcassets in Resources */,
 				BB6FDDEF1C3E97E100C366A2 /* ProfileView.xib in Resources */,
@@ -725,6 +732,7 @@
 				BB6FDDC71C3E92FD00C366A2 /* ZFRippleButton.swift in Sources */,
 				BB3858D81D803C17006637F6 /* NotificationHelper.swift in Sources */,
 				BB8B07241E4B273400CD02E8 /* GonowData.swift in Sources */,
+				BB1846451ECFBBA40010C0FD /* FirstLaunchViewController.swift in Sources */,
 				BB06F70D1EB22C0000E85D15 /* UIImageView+Extension.swift in Sources */,
 				BB58C8F81E705A0900557B32 /* SettingsViewController.swift in Sources */,
 				BB36D8DB1D0D184E00266BB6 /* LocationManager.swift in Sources */,

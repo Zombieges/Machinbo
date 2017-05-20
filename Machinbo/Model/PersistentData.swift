@@ -56,33 +56,13 @@ class PersistentData {
             UserDefaults.standard.synchronize()
         }
     }
-    
-    static var gender : String {
-        get {
-            return UserDefaults.standard.string(forKey: "gender") ?? ""
-        }
-        set {
-            UserDefaults.standard.set(newValue , forKey: "gender")
-            UserDefaults.standard.synchronize()
-        }
-    }
-    
+
     static var name : String {
         get {
             return UserDefaults.standard.string(forKey: "name") ?? ""
         }
         set {
             UserDefaults.standard.set(newValue , forKey: "name")
-            UserDefaults.standard.synchronize()
-        }
-    }
-    
-    static var age : String {
-        get {
-            return UserDefaults.standard.string(forKey: "age") ?? ""
-        }
-        set {
-            UserDefaults.standard.set(newValue , forKey: "age")
             UserDefaults.standard.synchronize()
         }
     }
@@ -236,9 +216,7 @@ class PersistentData {
         userDefault.removeObject(forKey: "userID")
         userDefault.removeObject(forKey: "profileImage")
         userDefault.removeObject(forKey: "comment")
-        userDefault.removeObject(forKey: "gender")
         userDefault.removeObject(forKey: "name")
-        userDefault.removeObject(forKey: "age")
         userDefault.removeObject(forKey: "imaikuFlag")
         
         userDefault.removeObject(forKey: "insertTime")

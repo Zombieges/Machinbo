@@ -154,4 +154,15 @@ class GoogleMapsHelper {
     func marker(_ annotation: MKAnnotation) -> GMSMarker {
         return GMSMarker(position: annotation.coordinate)
     }
+    
+    class func getMapCenterPosition(_ gmaps: GMSMapView) -> CLLocationCoordinate2D {
+        let visibleRegion = gmaps.projection.visibleRegion()
+        let bounds = GMSCoordinateBounds(region: visibleRegion)
+        
+        let center = CLLocationCoordinate2DMake(
+            (bounds.southWest.latitude + bounds.northEast.latitude) / 2,
+            (bounds.southWest.longitude + bounds.northEast.longitude) / 2)
+        
+        return center
+    }
 }

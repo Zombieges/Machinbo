@@ -36,14 +36,12 @@ class ParseHelper {
     }
     
     class func getNearUserInfomation(_ myLocation: CLLocationCoordinate2D, completion:((_ withError: NSError?, _ result:[PFObject]?)->Void)?) {
-        //50km圏内、近くから300件取得
+        //30km圏内、近くから100件取得
         let myGeoPoint = PFGeoPoint(latitude: myLocation.latitude, longitude: myLocation.longitude)
         let now = Date()
         
-        print("*************************>")
-        print(PersistentData.blockUserList)
         let query = PFQuery(className: "UserInfo")
-        query.whereKey("GPS", nearGeoPoint: myGeoPoint, withinKilometers: 25.0)
+        query.whereKey("GPS", nearGeoPoint: myGeoPoint, withinKilometers: 30.0)
         query.whereKey("IsRecruitment", equalTo: true)
         query.whereKey("MarkTimeTo", greaterThanOrEqualTo: now)
         query.whereKey("MarkTime", lessThanOrEqualTo: now)
@@ -159,7 +157,7 @@ class ParseHelper {
         }
     }
     
-    class func createUserInfomation(_ userID: String, name: String, gender: String, age: String, twitter: String, comment: String, photo: UIImage, deviceToken: String) {
+    class func createUserInfomation(_ userID: String, name: String, twitter: String, comment: String, photo: UIImage, deviceToken: String) {
         
         let imageData = UIImagePNGRepresentation(photo)
         let imageFile = PFFile(name:"image.png", data:imageData!)
@@ -168,8 +166,6 @@ class ParseHelper {
         let info = PFObject(className: "UserInfo")
         info["UserID"] = userID
         info["Name"] = name
-        info["Gender"] = gender
-        info["Age"] = age
         info["Twitter"] = twitter
         info["Comment"] = comment
         info["ProfilePicture"] = imageFile
@@ -188,13 +184,11 @@ class ParseHelper {
             NSLog("ユーザー初期登録成功")
             PersistentData.userID = userID
             PersistentData.name = name
-            PersistentData.gender = gender
-            PersistentData.age = age
             PersistentData.comment = comment
             PersistentData.twitterName = twitter
             PersistentData.profileImage = photo
             PersistentData.objectId = info.objectId!
-            
+
             let tabBarConrtoller: UITabBarController = LayoutManager.createNavigationAndTabItems()
             UIApplication.shared.keyWindow?.addSubview((tabBarConrtoller.view)!)
             UIApplication.shared.keyWindow?.rootViewController = tabBarConrtoller

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FirstLaunchViewController" customModule="Machinbo" customModuleProvider="target">
+            <connections>
+                <outlet property="view" destination="iN0-l3-epB" id="hif-Uq-SGR"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="krJ-NZ-KSD">
+                    <rect key="frame" x="0.0" y="214" width="375" height="400"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="当アプリについて" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NKY-Ec-bd9">
+                            <rect key="frame" x="20" y="10" width="316.5" height="21"/>
+                            <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                            <color key="textColor" red="0.098039215690000001" green="0.46274509800000002" blue="0.82352941180000006" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="相手が登録した待ち合わせ場所に対して、約束申請をし、相手に承認されたら待ち合わせスタートです。現在位置を送り合って、待ち合わせ場所に集合するアプリです。" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B1K-YD-Ylt">
+                            <rect key="frame" x="20" y="41" width="326.5" height="47"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="47" id="RiX-0w-sTF"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
+                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                            <size key="shadowOffset" width="0.0" height="0.0"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="現在位置について" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kus-BO-CVw">
+                            <rect key="frame" x="20" y="118" width="316.5" height="21"/>
+                            <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                            <color key="textColor" red="0.098039215690000001" green="0.46274509800000002" blue="0.82352941180000006" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="現在位置は、約束した際に、位置送信ボタンを押下することで相手のみに公開されます。それ以外では、公開されませんので、ご安心ください。" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Guh-EL-oee">
+                            <rect key="frame" x="20" y="149" width="326.5" height="47"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="47" id="g1Q-9d-hui"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
+                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ブロックについて" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ppv-bG-wsA">
+                            <rect key="frame" x="20" y="226" width="316.5" height="21"/>
+                            <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                            <color key="textColor" red="0.098039215690000001" green="0.46274509800000002" blue="0.82352941180000006" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ブロックは、待ち合わせ画面の約束を横にスライドすると相手をブロック可能です。" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ydH-oY-5Ng">
+                            <rect key="frame" x="20" y="257" width="326.5" height="31"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="31" id="SW2-TH-Jj8"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
+                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="Ppv-bG-wsA" firstAttribute="leading" secondItem="krJ-NZ-KSD" secondAttribute="leading" constant="20" id="18y-3z-hif"/>
+                        <constraint firstAttribute="trailing" secondItem="NKY-Ec-bd9" secondAttribute="trailing" constant="20" id="4ab-qg-6eE"/>
+                        <constraint firstItem="NKY-Ec-bd9" firstAttribute="top" secondItem="krJ-NZ-KSD" secondAttribute="top" constant="10" id="7zf-9S-QUS"/>
+                        <constraint firstAttribute="trailing" secondItem="B1K-YD-Ylt" secondAttribute="trailing" constant="10" id="BTT-Nu-77m"/>
+                        <constraint firstItem="NKY-Ec-bd9" firstAttribute="leading" secondItem="krJ-NZ-KSD" secondAttribute="leading" constant="20" id="Exl-jt-L2S"/>
+                        <constraint firstItem="kus-BO-CVw" firstAttribute="top" secondItem="B1K-YD-Ylt" secondAttribute="bottom" constant="30" id="JfD-e2-6ad"/>
+                        <constraint firstAttribute="trailing" secondItem="Ppv-bG-wsA" secondAttribute="trailing" constant="20" id="LY4-4q-RrM"/>
+                        <constraint firstItem="Guh-EL-oee" firstAttribute="top" secondItem="kus-BO-CVw" secondAttribute="bottom" constant="10" id="Mtw-uf-Xlt"/>
+                        <constraint firstItem="B1K-YD-Ylt" firstAttribute="top" secondItem="NKY-Ec-bd9" secondAttribute="bottom" constant="10" id="O9T-Em-xxO"/>
+                        <constraint firstItem="ydH-oY-5Ng" firstAttribute="leading" secondItem="krJ-NZ-KSD" secondAttribute="leading" constant="20" id="OZ5-TU-Lbc"/>
+                        <constraint firstAttribute="trailing" secondItem="ydH-oY-5Ng" secondAttribute="trailing" constant="10" id="PbA-Ic-IRR"/>
+                        <constraint firstAttribute="trailing" secondItem="Guh-EL-oee" secondAttribute="trailing" constant="10" id="aph-rz-dbP"/>
+                        <constraint firstAttribute="trailing" secondItem="kus-BO-CVw" secondAttribute="trailing" constant="20" id="cqH-bV-RaF"/>
+                        <constraint firstItem="kus-BO-CVw" firstAttribute="leading" secondItem="krJ-NZ-KSD" secondAttribute="leading" constant="20" id="iNy-o8-D25"/>
+                        <constraint firstItem="ydH-oY-5Ng" firstAttribute="top" secondItem="Ppv-bG-wsA" secondAttribute="bottom" constant="10" id="jGg-Ox-3fP"/>
+                        <constraint firstItem="B1K-YD-Ylt" firstAttribute="leading" secondItem="krJ-NZ-KSD" secondAttribute="leading" constant="20" id="uX9-eh-NoL"/>
+                        <constraint firstItem="Guh-EL-oee" firstAttribute="leading" secondItem="krJ-NZ-KSD" secondAttribute="leading" constant="20" id="uan-d9-bLk"/>
+                        <constraint firstAttribute="bottom" secondItem="ydH-oY-5Ng" secondAttribute="bottom" constant="125" id="vgu-BU-0co"/>
+                        <constraint firstItem="Ppv-bG-wsA" firstAttribute="top" secondItem="Guh-EL-oee" secondAttribute="bottom" constant="30" id="wJg-ON-MNW"/>
+                    </constraints>
+                </scrollView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0fu-vs-Jk2" customClass="ZFRippleButton" customModule="Machinbo" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="614" width="375" height="53"/>
+                    <color key="backgroundColor" red="0.050980392159999999" green="0.43606505099999998" blue="0.63137254899999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <state key="normal" title="プロフィール登録">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="color" keyPath="rippleColor">
+                            <color key="value" red="0.098039215690000001" green="0.46274509800000002" blue="0.82352941180000006" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="rippleBackgroundColor">
+                            <color key="value" red="0.050980392159999999" green="0.43606505099999998" blue="0.63137254899999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="0"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="startButton:" destination="-1" eventType="touchUpInside" id="sGx-fn-xDG"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="利用説明" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hLq-VM-F3E">
+                    <rect key="frame" x="136" y="142" width="102" height="42"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="machinbo" translatesAutoresizingMaskIntoConstraints="NO" id="FU0-tq-ted">
+                    <rect key="frame" x="131" y="20" width="113" height="112"/>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="krJ-NZ-KSD" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" multiplier="0.6" id="3HN-jC-ptx"/>
+                <constraint firstItem="krJ-NZ-KSD" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" id="74S-ay-cdh"/>
+                <constraint firstAttribute="bottom" secondItem="0fu-vs-Jk2" secondAttribute="bottom" id="EGK-kh-s5Z"/>
+                <constraint firstItem="FU0-tq-ted" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="20" id="KVJ-0f-xwL"/>
+                <constraint firstItem="Guh-EL-oee" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.87" id="Ly0-0N-0Br"/>
+                <constraint firstItem="krJ-NZ-KSD" firstAttribute="leading" secondItem="0fu-vs-Jk2" secondAttribute="leading" id="QAl-6J-0ip"/>
+                <constraint firstItem="FU0-tq-ted" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.3" id="U8e-sA-MHC"/>
+                <constraint firstItem="ydH-oY-5Ng" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.87" id="W0Z-M9-ijf"/>
+                <constraint firstItem="B1K-YD-Ylt" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.87" id="Xkg-fX-wTP"/>
+                <constraint firstAttribute="trailing" secondItem="0fu-vs-Jk2" secondAttribute="trailing" id="b2b-cn-SCQ"/>
+                <constraint firstItem="FU0-tq-ted" firstAttribute="centerX" secondItem="hLq-VM-F3E" secondAttribute="centerX" id="b8Y-ql-1N5"/>
+                <constraint firstItem="0fu-vs-Jk2" firstAttribute="top" secondItem="krJ-NZ-KSD" secondAttribute="bottom" id="iat-oX-03u"/>
+                <constraint firstItem="0fu-vs-Jk2" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" multiplier="0.08" id="jTr-qV-813"/>
+                <constraint firstItem="FU0-tq-ted" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="pH3-lJ-APE"/>
+                <constraint firstItem="krJ-NZ-KSD" firstAttribute="top" secondItem="hLq-VM-F3E" secondAttribute="bottom" constant="30" id="qEW-hI-ekp"/>
+                <constraint firstItem="0fu-vs-Jk2" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="xFn-vy-ihq"/>
+                <constraint firstItem="hLq-VM-F3E" firstAttribute="top" secondItem="FU0-tq-ted" secondAttribute="bottom" constant="10" id="yej-uW-yQV"/>
+                <constraint firstItem="FU0-tq-ted" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.3" id="zCc-Z4-TgQ"/>
+            </constraints>
+            <point key="canvasLocation" x="135.5" y="72.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="machinbo" width="512" height="512"/>
+    </resources>
+</document>

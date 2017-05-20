@@ -25,18 +25,14 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     @IBOutlet weak var imakokoButton: UIButton!
     
     let photoItems = ["フォト"]
-    let profileItems = ["名前", "性別", "生まれた年", "プロフィール"]
+    let profileItems = ["名前", "プロフィール"]
     let snsItems = ["Twitter"]
     let otherItems = ["何時から", "何時まで", "待ち合わせ場所", "私の特徴"]
     var sections = ["", "プロフィール", "SNS", "待ち合わせ情報"]
     
     let imagePicker = UIImagePickerController()
     
-    var gender = ""
-    var age = ""
     var inputName = ""
-    var selectedAge = ""
-    var selectedGender = ""
     var inputComment = ""
     var twitterName = ""
     var inputDateFrom = ""
@@ -82,10 +78,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         // 通常の画面遷移
         self.profilePicture.image = PersistentData.profileImage
         self.inputName = PersistentData.name
-        self.age = PersistentData.age
-        self.selectedAge = PersistentData.age
-        self.gender = PersistentData.gender
-        self.selectedGender = String(PersistentData.gender)
         self.inputComment = PersistentData.comment
         self.twitterName = PersistentData.twitterName
         self.inputDateFrom = PersistentData.markTimeFrom
@@ -112,20 +104,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         self.imagePicker.modalPresentationStyle = .overFullScreen
         
         present(self.imagePicker, animated: true, completion: nil)
-    }
-    
-    // PickerViewController より性別を選択した際に実行される処理
-    internal func setSelectedValue(_ selectedindex: Int, selectedValue: String, type: SelectPickerType) {
-        if type == .age {
-            self.age = String(selectedindex)
-            self.selectedAge = selectedValue
-            tableView.reloadData()
-            
-        } else if type == .gender {
-            self.gender = selectedValue
-            self.selectedGender = selectedValue
-            tableView.reloadData()
-        }
     }
     
     internal func setInputValue(_ inputValue: String, type: InputPickerType) {
@@ -176,16 +154,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             return
         }
         
-        guard !selectedGender.isEmpty else {
-            UIAlertController.showAlertView("", message: "性別を選択してください")
-            return
-        }
-        
-        guard !selectedAge.isEmpty else {
-            UIAlertController.showAlertView("", message: "生まれた年を選択してください")
-            return
-        }
-        
         UIAlertController.showAlertOKCancel("注意事項", message: "本アプリの利用規約に反した行為を行った場合、アカウントを凍結いたします。\n利用規約は「利用規約」ボタンから確認いただけます。\n\n安全なサービス作りにご協力ください", actiontitle: "規約に同意") { action in
             if action == .cancel { return }
 
@@ -205,8 +173,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
                 ParseHelper.createUserInfomation(
                     uuid,
                     name: self.inputName,
-                    gender: self.gender,
-                    age: self.selectedAge,
                     twitter: self.twitterName,
                     comment: self.inputComment,
                     photo: self.profilePicture.image!,
@@ -476,31 +442,19 @@ extension ProfileViewController:  UITableViewDelegate {
         let detailCell = tableView.dequeueReusableCell(withIdentifier: detailTableViewCellIdentifier, for: indexPath) as? DetailProfileTableViewCell
         
         if indexPath.section == 1 {
-            if indexPath.row < 3 {
+            if indexPath.row < 1 {
                 if indexPath.row == 0 {
                     normalCell?.textLabel?.text = profileItems[indexPath.row]
                     normalCell?.accessoryType = .disclosureIndicator
                     normalCell?.detailTextLabel?.text = inputName as String
-                    
-                } else if indexPath.row == 1 {
-                    normalCell?.textLabel?.text = profileItems[indexPath.row]
-                    normalCell?.accessoryType = .disclosureIndicator
-                    normalCell?.detailTextLabel?.text = selectedGender as String
-                    
-                } else if indexPath.row == 2 {
-                    normalCell?.textLabel?.text = profileItems[indexPath.row]
-                    if !selectedAge.isEmpty {
-                        normalCell?.accessoryType = .disclosureIndicator
-                        normalCell?.detailTextLabel?.text = Parser.changeAgeRange(selectedAge) as String
-                    }
-                    
                 }
                 
                 return normalCell!
                 
             } else {
-                if indexPath.row == 3 {
+                if indexPath.row == 1 {
                     detailCell?.titleLabel.text = profileItems[indexPath.row]
+                    detailCell?.accessoryType = .disclosureIndicator
                     detailCell?.valueLabel.text = inputComment as String
                 }
                 
@@ -534,12 +488,14 @@ extension ProfileViewController:  UITableViewDelegate {
                 
             } else if indexPath.row == 2 {
                 detailCell?.titleLabel.text = otherItems[indexPath.row]
+                detailCell?.accessoryType = .disclosureIndicator
                 detailCell?.valueLabel.text = self.inputPlace
                 
                 return detailCell!
                 
             } else if indexPath.row == 3 {
                 detailCell?.titleLabel.text = otherItems[indexPath.row]
+                detailCell?.accessoryType = .disclosureIndicator
                 detailCell?.valueLabel.text = self.inputChar
                 
                 return detailCell!
@@ -561,18 +517,6 @@ extension ProfileViewController:  UITableViewDelegate {
                 navigationController?.pushViewController(vc, animated: true)
                 
             } else if indexPath.row == 1 {
-                let vc = PickerViewController(kind: .gender)
-                vc.delegate = self
-                
-                navigationController?.pushViewController(vc, animated: true)
-                
-            } else if indexPath.row == 2 {
-                let vc = PickerViewController(kind: .age)
-                vc.delegate = self
-                
-                navigationController?.pushViewController(vc, animated: true)
-                
-            } else if indexPath.row == 3 {
                 let vc = PickerViewController(kind: .comment, inputValue: inputComment as AnyObject)
                 vc.delegate = self
                 

@@ -66,8 +66,8 @@
         //TabBarを生成
         if PersistentData.userID.isEmpty {
             //初期表示はProfileViewのみ
-            let navigationCntroller = LayoutManager.createNavigationProfile()
-            self.window?.rootViewController = navigationCntroller
+            let vc = FirstLaunchViewController()
+            self.window?.rootViewController = vc
             self.window?.makeKeyAndVisible()
             
         } else {
